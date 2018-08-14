@@ -1,0 +1,553 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<!--
+  Checkstyle configuration that checks the sun coding conventions from:
+    - the Java Language Specification at
+      http://java.sun.com/docs/books/jls/second_edition/html/index.html
+    - the Sun Code Conventions at http://java.sun.com/docs/codeconv/
+    - the Javadoc guidelines at
+      http://java.sun.com/j2se/javadoc/writingdoccomments/index.html
+    - the JDK Api documentation http://java.sun.com/j2se/docs/api/index.html
+    - some best practices
+  Checkstyle is very configurable. Be sure to read the documentation at
+  http://checkstyle.sourceforge.net (or in your downloaded distribution).
+  Most Checks are configurable, be sure to consult the documentation.
+  To completely disable a check, just comment it out or delete it from the file.
+  Finally, it is worth reading the documentation.
+-->
+
+<!--see http://checkstyle.sourceforge.net/config.html#Checker
+basedir:null
+cacheFile:null
+localeCountry:JVM默认的国家
+localeLanguage:JVM默认的语言
+charset：
+fileExtensions：需要检查的文件后缀
+-->
+<module name="Checker">
+
+    <property name="charset" value="UTF-8"/>
+
+    <property name="fileExtensions" value="java, properties, xml"/>
+
+    <!-- 检查 package-info.java
+    See http://checkstyle.sourceforge.net/config_javadoc.html#JavadocPackage
+     -->
+    <!-- <module name="JavadocPackage"/> -->
+
+    <!--检查文件是否以行分隔符结尾
+    See http://checkstyle.sourceforge.net/config_misc.html#NewlineAtEndOfFile
+    lineSeparator:system
+    fileExtensions:all files
+    -->
+    <module name="NewlineAtEndOfFile"/>
+
+    <!--检查配置文件是否有相同的key
+    See http://checkstyle.sourceforge.net/config_misc.html#Translation
+    fileExtensions:properties 需要检查文件的后缀
+    baseName:^messages.*$
+    requiredTranslations:Empty String Set
+    -->
+    <module name="Translation"/>
+
+    <!--检查文件长度
+     See http://checkstyle.sourceforge.net/config_sizes.html#FileLength
+     max：2000 最大行数
+     fileExtensions:Empty String Set
+    -->
+    <module name="FileLength"/>
+
+    <!--检查代码中是否有tab('\t')
+    See http://checkstyle.sourceforge.net/config_whitespace.html#FileTabCharacter
+    eachLine:false
+    fileExtensions:Empty String Set
+     -->
+    <module name="FileTabCharacter"/>
+
+    <!--A check for detecting single lines that match a supplied regular expression
+    See http://checkstyle.sourceforge.net/config_regexp.html#RegexpSingleline
+    format:"" illegal pattern
+    message:"" message which is used to notify about violations
+    ignoreCase:false
+    minimum:0 每个文件至少要匹配的次数
+    maximum:0 每个文件最多要匹配的次数
+     -->
+    <module name="RegexpSingleline">
+        <property name="format" value="\s+$"/>
+        <property name="minimum" value="0"/>
+        <property name="maximum" value="0"/>
+        <property name="message" value="Line has trailing spaces."/>
+    </module>
+
+    <!-- Checks for Headers
+      See http://checkstyle.sourceforge.net/config_header.html#Header
+      headerFile:null
+      charset:
+      header:null
+      ignoreLines:Empty Integer Set
+      fileExtensions:Empty String Set
+      -->
+    <!-- <module name="Header"> -->
+    <!--   <property name="headerFile" value="${checkstyle.header.file}"/> -->
+    <!--   <property name="fileExtensions" value="java"/> -->
+    <!-- </module> -->
+
+    <module name="TreeWalker">
+
+        <!-- 检查方法的javadoc
+          See http://checkstyle.sourceforge.net/config_javadoc.html#JavadocMethod
+          minLineCount:-1
+          allowedAnnotations:Override
+          validateThrows:false
+          scope: private 可以检查的范围
+          excludeScope:null 不检查的范围
+          allowMissingParamTags:false 是否忽略对参数注释的检查
+          allowMissingThrowsTags:false 是否忽略对throws注释的检查
+          allowMissingReturnTag: false 是否忽略对return注释的检查
+          allowMissingJavadoc:false 是否忽略方法没有javadoc
+          allowMissingPropertyJavadoc:false 是否忽略geter setter没有javadoc
+          logLoadErrors:true
+          suppressLoadErrors:false
+          ignoreMethodNamesRegex:null 正则表达式 符合条件的将不检查
+          tokens：METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF.
+        -->
+        <module name="JavadocMethod">
+            <property name="allowMissingPropertyJavadoc" value="true"/>
+            <property name="validateThrows" value="true"/>
+            <property name="tokens" value="METHOD_DEF,ANNOTATION_FIELD_DEF"/>
+            <property name="excludeScope" value="private"/>
+        </module>
+
+        <!--检查class、interface、enum、@interface的 javadoc
+           See http://checkstyle.sourceforge.net/config_javadoc.html#JavadocType
+        scope:private
+        excludeScope:null
+        authorFormat:null 正则表达式 author要符合这个正则表达式
+        versionFormat:null 正则表达式 version要符合这个正则表达式
+        allowMissingParamTags:false
+        allowUnknownTags:false 是否允许出现javadoc不识别的标签
+        tokens:INTERFACE_DEF, CLASS_DEF, ENUM_DEF, ANNOTATION_DEF.
+        -->
+        <module name="JavadocType">
+            <property name="authorFormat" value="\S"/>
+            <property name="versionFormat" value="\S"/>
+        </module>
+
+        <!--检查变量的javadoc
+           See http://checkstyle.sourceforge.net/config_javadoc.html#JavadocVariable
+        scope:private
+        excludeScope:null
+        ignoreNamePattern:null 正则表达式 符合条件的将不检查
+        tokens:ENUM_CONSTANT_DEF.
+        -->
+        <module name="JavadocVariable">
+            <property name="scope" value="nothing"/>
+        </module>
+
+        <!--检查javadoc格式
+        See http://checkstyle.sourceforge.net/config_javadoc.html#JavadocStyle
+        scope:private
+        excludeScope:null
+        checkFirstSentence:true 检查javadoc第一句是否是完整的句子
+        endOfSentenceFormat:([.?!][ \t\n\r\f<])|([.?!]$) 句子结束的标志
+        checkEmptyJavadoc：false 检查描述块
+        checkHtml:true 检查html标签完整性
+        tokens:ANNOTATION_DEF, ANNOTATION_FIELD_DEF, CLASS_DEF, CTOR_DEF, ENUM_CONSTANT_DEF, ENUM_DEF, INTERFACE_DEF, METHOD_DEF, PACKAGE_DEF, VARIABLE_DEF.
+        -->
+        <module name="JavadocStyle">
+            <property name="checkFirstSentence" value="false"/>
+        </module>
+
+        <!--检查常量名
+        See http://checkstyle.sourceforge.net/config_naming.html#ConstantName
+        format:^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$
+        applyToPublic:true 是否检查public常量
+        applyToProtected:true 是否检查protected常量
+        applyToPackage:true 是否检查default常量
+        applyToPrivate:true 是否检查private常量
+         -->
+        <!--<module name="ConstantName"/>-->
+
+        <!--检查局部final变量名
+          See http://checkstyle.sourceforge.net/config_naming.html#LocalFinalVariableName
+        format:^[a-z][a-zA-Z0-9]*$
+        tokens:VARIABLE_DEF, PARAMETER_DEF.
+         -->
+        <module name="LocalFinalVariableName"/>
+
+        <!--检查局部变量名 不包括final
+          See http://checkstyle.sourceforge.net/config_naming.html#LocalVariableName
+        format:^[a-z][a-zA-Z0-9]*$
+        allowOneCharVarInForLoop:false
+         -->
+        <module name="LocalVariableName"/>
+
+        <!--检查成员变量名
+          See http://checkstyle.sourceforge.net/config_naming.html#MemberName
+        format:^[a-z][a-zA-Z0-9]*$
+        applyToPublic:true 是否检查public变量
+        applyToProtected:true 是否检查protected变量
+        applyToPackage:true 是否检查default变量
+        applyToPrivate:true 是否检查private变量
+         -->
+        <module name="MemberName"/>
+
+        <!--检查方法名
+        See http://checkstyle.sourceforge.net/config_naming.html#MethodName
+        format:^[a-z][a-zA-Z0-9]*$
+        applyToPublic:true 是否检查public方法
+        applyToProtected:true 是否检查protected方法
+        applyToPackage:true 是否检查default方法
+        applyToPrivate:true 是否检查private方法
+        allowClassName:false 是否允许类名当方法名
+         -->
+        <module name="MethodName"/>
+
+        <!--检查包名
+        See http://checkstyle.sourceforge.net/config_naming.html#PackageName
+        format:^[a-z][a-zA-Z0-9]*$
+         -->
+        <module name="PackageName"/>
+
+        <!--检查方法参数名
+          See http://checkstyle.sourceforge.net/config_naming.html#ParameterName
+        format:^[a-z][a-zA-Z0-9]*$
+        ignoreOverridden:false
+         -->
+        <module name="ParameterName"/>
+
+        <!--检查静态变量名 没有final
+          See http://checkstyle.sourceforge.net/config_naming.html#StaticVariableName
+        format:^[a-z][a-zA-Z0-9]*$
+        applyToPublic:true 是否检查public变量
+        applyToProtected:true 是否检查protected变量
+        applyToPackage:true 是否检查default变量
+        applyToPrivate:true 是否检查private变量
+         -->
+        <module name="StaticVariableName"/>
+
+        <!--检查classes, interfaces, enums, and annotations 的命名.
+        See http://checkstyle.sourceforge.net/config_naming.html#TypeName
+        format:^[a-z][a-zA-Z0-9]*$
+        applyToPublic:true 是否检查public
+        applyToProtected:true 是否检查protected
+        applyToPackage:true 是否检查default
+        applyToPrivate:true 是否检查private
+        tokens:CLASS_DEF, INTERFACE_DEF, ENUM_DEF, ANNOTATION_DEF.
+         -->
+        <module name="TypeName"/>
+
+        <!--检查导入是否使用了*
+        See http://checkstyle.sourceforge.net/config_imports.html#AvoidStarImport
+        excludes:Empty String Set  这些包允许使用* 如:  <property name="excludes" value="org.springframework.util,redis.clients.jedis"/>
+        allowClassImports:false 是否允许普通导入使用*
+        allowStaticMemberImports:false 是否静态普通导入使用*
+        -->
+        <module name="AvoidStarImport">
+            <property name="allowClassImports" value="true"/>
+        </module>
+
+        <!-- 检查不合法的导入
+          See http://checkstyle.sourceforge.net/config_imports.html#IllegalImport
+         illegalPkgs:sun 不合法的包 如<property name="illegalPkgs" value="java.io, java.sql"/>
+        -->
+        <module name="IllegalImport"/>
+
+        <!-- 检查重复的导入
+          See http://checkstyle.sourceforge.net/config_imports.html#RedundantImport
+        -->
+        <module name="RedundantImport"/>
+
+        <!-- 检查无用的导入
+          See http://checkstyle.sourceforge.net/config_imports.html#UnusedImports
+        processJavadoc:true
+        -->
+        <module name="UnusedImports">
+            <property name="processJavadoc" value="false"/>
+        </module>
+
+        <!--检查每行代码长度
+        See http://checkstyle.sourceforge.net/config_sizes.html#LineLength
+        ignorePattern:null 符合此正则表达式的将不被检查
+        max:80最大字符数
+         -->
+        <module name="LineLength">
+            <property name="max" value="200"/>
+        </module>
+
+        <!--检查方法名长度
+          See http://checkstyle.sourceforge.net/config_sizes.html#MethodLength
+        max:100 所有方法的长度
+        maxPrivate:100 private方法
+        maxPackage:100 default方法
+        maxProtected:100 protected方法
+        maxPublic:100 public方法
+        tokens:CLASS_DEF, ENUM_CONSTANT_DEF, ENUM_DEF, INTERFACE_DEF.
+         -->
+        <module name="MethodLength">
+            <property name="max" value="150"/>
+        </module>
+
+        <!--检查构造函数和方法的参数数量
+        See http://checkstyle.sourceforge.net/config_sizes.html#ParameterNumber
+        max:7 最大参数个数
+        ignoreOverriddenMethods:false 忽略override方法
+        tokens:METHOD_DEF, CTOR_DEF.
+         -->
+        <module name="ParameterNumber"/>
+
+        <!--检查for iterator语句是否使用空格
+        See http://checkstyle.sourceforge.net/config_whitespace.html#EmptyForIteratorPad
+        option:nospace See  http://checkstyle.sourceforge.net/property_types.html#parenPad
+        -->
+        <module name="EmptyForIteratorPad"/>
+
+        <!--Checks that the whitespace around the Generic tokens (angle brackets) "<" and ">" are correct to the typical convention.
+        See http://checkstyle.sourceforge.net/config_whitespace.html#GenericWhitespace
+        -->
+        <module name="GenericWhitespace"/>
+
+        <!--检查方法参数的格式
+        See http://checkstyle.sourceforge.net/config_whitespace.html#MethodParamPad
+        allowLineBreaks:false
+        option:nospace See  http://checkstyle.sourceforge.net/property_types.html#parenPad
+        tokens:CTOR_DEF, LITERAL_NEW, METHOD_CALL, METHOD_DEF, SUPER_CTOR_CALL, ENUM_CONSTANT_DEF.
+        -->
+        <module name="MethodParamPad"/>
+
+        <!--Checks that there is no whitespace after a token.
+        See http://checkstyle.sourceforge.net/config_whitespace.html#NoWhitespaceAfter
+    allowLineBreaks:true
+    tokens:ARRAY_INIT, INC, DEC, UNARY_MINUS, UNARY_PLUS, BNOT, LNOT, DOT, ARRAY_DECLARATOR, INDEX_OP.
+        -->
+        <module name="NoWhitespaceAfter"/>
+
+        <!--Checks that there is no whitespace before a token
+        See http://checkstyle.sourceforge.net/config_whitespace.html#NoWhitespaceBefore
+    allowLineBreaks:true
+    tokens:ARRAY_INIT, INC, DEC, UNARY_MINUS, UNARY_PLUS, BNOT, LNOT, DOT, ARRAY_DECLARATOR, INDEX_OP.
+        -->
+        <module name="NoWhitespaceBefore"/>
+
+        <!--检查运算符是否在应在同一行
+        See http://checkstyle.sourceforge.net/config_whitespace.html#OperatorWrap
+    option:nl See http://checkstyle.sourceforge.net/property_types.html#wrapOp
+    tokens:QUESTION, COLON, EQUAL, NOT_EQUAL, DIV, PLUS, MINUS, STAR, MOD, SR, BSR, GE, GT, SL, LE, LT, BXOR, BOR, LOR, BAND, LAND, TYPE_EXTENSION_AND, LITERAL_INSTANCEOF.
+        -->
+        <module name="OperatorWrap">
+            <property name="tokens" value="ASSIGN"/>
+            <property name="option" value="eol"/>
+        </module>
+
+        <!--检查左小括号后面是否要有空格 右小括号前面要有空格
+        See http://checkstyle.sourceforge.net/config_whitespace.html#ParenPad
+    option:nospace See http://checkstyle.sourceforge.net/property_types.html#parenPad
+    tokens:ANNOTATION, ANNOTATION_FIELD_DEF, CTOR_CALL, CTOR_DEF, ENUM_CONSTANT_DEF, EXPR, LITERAL_CATCH, LITERAL_DO, LITERAL_FOR, LITERAL_IF, LITERAL_NEW, LITERAL_SWITCH, LITERAL_SYNCHRONIZED, LITERAL_WHILE, METHOD_CALL, METHOD_DEF, QUESTION, RESOURCE_SPECIFICATION, SUPER_CTOR_CALL.
+        -->
+        <module name="ParenPad"/>
+
+        <!--Checks the policy on the padding of parentheses for typecasts.
+        See http://checkstyle.sourceforge.net/config_whitespace.html#TypecastParenPad
+    option:nospace See http://checkstyle.sourceforge.net/property_types.html#parenPad
+        -->
+        <module name="TypecastParenPad"/>
+
+        <!--检查token后面是否要有空格
+        See http://checkstyle.sourceforge.net/config_whitespace.html#WhitespaceAfter
+        tokens:COMMA, SEMI, TYPECAST.
+        -->
+        <module name="WhitespaceAfter"/>
+
+        <!--Checks that a token is surrounded by whitespace. Empty constructor, method, class, enum, interface, loop bodies (blocks), lambdas of the form
+        See http://checkstyle.sourceforge.net/config_whitespace.html#WhitespaceAround
+        allowEmptyConstructors:false
+        allowEmptyMethods:false
+        allowEmptyTypes:false
+        allowEmptyLoops:false
+        allowEmptyLambdas:false
+        ignoreEnhancedForColon:false
+        tokens:ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR, BXOR_ASSIGN, COLON, DIV, DIV_ASSIGN, DO_WHILE, EQUAL, GE, GT, LAMBDA, LAND, LCURLY, LE, LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY, LITERAL_FOR, LITERAL_IF, LITERAL_RETURN, LITERAL_SWITCH, LITERAL_SYNCHRONIZED, LITERAL_TRY, LITERAL_WHILE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN, NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, RCURLY, SL, SLIST, SL_ASSIGN, SR, SR_ASSIGN, STAR, STAR_ASSIGN, LITERAL_ASSERT, TYPE_EXTENSION_AND.
+        -->
+        <module name="WhitespaceAround"/>
+
+        <!--检查修饰词的顺序 public,protected,private,abstract,static,final,transient,volatile,synchronized,native,strictfp
+        See http://checkstyle.sourceforge.net/config_modifier.html#ModifierOrder
+         -->
+        <module name="ModifierOrder"/>
+
+        <!--检查是否有多余的修饰符
+        See http://checkstyle.sourceforge.net/config_modifier.html#RedundantModifier
+         -->
+        <module name="RedundantModifier"/>
+
+        <!--检查内嵌块(不该使用花括号时使用了花括号)
+        See http://checkstyle.sourceforge.net/config_blocks.html#AvoidNestedBlocks
+        allowInSwitchCase:false 是否允许在case中使用
+         -->
+        <module name="AvoidNestedBlocks"/>
+
+        <!--检查空块
+        See http://checkstyle.sourceforge.net/config_blocks.html#EmptyBlock
+        allowInSwitchCase:false 是否允许在case中使用
+        option:stmt
+        tokens:LITERAL_WHILE, LITERAL_TRY, LITERAL_FINALLY, LITERAL_DO, LITERAL_IF, LITERAL_ELSE, LITERAL_FOR, INSTANCE_INIT, STATIC_INIT, LITERAL_SWITCH, LITERAL_SYNCHRONIZED.
+         -->
+        <module name="EmptyBlock"/>
+
+        <!--检查左花括号
+        See http://checkstyle.sourceforge.net/config_blocks.html#LeftCurly
+        option:eol See http://checkstyle.sourceforge.net/property_types.html#lcurly
+        ignoreEnums:true 忽略枚举
+        tokens:INTERFACE_DEF, CLASS_DEF, ANNOTATION_DEF, ENUM_DEF, CTOR_DEF, METHOD_DEF, ENUM_CONSTANT_DEF, LITERAL_WHILE, LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_SYNCHRONIZED, LITERAL_SWITCH, LITERAL_DO, LITERAL_IF, LITERAL_ELSE, LITERAL_FOR, STATIC_INIT, OBJBLOCK, LAMBDA.
+         -->
+        <module name="LeftCurly"/>
+
+        <!-- NeedBraces 检查是否应该使用括号的地方没有加括号
+          See http://checkstyle.sourceforge.net/config_blocks.html#NeedBraces
+        allowSingleLineStatement:false 是否允许单行代码没有花括号
+        allowEmptyLoopBody:false 是否允许空的循环块
+        tokens:LITERAL_DO, LITERAL_ELSE, LITERAL_FOR, LITERAL_IF, LITERAL_WHILE.  -->
+        <module name="NeedBraces"/>
+
+        <!--检查右花括号
+          See http://checkstyle.sourceforge.net/config_blocks.html#RightCurly
+        option:same See http://checkstyle.sourceforge.net/property_types.html#rcurly
+        shouldStartLine:true
+        tokens:LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE.
+         -->
+        <module name="RightCurly"/>
+
+        <!--检查内联条件(三目运算符)
+        See http://checkstyle.sourceforge.net/config_coding.html#AvoidInlineConditionals
+         -->
+        <!-- <module name="AvoidInlineConditionals"/> -->
+
+        <!--检查空表达式(单独分号)
+          See http://checkstyle.sourceforge.net/config_coding.html#EmptyStatement
+         -->
+        <module name="EmptyStatement"/>
+
+        <!--检查重写equals()是否也重写了hashCode()
+        See http://checkstyle.sourceforge.net/config_coding.html#EqualsHashCode
+         -->
+        <module name="EqualsHashCode"/>
+
+        <!--Checks that a local variable or a parameter does not shadow a field that is defined in the same class.
+        See http://checkstyle.sourceforge.net/config_coding.html#HiddenField
+        ignoreFormat:正则表达式
+        ignoreConstructorParameter:false 忽略构造函数
+        ignoreSetter:false 忽略setter
+        setterCanReturnItsClass:false
+        ignoreAbstractMethods:false
+        tokens:VARIABLE_DEF, PARAMETER_DEF, LAMBDA.
+         -->
+        <!--<module name="HiddenField">-->
+        <!--<property name="ignoreSetter" value="true"/>-->
+        <!--<property name="ignoreConstructorParameter" value="true"/>-->
+        <!--</module>-->
+
+        <!--如果一个类的工厂方法是首选的话，那么这个类不能直接实例化,而是要使用工厂方法
+        See http://checkstyle.sourceforge.net/config_coding.html#IllegalInstantiation
+        classes:empty Stirng Set  使用工厂方法而不直接实例化的类
+        tokens:CLASS_DEF
+         -->
+        <module name="IllegalInstantiation">
+            <property name="classes" value="java.lang.Boolean"/>
+        </module>
+
+        <!--检查是否在子表达式中赋值
+        See http://checkstyle.sourceforge.net/config_coding.html#InnerAssignment
+         -->
+        <module name="InnerAssignment"/>
+
+        <!--检查是否使用魔术数字(直接使用数字),而不是使用常量 -1,0,1,2不是魔术数字
+        See http://checkstyle.sourceforge.net/config_coding.html#MagicNumber
+        ignoreNumbers:-1, 0, 1, 2  不是魔术数字
+        ignoreHashCodeMethod:false 忽略hashcode()方法
+        ignoreAnnotation:false
+        ignoreFieldDeclaration:false
+        constantWaiverParentToken:ASSIGN, ARRAY_INIT, EXPR, UNARY_PLUS, UNARY_MINUS, TYPECAST, ELIST, LITERAL_NEW, METHOD_CALL, STAR, DIV, PLUS, MINUS.
+        tokens:NUM_DOUBLE, NUM_FLOAT, NUM_INT, NUM_LONG.
+         -->
+        <!-- <module name="MagicNumber"/> -->
+
+        <!--检查switch语句是否有default子句
+        See http://checkstyle.sourceforge.net/config_coding.html#MissingSwitchDefault
+         -->
+        <module name="MissingSwitchDefault"/>
+
+        <!--检查冗余的boolean值
+        See http://checkstyle.sourceforge.net/config_coding.html#SimplifyBooleanExpression
+         -->
+        <module name="SimplifyBooleanExpression"/>
+
+        <!--检查复杂的boolean返回值
+        See http://checkstyle.sourceforge.net/config_coding.html#SimplifyBooleanReturn
+         -->
+        <module name="SimplifyBooleanReturn"/>
+
+        <!--检查是否用于扩展 如果不是，则必须为abstract final 或者空方法
+        See http://checkstyle.sourceforge.net/config_design.html#DesignForExtension
+        -->
+        <!-- <module name="DesignForExtension"/> -->
+
+        <!-- 只有private构造器的类要声明为final
+            See http://checkstyle.sourceforge.net/config_design.html#FinalClass
+        -->
+        <module name="FinalClass"/>
+
+        <!-- 工具类(只有static函数)不能有public构造器
+          See http://checkstyle.sourceforge.net/config_design.html#HideUtilityClassConstructor
+        -->
+        <!--<module name="HideUtilityClassConstructor"/>-->
+
+        <!-- 接口只用于定义类型(接口常量是不推荐使用的)
+          See http://checkstyle.sourceforge.net/config_design.html#InterfaceIsType
+        -->
+        <module name="InterfaceIsType"/>
+
+        <!-- 检查类成员属性可见性。只有static final修饰的成员是可以public的。其他的成员属性必需是private的
+        See http://checkstyle.sourceforge.net/config_design.html#VisibilityModifier
+        packageAllowed:false 是否允许default字段
+        protectedAllowed:false 是否允许有protected字段
+        allowPublicFinalFields:false 是否允许有public finale 字段
+        publicMemberPattern:正则表达式 符合的将允许为Public
+        allowPublicImmutableFields:false
+        immutableClassCanonicalNames:java.lang.String, java.lang.Integer, java.lang.Byte, java.lang.Character, java.lang.Short, java.lang.Boolean, java.lang.Long, java.lang.Double, java.lang.Float, java.lang.StackTraceElement, java.math.BigInteger, java.math.BigDecimal, java.io.File, java.util.Locale, java.util.UUID, java.net.URL, java.net.URI, java.net.Inet4Address, java.net.Inet6Address, java.net.InetSocketAddress,
+        ignoreAnnotationCanonicalNames:org.junit.Rule, org.junit.ClassRule, com.google.common.annotations.VisibleForTesting
+        -->
+        <module name="VisibilityModifier">
+            <property name="packageAllowed" value="true"/>
+            <property name="protectedAllowed" value="true"/>
+        </module>
+
+        <!--检查数组风格类型  javaStyle: String[] args cStyle:String args[]
+        See http://checkstyle.sourceforge.net/config_misc.html#ArrayTypeStyle
+        javaStyle:true java风格
+       -->
+        <module name="ArrayTypeStyle"/>
+
+        <!--检查method/constructor/catch块中的参数是否是final修饰的。
+        See http://checkstyle.sourceforge.net/config_misc.html#FinalParameters
+        ignorePrimitiveTypes:false
+        tokens:METHOD_DEF, CTOR_DEF.
+       -->
+        <!--<module name="FinalParameters">-->
+        <!--<property name="tokens" value="CTOR_DEF"/>-->
+        <!--</module>-->
+
+        <!--检查是否存在TODO（待处理）
+        See http://checkstyle.sourceforge.net/config_misc.html#TodoComment
+        format:TODO
+        -->
+        <module name="TodoComment"/>
+
+        <!--检查long类型定义了大写的L
+        See http://checkstyle.sourceforge.net/config_misc.html#UpperEll
+        -->
+        <module name="UpperEll"/>
+    </module>
+
+</module>

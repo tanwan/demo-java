@@ -1,0 +1,81 @@
+buildscript{
+    ext{
+        springBootVersion='2.0.4.RELEASE'
+    }
+    repositories{
+        maven{ url "http://maven.aliyun.com/nexus/content/groups/public/"}
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'idea'
+    apply plugin: 'project-report'
+    apply plugin: 'maven-publish'
+    //mainClassName
+    apply plugin: 'application'
+
+    group 'com.lzy'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+        //mavenLocal()
+        //阿里云镜像
+        maven{ url "http://maven.aliyun.com/nexus/content/groups/public/"}
+        jcenter()
+        mavenCentral()
+    }
+
+    //删除log文件
+    task cleanLog {
+        doLast{
+            def o = new File("./log")
+            o.deleteDir()
+        }
+    }
+}
+
+subprojects {
+    dependencies {
+        //jackson
+        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: project['jackson.version']
+
+        //junit
+        testCompile group: 'junit', name: 'junit', version: project['junit.version']
+
+        //logback
+        compile group: 'ch.qos.logback', name: 'logback-classic', version: project['logback.version']
+
+        //groovy
+        compile group: 'org.codehaus.groovy', name: 'groovy-all', version: project['groovy.version']
+        //JaninoEventEvaluator 依赖 logback过滤器
+        compile group: 'org.codehaus.janino', name: 'janino', version: project['janino.version']
+
+        //slf4j
+        compile group: 'org.slf4j', name: 'slf4j-api', version: project['slf4j.version']
+    }
+
+    publishing {
+        repositories {
+//            maven{
+//                url "file:C:\\Users\\LZY\\.m2\\repository"
+//            }
+            mavenLocal()
+        }
+        publications {
+            maven(MavenPublication) {
+                //生成jar
+                from components.java
+            }
+        }
+    }
+}
+

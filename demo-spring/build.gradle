@@ -1,0 +1,35 @@
+group 'com.lzy'
+
+
+dependencies {
+
+    //aspectj 为aop 提供依赖
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: project['aspectj.version']
+
+    //spring boot web
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project['spring-boot.version']
+
+    //spring retry
+    compile group: 'org.springframework.retry', name: 'spring-retry', version: project['spring-retry.version']
+
+    //jcache
+    compile group: 'javax.cache', name: 'cache-api',version: project['jcache.version']
+    //ehcache
+    compile group: 'org.ehcache', name: 'ehcache', version: project['ehcache3.version']
+
+    //
+    compile group: 'net.sf.ehcache', name: 'ehcache', version: project['ehcache.version']
+
+    //spring boot cache
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: project['spring-boot.version']
+
+    //spring boot test
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project['spring-boot.version']
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: project['spring-boot.version']
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: project['spring-boot.version']
+
+   // compile group: 'org.springframework.session', name: 'spring-session', version: project['spring-session.version']
+
+}
