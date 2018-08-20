@@ -1,0 +1,10 @@
+dependencies {
+    //工具类
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: project['commons-lang3.version']
+
+    compile group: 'org.springframework', name: 'spring-context', version: project['spring.version']
+
+    compile group: 'org.apache.poi', name: 'poi-ooxml', version: project['poi.version']
+
+    compile group: 'com.google.zxing', name: 'javase', version: project['zxing.version']
+}

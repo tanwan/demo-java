@@ -18,8 +18,6 @@ allprojects {
     apply plugin: 'idea'
     apply plugin: 'project-report'
     apply plugin: 'maven-publish'
-    //mainClassName
-    apply plugin: 'application'
 
     group 'com.lzy'
 
@@ -53,6 +51,9 @@ subprojects {
 
         //logback
         compile group: 'ch.qos.logback', name: 'logback-classic', version: project['logback.version']
+
+        //lombok,idea需要开启Annotation Processors
+        compileOnly group: 'org.projectlombok', name: 'lombok', version: project['lombok.version']
 
         //groovy
         compile group: 'org.codehaus.groovy', name: 'groovy-all', version: project['groovy.version']

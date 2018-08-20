@@ -22,6 +22,7 @@ import javax.annotation.Resource;
 @SpringBootApplication
 @RunWith(SpringRunner.class)
 @SpringBootTest
+//开启异步
 @EnableAsync
 public class EventTest {
 
