@@ -4,12 +4,12 @@
 package com.lzy.demo.spring.ioc.lazy;
 
 import com.lzy.demo.spring.AbstractSpringTest;
-import org.junit.Test;
+import com.lzy.demo.spring.ioc.lazy.alllazy.AllLazyBean1;
+import com.lzy.demo.spring.ioc.lazy.declarelazy.DeclareLazyBean;
+import com.lzy.demo.spring.ioc.lazy.dependlazy.DependLazyBean1;
+import com.lzy.demo.spring.ioc.lazy.nolazy.NoLazyBean1;
+import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * 测试注入和@Lazy
@@ -19,47 +19,80 @@ import javax.annotation.Resource;
  */
 @Configuration
 public class LazyAutowiredTest extends AbstractSpringTest {
+
+
     /**
-     * 测试注入和@Lazy
+     * 测试依赖和声明都没有使用@Lazy
+     * 测试bean:NoLazyBean1,NoLazyBean2
+     * 在解析NoLazyBean1的时候,去加载NoLazyBean2(无论NoLazyBean2的声明是否有@Lazy),所以NoLazyBean1,NoLazyBean2都会立即被加载
+     */
+    @Test
+    public void testNoLazy() {
+        //NoLazyBean1()
+        //NoLazyBean2()
+        //NoLazyBean2#afterPropertiesSet()
+        //NoLazyBean1#afterPropertiesSet()
+        //---------noLazyBean1.getNoLazyBean2()--------------
+        initApplicationContext("nolazy");
+        NoLazyBean1 noLazyBean1 = context.getBean(NoLazyBean1.class);
+        System.out.println("---------noLazyBean1.getNoLazyBean2()--------------");
+        System.out.println(noLazyBean1.getNoLazyBean2());
+    }
+
+    /**
+     * 测试依赖和声明都使用@Lazy
+     * 测试bean:AllLazyBean1,AllLazyBean2
+     * 在InjectionMetadata.InjectedElement#inject会把AllLazyBean2注入到AllLazyBean1
+     * 在这边会判断依赖是否有@Lazy,如果有的话,则返回一个代理类(代理类需要获取代理对象的时候,就会对AllLazyBean2进行加载)
+     */
+    @Test
+    public void testAllLazy() {
+        //AllLazyBean1()
+        //AllLazyBean1#afterPropertiesSet()
+        //---------allLazyBean1.getAllLazyBean2()--------------
+        //AllLazyBean2()
+        //AllLazyBean2#afterPropertiesSet()
+        initApplicationContext("alllazy");
+        AllLazyBean1 allLazyBean1 = context.getBean(AllLazyBean1.class);
+        System.out.println("---------allLazyBean1.getAllLazyBean2()--------------");
+        //这里是调用代理类的toString()方法,然后代理类调用getTarget()的时候,就会触发AllLazyBean2的加载
+        System.out.println(allLazyBean1.getAllLazyBean2());
+    }
+
+    /**
+     * 测试只有依赖使用@Lazy
+     * 测试bean:DependLazyBean1,DependLazyBean2
+     * 在解析DependLazyBean1的时候,会判断依赖有@Lazy,所以就返回一个代理类(没有去加载DependLazyBean2)
+     * 因为DependLazyBean2声明没有@Lazy,所以当容器扫到这个类的时候,就会对它进行加载
+     */
+    @Test
+    public void testDependLazy() {
+        //DependLazyBean1()
+        //DependLazyBean1#afterPropertiesSet()
+        //DependLazyBean2()
+        //DependLazyBean2#afterPropertiesSet()
+        //---------allLazyBean1.getAllLazyBean2()--------------
+        initApplicationContext("dependlazy");
+        DependLazyBean1 dependLazyBean1 = context.getBean(DependLazyBean1.class);
+        System.out.println("---------allLazyBean1.getAllLazyBean2()--------------");
+        System.out.println(dependLazyBean1.getDependLazyBean2());
+    }
+
+
+    /**
+     * 测试只有声明使用@Lazy
+     * 测试bean:DeclareLazyBean
+     * 在DefaultListableBeanFactory#preInstantiateSingletons()不会加载@Lazy的bean
+     * 所以当容器启动起来DeclareLazyBean也不会去加载(如果这个类有被非Lazy依赖,那么这个类也会被加载,也就是相当于没有使用@Lazy)
      */
     @Test
     public void testAutowiredLazy() {
-        System.out.println("---------getBean()--------------");
-        //Bean1注入了Bean2,使用@Lazy分为以下4种情况
-        //1. 注入和声明都加@Lazy,那么只有在使用到bean2的情况下,才会对bean2进行加载
-        //2. 注入加@Lazy,声明没加,那么在加载bean1的时候,并不会加载bean2,但是因为声明没有加@Lazy,所以当扫描到bean2时,bean2也会被立即初始化
-        //3. 注入没加@Lazy,声明有加,虽然扫描到bean2时,bean2不会被立即加载,但是注入的时候相当于用到了bean2,因此加载bean1时,bean2也会被立即加载
-        //4. 注入和声明都没加@Lazy,无论是扫描到bean1,还是bean2,bean2都会被立即加载
-        Bean1 bean1 = context.getBean(Bean1.class);
-        System.out.println("---------use bean--------------");
-        System.out.println(bean1.bean2);
+        //---------context.getBean(DeclareLazyBean.class)--------------
+        //DeclareLazyBean()
+        //DeclareLazyBean#afterPropertiesSet()
+        initApplicationContext("declarelazy");
+        System.out.println("---------context.getBean(DeclareLazyBean.class)--------------");
+        context.getBean(DeclareLazyBean.class);
     }
-
-
-    @Component
-    private static class Bean1 {
-        //如果这里没有@Lazy,那么即使在声明Bean2的时候加了@Lazy,当Bean1被加载时,bean2也会被加载
-        //如果有@Lazy,那么在加载Bean1的时候,Bean2并不会被加载(可以解决注入的循环依赖)
-        @Resource
-        @Lazy
-        private Bean2 bean2;
-
-        Bean1() {
-            System.out.println("bean1");
-        }
-
-    }
-
-    /**
-     * 在第一次使用的时候才会进行加载Bean2
-     */
-    @Lazy
-    @Component
-    private static class Bean2 {
-        Bean2() {
-            System.out.println("bean2");
-        }
-    }
-
 
 }

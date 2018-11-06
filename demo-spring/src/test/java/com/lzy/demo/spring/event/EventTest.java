@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 
 /**
- * The type Event test.
+ * spring 事件测试类
  *
  * @author lzy
  * @version v1.0
@@ -42,6 +42,6 @@ public class EventTest {
     @Test
     public void testCustomEvent() {
         sampleApplicationContextAware.sendEvent("sampleEvent");
-        System.out.println("test end");
+        System.out.println("testCustomEvent()");
     }
 }

@@ -1,0 +1,32 @@
+/*
+ * Created by lzy on 2018/10/12 1:58 PM.
+ */
+package com.lzy.demo.spring.ioc.circulation.setter.async;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+
+/**
+ * 代理注入循环依赖
+ *
+ * @author lzy
+ * @version v1.0
+ */
+@Component
+@EnableAsync
+public class AsyncSetterBean1 {
+    @Resource
+    private AsyncSetterBean2 asyncSetterBean2;
+
+    /**
+     * Async task.
+     */
+    @Async
+    public void asyncTask() {
+        System.out.println("task");
+    }
+}

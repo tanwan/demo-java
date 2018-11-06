@@ -4,9 +4,8 @@
 package com.lzy.demo.spring.ioc.lazy;
 
 import com.lzy.demo.spring.AbstractSpringTest;
-import org.junit.Test;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
+import com.lzy.demo.spring.ioc.lazy.configuration.ConfigurationLazyBean;
+import org.junit.jupiter.api.Test;
 
 /**
  * 配置类上@Lazy的测试类
@@ -14,54 +13,23 @@ import org.springframework.context.annotation.Lazy;
  * @author lzy
  * @version v1.0
  */
-@Configuration
 public class LazyConfigurationTest extends AbstractSpringTest {
 
     /**
      * 测试@Configuration上加@Lazy
+     * ConfigurationClassBeanDefinitionReader#loadBeanDefinitionsForBeanMethod会为@Configuration的加载BeanDefinitions
+     * 然后会为lazyBean的BeanDefinitions的lazyInit属性设置为true,eagerBean的BeanDefinitions的lazyInit属性设置为false
+     * 在DefaultListableBeanFactory#preInstantiateSingletons()不会加载@Lazy的bean
      */
     @Test
     public void testLazyConfiguration() {
+        //ConfigurationLazyBean():eagerBean
+        //ConfigurationLazyBean#afterPropertiesSet():eagerBean
+        //---------getBean()--------------
+        //ConfigurationLazyBean():lazyBean
+        //ConfigurationLazyBean#afterPropertiesSet():lazyBean
+        initApplicationContext("configuration");
         System.out.println("---------getBean()--------------");
-        context.getBean("lazyConfigEagerBean", Bean.class);
-        //首次使用这个bean的时候才会进行加载
-        context.getBean("lazyConfigLazyBean", Bean.class);
-    }
-
-
-    private static class Bean {
-        Bean(String name) {
-            System.out.println(name);
-        }
-    }
-
-    /**
-     * 加在@Configuration上的@Lazy会对该类所有的@Bean生效
-     */
-    @Lazy
-    @Configuration
-    public static class LazyConfiguration {
-
-        /**
-         * 由于@Configuration上有@Lazy,因此这个bean会在使用的时候再进行加载
-         *
-         * @return the bean
-         */
-        @org.springframework.context.annotation.Bean
-        public Bean lazyConfigLazyBean() {
-            return new Bean("lazyBean");
-        }
-
-        /**
-         * 因为@Bean上有@Lazy,所以会重写@Configuration上的@Lazy,因此这个bean会在ApplicationContext启动的时候加载
-         *
-         * @return the bean
-         */
-        @Lazy(value = false)
-        @org.springframework.context.annotation.Bean
-        public Bean lazyConfigEagerBean() {
-            return new Bean("eagerBean");
-        }
-
+        context.getBean("lazyBean", ConfigurationLazyBean.class);
     }
 }

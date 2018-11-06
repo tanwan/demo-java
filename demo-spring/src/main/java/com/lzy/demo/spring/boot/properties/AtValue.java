@@ -1,0 +1,52 @@
+/*
+ * Created by lzy on 2018/11/1 10:07 PM.
+ */
+package com.lzy.demo.spring.boot.properties;
+
+import lombok.ToString;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author lzy
+ * @version v1.0
+ */
+@Component
+@ToString
+public class AtValue {
+    /**
+     * 整型
+     */
+    @Value("${configuration.properties.integer}")
+    private Integer integer;
+    /**
+     * double型,无法松散绑定
+     */
+    @Value("${configuration.properties.a-double}")
+    private Double aDouble;
+    /**
+     * str类型
+     */
+    @Value("${configuration.properties.str}")
+    private String str;
+
+    /**
+     * list2: list1,list2
+     */
+    @Value("${configuration.properties.list2}")
+    private List<String> list2;
+
+    /**
+     * spel表达式
+     */
+    @Value("#{3+3}")
+    private Integer spel;
+}

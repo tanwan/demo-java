@@ -26,6 +26,11 @@ public class SampleApplicationContextAware implements ApplicationEventPublisherA
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
+    /**
+     * 发送事件
+     *
+     * @param eventName the event name
+     */
     public void sendEvent(String eventName) {
         logger.info("------------------ send event start -----------------------------");
         applicationEventPublisher.publishEvent(new SampleEvent(eventName));

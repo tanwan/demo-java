@@ -29,20 +29,6 @@ public class SampleEventListener {
     public void onApplicationEvent(SampleEvent event) {
         logger.info("onApplicationEvent:{}", event);
     }
-
-    /**
-     * 指定监听的顺序
-     *
-     * @param sampleEvent the sample event
-     */
-    @EventListener(SampleEvent.class)
-    @Order(1)
-    public void orderListener(SampleEvent sampleEvent) throws InterruptedException {
-        logger.info("orderListener:{}", sampleEvent);
-        Thread.sleep(5000);
-
-    }
-
     /**
      * 监听的条件
      *
@@ -54,12 +40,26 @@ public class SampleEventListener {
         logger.info("conditionListener:{}", sampleEvent);
         throw new Exception("exception");
     }
+    /**
+     * 指定监听的顺序
+     *
+     * @param sampleEvent the sample event
+     */
+    @EventListener(SampleEvent.class)
+    //@Order(1)
+    public void orderListener(SampleEvent sampleEvent) throws InterruptedException {
+        logger.info("orderListener:{}", sampleEvent);
+        Thread.sleep(5000);
+
+    }
+
+
 
     /**
      * @param sampleEvent the sample event
      */
     @EventListener(SampleEvent.class)
-    @Order(3)
+    @Order(10)
     public void lastListener(SampleEvent sampleEvent) throws Exception {
         logger.info("lastListener:{}", sampleEvent);
     }
