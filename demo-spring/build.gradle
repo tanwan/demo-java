@@ -1,4 +1,4 @@
-
+apply plugin: 'org.springframework.boot'
 dependencies {
 
     //aspectj 为aop 提供依赖
@@ -11,7 +11,7 @@ dependencies {
     implementation group: 'org.springframework.retry', name: 'spring-retry', version: project['spring-retry.version']
 
     //jcache
-    implementation group: 'javax.cache', name: 'cache-api',version: project['jcache.version']
+    implementation group: 'javax.cache', name: 'cache-api', version: project['jcache.version']
     //ehcache
     implementation group: 'org.ehcache', name: 'ehcache', version: project['ehcache3.version']
 
@@ -30,6 +30,12 @@ dependencies {
     //处理配置元数据
     compileOnly group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: project['spring-boot.version']
     compileJava.dependsOn(processResources)
-   // implementation group: 'org.springframework.session', name: 'spring-session', version: project['spring-session.version'
+    //spring boot loader
+    compile group: 'org.springframework.boot', name: 'spring-boot-loader', version: project['spring-boot.version']
+    // implementation group: 'org.springframework.session', name: 'spring-session', version: project['spring-session.version'
+
+    
+    
+    compile group: 'org.springframework.amqp', name: 'spring-rabbit', version: '2.1.1.RELEASE'
 
 }

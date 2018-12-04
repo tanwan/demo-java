@@ -1,0 +1,20 @@
+dependencies {
+    //yaml
+    implementation group: 'org.yaml', name: 'snakeyaml',version: project['snakeyaml.version']
+    implementation group: 'org.springframework', name: 'spring-context', version: project['spring.version']
+    implementation group: 'org.zeroturnaround', name: 'zt-zip', version: project['zt-zip.version']
+    implementation group: 'org.apache.commons', name: 'commons-compress', version: project['commons-compress.version']
+}
+//使用application打包
+apply plugin: 'application'
+mainClassName  = 'com.lzy.demo.io.ResourcePathDemo'
+
+////使用jar打包,并指定启动类
+//jar {
+//    manifest {
+//        attributes 'Main-Class': 'com.lzy.demo.io.ResourcePathDemo'
+//    }
+//}
+
+
+
