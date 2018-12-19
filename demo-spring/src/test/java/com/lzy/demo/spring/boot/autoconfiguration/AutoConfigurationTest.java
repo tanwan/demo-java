@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
- * The type Auto configuration test.
+ * 测试springboot自动配置
  *
  * @author lzy
  * @version v1.0
@@ -21,10 +21,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public class AutoConfigurationTest {
 
     /**
-     * Test auto configuration.
+     * 测试spring boot自动配置
      */
     @Test
     public void testAutoConfiguration() {
-
     }
 }

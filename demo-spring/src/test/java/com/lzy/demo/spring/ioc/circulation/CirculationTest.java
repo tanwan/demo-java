@@ -6,7 +6,7 @@ package com.lzy.demo.spring.ioc.circulation;
 import com.lzy.demo.spring.AbstractSpringTest;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanCurrentlyInCreationException;
 import org.springframework.beans.factory.UnsatisfiedDependencyException;
 

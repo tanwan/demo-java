@@ -9,9 +9,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 /**
  * {@code @ConfigurationProperties}和{@code @Value}测试
@@ -23,7 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @EnableConfigurationProperties(AtConfigurationProperties.class)
 //spring.config.location可以指定springboot配置文件的路径
 @TestPropertySource(properties = "spring.config.location=classpath:properties.yml")
-@ContextConfiguration(initializers = ConfigFileApplicationContextInitializer.class, classes = {CustomConverter.class, AtValue.class})
+@SpringJUnitConfig(initializers = ConfigFileApplicationContextInitializer.class, classes = {CustomConverter.class, AtValue.class})
 public class PropertiesTest {
 
     /**

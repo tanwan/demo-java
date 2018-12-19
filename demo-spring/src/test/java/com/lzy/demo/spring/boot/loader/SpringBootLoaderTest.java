@@ -28,7 +28,7 @@ public class SpringBootLoaderTest {
         try {
             //URL类是依据URL Protocol Handler来处理URL字符串的,内置提供http、https、ftp、file和jar协议的URL Protocol Handler
             //可以使用java.protocol.handler.pkgs属性添加自己的Handler
-            //JarFile.registerUrlProtocolHandler();就是添加了org.springframework.boot.loader.jar.Handler来支持嵌套jar
+            //比如JarFile.registerUrlProtocolHandler();就是添加了org.springframework.boot.loader.jar.Handler来支持嵌套jar
             return new URL[]{new URL("jar:file:/Users/lzy/SourceCode/me/demo-java/demo-spring/build/libs/demo-spring-1.0.jar!/BOOT-INF/lib/spring-boot-configuration-processor-2.0.4.RELEASE.jar!/")};
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,7 +42,10 @@ public class SpringBootLoaderTest {
      */
     @Test
     public void testNoRegisterUrlProtocolHandlerLoadClassFromNestedJar() {
-        //使用的是sun.net.www.protocol.jar.Handler,有嵌套jar的时候,以!/分隔,最后不允许以!/结尾
+        //使用的是sun.net.www.protocol.jar.Handler,嵌套jar以!/分隔
+        //这边需要分两种情况,一种是url以!/结尾,一种不以!/结尾
+        //1. 如果不以!/结尾,那么URLClassPath获取Loader的时候会使用JarLoader(会在URL前再添加jar:,但是这个无法解析嵌套jar）
+        //2. 以!/结尾的,URLClassPath获取Loader会使用Loader(可以查找嵌套jar的时候,但是!/会作为名称的一部分,因此无法找到,不加!/虽然能查找到,但是返回的还是外层的jar)
         //当有嵌套jar的时候,它返回的还是外层的jar,因此内部jar的class无法被加载
         LaunchedURLClassLoader launchedURLClassLoader = new LaunchedURLClassLoader(getUrls(), getClass().getClassLoader());
         URLClassLoader urlClassLoader = new URLClassLoader(getUrls());
@@ -54,11 +57,9 @@ public class SpringBootLoaderTest {
 
     /**
      * 注册org.springframework.boot.loader.jar.Handler的情况下,使用LaunchedURLClassLoader可以加载嵌套jar
-     *
-     * @throws Exception the exception
      */
     @Test
-    public void testSpringBootLoaderLoadClassFromNestedJar() throws Exception {
+    public void testSpringBootLoaderLoadClassFromNestedJar() {
         //org.springframework.boot.loader.jar.Handler处理嵌套jar的流程是这样的:
         //1. 把url根据分隔符!/进行拆分
         //2. 把外部jar读取成org.springframework.boot.loader.jar.JarFile(继承java.util.jar.JarFile),同时会把jar内部项读到JarFileEntries中(文件名使用hash值,按升序排列)
@@ -79,7 +80,7 @@ public class SpringBootLoaderTest {
      * @throws Exception the exception
      */
     @Test
-    public void testURLClassLoaderLoadClassFromNestedJar() throws Exception {
+    public void testURLClassLoaderLoadClassFromNestedJar() {
         //注册org.springframework.boot.loader.jar.Handler协议处理器
         JarFile.registerUrlProtocolHandler();
         URLClassLoader classLoader = new URLClassLoader(getUrls());

@@ -22,7 +22,7 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: project['spring-boot.version']
 
     //spring boot test
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project['spring-boot.version']
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project['spring-boot.version']
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: project['spring-boot.version']
 
@@ -31,11 +31,7 @@ dependencies {
     compileOnly group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: project['spring-boot.version']
     compileJava.dependsOn(processResources)
     //spring boot loader
-    compile group: 'org.springframework.boot', name: 'spring-boot-loader', version: project['spring-boot.version']
+    implementation group: 'org.springframework.boot', name: 'spring-boot-loader', version: project['spring-boot.version']
     // implementation group: 'org.springframework.session', name: 'spring-session', version: project['spring-session.version'
-
-    
-    
-    compile group: 'org.springframework.amqp', name: 'spring-rabbit', version: '2.1.1.RELEASE'
 
 }

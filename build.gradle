@@ -1,15 +1,13 @@
 buildscript{
-    ext{
-        springBootVersion='2.0.4.RELEASE'
-    }
     repositories{
         maven{ url "http://maven.aliyun.com/nexus/content/groups/public/"}
         jcenter()
         mavenCentral()
     }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
+}
+
+plugins {
+    id "org.springframework.boot" version "2.1.1.RELEASE"
 }
 
 allprojects {

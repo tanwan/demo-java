@@ -3,15 +3,16 @@
  */
 package com.lzy.demo.spring.event;
 
-import com.lzy.demo.spring.event.custom.SampleApplicationContextAware;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.lzy.demo.spring.event.custom.CustomErrorHandleConfig;
+import com.lzy.demo.spring.event.custom.SampleEvent;
+import com.lzy.demo.spring.event.custom.SampleEventListener;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.annotation.Resource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 /**
  * spring 事件测试类
@@ -19,29 +20,19 @@ import javax.annotation.Resource;
  * @author lzy
  * @version v1.0
  */
-@SpringBootApplication
-@RunWith(SpringRunner.class)
-@SpringBootTest
 //开启异步
 @EnableAsync
+@ExtendWith(SpringExtension.class)
+@SpringJUnitConfig({CustomErrorHandleConfig.class, SampleEventListener.class})
 public class EventTest {
-
-    @Resource
-    private SampleApplicationContextAware sampleApplicationContextAware;
-
-    /**
-     * 测试标准事件
-     */
-    @Test
-    public void testStandardEvent() {
-    }
-
     /**
      * 测试自定义事件
+     *
+     * @param applicationEventPublisher the application event publisher
      */
     @Test
-    public void testCustomEvent() {
-        sampleApplicationContextAware.sendEvent("sampleEvent");
-        System.out.println("testCustomEvent()");
+    public void testCustomEvent(@Autowired ApplicationEventPublisher applicationEventPublisher) {
+        applicationEventPublisher.publishEvent(new SampleEvent("hello world"));
+        System.out.println("publishEvent finish");
     }
 }

@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 /**
  * {@code @PropertySource}测试
@@ -16,7 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * @version v1.0
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = PropertySourceConfig.class)
+@SpringJUnitConfig(classes = PropertySourceConfig.class)
 public class PropertySourceTest {
 
     /**
