@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URL;
-import java.security.CodeSource;
-import java.security.ProtectionDomain;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -62,13 +60,4 @@ public class ClassLoaderGetResourceTest {
         Enumeration<URL> urls = getClass().getClassLoader().getResources("META-INF/MANIFEST.MF");
         Collections.list(urls).forEach(System.out::println);
     }
-
-    @Test
-    public void test(){
-        ProtectionDomain protectionDomain = getClass().getProtectionDomain();
-        CodeSource codeSource = protectionDomain.getCodeSource();
-        System.out.println(codeSource);
-    }
-
-
 }
