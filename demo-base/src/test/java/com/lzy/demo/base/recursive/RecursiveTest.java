@@ -3,9 +3,9 @@
  */
 package com.lzy.demo.base.recursive;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * 递归
@@ -143,7 +143,7 @@ public class RecursiveTest {
     /**
      * Start.
      */
-    @Before
+    @BeforeAll
     public void start() {
         startTime = System.currentTimeMillis();
     }
@@ -151,7 +151,7 @@ public class RecursiveTest {
     /**
      * End.
      */
-    @After
+    @AfterAll
     public void end() {
         System.out.println("spend time:" + (System.currentTimeMillis() - startTime));
     }

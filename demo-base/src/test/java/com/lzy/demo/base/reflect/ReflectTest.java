@@ -3,7 +3,7 @@
  */
 package com.lzy.demo.base.reflect;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.*;
 import java.util.List;

@@ -7,7 +7,7 @@ import com.lzy.demo.base.generics.bean.wildcard.Apple;
 import com.lzy.demo.base.generics.bean.wildcard.Fruit;
 import com.lzy.demo.base.generics.bean.wildcard.Orange;
 import com.lzy.demo.base.generics.bean.wildcard.RedApple;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;

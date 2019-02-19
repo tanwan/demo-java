@@ -3,7 +3,7 @@
  */
 package com.lzy.demo.base.functional.stream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
 import java.util.stream.Stream;

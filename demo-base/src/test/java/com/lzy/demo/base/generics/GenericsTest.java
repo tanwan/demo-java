@@ -5,7 +5,7 @@ package com.lzy.demo.base.generics;
 
 import com.lzy.demo.base.generics.bean.GenericsClass;
 import com.lzy.demo.base.generics.bean.GenericsSubClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
