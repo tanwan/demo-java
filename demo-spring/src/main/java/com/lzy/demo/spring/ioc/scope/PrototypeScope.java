@@ -18,15 +18,15 @@ import java.util.concurrent.atomic.LongAdder;
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PrototypeScope {
-    private static LongAdder INSTANTIATION_TIMES = new LongAdder();
+    private static LongAdder instantiationTimes = new LongAdder();
 
     public PrototypeScope() {
-        INSTANTIATION_TIMES.increment();
+        instantiationTimes.increment();
         System.out.println("PrototypeScope Instantiation");
     }
 
     public int getInstantiationTimes() {
-        return INSTANTIATION_TIMES.intValue();
+        return instantiationTimes.intValue();
     }
 
 }

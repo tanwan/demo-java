@@ -4,7 +4,6 @@
 package com.lzy.demo.spring.ioc.lazy.dependlazy;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 /**

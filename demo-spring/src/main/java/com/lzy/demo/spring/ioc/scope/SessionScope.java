@@ -18,14 +18,14 @@ import java.util.concurrent.atomic.LongAdder;
 @Component
 @Scope(WebApplicationContext.SCOPE_SESSION)
 public class SessionScope {
-    private static LongAdder INSTANTIATION_TIMES = new LongAdder();
+    private static LongAdder instantiationTimes = new LongAdder();
 
     public SessionScope() {
-        INSTANTIATION_TIMES.increment();
+        instantiationTimes.increment();
         System.out.println("SessionScope Instantiation");
     }
 
     public int getInstantiationTimes() {
-        return INSTANTIATION_TIMES.intValue();
+        return instantiationTimes.intValue();
     }
 }

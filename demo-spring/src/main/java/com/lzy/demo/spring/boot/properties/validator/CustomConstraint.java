@@ -15,8 +15,7 @@ import java.lang.annotation.Target;
  * 自定义校验
  *
  * @author lzy
- * @version v1.0
- * See <a href = "http://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/"/>
+ * @version v1.0  See <a href = "http://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/"/>
  */
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -26,7 +25,7 @@ public @interface CustomConstraint {
     /**
      * 期望的值
      *
-     * @return
+     * @return string
      */
     String expectValue();
 

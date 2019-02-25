@@ -5,11 +5,7 @@ package com.lzy.demo.spring.ioc.circulation.setter.aop;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.stereotype.Component;
 
 /**

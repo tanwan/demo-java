@@ -81,6 +81,11 @@ public class WebScopeTest {
         private ApplicationContext applicationContext;
 
 
+        /**
+         * Request scope map.
+         *
+         * @return the map
+         */
         @GetMapping("/request-scope")
         public Map<String, Object> requestScope() {
             RequestScope requestScope1 = applicationContext.getBean("requestScope", RequestScope.class);

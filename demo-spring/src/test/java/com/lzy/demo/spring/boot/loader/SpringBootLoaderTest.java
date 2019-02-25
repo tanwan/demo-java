@@ -77,7 +77,6 @@ public class SpringBootLoaderTest {
     /**
      * 注册org.springframework.boot.loader.jar.Handler的情况下,使用URLClassLoader可以加载嵌套jar
      *
-     * @throws Exception the exception
      */
     @Test
     public void testURLClassLoaderLoadClassFromNestedJar() {

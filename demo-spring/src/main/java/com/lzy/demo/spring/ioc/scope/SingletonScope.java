@@ -15,14 +15,14 @@ import java.util.concurrent.atomic.LongAdder;
  */
 @Component
 public class SingletonScope {
-    private static LongAdder INSTANTIATION_TIMES = new LongAdder();
+    private static LongAdder instantiationTimes = new LongAdder();
 
     public SingletonScope() {
-        INSTANTIATION_TIMES.increment();
+        instantiationTimes.increment();
         System.out.println("SingletonScope Instantiation");
     }
 
     public int getInstantiationTimes() {
-        return INSTANTIATION_TIMES.intValue();
+        return instantiationTimes.intValue();
     }
 }

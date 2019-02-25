@@ -25,6 +25,9 @@ public class CopyTest {
 
     private Sample[] srcSample;
 
+    /**
+     * Init.
+     */
     @BeforeEach
     public void init() {
         srcSample = new Sample[3];
@@ -99,6 +102,9 @@ public class CopyTest {
     }
 
 
+    /**
+     * sample
+     */
     @Data
     @AllArgsConstructor
     private static class Sample implements Serializable {

@@ -5,15 +5,9 @@ package com.lzy.demo.spring.boot.properties;
 
 import lombok.ToString;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author lzy

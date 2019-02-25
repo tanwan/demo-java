@@ -2,8 +2,6 @@
  * Created by lzy on 2018/10/11 9:15 PM.
  */
 package com.lzy.demo.spring.ioc.circulation.constructor.eager;
-
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 /**

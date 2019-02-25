@@ -7,7 +7,6 @@ import com.lzy.demo.spring.AbstractSpringTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.support.AbstractBeanFactory;
 
 /**
  * The type Scope test.

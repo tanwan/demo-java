@@ -4,7 +4,6 @@
 package com.lzy.demo.spring.ioc.dependson.direct;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

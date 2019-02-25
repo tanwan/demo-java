@@ -1,7 +1,6 @@
 package com.lzy.demo.io;
 
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,7 +21,7 @@ public class ResourcePathDemo {
      * 3.使用spring-boot的插件打包
      *
      * @param args the input arguments
-     * @throws IOException the io exception
+     * @throws Exception the io exception
      */
     public static void main(String[] args) throws Exception {
         System.out.println("----------------class path------------------");
