@@ -106,7 +106,8 @@ public class AtConfigurationProperties {
      */
     private String random;
     /**
-     * 引用前面的配置过的属性
+     * 引用前面的配置过的属性(不是已经解析过的值)
+     * 这个引用的是random,其实也是先替换成${random.uuid},然后解析的时候,会再重新获取一次随机值,因此referenceExist跟random不会相等
      */
     private String referenceExist;
     /**

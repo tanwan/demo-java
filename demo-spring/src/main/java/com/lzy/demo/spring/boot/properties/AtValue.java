@@ -33,9 +33,9 @@ public class AtValue {
     private String str;
 
     /**
-     * list2: list1,list2
+     * list2: list1,list2,使用spel
      */
-    @Value("${configuration.properties.list2}")
+    @Value("#{'${configuration.properties.list2}'.split(',')}")
     private List<String> list2;
 
     /**
