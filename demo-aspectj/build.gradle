@@ -1,0 +1,9 @@
+dependencies {
+
+    //aspectj 为aop 提供依赖
+    implementation group: 'org.aspectj', name: 'aspectjweaver', version: project['aspectj.version']
+
+    // 需要把idea的Compiler修改为Ajc,然后Ajc的Path指定aspectjtools所在的路径即可
+    // 这边有个坑,测试(test目录下)的不会进行AOP
+    compileOnly group: 'org.aspectj', name: 'aspectjtools', version: project['aspectj.version']
+}
