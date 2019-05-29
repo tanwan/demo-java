@@ -53,7 +53,7 @@ public class CirculationTest extends AbstractSpringTest {
     }
 
     /**
-     * 测试注入循环依赖(异步增强)
+     * 测试注入循环依赖(异步增强,@EnableAsync使用jdk代理)
      * 使用AsyncAnnotationBeanPostProcessor增强(在AbstractAutowireCapableBeanFactory#initializeBean进行增强)
      * 在获取早期引用中不会进行增强,所以会抛出异常
      * 测试bean:SetterBean1,SetterBean2

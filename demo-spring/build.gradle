@@ -33,5 +33,11 @@ dependencies {
     //spring boot loader
     implementation group: 'org.springframework.boot', name: 'spring-boot-loader', version: project['spring-boot.version']
     // implementation group: 'org.springframework.session', name: 'spring-session', version: project['spring-session.version'
-
+    // spring索引文件
+    compileOnly group: 'org.springframework', name: 'spring-context-indexer', version: project['spring.version']
+    
+    // spring 使用aspectj的依赖
+    implementation group: 'org.springframework', name: 'spring-aspects', version: project['spring.version']
+    
+    implementation group: 'org.springframework', name: 'spring-tx', version: project['spring.version']
 }
