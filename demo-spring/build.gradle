@@ -12,7 +12,7 @@ dependencies {
 
     //jcache
     implementation group: 'javax.cache', name: 'cache-api', version: project['jcache.version']
-    //ehcache
+    //ehcache3
     implementation group: 'org.ehcache', name: 'ehcache', version: project['ehcache3.version']
 
     //

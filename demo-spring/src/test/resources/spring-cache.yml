@@ -1,0 +1,14 @@
+spring:
+  profiles: ehcache
+  cache:
+    type: ehcache
+    ehcache:
+      config: classpath:ehcache2.xml
+---
+spring:
+  profiles: jcache
+  cache:
+    type: jcache
+    jcache:
+      provider: org.ehcache.jsr107.EhcacheCachingProvider
+      config: classpath:ehcache3.xml

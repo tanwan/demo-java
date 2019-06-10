@@ -1,0 +1,39 @@
+<config xmlns='http://www.ehcache.org/v3'
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:jsr107="http://www.ehcache.org/v3/jsr107"
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
+							http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
+    <!-- See http://www.ehcache.org/documentation/ -->
+    <!-- 使用${}相当于System#getProperty() -->
+    <persistence directory="${java.io.tmpdir}/cache-data"/>
+    <!-- alias缓存名称-->
+    <cache alias="testCache">
+        <expiry>
+            <!-- 缓存过期时间 -->
+            <ttl unit="seconds">600</ttl>
+        </expiry>
+        <resources>
+            <!-- 这边可以配置三种缓存,如果使用多种缓存,必须要有heap,而且大小必须呈金字塔状(heap<offheap<disk) -->
+            <!-- 堆内内存 entries:最多缓存多少条记录-->
+             <heap unit="entries">1</heap>
+            <!-- 堆外内存,不需要GC,需要序列化和反序列化,读取速度比heap慢 -->
+            <!-- <offheap unit="MB">2</offheap>-->
+            <!-- 磁盘,可以持久化,速度比offheap慢 -->
+            <!-- <disk unit="MB" persistent="true">5</disk> -->
+        </resources>
+        <!-- 不清楚 -->
+        <jsr107:mbeans enable-statistics="true"/>
+    </cache>
+    <!-- 模板,可以建立模板,让其它缓存来使用这个模板 -->
+    <cache-template name="default">
+        <heap unit="entries">200</heap>
+    </cache-template>
+
+    <!-- 使用模板 -->
+    <cache alias="use-template" uses-template="default"/>
+
+    <!--可以覆盖模板的值-->
+    <cache alias="use-template-override" uses-template="default">
+        <heap unit="entries">400</heap>
+    </cache>
+</config>
