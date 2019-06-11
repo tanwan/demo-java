@@ -36,7 +36,7 @@ appender("STDOUT", ConsoleAppender) {
         onMatch = ACCEPT
     }
     encoder(PatternLayoutEncoder) {
-        pattern = "%d{HH:mm:ss.SSS} %green(%-5level)  %magenta([%thread])  %blue(%logger{36}#%method) - %boldWhite(%msg%n)"
+        pattern = "%d{HH:mm:ss.SSS} %green(%-5level) %magenta([%thread]) - %boldWhite(%msg) [at %class.%method:\\(%file:%line\\)]%n"
     }
 }
 //只输出ERROR级别的日志
@@ -48,7 +48,7 @@ appender("STDERR", ConsoleAppender) {
         onMismatch = DENY
     }
     encoder(PatternLayoutEncoder) {
-        pattern = "%d{HH:mm:ss.SSS} %red(%-5level)  %magenta([%thread])  %blue(%logger{36}#%method) - %boldRed(%msg%n)"
+        pattern = "%d{HH:mm:ss.SSS} %red(%-5level)  %magenta([%thread])  - %boldRed(%msg) [at %class.%method:\\(%file:%line\\)]%n"
     }
 }
 //只输出WARN级别的日志
@@ -60,7 +60,7 @@ appender("STDWARN", ConsoleAppender) {
         onMismatch = DENY
     }
     encoder(PatternLayoutEncoder) {
-        pattern = "%d{HH:mm:ss.SSS} %yellow(%-5level)  %magenta([%thread])  %blue(%logger{36}#%method) - %boldYellow(%msg%n)"
+        pattern = "%d{HH:mm:ss.SSS} %yellow(%-5level)  %magenta([%thread]) - %boldYellow(%msg) [at %class.%method:\\(%file:%line\\)]%n"
     }
 }
 //输出到文件
