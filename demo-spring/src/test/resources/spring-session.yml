@@ -1,0 +1,17 @@
+#See SessionProperties
+spring:
+  session:
+    storeType: REDIS
+  redis:
+    host: 127.0.0.1
+    database: 0
+    port: 6379
+    timeout: 15000
+---
+spring:
+  profiles: server-properties
+server:
+  servlet:
+    session:
+      cookie:
+        name: PROPERTIES_COOKIE_NAME

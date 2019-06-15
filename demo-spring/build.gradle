@@ -15,7 +15,7 @@ dependencies {
     //ehcache3
     implementation group: 'org.ehcache', name: 'ehcache', version: project['ehcache3.version']
 
-    //
+    //ehcache2
     implementation group: 'net.sf.ehcache', name: 'ehcache', version: project['ehcache.version']
 
     //spring boot cache
@@ -35,9 +35,13 @@ dependencies {
     // implementation group: 'org.springframework.session', name: 'spring-session', version: project['spring-session.version'
     // spring索引文件
     compileOnly group: 'org.springframework', name: 'spring-context-indexer', version: project['spring.version']
-    
+
     // spring 使用aspectj的依赖
     implementation group: 'org.springframework', name: 'spring-aspects', version: project['spring.version']
-    
+    // 使用spring使用aspectj需要的依赖
     implementation group: 'org.springframework', name: 'spring-tx', version: project['spring.version']
+    // spring-session-data-redis
+    implementation group: 'org.springframework.session', name: 'spring-session-data-redis', version: project['spring-boot.version']
+    // jedis
+    implementation group: 'redis.clients', name: 'jedis', version: project['jedis.version']
 }
