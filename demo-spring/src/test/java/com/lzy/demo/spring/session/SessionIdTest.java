@@ -8,8 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.session.config.annotation.web.http.SpringHttpSessionConfiguration;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
+import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,16 +24,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
  * @author lzy
  * @version v1.0
  */
-public class SessionCookieTest {
+public class SessionIdTest {
 
     /**
-     * 使用ServerProperties指定Session的cookie
+     * 使用ServerProperties指定SessionId
      */
     @ActiveProfiles("server-properties")
     public static class UseServerProperties extends SessionTest {
 
         /**
-         * 测试使用ServerProperties指定Session的cookie
+         * 测试使用ServerProperties指定SessionId
          *
          * @param mockMvc the mock mvc
          * @throws Exception the exception
@@ -47,7 +49,7 @@ public class SessionCookieTest {
     }
 
     /**
-     * 使用java config指定Session的cookieThe type Use java config.
+     * 使用java config指定SessionId
      */
     @SpringJUnitConfig(classes = UseJavaConfig.CookieConfig.class)
     public static class UseJavaConfig extends SessionTest {
@@ -57,7 +59,8 @@ public class SessionCookieTest {
         public static class CookieConfig {
             /**
              * 配置session的cookie
-             *
+             * @see SpringHttpSessionConfiguration#init()
+             * @see SpringHttpSessionConfiguration#setCookieSerializer(org.springframework.session.web.http.CookieSerializer)
              * @return the cookie serializer
              */
             @Bean
@@ -65,6 +68,43 @@ public class SessionCookieTest {
                 DefaultCookieSerializer defaultCookieSerializer = new DefaultCookieSerializer();
                 defaultCookieSerializer.setCookieName(COOKIE_NAME);
                 return defaultCookieSerializer;
+            }
+        }
+
+        /**
+         * 测试使用java config指定SessionId
+         *
+         * @param mockMvc the mock mvc
+         * @throws Exception the exception
+         */
+        @Test
+        public void testUseJavaConfig(@Autowired MockMvc mockMvc) throws Exception {
+            String sessionValue = "hello world";
+            // 请求创建session
+            mockMvc.perform(MockMvcRequestBuilders.get("/session/create")
+                    .param("sessionValue", sessionValue)
+            ).andExpect(result -> Assertions.assertThat(result.getResponse().getCookie(COOKIE_NAME)).isNotNull());
+        }
+    }
+
+    /**
+     * sessionId保存的header
+     */
+    @SpringJUnitConfig(classes = UseHeadSessionId.HeaderHttpSessionIdResolverConfig.class)
+    public static class UseHeadSessionId extends SessionTest {
+        private final static String HEADER_NAME = "HEADER_NAME";
+
+        @Configuration
+        public static class HeaderHttpSessionIdResolverConfig {
+            /**
+             * 配置session的cookie
+             * @see SpringHttpSessionConfiguration#setHttpSessionIdResolver(org.springframework.session.web.http.HttpSessionIdResolver)
+             * @see SpringHttpSessionConfiguration#springSessionRepositoryFilter(org.springframework.session.SessionRepository)
+             * @return the cookie serializer
+             */
+            @Bean
+            public HeaderHttpSessionIdResolver headerHttpSessionIdResolver() {
+                return new HeaderHttpSessionIdResolver(HEADER_NAME);
             }
         }
 
@@ -80,7 +120,7 @@ public class SessionCookieTest {
             // 请求创建session
             mockMvc.perform(MockMvcRequestBuilders.get("/session/create")
                     .param("sessionValue", sessionValue)
-            ).andExpect(result -> Assertions.assertThat(result.getResponse().getCookie(COOKIE_NAME)).isNotNull());
+            ).andExpect(result -> Assertions.assertThat(result.getResponse().getHeader(HEADER_NAME)).isNotNull());
         }
     }
 }
