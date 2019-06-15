@@ -59,8 +59,7 @@ public class SessionTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/session/get")
                 //使用同一个cookie
                 .cookie(mvcResult.getResponse().getCookies()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.sessionKey").value(sessionValue))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.sessionKey").value(sessionValue));
     }
 
     /**
@@ -97,6 +96,24 @@ public class SessionTest {
         // 这边需要的key需要使用string序列化,所以这边直接用了StringRedisTemplate
         Assertions.assertThat(stringRedisTemplate.boundHashOps(redisKey).entries())
                 .isNotEmpty();
+    }
+
+    /**
+     * 测试监听
+     * 这个监听有个问题的
+     * 在RedisOperationsSessionRepository#save的convertAndSend下断点,创建session的监听就会执行,而直接运行创建session的监听有可能不执行
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void testListener() throws Exception {
+        String sessionValue = "hello world";
+        // 请求创建session
+        mockMvc.perform(MockMvcRequestBuilders.get("/session/create")
+                .param("sessionValue", sessionValue)
+        );
+
+        Thread.sleep(5000);
     }
 
     /**
