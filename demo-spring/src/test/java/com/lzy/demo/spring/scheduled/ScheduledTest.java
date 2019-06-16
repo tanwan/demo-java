@@ -46,4 +46,30 @@ public class ScheduledTest {
         }
     }
 
+    @SpringJUnitConfig(classes = ScheduledRateSample.class)
+    public static class RateTest extends ScheduledTest {
+        /**
+         * 固定周期执行任务,执行的时候,发现上一次的任务还未结束,则此次任务不执行,等待下一次执行
+         *
+         * @throws InterruptedException the interrupted exception
+         */
+        @Test
+        public void testRate() throws InterruptedException {
+            Thread.sleep(10000);
+        }
+    }
+
+    @SpringJUnitConfig(classes = SchedulingConfigurerSample.class)
+    public static class SchedulingConfigurerTest extends ScheduledTest {
+        /**
+         * 使用SchedulingConfigurer创建定时任务
+         *
+         * @throws InterruptedException the interrupted exception
+         */
+        @Test
+        public void testSchedulingConfigurer() throws InterruptedException {
+            Thread.sleep(5000);
+        }
+    }
+
 }
