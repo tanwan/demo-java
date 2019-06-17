@@ -72,4 +72,17 @@ public class ScheduledTest {
         }
     }
 
+    @SpringJUnitConfig(classes = {ScheduledCronSample.class, ScheduledRateSample.class, ScheduledConfig.class})
+    public static class ConcurrentTest extends ScheduledTest {
+        /**
+         * 测试并发执行,同一时间可以并发执行不同的任务
+         *
+         * @throws InterruptedException the interrupted exception
+         */
+        @Test
+        public void testConcurrent() throws InterruptedException {
+            Thread.sleep(10000);
+        }
+    }
+
 }
