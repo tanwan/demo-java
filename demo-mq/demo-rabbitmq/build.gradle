@@ -1,0 +1,17 @@
+version '1.0-SNAPSHOT'
+
+dependencies {
+    //rabbitmq
+    implementation group: 'com.rabbitmq', name: 'amqp-client', version: project['amqp-client.version']
+
+    //spring messaging
+    implementation group: 'org.springframework', name: 'spring-messaging', version: project['spring.version']
+    //spring rabbit
+    implementation group: 'org.springframework.amqp', name: 'spring-rabbit', version: project['spring-amqp.version']
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: project['spring-boot.version']
+
+    //spring boot test
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project['spring-boot.version']
+    
+}

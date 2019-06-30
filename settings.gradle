@@ -4,4 +4,6 @@ include 'demo-common'
 include 'demo-base'
 include 'demo-io'
 include 'demo-aspectj'
+include 'demo-mq:demo-rabbitmq'
+findProject(':demo-mq:demo-rabbitmq')?.name = 'demo-rabbitmq'
 
