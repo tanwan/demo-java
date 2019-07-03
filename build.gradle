@@ -42,6 +42,8 @@ allprojects {
 
 subprojects {
     dependencies {
+        testImplementation group: 'org.assertj', name: 'assertj-core', version: project['assertj.version']
+        
         //jackson
         implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: project['jackson.version']
         

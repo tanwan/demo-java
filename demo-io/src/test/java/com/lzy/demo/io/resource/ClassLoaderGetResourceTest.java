@@ -1,7 +1,7 @@
 /*
  * Created by lzy on 2018/11/6 10:39 PM.
  */
-package com.lzy.demo.io;
+package com.lzy.demo.io.resource;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
