@@ -18,7 +18,7 @@ import java.io.IOException;
  * @author lzy
  * @version v1.0
  */
-public class ResourcePathDemo {
+public class ResourcePathTest {
     private final static String WORKING_DIR = "/Users/lzy/SourceCode/me/demo/demo-java/demo-io";
     private final static String CLASS_PATH = "file:" + WORKING_DIR + "/out/test/classes/";
     private final static String FILE_NAME = "tempFile.tmp";
@@ -31,7 +31,7 @@ public class ResourcePathDemo {
      */
     @Test
     public void testClassLoaderResourceUrl() {
-        Assertions.assertThat(ResourcePathDemo.class.getClassLoader().getResource(""))
+        Assertions.assertThat(ResourcePathTest.class.getClassLoader().getResource(""))
                 .asString().isEqualTo(CLASS_PATH);
     }
 
@@ -41,7 +41,7 @@ public class ResourcePathDemo {
     @Test
     public void testClassLoaderResourceFileUrl() {
         //从类加载的路径获取资源
-        Assertions.assertThat(ResourcePathDemo.class.getClassLoader().getResource(FILE_NAME))
+        Assertions.assertThat(ResourcePathTest.class.getClassLoader().getResource(FILE_NAME))
                 .asString().isEqualTo(FILE_PATH);
     }
 
@@ -50,7 +50,7 @@ public class ResourcePathDemo {
      */
     @Test
     public void testClassResourceUrl() {
-        Assertions.assertThat(ResourcePathDemo.class.getResource(""))
+        Assertions.assertThat(ResourcePathTest.class.getResource(""))
                 .asString().isEqualTo(CLASS_PATH + "com/lzy/demo/io/resource/");
     }
 
@@ -61,11 +61,11 @@ public class ResourcePathDemo {
     @Test
     public void testClassResourceFileUrl() {
         // 相当于类加载路径
-        Assertions.assertThat(ResourcePathDemo.class.getResource("/" + FILE_NAME))
+        Assertions.assertThat(ResourcePathTest.class.getResource("/" + FILE_NAME))
                 .asString().isEqualTo(FILE_PATH);
 
         //不以/开头的是相对路径(相对于当前类)
-        Assertions.assertThat(ResourcePathDemo.class.getResource("../../../../../" + FILE_NAME))
+        Assertions.assertThat(ResourcePathTest.class.getResource("../../../../../" + FILE_NAME))
                 .asString().isEqualTo(FILE_PATH);
     }
 
