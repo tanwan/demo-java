@@ -6,4 +6,5 @@ include 'demo-io'
 include 'demo-aspectj'
 include 'demo-mq:demo-rabbitmq'
 findProject(':demo-mq:demo-rabbitmq')?.name = 'demo-rabbitmq'
+include 'demo-concurrent'
 
