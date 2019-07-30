@@ -1,0 +1,30 @@
+dependencies {
+    //aspectj 为aop 提供依赖
+    implementation group: 'org.aspectj', name: 'aspectjweaver', version: project['aspectj.version']
+    //druid(阿里巴巴数据库连接池)
+    implementation group: 'com.alibaba', name: 'druid', version: project['druid.version']
+    //hibernate
+    implementation group: 'org.hibernate', name: 'hibernate-entitymanager', version: project['hibernate.version']
+
+    //ehcache2
+    implementation group: 'org.hibernate', name: 'hibernate-ehcache', version: project['hibernate.version']
+
+    //ehcache3
+    implementation group: 'org.hibernate', name: 'hibernate-jcache', version: project['hibernate.version']
+    implementation group: 'org.ehcache', name: 'ehcache', version: project['ehcache3.version']
+
+    //mysql驱动
+    implementation group: 'mysql', name: 'mysql-connector-java', version: project['mysql.version']
+
+    implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: project['mybatis-plus-boot.version']
+
+    //spring data jpa
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: project['spring-boot.version']
+
+    //spring boot test
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project['spring-boot.version']
+    //tomcat-jdbc
+    //compile group: 'org.apache.tomcat', name: 'tomcat-jdbc', version: tomcatJdbcVersion
+
+    implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: project['mybatis-spring-boot.version']
+}
