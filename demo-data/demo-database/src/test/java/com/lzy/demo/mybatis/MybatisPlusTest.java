@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import java.util.Map;
 @SpringBootTest
 @SpringBootApplication
 @MapperScan("com.lzy.demo.mybatis.mapper")
+@TestPropertySource(properties = "spring.config.location=classpath:mybatis.yml")
 public class MybatisPlusTest {
 
     @Resource

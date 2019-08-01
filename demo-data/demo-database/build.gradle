@@ -3,6 +3,9 @@ dependencies {
     implementation group: 'org.aspectj', name: 'aspectjweaver', version: project['aspectj.version']
     //druid(阿里巴巴数据库连接池)
     implementation group: 'com.alibaba', name: 'druid', version: project['druid.version']
+
+    implementation group: 'org.flywaydb', name: 'flyway-core', version: project['flyway.version']
+
     //hibernate
     implementation group: 'org.hibernate', name: 'hibernate-entitymanager', version: project['hibernate.version']
 
