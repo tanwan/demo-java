@@ -21,6 +21,8 @@ public class ScheduledDelaySample {
 
     /**
      * 上个任务执行后1s执行下一个任务
+     *
+     * @throws InterruptedException the interrupted exception
      */
     @Scheduled(fixedDelay = 1000, initialDelay = 500)
     public void fixDelay() throws InterruptedException {

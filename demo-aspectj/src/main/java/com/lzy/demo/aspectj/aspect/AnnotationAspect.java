@@ -184,7 +184,6 @@ public class AnnotationAspect {
      * spring aop不支持
      *
      * @param e the e
-     * @throws Throwable the throwable
      */
     @Before("handler(java.lang.Exception+)&&args(e)")
     public void handler(Exception e) {

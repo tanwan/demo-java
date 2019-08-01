@@ -29,7 +29,6 @@ public interface AspectSample {
      *
      * @param param1 the param 1
      * @param param2 the param 2
-     * @return the string
      */
     void parameterAnnotation(int param1, int param2);
 

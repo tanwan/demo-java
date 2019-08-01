@@ -19,6 +19,7 @@ import org.apache.ibatis.scripting.defaults.RawSqlSource;
 public class CustomInjectorMethod extends AbstractMethod {
     /**
      * {@inheritDoc}
+     *
      * @see SelectById#injectMappedStatement(java.lang.Class, java.lang.Class, com.baomidou.mybatisplus.core.metadata.TableInfo)
      */
     @Override

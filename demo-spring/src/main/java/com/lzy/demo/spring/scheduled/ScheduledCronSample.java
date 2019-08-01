@@ -29,6 +29,8 @@ public class ScheduledCronSample {
 
     /**
      * 执行时间大于调用频率,执行的时候,发现上一次的任务还未结束,则此次任务不执行,等待下一次执行
+     *
+     * @throws InterruptedException the interrupted exception
      */
     @Scheduled(cron = "0/1 * * * * ?")
     public void spendMoreThanRate() throws InterruptedException {

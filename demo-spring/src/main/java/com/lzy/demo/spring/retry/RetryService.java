@@ -86,6 +86,8 @@ public class RetryService {
 
     /**
      * 使用RetryTemplate
+     *
+     * @param atomicInteger the atomic integer
      */
     public void templateRetry(AtomicInteger atomicInteger) {
         RetryTemplate template = new RetryTemplate();

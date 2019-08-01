@@ -23,6 +23,8 @@ public class RetryWithoutRecoverService {
 
     /**
      * 重试一直都抛出异常
+     *
+     * @param atomicInteger the atomic integer
      */
     @Retryable(backoff = @Backoff(value = 2000, multiplier = 2.0))
     public void retryAlwaysThrowException(AtomicInteger atomicInteger) {

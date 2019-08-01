@@ -16,6 +16,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
+ * The type Custom async config.
+ *
  * @author lzy
  * @version v1.0
  */
@@ -43,8 +45,13 @@ public class CustomAsyncConfig implements AsyncConfigurer {
         };
     }
 
+    /**
+     * Simple async task executor executor.
+     *
+     * @return the executor
+     */
     @Bean
-    public Executor simpleAsyncTaskExecutor(){
+    public Executor simpleAsyncTaskExecutor() {
         return new SimpleAsyncTaskExecutor();
     }
 }

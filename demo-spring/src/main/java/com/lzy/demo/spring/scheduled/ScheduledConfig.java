@@ -23,7 +23,7 @@ public class ScheduledConfig {
      * 可以使用ScheduledExecutorService(最终会包装成ConcurrentTaskScheduler),也可以直接使用TaskScheduler
      *
      * @return the scheduled executor service
-     * @see ScheduledTaskRegistrar#setScheduler(java.lang.Object)
+     * @see ScheduledTaskRegistrar#setScheduler(java.lang.Object) ScheduledTaskRegistrar#setScheduler(java.lang.Object)
      */
     @Bean
     public ScheduledExecutorService scheduledExecutorService() {
