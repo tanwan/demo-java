@@ -1,7 +1,7 @@
 /*
  * Created by LZY on 12/17/2016 13:03.
  */
-package com.lzy.demo.base.generics.bean;
+package com.lzy.demo.base.bean;
 
 import java.io.Serializable;
 

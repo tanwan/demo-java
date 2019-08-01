@@ -1,7 +1,7 @@
 /*
- * Created by lzy on 17-6-7 下午1:48.
+ * Created by lzy on 2019-08-01 19:45.
  */
-package com.lzy.demo.base.generics.bean.wildcard;
+package com.lzy.demo.base.bean;
 
 /**
  * 红苹果

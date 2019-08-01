@@ -1,7 +1,7 @@
 /*
  * Created by LZY on 12/17/2016 13:04.
  */
-package com.lzy.demo.base.generics.bean;
+package com.lzy.demo.base.bean;
 
 /**
  * 泛型接口

@@ -1,12 +1,12 @@
 /*
- * Created by LZY on 2017/2/27 10:53.
+ * Created by lzy on 17-5-19 下午1:09.
  */
-package com.lzy.demo.base.generics.bean.wildcard;
+package com.lzy.demo.base.bean;
 
 /**
- * Apple 继承 Fruit
+ * 苹果
  *
- * @author LZY
+ * @author lzy
  * @version v1.0
  */
 public class Apple extends Fruit {

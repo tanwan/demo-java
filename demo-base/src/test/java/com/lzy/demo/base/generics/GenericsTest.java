@@ -3,8 +3,8 @@
  */
 package com.lzy.demo.base.generics;
 
-import com.lzy.demo.base.generics.bean.GenericsClass;
-import com.lzy.demo.base.generics.bean.GenericsSubClass;
+import com.lzy.demo.base.bean.GenericsClass;
+import com.lzy.demo.base.bean.GenericsSubClass;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;

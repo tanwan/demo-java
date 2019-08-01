@@ -3,10 +3,10 @@
  */
 package com.lzy.demo.base.generics;
 
-import com.lzy.demo.base.generics.bean.wildcard.Apple;
-import com.lzy.demo.base.generics.bean.wildcard.Fruit;
-import com.lzy.demo.base.generics.bean.wildcard.Orange;
-import com.lzy.demo.base.generics.bean.wildcard.RedApple;
+import com.lzy.demo.base.bean.Apple;
+import com.lzy.demo.base.bean.Fruit;
+import com.lzy.demo.base.bean.Peach;
+import com.lzy.demo.base.bean.RedApple;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.function.Predicate;
 public class WildcardTest {
     private List<Fruit> fruits = new ArrayList<>(Collections.singleton(new Fruit("fruit")));
     private List<Apple> apples = new ArrayList<>(Collections.singleton(new Apple("apple")));
-    private List<Orange> oranges = new ArrayList<>(Collections.singleton(new Orange("orange")));
+    private List<Peach> oranges = new ArrayList<>(Collections.singleton(new Peach("peach")));
 
     /**
      * 测试通配符的extends

@@ -1,7 +1,7 @@
 /*
  * Created by lzy on 17-6-1 下午6:20.
  */
-package com.lzy.demo.base.generics.bean;
+package com.lzy.demo.base.bean;
 
 import java.lang.reflect.ParameterizedType;
 
