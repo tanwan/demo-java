@@ -1,0 +1,3 @@
+dependencies {
+    compile group: 'cglib', name: 'cglib', version: project['cglib.version']
+}
