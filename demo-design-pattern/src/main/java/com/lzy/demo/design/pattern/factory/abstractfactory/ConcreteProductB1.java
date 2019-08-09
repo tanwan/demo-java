@@ -8,7 +8,7 @@ package com.lzy.demo.design.pattern.factory.abstractfactory;
  * @author LZY
  * @version v1.0
  */
-public class ConcreteProductB1 extends ProductB {
+public class ConcreteProductB1 extends AbstractProductB {
     /**
      * 抽象方法
      */
