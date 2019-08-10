@@ -16,14 +16,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * @author lzy
  * @version v1.0
  */
-
 @ExtendWith(SpringExtension.class)
-@TestPropertySource(properties = "spring.config.location=classpath:flyway.yml")
+@TestPropertySource(properties = "spring.config.location=classpath:flyway/flyway.yml")
 @SpringBootTest
 @SpringBootApplication
 public class FlywayTest {
 
 
+    /**
+     * 测试flyway
+     */
     @Test
     public void testFlyway() {
 

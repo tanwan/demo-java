@@ -9,3 +9,5 @@ spring:
     baseline-on-migrate: true
     # 初次版本,我们的脚本需要比这个版本大
     baseline-version: 1
+    locations:
+      - classpath:flyway/migration
