@@ -30,14 +30,14 @@ import java.util.Map;
 @SpringBootTest
 @SpringBootApplication
 @MapperScan("com.lzy.demo.mybatis.mapper")
-@TestPropertySource(properties = "spring.config.location=classpath:mybatis.yml")
+@TestPropertySource(properties = "spring.config.location=classpath:mybatis/mybatis-plus.yml")
 public class MybatisPlusTest {
 
     @Resource
     private MybatisSamplePlusMapper mybatisSamplePlusMapper;
 
     /**
-     * Test insert.
+     * 测试插入
      */
     @Test
     public void testInsert() {

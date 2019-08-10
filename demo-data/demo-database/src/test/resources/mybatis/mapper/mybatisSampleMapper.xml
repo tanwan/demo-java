@@ -113,6 +113,9 @@
     <!--<sql id="shareSQL">${alias}.id</sql>-->
     <!--<include refid="shareSQL"><property name="alias" value="t1"/></include>-->
 
+    <resultMap id="mybatisSampleResultMap" type="com.lzy.demo.mybatis.entity.MybatisSample">
+        <result property="useIndexEnum" column="use_index_enum" javaType="com.lzy.demo.mybatis.enums.UseIndexEnum" typeHandler="com.lzy.demo.mybatis.typehandler.CustomUseIndexEnumTypeHandler"/>
+    </resultMap>
 
     <!--描述如何从数据库结果集中来加载对象,详情见 http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html#Result_Maps
     resultMap的属性及元素

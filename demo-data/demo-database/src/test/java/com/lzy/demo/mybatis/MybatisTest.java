@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 /**
- * The type Mybatis test.
+ * mybatis测试
  *
  * @author lzy
  * @version v1.0
@@ -31,7 +31,7 @@ public class MybatisTest {
     private SqlSessionFactory sqlSessionFactory;
 
     /**
-     * Create sql session factory from xml.
+     * 从XML获取SqlSessionFactory
      *
      * @throws IOException the io exception
      */
@@ -44,7 +44,7 @@ public class MybatisTest {
     }
 
     /**
-     * 从XML获取SqlSessionFactory
+     * 测试查询
      *
      * @throws IOException the io exception
      */

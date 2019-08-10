@@ -65,6 +65,9 @@
         <!--使用EnumTypeHandler的话,数据库保存的值为枚举的值(ONE,TWO,THREE)-->
         <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler"
                      javaType="com.lzy.demo.mybatis.enums.UseStringEnum"/>
+        <!--使用mybatis plus的MybatisEnumTypeHandler,数据库保存的是UseEnumValueEnum的变量code的值,变量code需要使用@EnumValue-->
+        <typeHandler handler="com.baomidou.mybatisplus.extension.handlers.MybatisEnumTypeHandler"
+                     javaType="com.lzy.demo.mybatis.enums.UseEnumValueEnum"/>
     </typeHandlers>
 
     <plugins>
