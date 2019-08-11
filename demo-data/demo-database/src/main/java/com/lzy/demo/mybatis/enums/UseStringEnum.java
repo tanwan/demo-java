@@ -4,6 +4,8 @@
 package com.lzy.demo.mybatis.enums;
 
 /**
+ * 使用枚举字符串,数据库存储的是 ONE,TWO,THREE
+ *
  * @author lzy
  * @version v1.0
  */

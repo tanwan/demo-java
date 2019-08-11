@@ -8,6 +8,7 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
+import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
@@ -32,6 +33,14 @@ public class SampleInterceptor implements Interceptor {
     public Object intercept(Invocation invocation) throws Throwable {
         System.out.println("SampleInterceptor#intercept");
         return invocation.proceed();
+    }
+
+    @Override
+    public Object plugin(Object target) {
+        if (target instanceof Executor) {
+            return Plugin.wrap(target, this);
+        }
+        return target;
     }
 
     @Override

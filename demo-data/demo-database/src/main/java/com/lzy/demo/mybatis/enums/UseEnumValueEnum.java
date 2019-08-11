@@ -6,6 +6,8 @@ package com.lzy.demo.mybatis.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 
 /**
+ * 使用枚举值,数据库存储的是枚举的code,1表示ONE,2表示TWO,3表示THREE
+ *
  * @author lzy
  * @version v1.0
  */

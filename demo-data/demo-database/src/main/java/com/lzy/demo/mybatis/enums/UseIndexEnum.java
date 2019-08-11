@@ -4,7 +4,7 @@
 package com.lzy.demo.mybatis.enums;
 
 /**
- * The enum Sample enum.
+ * 使用枚举索引,数据库存储的是0,1,2,0表示ONE,1表示TWO,2表示THREE
  *
  * @author lzy
  * @version v1.0

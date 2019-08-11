@@ -17,7 +17,7 @@ import java.io.Serializable;
  * @author lzy
  * @version v1.0
  */
-@TableName("mybatis_sample")
+@TableName(value = "mybatis_sample", resultMap = "com.lzy.demo.mybatis.mapper.MybatisSampleMapper.mybatisSampleResultMap")
 public class MybatisSample implements Serializable {
 
     /**
@@ -38,10 +38,10 @@ public class MybatisSample implements Serializable {
     private UseStringEnum useStringEnum;
 
     /**
-     * 使用枚举的索引值,查询有点问题,先去除
+     * 使用枚举的索引值,这边指定的typeHandler只对修改有效,查询的话,需要使用@TableName的resultMap
      * 由于typeHandler泛型的限制,不能直接使用EnumOrdinalTypeHandler,因此需要继承EnumOrdinalTypeHandler
      */
-    @TableField(exist = false, typeHandler = CustomUseIndexEnumTypeHandler.class)
+    @TableField(typeHandler = CustomUseIndexEnumTypeHandler.class)
     private UseIndexEnum useIndexEnum;
 
     /**
