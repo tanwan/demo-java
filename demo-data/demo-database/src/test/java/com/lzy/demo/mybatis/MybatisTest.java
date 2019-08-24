@@ -60,7 +60,6 @@ public class MybatisTest {
             // 直接使用MybatisSampleMapper
             // 要求MybatisSampleMapper对应mapper.xml的名称空间为MybatisSampleMapper的包名
             MybatisSampleMapper mybatisSampleMapper = session.getMapper(MybatisSampleMapper.class);
-            mybatisSampleMapper.findOne(1);
             System.out.println(mybatisSampleMapper.findOne(1));
             System.out.println(mybatisSampleMapper.findAll());
             System.out.println(mybatisSampleMapper.findOneUseAnnotation(1));

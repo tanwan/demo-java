@@ -11,6 +11,7 @@ import com.lzy.demo.mybatis.enums.UseEnumValueEnum;
 import com.lzy.demo.mybatis.enums.UseIndexEnum;
 import com.lzy.demo.mybatis.enums.UseStringEnum;
 import com.lzy.demo.mybatis.mapper.MybatisSamplePlusMapper;
+import com.lzy.demo.mybatis.service.SampleCacheService;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -35,6 +36,9 @@ public class MybatisPlusTest {
 
     @Resource
     private MybatisSamplePlusMapper mybatisSamplePlusMapper;
+
+    @Resource
+    private SampleCacheService sampleCacheService;
 
     /**
      * 测试插入
@@ -84,6 +88,7 @@ public class MybatisPlusTest {
 
     /**
      * 测试乐观锁,需要开启配置
+     *
      * @see MybatisPlusConfig#optimisticLockerInterceptor()
      */
     @Test
@@ -93,5 +98,21 @@ public class MybatisPlusTest {
         mybatisSample.setName("update");
         mybatisSample.setVersion(0);
         System.out.println(mybatisSamplePlusMapper.updateById(mybatisSample));
+    }
+
+    /**
+     * 不使用事务,一级缓存不生效
+     */
+    @Test
+    public void testFirstLevelCacheWithoutTransactional() {
+        sampleCacheService.firstLevelCacheWithoutTransactional(1);
+    }
+
+    /**
+     * 使用事务,一级缓存生效
+     */
+    @Test
+    public void testFirstLevelCacheWithTransactional() {
+        sampleCacheService.firstLevelCacheWithTransactional(1);
     }
 }
