@@ -3,10 +3,10 @@
  */
 package com.lzy.demo.mybatis;
 
-import com.lzy.demo.mybatis.entity.MybatisSample;
+import com.lzy.demo.mybatis.entity.SampleMybatis;
 import com.lzy.demo.mybatis.enums.UseIndexEnum;
 import com.lzy.demo.mybatis.enums.UseStringEnum;
-import com.lzy.demo.mybatis.mapper.MybatisSampleMapper;
+import com.lzy.demo.mybatis.mapper.SampleMybatisMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -54,15 +54,15 @@ public class MybatisTest {
         // SqlSession不是线程安全的,所以不能共享
         try (SqlSession session = sqlSessionFactory.openSession()) {
             // 参数statement对应的就是mapper.xml文件的名称空间加方法名
-            MybatisSample mybatisSample = session.selectOne("com.lzy.demo.mybatis.mapper.MybatisSampleMapper.findOne", 1);
-            System.out.println(mybatisSample);
+            SampleMybatis sampleMybatis = session.selectOne("com.lzy.demo.mybatis.mapper.SampleMybatisMapper.findOne", 1);
+            System.out.println(sampleMybatis);
 
-            // 直接使用MybatisSampleMapper
-            // 要求MybatisSampleMapper对应mapper.xml的名称空间为MybatisSampleMapper的包名
-            MybatisSampleMapper mybatisSampleMapper = session.getMapper(MybatisSampleMapper.class);
-            System.out.println(mybatisSampleMapper.findOne(1));
-            System.out.println(mybatisSampleMapper.findAll());
-            System.out.println(mybatisSampleMapper.findOneUseAnnotation(1));
+            // 直接使用SampleMybatisMapper
+            // 要求SampleMybatisMapper对应mapper.xml的名称空间为SampleMybatisMapper的包名
+            SampleMybatisMapper sampleMybatisMapper = session.getMapper(SampleMybatisMapper.class);
+            System.out.println(sampleMybatisMapper.findOne(1));
+            System.out.println(sampleMybatisMapper.findAll());
+            System.out.println(sampleMybatisMapper.findOneUseAnnotation(1));
         }
     }
 
@@ -72,13 +72,13 @@ public class MybatisTest {
     @Test
     public void testInsert() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            MybatisSampleMapper mybatisSampleMapper = session.getMapper(MybatisSampleMapper.class);
-            MybatisSample mybatisSample = new MybatisSample();
-            mybatisSample.setName("insert");
-            mybatisSample.setUseStringEnum(UseStringEnum.ONE);
-            mybatisSample.setUseIndexEnum(UseIndexEnum.ONE);
-            mybatisSampleMapper.insertOne(mybatisSample);
-            System.out.println(mybatisSample);
+            SampleMybatisMapper sampleMybatisMapper = session.getMapper(SampleMybatisMapper.class);
+            SampleMybatis sampleMybatis = new SampleMybatis();
+            sampleMybatis.setName("insert");
+            sampleMybatis.setUseStringEnum(UseStringEnum.ONE);
+            sampleMybatis.setUseIndexEnum(UseIndexEnum.ONE);
+            sampleMybatisMapper.insertOne(sampleMybatis);
+            System.out.println(sampleMybatis);
             // 需要手动提交
             session.commit();
         }
@@ -90,11 +90,11 @@ public class MybatisTest {
     @Test
     public void testUpdate() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            MybatisSampleMapper mybatisSampleMapper = session.getMapper(MybatisSampleMapper.class);
-            MybatisSample mybatisSample = new MybatisSample();
-            mybatisSample.setUseIndexEnum(UseIndexEnum.TWO);
-            mybatisSampleMapper.updateOne(5, mybatisSample);
-            System.out.println(mybatisSample);
+            SampleMybatisMapper sampleMybatisMapper = session.getMapper(SampleMybatisMapper.class);
+            SampleMybatis sampleMybatis = new SampleMybatis();
+            sampleMybatis.setUseIndexEnum(UseIndexEnum.TWO);
+            sampleMybatisMapper.updateOne(5, sampleMybatis);
+            System.out.println(sampleMybatis);
             // 需要手动提交
             session.commit();
         }
@@ -106,10 +106,10 @@ public class MybatisTest {
     @Test
     public void testDelete() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            MybatisSampleMapper mybatisSampleMapper = session.getMapper(MybatisSampleMapper.class);
-            MybatisSample mybatisSample = new MybatisSample();
-            mybatisSample.setUseIndexEnum(UseIndexEnum.TWO);
-            mybatisSampleMapper.deleteOne(5);
+            SampleMybatisMapper sampleMybatisMapper = session.getMapper(SampleMybatisMapper.class);
+            SampleMybatis sampleMybatis = new SampleMybatis();
+            sampleMybatis.setUseIndexEnum(UseIndexEnum.TWO);
+            sampleMybatisMapper.deleteOne(5);
             // 需要手动提交
             session.commit();
         }
@@ -122,8 +122,8 @@ public class MybatisTest {
     @Test
     public void testOrderBy() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            MybatisSampleMapper mybatisSampleMapper = session.getMapper(MybatisSampleMapper.class);
-            System.out.println(mybatisSampleMapper.selectOrder("id"));
+            SampleMybatisMapper sampleMybatisMapper = session.getMapper(SampleMybatisMapper.class);
+            System.out.println(sampleMybatisMapper.selectOrder("id"));
         }
     }
 
@@ -134,11 +134,11 @@ public class MybatisTest {
     @Test
     public void testIf() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            MybatisSampleMapper mybatisSampleMapper = session.getMapper(MybatisSampleMapper.class);
+            SampleMybatisMapper sampleMybatisMapper = session.getMapper(SampleMybatisMapper.class);
             System.out.println("name:1");
-            System.out.println(mybatisSampleMapper.selectIf("1"));
+            System.out.println(sampleMybatisMapper.selectIf("1"));
             System.out.println("name:null");
-            System.out.println(mybatisSampleMapper.selectIf(null));
+            System.out.println(sampleMybatisMapper.selectIf(null));
         }
     }
 
@@ -148,13 +148,13 @@ public class MybatisTest {
     @Test
     public void testChoose() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            MybatisSampleMapper mybatisSampleMapper = session.getMapper(MybatisSampleMapper.class);
+            SampleMybatisMapper sampleMybatisMapper = session.getMapper(SampleMybatisMapper.class);
             System.out.println("name:1");
-            System.out.println(mybatisSampleMapper.selectChoose("1"));
+            System.out.println(sampleMybatisMapper.selectChoose("1"));
             System.out.println("name:null");
-            System.out.println(mybatisSampleMapper.selectChoose(null));
+            System.out.println(sampleMybatisMapper.selectChoose(null));
             System.out.println("name:''");
-            System.out.println(mybatisSampleMapper.selectChoose(""));
+            System.out.println(sampleMybatisMapper.selectChoose(""));
         }
     }
 
@@ -164,8 +164,8 @@ public class MybatisTest {
     @Test
     public void testForeach() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            MybatisSampleMapper mybatisSampleMapper = session.getMapper(MybatisSampleMapper.class);
-            System.out.println(mybatisSampleMapper.selectForeach(Arrays.asList(1, 2)));
+            SampleMybatisMapper sampleMybatisMapper = session.getMapper(SampleMybatisMapper.class);
+            System.out.println(sampleMybatisMapper.selectForeach(Arrays.asList(1, 2)));
         }
     }
 }

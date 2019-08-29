@@ -6,11 +6,11 @@ package com.lzy.demo.mybatis;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzy.demo.mybatis.config.MybatisPlusConfig;
-import com.lzy.demo.mybatis.entity.MybatisSample;
+import com.lzy.demo.mybatis.entity.SampleMybatis;
 import com.lzy.demo.mybatis.enums.UseEnumValueEnum;
 import com.lzy.demo.mybatis.enums.UseIndexEnum;
 import com.lzy.demo.mybatis.enums.UseStringEnum;
-import com.lzy.demo.mybatis.mapper.MybatisSamplePlusMapper;
+import com.lzy.demo.mybatis.mapper.SampleMybatisPlusMapper;
 import com.lzy.demo.mybatis.service.SampleCacheService;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
@@ -35,7 +35,7 @@ import java.util.Map;
 public class MybatisPlusTest {
 
     @Resource
-    private MybatisSamplePlusMapper mybatisSamplePlusMapper;
+    private SampleMybatisPlusMapper sampleMybatisPlusMapper;
 
     @Resource
     private SampleCacheService sampleCacheService;
@@ -45,12 +45,12 @@ public class MybatisPlusTest {
      */
     @Test
     public void testInsert() {
-        MybatisSample mybatisSample = new MybatisSample();
-        mybatisSample.setName("mybatis plus");
-        mybatisSample.setUseStringEnum(UseStringEnum.ONE);
-        mybatisSample.setUseIndexEnum(UseIndexEnum.ONE);
-        mybatisSample.setUseEnumValueEnum(UseEnumValueEnum.ONE);
-        mybatisSamplePlusMapper.insert(mybatisSample);
+        SampleMybatis sampleMybatis = new SampleMybatis();
+        sampleMybatis.setName("mybatis plus");
+        sampleMybatis.setUseStringEnum(UseStringEnum.ONE);
+        sampleMybatis.setUseIndexEnum(UseIndexEnum.ONE);
+        sampleMybatis.setUseEnumValueEnum(UseEnumValueEnum.ONE);
+        sampleMybatisPlusMapper.insert(sampleMybatis);
     }
 
     /**
@@ -61,7 +61,7 @@ public class MybatisPlusTest {
         Map<String, Object> map = new HashMap<>(1);
         map.put("use_index_enum", 3);
         // key为表字段名
-        System.out.println(mybatisSamplePlusMapper.deleteByMap(map));
+        System.out.println(sampleMybatisPlusMapper.deleteByMap(map));
     }
 
     /**
@@ -71,10 +71,10 @@ public class MybatisPlusTest {
      */
     @Test
     public void testPage() {
-        MybatisSample mybatisSample = new MybatisSample();
-        mybatisSample.setDelFlg(1);
-        Page<MybatisSample> page = new Page<>(1, 2);
-        mybatisSamplePlusMapper.selectPage(page, Wrappers.query(mybatisSample));
+        SampleMybatis sampleMybatis = new SampleMybatis();
+        sampleMybatis.setDelFlg(1);
+        Page<SampleMybatis> page = new Page<>(1, 2);
+        sampleMybatisPlusMapper.selectPage(page, Wrappers.query(sampleMybatis));
         System.out.println(page.getRecords());
     }
 
@@ -83,7 +83,7 @@ public class MybatisPlusTest {
      */
     @Test
     public void testSqlInjector() {
-        System.out.println(mybatisSamplePlusMapper.customInjectorMethod(1));
+        System.out.println(sampleMybatisPlusMapper.customInjectorMethod(1));
     }
 
     /**
@@ -93,11 +93,11 @@ public class MybatisPlusTest {
      */
     @Test
     public void testVersion() {
-        MybatisSample mybatisSample = new MybatisSample();
-        mybatisSample.setId(1);
-        mybatisSample.setName("update");
-        mybatisSample.setVersion(0);
-        System.out.println(mybatisSamplePlusMapper.updateById(mybatisSample));
+        SampleMybatis sampleMybatis = new SampleMybatis();
+        sampleMybatis.setId(1);
+        sampleMybatis.setName("update");
+        sampleMybatis.setVersion(0);
+        System.out.println(sampleMybatisPlusMapper.updateById(sampleMybatis));
     }
 
     /**

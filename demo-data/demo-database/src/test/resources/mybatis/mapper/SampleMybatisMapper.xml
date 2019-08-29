@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--名称空间对应了Mapper类-->
-<mapper namespace="com.lzy.demo.mybatis.mapper.MybatisSampleMapper">
+<mapper namespace="com.lzy.demo.mybatis.mapper.SampleMybatisMapper">
     <!--
     select的属性
     id: 唯一标识,用来引用这条语句
@@ -17,28 +17,28 @@
     statementType: STATEMENT,PREPARED或CALLABLE中的一个.这会让MyBatis分别使用Statement,PreparedStatement或CallableStatement,默认值：PREPARED
     -->
     <!--resultType表示的是一条记录要转换成的类型-->
-    <select id="findOne" resultType="mybatisSample">
+    <select id="findOne" resultType="sampleMybatis">
         select *
-        from mybatis_sample
+        from sample_mybatis
         where id = #{id}
     </select>
 
     <select id="findAll" resultType="map">
         select *
-        from mybatis_sample
+        from sample_mybatis
     </select>
 
-    <select id="selectOrder" resultType="com.lzy.demo.mybatis.entity.MybatisSample">
+    <select id="selectOrder" resultType="com.lzy.demo.mybatis.entity.SampleMybatis">
         select *
-        from mybatis_sample
+        from sample_mybatis
         <!--$会直接替换,而不是使用PreparedStatement的占位符-->
         order by ${orderBy}
     </select>
 
 
-    <select id="selectIf" resultType="com.lzy.demo.mybatis.entity.MybatisSample">
+    <select id="selectIf" resultType="com.lzy.demo.mybatis.entity.SampleMybatis">
         select *
-        from mybatis_sample
+        from sample_mybatis
         <!-- 如果if条件不符合的话,就不会有where条件,相当于<trim prefix="WHERE" prefixOverrides="AND |OR ">-->
         <where>
             <if test="name!=null and name!=''">
@@ -47,9 +47,9 @@
         </where>
     </select>
 
-    <select id="selectChoose" resultType="com.lzy.demo.mybatis.entity.MybatisSample">
+    <select id="selectChoose" resultType="com.lzy.demo.mybatis.entity.SampleMybatis">
         select *
-        from mybatis_sample
+        from sample_mybatis
         where
         <choose>
             <when test="name == null">
@@ -64,9 +64,9 @@
         </choose>
     </select>
 
-    <select id="selectForeach" resultType="com.lzy.demo.mybatis.entity.MybatisSample">
+    <select id="selectForeach" resultType="com.lzy.demo.mybatis.entity.SampleMybatis">
         select *
-        from mybatis_sample
+        from sample_mybatis
         where
         id in
         <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
@@ -87,17 +87,17 @@
     keyColumn:
     -->
     <insert id="insertOne" useGeneratedKeys="true" keyProperty="id">
-        insert into mybatis_sample(name, use_string_enum, use_index_enum)
+        insert into sample_mybatis(name, use_string_enum, use_index_enum)
         values (#{name}, #{useStringEnum}, #{useIndexEnum})
     </insert>
 
     <update id="updateOne">
-        UPDATE mybatis_sample
+        UPDATE sample_mybatis
         <!--在前面添加SET,然后删除无关的逗号,相当于<trim prefix="SET" suffixOverrides=",">-->
         <set>
             <!--使用指定的TypeHandler-->
             use_index_enum =
-            #{mybatisSample.useIndexEnum,javaType=com.lzy.demo.mybatis.enums.UseIndexEnum,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler }
+            #{sampleMybatis.useIndexEnum,javaType=com.lzy.demo.mybatis.enums.UseIndexEnum,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler }
         </set>
 
         where id = #{id}
@@ -105,7 +105,7 @@
 
     <delete id="deleteOne">
         delete
-        from mybatis_sample
+        from sample_mybatis
         where id = #{id}
     </delete>
 
@@ -113,7 +113,7 @@
     <!--<sql id="shareSQL">${alias}.id</sql>-->
     <!--<include refid="shareSQL"><property name="alias" value="t1"/></include>-->
 
-    <resultMap id="mybatisSampleResultMap" type="com.lzy.demo.mybatis.entity.MybatisSample">
+    <resultMap id="sampleMybatisResultMap" type="com.lzy.demo.mybatis.entity.SampleMybatis">
         <result property="useIndexEnum" column="use_index_enum" javaType="com.lzy.demo.mybatis.enums.UseIndexEnum" typeHandler="com.lzy.demo.mybatis.typehandler.CustomUseIndexEnumTypeHandler"/>
     </resultMap>
 

@@ -4,7 +4,7 @@
 package com.lzy.demo.mybatis.mapper;
 
 
-import com.lzy.demo.mybatis.entity.MybatisSample;
+import com.lzy.demo.mybatis.entity.SampleMybatis;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -17,7 +17,7 @@ import java.util.Map;
  * @author lzy
  * @version v1.0
  */
-public interface MybatisSampleMapper {
+public interface SampleMybatisMapper {
 
     /**
      * 函数名需要和userMapper.xml指定的id一致
@@ -25,7 +25,7 @@ public interface MybatisSampleMapper {
      * @param id the id
      * @return the user
      */
-    MybatisSample findOne(Integer id);
+    SampleMybatis findOne(Integer id);
 
     /**
      * Find all list.
@@ -40,7 +40,7 @@ public interface MybatisSampleMapper {
      * @param orderBy the order by
      * @return the list
      */
-    List<MybatisSample> selectOrder(@Param("orderBy") String orderBy);
+    List<SampleMybatis> selectOrder(@Param("orderBy") String orderBy);
 
 
     /**
@@ -49,25 +49,25 @@ public interface MybatisSampleMapper {
      * @param id the id
      * @return the mybatis sample
      */
-    @Select("select * from mybatis_sample where id = #{id}")
-    MybatisSample findOneUseAnnotation(Integer id);
+    @Select("select * from sample_mybatis where id = #{id}")
+    SampleMybatis findOneUseAnnotation(Integer id);
 
 
     /**
      * Insert one.
      *
-     * @param mybatisSample the mybatis sample
+     * @param sampleMybatis the mybatis sample
      */
-    void insertOne(MybatisSample mybatisSample);
+    void insertOne(SampleMybatis sampleMybatis);
 
 
     /**
      * Update one.
      *
      * @param id            the id
-     * @param mybatisSample the mybatis sample
+     * @param sampleMybatis the mybatis sample
      */
-    void updateOne(@Param("id") Integer id, @Param("mybatisSample") MybatisSample mybatisSample);
+    void updateOne(@Param("id") Integer id, @Param("sampleMybatis") SampleMybatis sampleMybatis);
 
 
     /**
@@ -84,7 +84,7 @@ public interface MybatisSampleMapper {
      * @param name the name
      * @return the list
      */
-    List<MybatisSample> selectIf(@Param("name")String name);
+    List<SampleMybatis> selectIf(@Param("name")String name);
 
 
     /**
@@ -93,7 +93,7 @@ public interface MybatisSampleMapper {
      * @param name the name
      * @return the list
      */
-    List<MybatisSample> selectChoose(@Param("name")String name);
+    List<SampleMybatis> selectChoose(@Param("name")String name);
 
 
     /**
@@ -102,5 +102,5 @@ public interface MybatisSampleMapper {
      * @param ids the ids
      * @return the list
      */
-    List<MybatisSample> selectForeach(@Param("ids")List<Integer> ids);
+    List<SampleMybatis> selectForeach(@Param("ids")List<Integer> ids);
 }

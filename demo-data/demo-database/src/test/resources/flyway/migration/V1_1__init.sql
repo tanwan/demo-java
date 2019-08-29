@@ -1,4 +1,4 @@
-CREATE TABLE `mybatis_sample2` (
+CREATE TABLE `sample_mybatis` (
                                    `id` int(11) NOT NULL AUTO_INCREMENT,
                                    `name` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                    `use_string_enum` enum('ONE','TWO','THREE') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -7,4 +7,4 @@ CREATE TABLE `mybatis_sample2` (
                                    `version` int(11) DEFAULT NULL,
                                    `del_flg` int(11) DEFAULT NULL,
                                    PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci

@@ -17,8 +17,8 @@ import java.io.Serializable;
  * @author lzy
  * @version v1.0
  */
-@TableName(value = "mybatis_sample", resultMap = "com.lzy.demo.mybatis.mapper.MybatisSampleMapper.mybatisSampleResultMap")
-public class MybatisSample implements Serializable {
+@TableName(value = "sample_mybatis", resultMap = "com.lzy.demo.mybatis.mapper.SampleMybatisMapper.sampleMybatisResultMap")
+public class SampleMybatis implements Serializable {
 
     /**
      * 使用@TableId的IdType可以指定id的类型,自增,自行输入,uuid,分布式生成整型id,分布式生成字符串型id,不设置
@@ -159,7 +159,7 @@ public class MybatisSample implements Serializable {
 
     @Override
     public String toString() {
-        return "MybatisSample{" +
+        return "SampleMybatis{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", useStringEnum=" + useStringEnum +

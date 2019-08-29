@@ -4,8 +4,8 @@
 package com.lzy.demo.mybatis.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.lzy.demo.mybatis.entity.MybatisSample;
-import com.lzy.demo.mybatis.mapper.MybatisSamplePlusMapper;
+import com.lzy.demo.mybatis.entity.SampleMybatis;
+import com.lzy.demo.mybatis.mapper.SampleMybatisPlusMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +22,7 @@ public class SampleCacheService {
 
 
     @Resource
-    private MybatisSamplePlusMapper mybatisSamplePlusMapper;
+    private SampleMybatisPlusMapper sampleMybatisPlusMapper;
 
     /**
      * 如果不在同一个事务下执行,将不会使用一级缓存
@@ -30,8 +30,8 @@ public class SampleCacheService {
      * @param id the id
      */
     public void firstLevelCacheWithoutTransactional(Integer id) {
-        mybatisSamplePlusMapper.selectById(id);
-        mybatisSamplePlusMapper.selectById(id);
+        sampleMybatisPlusMapper.selectById(id);
+        sampleMybatisPlusMapper.selectById(id);
     }
 
     /**
@@ -42,8 +42,8 @@ public class SampleCacheService {
     @Transactional
     public void firstLevelCacheWithTransactional(Integer id) {
         // 这边跟hibernate不一样的是,使用其它方法查询的不会加入到一级缓存
-        mybatisSamplePlusMapper.selectOne(new QueryWrapper<MybatisSample>().eq("id", id));
-        mybatisSamplePlusMapper.selectById(id);
-        mybatisSamplePlusMapper.selectById(id);
+        sampleMybatisPlusMapper.selectOne(new QueryWrapper<SampleMybatis>().eq("id", id));
+        sampleMybatisPlusMapper.selectById(id);
+        sampleMybatisPlusMapper.selectById(id);
     }
 }

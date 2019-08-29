@@ -4,7 +4,7 @@
 package com.lzy.demo.mybatis.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lzy.demo.mybatis.entity.MybatisSample;
+import com.lzy.demo.mybatis.entity.SampleMybatis;
 
 import java.io.Serializable;
 
@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @author lzy
  * @version v1.0
  */
-public interface MybatisSamplePlusMapper extends BaseMapper<MybatisSample> {
+public interface SampleMybatisPlusMapper extends BaseMapper<SampleMybatis> {
 
 
     /**
@@ -24,5 +24,5 @@ public interface MybatisSamplePlusMapper extends BaseMapper<MybatisSample> {
      * @return the mybatis sample
      * @see com.lzy.demo.mybatis.injector.CustomInjectorMethod
      */
-    MybatisSample customInjectorMethod(Serializable id);
+    SampleMybatis customInjectorMethod(Serializable id);
 }
