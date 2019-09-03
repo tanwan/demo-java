@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/demo?autoReconnect=true&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+
+  # 如果spring.jps配置和spring.jpa.properties.hibernate属性冲突,则以spring.jpa.properties.hibernate属性为准
+  jpa:
+    show-sql: true
+    database: MYSQL
+    # 使用innodb
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    #hibernate属性 See http://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#configurations
+    properties:
+      hibernate:
+         #sql server需要填写schema的值,oracle则填写大写的数据库用户名,否则这两种数据库的ddl.auto的值不生效
+         #hibernate.default_schema:
+         #打开hibernate统计信息
+         #generate_statistics: true
+         show_sql: true
+         format_sql: true
+         # hibernate生成的sql注释
+         use_sql_comments: true
+         hbm2ddl:
+           auto: update
+         enable_lazy_load_no_trans: true
+  flyway:
+    enabled: false

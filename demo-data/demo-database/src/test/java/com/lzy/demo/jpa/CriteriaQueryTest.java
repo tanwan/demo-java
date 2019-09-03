@@ -1,0 +1,94 @@
+/*
+ * Created by lzy on 2019-08-22 16:46.
+ */
+package com.lzy.demo.jpa;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lzy.demo.jpa.application.JpaApplication;
+import com.lzy.demo.jpa.dao.SampleJpaDao;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.test.context.TestPropertySource;
+
+import javax.annotation.Resource;
+
+/**
+ * 测试CriteriaQuery
+ *
+ * @author lzy
+ * @version v1.0
+ */
+@SpringBootTest(classes = JpaApplication.class)
+@TestPropertySource(properties = "spring.config.location=classpath:jpa/jpa-hakari.yml")
+public class CriteriaQueryTest {
+
+    @Resource
+    private SampleJpaDao sampleJpaDao;
+
+    @Resource
+    private ObjectMapper objectMapper;
+
+
+    /**
+     * 使用specification.
+     *
+     * @see org.springframework.data.jpa.repository.support.SimpleJpaRepository#findAll(Specification) org.springframework.data.jpa.repository.support.SimpleJpaRepository#findAll(Specification)
+     */
+    @Test
+    public void testSpecification() {
+        //同CriteriaQuery
+        System.out.println(sampleJpaDao.findAll((root, query, cb) ->
+                cb.and(cb.equal(root.get("name").as(String.class), "lzy"))));
+    }
+
+    /**
+     * 测试CriteriaQuery
+     */
+    @Test
+    public void testCriteriaQuery() {
+        System.out.println(sampleJpaDao.criteriaQuery("lzy", 3));
+    }
+
+    /**
+     * 测试返回自定义的类
+     */
+    @Test
+    public void testReturnCustom() {
+        System.out.println(sampleJpaDao.criteriaQueryReturnCustom("lzy"));
+    }
+
+    /**
+     * 测试返回Object
+     */
+    @Test
+    public void testReturnObject() throws JsonProcessingException {
+        System.out.println(objectMapper.writeValueAsString(sampleJpaDao.criteriaQueryReturnObject("lzy")));
+    }
+
+    /**
+     * 测试返回Tuple
+     */
+    @Test
+    public void testReturnTuple() {
+        //返回Tuple
+        sampleJpaDao.criteriaQueryReturnTuple("lzy")
+                .forEach(tuple -> {
+                    System.out.println(tuple.get("name"));
+                    System.out.println(tuple.get(1));
+                });
+    }
+
+    /**
+     * 测试join
+     */
+    @Test
+    public void testQueryJoin() {
+        sampleJpaDao.criteriaQueryJoin(1, "lzy")
+                .forEach(tuple -> {
+                    System.out.println(tuple.get(0));
+                    System.out.println(tuple.get(1));
+                });
+    }
+}

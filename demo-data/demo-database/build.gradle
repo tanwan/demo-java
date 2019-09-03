@@ -1,13 +1,14 @@
 dependencies {
     //aspectj 为aop 提供依赖
     implementation group: 'org.aspectj', name: 'aspectjweaver', version: project['aspectj.version']
-    //druid(阿里巴巴数据库连接池)
-    implementation group: 'com.alibaba', name: 'druid', version: project['druid.version']
 
     implementation group: 'org.flywaydb', name: 'flyway-core', version: project['flyway.version']
 
     //hibernate
     implementation group: 'org.hibernate', name: 'hibernate-entitymanager', version: project['hibernate.version']
+
+    // hikariHandlerMethodArgumentResolver
+    implementation group: 'com.zaxxer', name: 'HikariCP', version: project['HikariCP.version']
 
     //ehcache2
     implementation group: 'org.hibernate', name: 'hibernate-ehcache', version: project['hibernate.version']
@@ -19,6 +20,7 @@ dependencies {
     //mysql驱动
     implementation group: 'mysql', name: 'mysql-connector-java', version: project['mysql.version']
 
+    //mybatis plus
     implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: project['mybatis-plus-boot.version']
 
     //spring data jpa
@@ -26,8 +28,10 @@ dependencies {
 
     //spring boot test
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project['spring-boot.version']
-    //tomcat-jdbc
-    //compile group: 'org.apache.tomcat', name: 'tomcat-jdbc', version: tomcatJdbcVersion
 
-    implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: project['mybatis-spring-boot.version']
+    //spring boot web
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project['spring-boot.version']
+
+    //druid(阿里巴巴数据库连接池)
+    implementation group: 'com.alibaba', name: 'druid-spring-boot-starter', version: project['druid.springboot.version']
 }
