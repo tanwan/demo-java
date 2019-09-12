@@ -7,7 +7,7 @@ dependencies {
     //hibernate
     implementation group: 'org.hibernate', name: 'hibernate-entitymanager', version: project['hibernate.version']
 
-    // hikariHandlerMethodArgumentResolver
+    // hikari
     implementation group: 'com.zaxxer', name: 'HikariCP', version: project['HikariCP.version']
 
     //ehcache2
