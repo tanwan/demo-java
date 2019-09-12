@@ -1,0 +1,7 @@
+dependencies {
+    implementation group: 'org.apache.hadoop', name: 'hadoop-client', version: project['hadoop.version']
+}
+
+clean.doLast {
+    file('out/output').deleteDir()
+}
