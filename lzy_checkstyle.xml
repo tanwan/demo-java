@@ -268,15 +268,6 @@ fileExtensions：需要检查的文件后缀
             <property name="processJavadoc" value="true"/>
         </module>
 
-        <!--检查每行代码长度
-        See http://checkstyle.sourceforge.net/config_sizes.html#LineLength
-        ignorePattern:null 符合此正则表达式的将不被检查
-        max:80最大字符数
-         -->
-        <module name="LineLength">
-            <property name="max" value="200"/>
-        </module>
-
         <!--检查方法名长度
           See http://checkstyle.sourceforge.net/config_sizes.html#MethodLength
         max:100 所有方法的长度
@@ -550,4 +541,12 @@ fileExtensions：需要检查的文件后缀
         <module name="UpperEll"/>
     </module>
 
+    <!--检查每行代码长度
+        See http://checkstyle.sourceforge.net/config_sizes.html#LineLength
+        ignorePattern:null 符合此正则表达式的将不被检查
+        max:80最大字符数
+     -->
+    <module name="LineLength">
+        <property name="max" value="200"/>
+    </module>
 </module>
