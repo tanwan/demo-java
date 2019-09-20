@@ -46,7 +46,7 @@ public class MapReduceTest {
     @Test
     public void testHadoopWordCount() throws Exception {
         Configuration conf = new Configuration();
-        conf.set("fs.defaultFS", "hdfs://hadoop-pseudo:9000");
+        conf.set("fs.defaultFS", "hdfs://hadoop-pseudo:9820");
         // 使用/前缀,表示相对于HDFS的根目录
         // 如果不加/,相对于/user/root
         // input和output都是目录
@@ -59,7 +59,7 @@ public class MapReduceTest {
     @Test
     public void testRealHadoopWordCount() throws Exception {
         Configuration conf = new Configuration();
-        conf.set("fs.defaultFS", "hdfs://hadoop-pseudo:9000/");
+        conf.set("fs.defaultFS", "hdfs://hadoop-pseudo:9820/");
         // 使用yarn
         conf.set("mapreduce.framework.name", "yarn");
 
