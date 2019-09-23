@@ -8,6 +8,7 @@ import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -39,12 +40,12 @@ public class HDFSTest {
      *
      * @throws IOException the io exception
      */
-    //@BeforeAll
+    @BeforeAll
     public void init() throws IOException {
         // 设置hadoop用户,否则默认取跑该代码的用户名
         System.setProperty("HADOOP_USER_NAME", "root");
         Configuration configuration = new Configuration();
-        configuration.set("fs.defaultFS", "hdfs://hadoop-pseudo:9000");
+        configuration.set("fs.defaultFS", "hdfs://hadoop-pseudo:9820");
         fileSystem = FileSystem.get(configuration);
     }
 
