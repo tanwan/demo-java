@@ -5,7 +5,6 @@ package com.lzy.demo.mybatis.config;
 
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,21 +28,6 @@ public class MybatisPlusConfig {
         //你的最大单页限制数量,默认500条,小于0如 - 1不受限制
         paginationInterceptor.setLimit(2);
         return paginationInterceptor;
-    }
-
-    /**
-     * 开启sql性能监控,正式环境不要使用
-     *
-     * @return the performance interceptor
-     */
-    @Bean
-    public PerformanceInterceptor performanceInterceptor() {
-        PerformanceInterceptor performanceInterceptor = new PerformanceInterceptor();
-        // sql最大执行时间
-        performanceInterceptor.setMaxTime(100);
-        // sql格式化
-        performanceInterceptor.setFormat(true);
-        return performanceInterceptor;
     }
 
     /**

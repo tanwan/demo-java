@@ -30,3 +30,10 @@ spring:
          enable_lazy_load_no_trans: true
   flyway:
     enabled: false
+---
+# 不建议生产使用
+spring:
+  profiles: p6spy
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:mysql://127.0.0.1:3306/demo

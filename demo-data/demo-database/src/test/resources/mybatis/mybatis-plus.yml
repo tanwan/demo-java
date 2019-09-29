@@ -47,6 +47,14 @@ mybatis-plus:
 #      insert-strategy: 插入字段验证策略
 #      update-strategy: 更新字段验证策略
 #      select-strategy: 查询字段验证策略
+---
+# 不建议生产使用
+spring:
+  profiles: p6spy
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:mysql://127.0.0.1:3306/demo
+
 
 
 

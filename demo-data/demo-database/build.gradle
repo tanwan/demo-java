@@ -17,11 +17,15 @@ dependencies {
     implementation group: 'org.hibernate', name: 'hibernate-jcache', version: project['hibernate.version']
     implementation group: 'org.ehcache', name: 'ehcache', version: project['ehcache3.version']
 
+    // freemarker
+    implementation group: 'org.freemarker', name: 'freemarker', version: project['freemarker.version']
+
     //mysql驱动
     implementation group: 'mysql', name: 'mysql-connector-java', version: project['mysql.version']
 
     //mybatis plus
     implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: project['mybatis-plus-boot.version']
+    implementation group: 'com.baomidou', name:'mybatis-plus-generator',version: project['mybatis-plus-boot.version']
 
     //spring data jpa
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: project['spring-boot.version']
@@ -34,4 +38,7 @@ dependencies {
 
     //druid(阿里巴巴数据库连接池)
     implementation group: 'com.alibaba', name: 'druid-spring-boot-starter', version: project['druid.springboot.version']
+
+    //sql监控
+    implementation group: 'p6spy', name: 'p6spy', version: project['p6spy.version']
 }
