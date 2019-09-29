@@ -40,9 +40,16 @@ public class ResourcePathTest {
      */
     @Test
     public void testClassLoaderResourceFileUrl() {
-        //从类加载的路径获取资源
+        // 从类加载的路径获取资源(不以/开头)
         Assertions.assertThat(ResourcePathTest.class.getClassLoader().getResource(FILE_NAME))
                 .asString().isEqualTo(FILE_PATH);
+
+        // 从类加载的路径获取资源(以/开头)
+        // 底层使用URL(URL context, String spec),context为类路径,spec为path
+        // path以/开头,表示path为绝对路径,则以path以绝对路径 获取资源
+        // 使用此方法获取到的资源会判断该资源是否在类加载路径下,如果不是,返回null,因此,不能以/开头
+        Assertions.assertThat(ResourcePathTest.class.getClassLoader().getResource("/" + FILE_NAME))
+                .isEqualTo(null);
     }
 
     /**
