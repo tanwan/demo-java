@@ -1,3 +1,14 @@
 dependencies {
+    // jedis group: 'redis.clients', name: 'jedis', version: project['jedis.version']
+    implementation group: 'redis.clients', name: 'jedis', version: project['jedis.version']
+
+    //spring redis
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: project['spring-boot.version']
+
+    //spring boot test
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project['spring-boot.version']
+   // lettuce group: 'io.lettuce', name: 'lettuce-core', version: project['lettuce.version']
+    implementation group: 'io.lettuce', name: 'lettuce-core', version: project['lettuce.version']
+    // hbase
     implementation group: 'org.apache.hbase', name: 'hbase-client', version: project['hbase.version']
 }
