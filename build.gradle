@@ -12,7 +12,8 @@ plugins {
 
 allprojects {
     // 打包成可运行jar,See https://docs.gradle.org/current/userguide/application_plugin.html
-    apply plugin: 'application'
+    // 直接扩展build任务
+    //apply plugin: 'application'
     apply plugin: 'java-library'
     apply plugin: 'idea'
     apply plugin: 'project-report'
