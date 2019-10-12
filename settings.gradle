@@ -15,4 +15,6 @@ include 'demo-big-data:demo-hadoop'
 findProject(':demo-big-data:demo-hadoop')?.name = 'demo-hadoop'
 include 'demo-data:demo-nosql'
 findProject(':demo-data:demo-nosql')?.name = 'demo-nosql'
+include 'demo-security:demo-shiro'
+findProject(':demo-security:demo-shiro')?.name = 'demo-shiro'
 

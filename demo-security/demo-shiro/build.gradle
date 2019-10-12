@@ -1,0 +1,6 @@
+dependencies {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project['spring-boot.version']
+    implementation group: 'org.apache.shiro', name: 'shiro-core', version: project['shiro.version']
+    implementation group: 'org.apache.shiro', name: 'shiro-spring', version: project['shiro.version']
+    implementation group: 'org.crazycake', name: 'shiro-redis', version: project['shiro-redis.version']
+}
