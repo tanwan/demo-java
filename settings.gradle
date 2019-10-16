@@ -17,4 +17,6 @@ include 'demo-data:demo-nosql'
 findProject(':demo-data:demo-nosql')?.name = 'demo-nosql'
 include 'demo-security:demo-shiro'
 findProject(':demo-security:demo-shiro')?.name = 'demo-shiro'
+include 'demo-security:demo-spring-security'
+findProject(':demo-security:demo-spring-security')?.name = 'demo-spring-security'
 

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <link href="./static/login.css" rel="stylesheet" type="text/css">
+    <body>
+        <h1>Login page</h1>
+        <p>Example user: user / password</p>
+        <form action="/login" method="post">
+            <label for="username">Username</label>:
+            <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
+            <label for="password">Password</label>:
+            <input type="password" id="password" name="password" /> <br />
+            <label for="remember-me"> Remember me </label>
+            <input type="checkbox" id="remember-me" name="remember-me" value="true"/> <br/>
+            <input type="submit" value="Log in" />
+        </form>
+    </body>
+</html>

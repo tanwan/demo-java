@@ -1,0 +1,11 @@
+dependencies{
+    //spring boot test
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project['spring-boot.version']
+
+    //spring boot web
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project['spring-boot.version']
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: project['spring-boot.version']
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: project['spring-boot.version']
+}
