@@ -1,4 +1,4 @@
-dependencies{
+dependencies {
     //spring boot test
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project['spring-boot.version']
 
@@ -8,4 +8,8 @@ dependencies{
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: project['spring-boot.version']
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: project['spring-boot.version']
+
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: project['jjwt.version']
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: project['jjwt.version']
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: project['jjwt.version']
 }

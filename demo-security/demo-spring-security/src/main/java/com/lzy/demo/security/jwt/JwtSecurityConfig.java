@@ -1,9 +1,8 @@
 /*
  * Created by LZY on 2017/4/24 19:38.
  */
-package com.lzy.demo.security.config;
+package com.lzy.demo.security.jwt;
 
-import com.lzy.demo.security.filter.AtFilter;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,13 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * spring-security配置
@@ -27,10 +21,10 @@ import java.util.Collections;
  * @author LZY
  * @version v1.0
  */
-@Profile("default")
+@Profile("jwt")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
     private UserDetailsService userDetailsService;
@@ -63,12 +57,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //此HttpSecurity的配置只对/login,/logout,/security/**,/secured/**,/jsr250/**,/pre-post/**有效,默认为/**
                 .requestMatchers().antMatchers("/login", "/logout", "/security/**", "/secured/**", "/jsr250/**", "/pre-post/**")
                 .and()
-                //order跟指定过滤器一样,但会在指定过滤器之前执行,可以进行验证码判断
-                .addFilterAt(new AtFilter(), UsernamePasswordAuthenticationFilter.class)
+                // jwt认证的过滤器在原来认证过滤器之前
+                .addFilterBefore(new JwtLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+                // jwt过滤器在jwt认证过滤器之后
+                .addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class)
                 // 关闭csrf配置
                 .csrf().disable()
                 // cors配置,这里如果不配置CorsConfigurationSource的话,则会从spring容器中获取CorsConfigurationSource的实例
-                .cors().configurationSource(corsConfigurationSource())
+                .cors()
                 .and()
                 //使用ExpressionUrlAuthorizationConfigurer
                 .authorizeRequests()
@@ -110,49 +106,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // ajax登录请求处理
                 //.successHandler(new AjaxAuthenticationSuccessHandler())
                 //.failureHandler(new AjaxAuthenticationFailureHandler())
-                .permitAll();
-                //.and()
+                .permitAll()
+                .and()
                 // 配置异常处理
-                //.exceptionHandling()
-                // 配置权限不足管理,默认为AccessDeniedHandlerImpl
-                //.accessDeniedHandler()
-                // 配置未认证处理,默认为LoginUrlAuthenticationEntryPoint(跳转到登陆界面)
-                //.authenticationEntryPoint();
+                .exceptionHandling()
+                .accessDeniedHandler(new JwtAccessDeniedHandler())
+                .authenticationEntryPoint(new JwtAuthenticationEntryPoint());
     }
-
-
-    /**
-     * cors配置
-     */
-    private CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:8080"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "X-Token", "X-Username", "Accept", "X-Requested-With", "X_Requested_With"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 可以重写userDetailsServiceBean()来配置UserDetailsService,必须声明成spring bean,重写这个的话,最好也重写userDetailsService()
-     *
-     */
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsServiceBean() throws Exception {
-//        return new CustomUserDetailsService();
-//    }
-//
-//    @Override
-//    protected UserDetailsService userDetailsService() {
-//        try {
-//            return userDetailsServiceBean();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
 }
