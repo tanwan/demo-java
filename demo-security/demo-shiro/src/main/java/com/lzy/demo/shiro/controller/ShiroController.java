@@ -4,6 +4,9 @@
 package com.lzy.demo.shiro.controller;
 
 import com.lzy.demo.shiro.config.ShiroConfiguration;
+import com.lzy.demo.shiro.jwt.JwtUtils;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -28,6 +31,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletResponse;
+import java.security.Key;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -263,5 +269,43 @@ public class ShiroController {
     @RequiresPermissions("forbidden")
     public String forbidden() {
         return "";
+    }
+
+
+    /**
+     * jwt登陆
+     *
+     * @param username the username
+     * @param password the password
+     * @return the string
+     */
+    @PostMapping(value = "/jwt-login")
+    @ResponseBody
+    public String jwtLogin(HttpServletResponse response, String username, String password) {
+        // 如果这边是使用类似黑名单机制(往redis插入用户,过期时间为jwt的过期时间)来实现注销功能,这边需要清除黑名单
+
+        // 进行这边使用DbRealm进行登录,也可以是直接从数据库获取数据,然后进行校验
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        SecurityUtils.getSubject().login(token);
+
+        // 密钥有长度要求,使用HS256的,密钥至少为256bit,也就是长度为32
+        Key key = new SecretKeySpec(JwtUtils.PASSWORD, SignatureAlgorithm.HS256.getJcaName());
+        // 这边可以获取用户的权限,然后返回保存的jwt中
+        String jwt = Jwts.builder()
+                // 设置用户名
+                .setSubject(username)
+                // 用户id
+                .claim("userId", 23)
+                // 用户角色
+                .claim("roles", "user")
+                // 调用权限
+                .claim("permissions", "perms:read,rest:read")
+                // 设置过期时间
+                .setExpiration(JwtUtils.getExpireTime())
+                // 设置密钥
+                .signWith(key)
+                .compact();
+        response.setHeader(JwtUtils.AUTHORIZATION, JwtUtils.BEARER_TYPE + " " + jwt);
+        return jwt;
     }
 }

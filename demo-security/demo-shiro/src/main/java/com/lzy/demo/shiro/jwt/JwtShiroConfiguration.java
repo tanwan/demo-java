@@ -1,7 +1,7 @@
 /*
  * Created by LZY on 2017/11/2 23:40.
  */
-package com.lzy.demo.shiro.config;
+package com.lzy.demo.shiro.jwt;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
@@ -15,6 +15,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import javax.servlet.Filter;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -24,9 +27,11 @@ import java.util.Map;
  * @author LZY
  * @version v1.0
  */
-@Profile("default")
+@Profile("jwt")
 @Configuration
-public class ShiroConfiguration {
+public class JwtShiroConfiguration {
+
+    private static final String JWT_FILTER = "jwt";
 
     /**
      * 安全管理器
@@ -37,10 +42,10 @@ public class ShiroConfiguration {
     public org.apache.shiro.mgt.SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         // 设置realm
-        ShiroRealm shiroRealm = new ShiroRealm();
-        // 可以为Realm设置CredentialsMatcher,用来对密码进行hash,比如md5 sha1
-        // shiroRealm.setCredentialsMatcher();
-        securityManager.setRealm(shiroRealm);
+        JwtShiroRealm jwtShiroRealm = new JwtShiroRealm();
+        DbRealm dbRealm = new DbRealm();
+        // 这边使用两个ShiroRealm,一个用于jwt,一个用于普通登录
+        securityManager.setRealms(Arrays.asList(jwtShiroRealm, dbRealm));
         //使用内存缓存,可以自定义使用其它缓存(实现Cache和CacheManager),使用redis的话,则用RedisCacheManager(依赖shiro-redis)
         securityManager.setCacheManager(new MemoryConstrainedCacheManager());
 
@@ -67,33 +72,29 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setSuccessUrl("/index.html");
         // 权限不足的url(非注解式的权限不足会重定向到这里,注解式的使用全局异常捕获)
         shiroFilterFactoryBean.setUnauthorizedUrl("/403.html");
-        // 使用setFilters可以自定义过滤器,如自定义FormAuthenticationFilter
-        //shiroFilterFactoryBean.setFilters();
+
+        // 添加jwt过滤器
+        Map<String, Filter> filterMap = new HashMap<>(2);
+        filterMap.put("jwt", new JwtFilter());
+        shiroFilterFactoryBean.setFilters(filterMap);
 
         // 过滤器名称和过滤器定义(包括过滤器的类型和配置)的映射关系
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        // 使用AuthenticatingFilter进行登录的话,/login需要使用authc权限,这样FormAuthenticationFilter才能进行登录处理
-        filterChainDefinitionMap.put("/login", DefaultFilter.authc.name());
+        // jwt登录需要匿名
+        filterChainDefinitionMap.put("/jwt-login", DefaultFilter.anon.name());
+        // roles先执行jwt过滤器,后执行RolesAuthorizationFilter的过滤器
+        filterChainDefinitionMap.put("/roles", JWT_FILTER + "," + DefaultFilter.roles.name() + "[user]");
+
         // 所有人都可以访问
         filterChainDefinitionMap.put("/anonymous/**", DefaultFilter.anon.name());
-        // rememberMe登录和直接登录都可以访问
-        filterChainDefinitionMap.put("/user", DefaultFilter.user.name());
-        // 只有直接登录的用户才可以访问,rememberMe登录也不能访问
-        filterChainDefinitionMap.put("/authc", DefaultFilter.authc.name());
-        // 当前用户需要有所有指定的角色才可以访问,多个角色使用逗号分隔
-        filterChainDefinitionMap.put("/roles", DefaultFilter.roles.name() + "[user]");
-        // 当前用户需要有指定的权限才可以访问
-        filterChainDefinitionMap.put("/perms", DefaultFilter.perms.name() + "[perms:read]");
-        // rest风格的权限配置,Get请求需要rest:read,Post请求需要rest:create,Put请求需要rest:update,Delete请求需要rest:delete
-        filterChainDefinitionMap.put("/rest", DefaultFilter.rest.name() + "[rest]");
-        // 配置登出的过滤器
-        filterChainDefinitionMap.put("/logout", DefaultFilter.logout.name());
+        // 配置登出
+        filterChainDefinitionMap.put("/logout", DefaultFilter.anon.name());
         // ajax登录需要匿名
         filterChainDefinitionMap.put("/ajax-login", DefaultFilter.anon.name());
         // 如果所有的请求都拦截的话,注意放开一些静态资源,比如登陆界面
         filterChainDefinitionMap.put("/*.html", DefaultFilter.anon.name());
         filterChainDefinitionMap.put("/*.ico", DefaultFilter.anon.name());
-        filterChainDefinitionMap.put("/**", DefaultFilter.authc.name());
+        filterChainDefinitionMap.put("/**", JWT_FILTER);
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

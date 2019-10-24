@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理权限不足
+     * 处理权限不足,因为这个是基于spring mvc的,所以只能拦截到使用注解的权限不足
      *
      * @param e the e
      * @return the response entity
