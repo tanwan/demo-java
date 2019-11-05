@@ -1,0 +1,17 @@
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 1000
+server:
+  port: 8080
+---
+# jose-jwt后面再研究
+spring:
+  profiles: jose-jwt
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://127.0.0.1:18080/.demo/jwks.json

@@ -1,0 +1,22 @@
+dependencies{
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project['spring-boot.version']
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: project['spring-boot.version']
+
+    implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: project['spring-security-oauth2.version']
+
+    implementation group: 'org.springframework.security', name: 'spring-security-jwt', version: project['spring-security-jwt.version']
+
+    //spring redis
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: project['spring-boot.version']
+
+    //使用nimbusds-jose-jwt
+    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose', version: project['spring-security.verison']
+
+    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-resource-server', version: project['spring-security.verison']
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: project['spring-boot.version']
+
+    // spring oauth的自动配置,不过大部分都已经迁移了,尽量不用,依赖进来只是为了参考
+    // implementation group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: project['spring-boot.version']
+}

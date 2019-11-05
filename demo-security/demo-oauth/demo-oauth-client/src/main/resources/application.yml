@@ -1,0 +1,25 @@
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          demo-oauth:
+            # 这里授权服务器的域名不能和客户端的域名相同,否则会csrf
+            token-uri: http://oauth-authorization:18080/oauth/token
+            authorization-uri: http://oauth-authorization:18080/oauth/authorize
+        registration:
+          client:
+            # 标识提供方,这个需要跟上面的provider对应
+            provider: demo-oauth
+            client-id: client
+            client-secret: secret
+            authorization-grant-type: client_credentials
+          code:
+            # 标识提供方,这个需要跟上面的provider对应
+            provider: demo-oauth
+            client-id: code
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: http://127.0.0.1:28080/authorization-code
+server:
+  port: 28080
