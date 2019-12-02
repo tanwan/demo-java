@@ -27,4 +27,6 @@ include 'demo-security:demo-oauth:demo-oauth-resource-server'
 findProject(':demo-security:demo-oauth:demo-oauth-resource-server')?.name = 'demo-oauth-resource-server'
 include 'demo-mq:demo-kafka'
 findProject(':demo-mq:demo-kafka')?.name = 'demo-kafka'
+include 'demo-big-data:demo-spark'
+findProject(':demo-big-data:demo-spark')?.name = 'demo-spark'
 
