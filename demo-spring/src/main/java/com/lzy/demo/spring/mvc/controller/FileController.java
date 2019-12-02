@@ -57,7 +57,7 @@ public class FileController {
     @RequestMapping("/download-file")
     public ResponseEntity<StreamingResponseBody> downloadFile() {
         HttpHeaders headers = new HttpHeaders();
-        //设置下载弹出框的文件名,如果不设置的话,文件名默认是最后一层路径,在这里就是download-file
+        //设置下载弹出框的文件名,如果不设置的话,文件名默认是最后一层路径,在这里就是download-file,中文需要进行url编码
         headers.setContentDispositionFormData("attachment", "test.txt");
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         StreamingResponseBody streamingResponseBody = outputStream -> outputStream.write("hello world".getBytes());
