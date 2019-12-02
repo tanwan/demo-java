@@ -28,10 +28,14 @@ public class Message {
         this.results = results;
     }
 
-    // 返回的代码0为成功
+    /**
+     * 返回的代码0为成功
+     */
     private String code = "0";
 
-    //错误消息
+    /**
+     * 错误消息
+     */
     private String error;
 
     private Map<String, Object> results;

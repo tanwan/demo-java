@@ -14,14 +14,15 @@ import java.util.regex.Pattern;
  */
 public class CheckUtils {
 
-    private static final String EMAIL_PATTERN = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
-    private static final String IDCARD_PATTERN = "[1-9]\\d{13,16}[a-zA-Z0-9]{1}";
-    private static final String PHONE_PATTERN = "(\\+\\d+)?(\\d{3,4}\\-?)?\\d{7,8}$";
-    private static final String IPV4_PATTERN = "((25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))";
-    private static final String URL_PATTERN = "(https?://(w{3}\\.)?)?\\w+\\.\\w+(\\.[a-zA-Z]+)*(:\\d{1,5})?(/\\w*)*(\\??(.+=.*)?(&.+=.*)?)?";
-    private static final String CHINESE_PATTERN = "^[\\u4E00-\\u9FA5]+$";
-    private static final String INTEGER_PATTERN = "^(-?[1-9]\\d*|0)$";
-    private static final String NUMERIC_PATTERN = "^-?\\d+\\.?\\d*$";
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?");
+    private static final Pattern IDCARD_PATTERN = Pattern.compile("[1-9]\\d{13,16}[a-zA-Z0-9]{1}");
+    private static final Pattern PHONE_PATTERN = Pattern.compile("(\\+\\d+)?(\\d{3,4}\\-?)?\\d{7,8}$");
+    private static final Pattern IPV4_PATTERN = Pattern.compile("((25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))");
+    private static final Pattern URL_PATTERN = Pattern.compile("(https?://(w{3}\\.)?)?\\w+\\.\\w+(\\.[a-zA-Z]+)*(:\\d{1,5})?(/\\w*)*(\\??(.+=.*)?(&.+=.*)?)?");
+    private static final Pattern CHINESE_PATTERN = Pattern.compile("^[\\u4E00-\\u9FA5]+$");
+    private static final Pattern INTEGER_PATTERN = Pattern.compile("^(-?[1-9]\\d*|0)$");
+    private static final Pattern NUMERIC_PATTERN = Pattern.compile("^-?\\d+\\.?\\d*$");
+
 
     /**
      * 校验正则,字符串为空返回false
@@ -30,8 +31,8 @@ public class CheckUtils {
      * @param pattern the pattern
      * @return boolean
      */
-    public static boolean checkRegex(String content, String pattern) {
-        return content != null && pattern != null && Pattern.matches(pattern, content);
+    public static boolean checkRegex(String content, Pattern pattern) {
+        return content != null && pattern != null && pattern.matcher(content).matches();
     }
 
     /**
