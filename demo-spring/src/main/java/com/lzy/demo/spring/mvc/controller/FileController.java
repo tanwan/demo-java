@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -30,12 +31,13 @@ public class FileController {
     /**
      * 文件上传
      *
-     * @param file the file
+     * @param file   the file
+     * @param params the params
      * @return the string
      */
     @PostMapping("/file-upload")
-    public String fileUpload(@RequestParam("file") MultipartFile file) {
-        return file.getOriginalFilename() + " " + file.getSize();
+    public String fileUpload(@RequestParam("file") MultipartFile file, @RequestParam Map<String, Object> params) {
+        return file.getOriginalFilename() + " " + file.getSize() + params;
     }
 
     /**
