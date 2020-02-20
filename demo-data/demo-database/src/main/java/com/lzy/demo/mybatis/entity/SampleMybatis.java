@@ -3,11 +3,13 @@
  */
 package com.lzy.demo.mybatis.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
 import com.lzy.demo.mybatis.enums.UseEnumValueEnum;
-import com.lzy.demo.mybatis.enums.UseIndexEnum;
 import com.lzy.demo.mybatis.enums.UseStringEnum;
-import com.lzy.demo.mybatis.typehandler.CustomUseIndexEnumTypeHandler;
 
 import java.io.Serializable;
 
@@ -17,7 +19,7 @@ import java.io.Serializable;
  * @author lzy
  * @version v1.0
  */
-@TableName(value = "sample_mybatis", resultMap = "com.lzy.demo.mybatis.mapper.SampleMybatisMapper.sampleMybatisResultMap")
+@TableName(value = "sample_mybatis")
 public class SampleMybatis implements Serializable {
 
     /**
@@ -36,13 +38,6 @@ public class SampleMybatis implements Serializable {
      * 使用枚举值
      */
     private UseStringEnum useStringEnum;
-
-    /**
-     * 使用枚举的索引值,这边指定的typeHandler只对修改有效,查询的话,需要使用@TableName的resultMap
-     * 由于typeHandler泛型的限制,不能直接使用EnumOrdinalTypeHandler,因此需要继承EnumOrdinalTypeHandler
-     */
-    @TableField(typeHandler = CustomUseIndexEnumTypeHandler.class)
-    private UseIndexEnum useIndexEnum;
 
     /**
      * mybatis-plus默认使用枚举值,使用@EnumValue来指定使用枚举的变量
@@ -107,15 +102,6 @@ public class SampleMybatis implements Serializable {
     }
 
     /**
-     * Sets use index enum.
-     *
-     * @param useIndexEnum the use index enum
-     */
-    public void setUseIndexEnum(UseIndexEnum useIndexEnum) {
-        this.useIndexEnum = useIndexEnum;
-    }
-
-    /**
      * Gets use string enum.
      *
      * @return the use string enum
@@ -124,14 +110,6 @@ public class SampleMybatis implements Serializable {
         return useStringEnum;
     }
 
-    /**
-     * Gets use index enum.
-     *
-     * @return the use index enum
-     */
-    public UseIndexEnum getUseIndexEnum() {
-        return useIndexEnum;
-    }
 
     public UseEnumValueEnum getUseEnumValueEnum() {
         return useEnumValueEnum;
@@ -163,7 +141,6 @@ public class SampleMybatis implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", useStringEnum=" + useStringEnum +
-                ", useIndexEnum=" + useIndexEnum +
                 ", useEnumValueEnum=" + useEnumValueEnum +
                 ", version=" + version +
                 ", delFlg=" + delFlg +

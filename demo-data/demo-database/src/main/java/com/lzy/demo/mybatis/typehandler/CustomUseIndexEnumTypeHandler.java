@@ -7,6 +7,7 @@ import com.lzy.demo.mybatis.enums.UseIndexEnum;
 import org.apache.ibatis.type.EnumOrdinalTypeHandler;
 
 /**
+ * 由于typeHandler泛型的限制,不能直接使用EnumOrdinalTypeHandler,因此需要继承EnumOrdinalTypeHandler
  * @author lzy
  * @version v1.0
  */

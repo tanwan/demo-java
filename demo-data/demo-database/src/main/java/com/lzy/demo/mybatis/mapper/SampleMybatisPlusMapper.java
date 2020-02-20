@@ -4,6 +4,7 @@
 package com.lzy.demo.mybatis.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzy.demo.mybatis.entity.SampleMybatis;
 
 import java.io.Serializable;
@@ -25,4 +26,12 @@ public interface SampleMybatisPlusMapper extends BaseMapper<SampleMybatis> {
      * @see com.lzy.demo.mybatis.injector.CustomInjectorMethod
      */
     SampleMybatis customInjectorMethod(Serializable id);
+
+
+    /**
+     * 分页查询
+     * @param page page
+     * @return page
+     */
+    Page<SampleMybatis> customPage(Page<SampleMybatis> page);
 }

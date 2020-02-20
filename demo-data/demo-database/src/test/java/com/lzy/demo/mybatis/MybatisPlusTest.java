@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzy.demo.mybatis.config.MybatisPlusConfig;
 import com.lzy.demo.mybatis.entity.SampleMybatis;
 import com.lzy.demo.mybatis.enums.UseEnumValueEnum;
-import com.lzy.demo.mybatis.enums.UseIndexEnum;
 import com.lzy.demo.mybatis.enums.UseStringEnum;
 import com.lzy.demo.mybatis.mapper.SampleMybatisPlusMapper;
 import com.lzy.demo.mybatis.service.SampleCacheService;
@@ -48,7 +47,6 @@ public class MybatisPlusTest {
         SampleMybatis sampleMybatis = new SampleMybatis();
         sampleMybatis.setName("mybatis plus");
         sampleMybatis.setUseStringEnum(UseStringEnum.ONE);
-        sampleMybatis.setUseIndexEnum(UseIndexEnum.ONE);
         sampleMybatis.setUseEnumValueEnum(UseEnumValueEnum.ONE);
         sampleMybatisPlusMapper.insert(sampleMybatis);
     }
@@ -75,6 +73,18 @@ public class MybatisPlusTest {
         sampleMybatis.setDelFlg(1);
         Page<SampleMybatis> page = new Page<>(1, 2);
         sampleMybatisPlusMapper.selectPage(page, Wrappers.query(sampleMybatis));
+        System.out.println(page.getRecords());
+    }
+
+    /**
+     * 测试分页,需要添加PaginationInterceptor插件
+     *
+     * @see com.lzy.demo.mybatis.config.MybatisPlusConfig
+     */
+    @Test
+    public void testCustomPage() {
+        Page<SampleMybatis> page = new Page<>(1, 2);
+        sampleMybatisPlusMapper.customPage(page);
         System.out.println(page.getRecords());
     }
 

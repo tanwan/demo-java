@@ -4,7 +4,6 @@
 package com.lzy.demo.mybatis;
 
 import com.lzy.demo.mybatis.entity.SampleMybatis;
-import com.lzy.demo.mybatis.enums.UseIndexEnum;
 import com.lzy.demo.mybatis.enums.UseStringEnum;
 import com.lzy.demo.mybatis.mapper.SampleMybatisMapper;
 import org.apache.ibatis.session.SqlSession;
@@ -76,7 +75,6 @@ public class MybatisTest {
             SampleMybatis sampleMybatis = new SampleMybatis();
             sampleMybatis.setName("insert");
             sampleMybatis.setUseStringEnum(UseStringEnum.ONE);
-            sampleMybatis.setUseIndexEnum(UseIndexEnum.ONE);
             sampleMybatisMapper.insertOne(sampleMybatis);
             System.out.println(sampleMybatis);
             // 需要手动提交
@@ -92,7 +90,6 @@ public class MybatisTest {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             SampleMybatisMapper sampleMybatisMapper = session.getMapper(SampleMybatisMapper.class);
             SampleMybatis sampleMybatis = new SampleMybatis();
-            sampleMybatis.setUseIndexEnum(UseIndexEnum.TWO);
             sampleMybatisMapper.updateOne(5, sampleMybatis);
             System.out.println(sampleMybatis);
             // 需要手动提交
@@ -108,7 +105,6 @@ public class MybatisTest {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             SampleMybatisMapper sampleMybatisMapper = session.getMapper(SampleMybatisMapper.class);
             SampleMybatis sampleMybatis = new SampleMybatis();
-            sampleMybatis.setUseIndexEnum(UseIndexEnum.TWO);
             sampleMybatisMapper.deleteOne(5);
             // 需要手动提交
             session.commit();
