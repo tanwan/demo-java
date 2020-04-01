@@ -1,3 +1,4 @@
 dependencies {
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: project['commons-lang3.version']
+    implementation group: 'io.projectreactor', name: 'reactor-core', version: project['reactor.version']
 }
