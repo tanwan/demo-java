@@ -1,7 +1,7 @@
 /*
  * Created by LZY on 2016-09-24.
  */
-package com.lzy.demo.common.util;
+package com.lzy.demo.base.util;
 
 /**
  * 距离计算工具类

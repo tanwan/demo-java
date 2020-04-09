@@ -1,7 +1,7 @@
 /*
  * Created by LZY on 2017/3/16 21:50.
  */
-package com.lzy.demo.common.util;
+package com.lzy.demo.base.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,7 @@
 /*
  * Created by LZY on 2017-06-12.
  */
-package com.lzy.demo.common.util;
+package com.lzy.demo.base.util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

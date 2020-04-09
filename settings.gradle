@@ -1,6 +1,5 @@
 rootProject.name = 'demo-java'
 include 'demo-spring'
-include 'demo-common'
 include 'demo-base'
 include 'demo-io'
 include 'demo-aspectj'

@@ -1,11 +1,11 @@
 /*
  * Created by LZY on 2016-09-24.
  */
-package com.lzy.demo.common.domain;
+package com.lzy.demo.base.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.lzy.demo.common.constant.GlobalConstants;
+import com.lzy.demo.base.constant.GlobalConstants;
 import lombok.Data;
 
 import java.util.HashMap;

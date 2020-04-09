@@ -1,7 +1,7 @@
 /*
  * Created by LZY on 2016-09-24.
  */
-package com.lzy.demo.common.constant;
+package com.lzy.demo.base.constant;
 
 /**
  * 常量

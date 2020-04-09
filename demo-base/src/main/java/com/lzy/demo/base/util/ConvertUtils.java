@@ -1,7 +1,7 @@
 /*
  * Created by LZY on 2016-09-22.
  */
-package com.lzy.demo.common.util;
+package com.lzy.demo.base.util;
 
 import java.util.ArrayList;
 import java.util.List;

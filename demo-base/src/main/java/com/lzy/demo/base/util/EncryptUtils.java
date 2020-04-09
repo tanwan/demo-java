@@ -1,7 +1,7 @@
 /*
  * Created by LZY on 2017/7/12 22:26.
  */
-package com.lzy.demo.common.util;
+package com.lzy.demo.base.util;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKeyFactory;

@@ -2,7 +2,7 @@
  * Created by LZY on 2017-07-07.
  */
 
-package com.lzy.demo.common.util;
+package com.lzy.demo.base.util;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
