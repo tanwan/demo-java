@@ -1,6 +1,4 @@
-version '1.0-SNAPSHOT'
-
-dependencies {
+dependencies{
     //rabbitmq
     implementation group: 'com.rabbitmq', name: 'amqp-client', version: project['amqp-client.version']
 
@@ -13,5 +11,8 @@ dependencies {
 
     //spring boot test
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project['spring-boot.version']
-    
+
+    implementation group: 'org.apache.kafka', name: 'kafka-clients', version: project['kafka.version']
+
+    implementation group: 'org.apache.rocketmq', name: 'rocketmq-client', version: project['rocketmq.version']
 }
