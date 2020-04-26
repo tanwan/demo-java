@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.stream.Stream;
 
 /**
+ * The type Webflux handler.
+ *
  * @author lzy
  * @version v1.0
  */
@@ -21,7 +23,7 @@ public class WebfluxHandler {
     /**
      * 查询单个用户
      *
-     * @return 返回Mono:非阻塞单个结果
+     * @return 返回Mono :非阻塞单个结果
      */
     public WebfluxEntity getOne() {
         logger.info("getOne");
@@ -33,7 +35,10 @@ public class WebfluxHandler {
     }
 
     /**
-     * @return 返回Flux:非阻塞序列
+     * Gets much.
+     *
+     * @return 返回Flux :非阻塞序列
+     * @throws InterruptedException the interrupted exception
      */
     public Stream<WebfluxEntity> getMuch() throws InterruptedException {
         logger.info("getMuch");

@@ -4,8 +4,8 @@
 package com.lzy.demo.spring.event;
 
 import com.lzy.demo.spring.event.custom.CustomErrorHandleConfig;
-import com.lzy.demo.spring.event.custom.SampleEvent;
-import com.lzy.demo.spring.event.custom.SampleEventListener;
+import com.lzy.demo.spring.event.custom.SimpleEvent;
+import com.lzy.demo.spring.event.custom.SimpleEventListener;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 //开启异步
 @EnableAsync
 @ExtendWith(SpringExtension.class)
-@SpringJUnitConfig({CustomErrorHandleConfig.class, SampleEventListener.class})
+@SpringJUnitConfig({CustomErrorHandleConfig.class, SimpleEventListener.class})
 public class EventTest {
     /**
      * 测试自定义事件
@@ -32,7 +32,7 @@ public class EventTest {
      */
     @Test
     public void testCustomEvent(@Autowired ApplicationEventPublisher applicationEventPublisher) {
-        applicationEventPublisher.publishEvent(new SampleEvent("hello world"));
+        applicationEventPublisher.publishEvent(new SimpleEvent("hello world"));
         System.out.println("publishEvent finish");
     }
 }

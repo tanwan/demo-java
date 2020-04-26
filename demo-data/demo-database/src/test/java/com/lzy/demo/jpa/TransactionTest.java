@@ -4,7 +4,7 @@
 package com.lzy.demo.jpa;
 
 import com.lzy.demo.jpa.application.JpaApplication;
-import com.lzy.demo.jpa.service.SampleTransactionService;
+import com.lzy.demo.jpa.service.SimpleTransactionService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -43,16 +43,19 @@ public abstract class TransactionTest {
     private boolean outerException;
     private boolean innerException;
 
+    /**
+     * The Simple transaction service.
+     */
     @Resource
-    protected SampleTransactionService sampleTransactionService;
+    protected SimpleTransactionService simpleTransactionService;
 
     /**
      * 测试手动提交
      */
     @Test
     public void testManualCommit() {
-        sampleTransactionService.manualCommit(false);
-        sampleTransactionService.manualCommit(true);
+        simpleTransactionService.manualCommit(false);
+        simpleTransactionService.manualCommit(true);
     }
 
 
@@ -64,10 +67,10 @@ public abstract class TransactionTest {
     @Test
     public void testOuterNoAndInnerRequire() {
         // REQUIRED
-        Assertions.assertThatCode(() -> sampleTransactionService.outerNoAndInnerRequired(outerException, innerException))
+        Assertions.assertThatCode(() -> simpleTransactionService.outerNoAndInnerRequired(outerException, innerException))
                 .hasMessage(EXCEPT_EXCEPTION);
         // REQUIRE_NEW
-        Assertions.assertThatCode(() -> sampleTransactionService.outerNoAndInnerRequiresNew(outerException, innerException))
+        Assertions.assertThatCode(() -> simpleTransactionService.outerNoAndInnerRequiresNew(outerException, innerException))
                 .hasMessage(EXCEPT_EXCEPTION);
     }
 
@@ -79,13 +82,13 @@ public abstract class TransactionTest {
     @Test
     public void testOuterNoAndInnerNo() {
         // SUPPORTS
-        Assertions.assertThatCode(() -> sampleTransactionService.outerNoAndInnerSupports(outerException, innerException))
+        Assertions.assertThatCode(() -> simpleTransactionService.outerNoAndInnerSupports(outerException, innerException))
                 .hasMessage(EXCEPT_EXCEPTION);
         // NOT_SUPPORT
-        Assertions.assertThatCode(() -> sampleTransactionService.outerNoAndInnerNotSupported(outerException, innerException))
+        Assertions.assertThatCode(() -> simpleTransactionService.outerNoAndInnerNotSupported(outerException, innerException))
                 .hasMessage(EXCEPT_EXCEPTION);
         // NEVER
-        Assertions.assertThatCode(() -> sampleTransactionService.outerNoAndInnerNever(outerException, innerException))
+        Assertions.assertThatCode(() -> simpleTransactionService.outerNoAndInnerNever(outerException, innerException))
                 .hasMessage(EXCEPT_EXCEPTION);
     }
 
@@ -97,7 +100,7 @@ public abstract class TransactionTest {
     @Test
     public void testOuterNoAndInnerMandatory() {
         // MANDATORY
-        Assertions.assertThatCode(() -> sampleTransactionService.outerNoAndInnerMandatory())
+        Assertions.assertThatCode(() -> simpleTransactionService.outerNoAndInnerMandatory())
                 .isInstanceOf(IllegalTransactionStateException.class);
     }
 
@@ -109,16 +112,16 @@ public abstract class TransactionTest {
     @Test
     public void testOuterHasAndInnerSupport() {
         // NO
-        Assertions.assertThatCode(() -> sampleTransactionService.outerHasAndInnerNo(outerException, innerException))
+        Assertions.assertThatCode(() -> simpleTransactionService.outerHasAndInnerNo(outerException, innerException))
                 .hasMessage(EXCEPT_EXCEPTION);
         // REQUIRED
-        Assertions.assertThatCode(() -> sampleTransactionService.outerHasAndInnerRequired(outerException, innerException))
+        Assertions.assertThatCode(() -> simpleTransactionService.outerHasAndInnerRequired(outerException, innerException))
                 .hasMessage(EXCEPT_EXCEPTION);
         // SUPPORTS
-        Assertions.assertThatCode(() -> sampleTransactionService.outerHasAndInnerSupports(outerException, innerException))
+        Assertions.assertThatCode(() -> simpleTransactionService.outerHasAndInnerSupports(outerException, innerException))
                 .hasMessage(EXCEPT_EXCEPTION);
         // MANDATORY
-        Assertions.assertThatCode(() -> sampleTransactionService.outerHasAndInnerMandatory(outerException, innerException))
+        Assertions.assertThatCode(() -> simpleTransactionService.outerHasAndInnerMandatory(outerException, innerException))
                 .hasMessage(EXCEPT_EXCEPTION);
     }
 
@@ -131,7 +134,7 @@ public abstract class TransactionTest {
     @Test
     public void testOuterHasAndInnerRequiresNew() {
         // REQUIRES_NEW
-        Assertions.assertThatCode(() -> sampleTransactionService.outerHasAndInnerRequiresNew(outerException, innerException, false))
+        Assertions.assertThatCode(() -> simpleTransactionService.outerHasAndInnerRequiresNew(outerException, innerException, false))
                 .hasMessage(EXCEPT_EXCEPTION);
     }
 
@@ -142,7 +145,7 @@ public abstract class TransactionTest {
     @Test
     public void testOuterHasAndInnerRequiresNewCatchException() {
         // REQUIRES_NEW
-        sampleTransactionService.outerHasAndInnerRequiresNew(outerException, innerException, true);
+        simpleTransactionService.outerHasAndInnerRequiresNew(outerException, innerException, true);
     }
 
     /**
@@ -153,7 +156,7 @@ public abstract class TransactionTest {
     @Test
     public void testOuterHasAndInnerNotSupported() {
         // NOT_SUPPORTED
-        Assertions.assertThatCode(() -> sampleTransactionService.outerHasAndInnerNotSupported(outerException, innerException, false))
+        Assertions.assertThatCode(() -> simpleTransactionService.outerHasAndInnerNotSupported(outerException, innerException, false))
                 .hasMessage(EXCEPT_EXCEPTION);
     }
 
@@ -164,7 +167,7 @@ public abstract class TransactionTest {
     @Test
     public void testOuterHasAndInnerNotSupportedCatch() {
         // NOT_SUPPORTED
-        sampleTransactionService.outerHasAndInnerNotSupported(outerException, innerException, true);
+        simpleTransactionService.outerHasAndInnerNotSupported(outerException, innerException, true);
     }
 
     /**
@@ -173,7 +176,7 @@ public abstract class TransactionTest {
     @Test
     public void testOuterHasAndInnerNever() {
         // NEVER
-        Assertions.assertThatCode(() -> sampleTransactionService.outerHasAndInnerNever())
+        Assertions.assertThatCode(() -> simpleTransactionService.outerHasAndInnerNever())
                 .isInstanceOf(IllegalTransactionStateException.class);
     }
 
@@ -182,6 +185,9 @@ public abstract class TransactionTest {
      * 内层抛出异常
      */
     public static class InnerThrowException extends TransactionTest {
+        /**
+         * Init.
+         */
         @BeforeAll
         public void init() {
             init(false, true);
@@ -194,6 +200,9 @@ public abstract class TransactionTest {
      */
     public static class OuterThrowException extends TransactionTest {
 
+        /**
+         * Init.
+         */
         @BeforeAll
         public void init() {
             init(true, false);
@@ -201,6 +210,12 @@ public abstract class TransactionTest {
     }
 
 
+    /**
+     * Init.
+     *
+     * @param outerException the outer exception
+     * @param innerException the inner exception
+     */
     protected void init(boolean outerException, boolean innerException) {
         this.outerException = outerException;
         this.innerException = innerException;
@@ -216,8 +231,11 @@ public abstract class TransactionTest {
     @Import(NestedTest.TransactionManagerConfig.class)
     public static class NestedTest {
 
+        /**
+         * The Simple transaction service.
+         */
         @Resource
-        protected SampleTransactionService sampleTransactionService;
+        protected SimpleTransactionService simpleTransactionService;
 
         /**
          * 外层无事务,内层NESTED,内层抛出异常
@@ -225,7 +243,7 @@ public abstract class TransactionTest {
          */
         @Test
         public void testOuterNoAndInnerNestedAtInnerThrowException() {
-            Assertions.assertThatCode(() -> sampleTransactionService.outerNoAndInnerNested(false, true, false))
+            Assertions.assertThatCode(() -> simpleTransactionService.outerNoAndInnerNested(false, true, false))
                     .hasMessage(EXCEPT_EXCEPTION);
         }
 
@@ -235,7 +253,7 @@ public abstract class TransactionTest {
          */
         @Test
         public void testOuterNoAndInnerNestedAtOuterThrowException() {
-            Assertions.assertThatCode(() -> sampleTransactionService.outerNoAndInnerNested(true, false, false))
+            Assertions.assertThatCode(() -> simpleTransactionService.outerNoAndInnerNested(true, false, false))
                     .hasMessage(EXCEPT_EXCEPTION);
         }
 
@@ -245,7 +263,7 @@ public abstract class TransactionTest {
          */
         @Test
         public void testOuterHasAndInnerNestedAtInnerThrowException() {
-            Assertions.assertThatCode(() -> sampleTransactionService.outerHasAndInnerNested(false, true, false))
+            Assertions.assertThatCode(() -> simpleTransactionService.outerHasAndInnerNested(false, true, false))
                     .hasMessage(EXCEPT_EXCEPTION);
         }
 
@@ -255,7 +273,7 @@ public abstract class TransactionTest {
          */
         @Test
         public void testOuterHasAndInnerNestedAtOuterThrowException() {
-            Assertions.assertThatCode(() -> sampleTransactionService.outerHasAndInnerNested(true, false, false))
+            Assertions.assertThatCode(() -> simpleTransactionService.outerHasAndInnerNested(true, false, false))
                     .hasMessage(EXCEPT_EXCEPTION);
         }
 
@@ -265,7 +283,7 @@ public abstract class TransactionTest {
          */
         @Test
         public void testOuterHasAndInnerNestedAtInnerThrowExceptionAndCatchException() {
-            sampleTransactionService.outerHasAndInnerNested(false, true, true);
+            simpleTransactionService.outerHasAndInnerNested(false, true, true);
         }
 
         /**
@@ -276,6 +294,9 @@ public abstract class TransactionTest {
             /**
              * hibernate不支持NESTED事务,因此jpa也不能使用NESTED事务
              * 使用jdbc的事务,jpa无法使用此事务
+             *
+             * @param dataSource the data source
+             * @return the data source transaction manager
              */
             @Bean
             public DataSourceTransactionManager transactionManager(DataSource dataSource) {

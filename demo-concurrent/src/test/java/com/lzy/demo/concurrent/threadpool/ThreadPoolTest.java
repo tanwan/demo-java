@@ -32,6 +32,8 @@ public class ThreadPoolTest {
 
     /**
      * 测试schedule
+     *
+     * @throws InterruptedException the interrupted exception
      */
     @Test
     public void testSchedule() throws InterruptedException {
@@ -45,6 +47,8 @@ public class ThreadPoolTest {
 
     /**
      * 测试scheduleAtFixedRate
+     *
+     * @throws InterruptedException the interrupted exception
      */
     @Test
     public void testscheduleAtFixedRate() throws InterruptedException {
@@ -58,6 +62,8 @@ public class ThreadPoolTest {
 
     /**
      * 测试scheduleWithFixedDelay
+     *
+     * @throws InterruptedException the interrupted exception
      */
     @Test
     public void testScheduleWithFixedDelay() throws InterruptedException {

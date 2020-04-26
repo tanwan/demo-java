@@ -11,6 +11,6 @@ import org.springframework.test.context.ActiveProfiles;
  */
 
 @ActiveProfiles("ehcache")
-public class SpringCacheUseEhcache2Test extends AbstractSpringCacheTest{
+public class SpringCacheUseEhcache2Test extends AbstractSpringCacheTest {
 
 }

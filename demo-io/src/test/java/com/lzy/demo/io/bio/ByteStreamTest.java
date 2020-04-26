@@ -14,7 +14,7 @@ import java.io.*;
  * @version v1.0
  */
 public class ByteStreamTest {
-    private final static String FILE_PATH = "out/test/resources/tempFile.tmp";
+    private static final String FILE_PATH = "out/test/resources/tempFile.tmp";
 
     /**
      * 输入流

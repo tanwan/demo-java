@@ -19,7 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 @ExtendWith(SpringExtension.class)
 public class ScheduledTest {
 
-    @SpringJUnitConfig(classes = {ScheduledCronSample.class})
+    @SpringJUnitConfig(classes = {SimpleScheduledCron.class})
     public static class CronTest extends ScheduledTest {
         /**
          * 测试使用cron
@@ -33,7 +33,7 @@ public class ScheduledTest {
         }
     }
 
-    @SpringJUnitConfig(classes = ScheduledDelaySample.class)
+    @SpringJUnitConfig(classes = SimpleScheduledDelay.class)
     public static class DelayTest extends ScheduledTest {
         /**
          * 上个任务执行完后才执行下一个任务
@@ -46,7 +46,7 @@ public class ScheduledTest {
         }
     }
 
-    @SpringJUnitConfig(classes = ScheduledRateSample.class)
+    @SpringJUnitConfig(classes = SimpleScheduledRate.class)
     public static class RateTest extends ScheduledTest {
         /**
          * 固定周期执行任务,执行的时候,发现上一次的任务还未结束,则此次任务不执行,等待下一次执行
@@ -59,7 +59,7 @@ public class ScheduledTest {
         }
     }
 
-    @SpringJUnitConfig(classes = SchedulingConfigurerSample.class)
+    @SpringJUnitConfig(classes = SimpleSchedulingConfigurer.class)
     public static class SchedulingConfigurerTest extends ScheduledTest {
         /**
          * 使用SchedulingConfigurer创建定时任务
@@ -72,7 +72,7 @@ public class ScheduledTest {
         }
     }
 
-    @SpringJUnitConfig(classes = {ScheduledCronSample.class, ScheduledRateSample.class, ScheduledConfig.class})
+    @SpringJUnitConfig(classes = {SimpleScheduledCron.class, SimpleScheduledRate.class, ScheduledConfig.class})
     public static class ConcurrentTest extends ScheduledTest {
         /**
          * 测试并发执行,同一时间可以并发执行不同的任务

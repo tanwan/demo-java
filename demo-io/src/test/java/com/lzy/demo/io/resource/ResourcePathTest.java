@@ -19,11 +19,11 @@ import java.io.IOException;
  * @version v1.0
  */
 public class ResourcePathTest {
-    private final static String WORKING_DIR = "/Users/lzy/SourceCode/me/demo/demo-java/demo-io";
-    private final static String CLASS_PATH = "file:" + WORKING_DIR + "/out/test/classes/";
-    private final static String FILE_NAME = "tempFile.tmp";
-    private final static String RESOURCE_PATH = "file:" + WORKING_DIR + "/out/test/resources/";
-    private final static String FILE_PATH = RESOURCE_PATH + FILE_NAME;
+    private static final String WORKING_DIR = "/Users/lzy/SourceCode/me/demo/demo-java/demo-io";
+    private static final String CLASS_PATH = "file:" + WORKING_DIR + "/out/test/classes/";
+    private static final String FILE_NAME = "tempFile.tmp";
+    private static final String RESOURCE_PATH = "file:" + WORKING_DIR + "/out/test/resources/";
+    private static final String FILE_PATH = RESOURCE_PATH + FILE_NAME;
 
 
     /**
@@ -130,6 +130,8 @@ public class ResourcePathTest {
 
     /**
      * 使用UrlResource
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testURLResource() throws Exception {

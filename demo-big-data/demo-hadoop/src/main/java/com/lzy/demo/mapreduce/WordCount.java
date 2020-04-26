@@ -33,6 +33,7 @@ public class WordCount {
      * 如果输出文件存在的话,需要清理,gradle的clean已经进行拓展
      *
      * @param args the args
+     * @param conf the conf
      * @throws Exception the exception
      */
     public static void execute(String[] args, Configuration conf) throws Exception {

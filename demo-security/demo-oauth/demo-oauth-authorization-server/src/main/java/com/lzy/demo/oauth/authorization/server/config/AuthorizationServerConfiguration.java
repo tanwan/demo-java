@@ -78,11 +78,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 //设置approvalHandler
                 .userApprovalHandler(userApprovalHandler())
                 //获取access允许使用get和post
-                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
         //配置授权模式生成code的service,默认使用InMemoryAuthorizationCodeServices
         //.authorizationCodeServices()
-        ;
-
     }
 
     /**

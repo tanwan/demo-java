@@ -30,8 +30,7 @@ public class JwtShiroRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        User user
-                = (User) principals.getPrimaryPrincipal();
+        User user = (User) principals.getPrimaryPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.setRoles(user.getRoleSet());
         info.setStringPermissions(user.getPermissionSet());
@@ -50,7 +49,7 @@ public class JwtShiroRealm extends AuthorizingRealm {
             Set<String> roleSet = StringUtils.commaDelimitedListToSet(Optional.ofNullable(claims.get("roles")).map(Object::toString).orElse(""));
             Set<String> permissionSet = StringUtils.commaDelimitedListToSet(Optional.ofNullable(claims.get("permissions")).map(Object::toString).orElse(""));
 
-            User user = new User(username,userId,roleSet,permissionSet,claims.getExpiration());
+            User user = new User(username, userId, roleSet, permissionSet, claims.getExpiration());
             // 这边其实并没有校验密码
             return new SimpleAuthenticationInfo(user, jwtToken.getCredentials(), getName());
         } catch (Exception e) {

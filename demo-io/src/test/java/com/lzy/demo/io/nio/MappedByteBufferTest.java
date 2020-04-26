@@ -19,7 +19,7 @@ import java.nio.channels.FileChannel;
  */
 public class MappedByteBufferTest {
 
-    private final static String FILE_PATH = "out/test/resources/tempFile.tmp";
+    private static final String FILE_PATH = "out/test/resources/tempFile.tmp";
 
     /**
      * Test input.

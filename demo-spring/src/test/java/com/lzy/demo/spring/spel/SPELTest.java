@@ -21,7 +21,7 @@ import java.util.*;
  */
 public class SPELTest {
     private ExpressionParser parser = new SpelExpressionParser();
-    private SPELSampleBean spelSampleBean = new SPELSampleBean();
+    private SimpleSPELBean simpleSpelBean = new SimpleSPELBean();
 
     /**
      * 测试字符表达式
@@ -74,9 +74,9 @@ public class SPELTest {
         //使用[]获取值
         Assertions.assertThat(parser.parseExpression("{1,2,3,4}[0]").getValue()).isEqualTo(1);
         // 从上下文获取值
-        spelSampleBean.setList(Arrays.asList(1, 2));
-        // spelSampleBean有getList方法
-        Assertions.assertThat(parser.parseExpression("list[0]").getValue(spelSampleBean)).isEqualTo(1);
+        simpleSpelBean.setList(Arrays.asList(1, 2));
+        // SimpleSPELBean有getList方法
+        Assertions.assertThat(parser.parseExpression("list[0]").getValue(simpleSpelBean)).isEqualTo(1);
     }
 
     /**
@@ -88,9 +88,9 @@ public class SPELTest {
         Assertions.assertThat(parser.parseExpression("{'key':'value'}['key']").getValue())
                 .isEqualTo("value");
         // 从上下文获取值
-        spelSampleBean.setMap(parser.parseExpression("{'key':'value'}").getValue(Map.class));
-        // spelSampleBean有getMap方法
-        Assertions.assertThat(parser.parseExpression("map['key']").getValue(spelSampleBean))
+        simpleSpelBean.setMap(parser.parseExpression("{'key':'value'}").getValue(Map.class));
+        // SimpleSPELBean有getMap方法
+        Assertions.assertThat(parser.parseExpression("map['key']").getValue(simpleSpelBean))
                 .isEqualTo("value");
     }
 
@@ -99,14 +99,14 @@ public class SPELTest {
      */
     @Test
     public void testMethod() {
-        // 相当于调用了spelSampleBean#method
-        Assertions.assertThat(parser.parseExpression("method('hello world')").getValue(spelSampleBean))
+        // 相当于调用了simpleSpelBean#method
+        Assertions.assertThat(parser.parseExpression("method('hello world')").getValue(simpleSpelBean))
                 .isEqualTo("method:hello world");
 
         //使用等号相当于调用了属性的set方法,这里调用了Demo#setList()
-        Assertions.assertThat(parser.parseExpression("list = {1}").getValue(spelSampleBean))
+        Assertions.assertThat(parser.parseExpression("list = {1}").getValue(simpleSpelBean))
                 .asList().containsExactly(1);
-        Assertions.assertThat(spelSampleBean.getList()).asList().containsExactly(1);
+        Assertions.assertThat(simpleSpelBean.getList()).asList().containsExactly(1);
     }
 
     /**
@@ -124,8 +124,8 @@ public class SPELTest {
                 .isInstanceOf(SPELEnums.class);
 
         // 创建实例
-        Assertions.assertThat(parser.parseExpression("new com.lzy.demo.spring.spel.SPELSampleBean()").getValue())
-                .isInstanceOf(SPELSampleBean.class);
+        Assertions.assertThat(parser.parseExpression("new com.lzy.demo.spring.spel.SimpleSPELBean()").getValue())
+                .isInstanceOf(SimpleSPELBean.class);
 
     }
 
@@ -156,10 +156,10 @@ public class SPELTest {
     public void testTernaryOperator() {
         // 相当于 false?"trueExp":falseExp"
         Assertions.assertThat(parser.parseExpression("false ? 'trueExp' : 'falseExp'").getValue()).isEqualTo("falseExp");
-        // 相当于spelSampleBean.getList()==null?name:"Unknown"
-        Assertions.assertThat(parser.parseExpression("list?:'Unknown'").getValue(spelSampleBean)).isEqualTo("Unknown");
-        // 相当于spelSampleBean.getInnerClass()==null?null?spelSampleBean.getInnerClass().getProperty()
-        Assertions.assertThat(parser.parseExpression("innerClass?.property").getValue(spelSampleBean)).isEqualTo("value");
+        // 相当于simpleSpelBean.getList()==null?name:"Unknown"
+        Assertions.assertThat(parser.parseExpression("list?:'Unknown'").getValue(simpleSpelBean)).isEqualTo("Unknown");
+        // 相当于simpleSpelBean.getInnerClass()==null?null?simpleSpelBean.getInnerClass().getProperty()
+        Assertions.assertThat(parser.parseExpression("innerClass?.property").getValue(simpleSpelBean)).isEqualTo("value");
     }
 
     /**
@@ -189,7 +189,7 @@ public class SPELTest {
 
         //#this获得当前正在计算的值,在这里,#this获得列表的所有值,然后分别执行判断操作,最后输出列表中大于3的值
         Assertions.assertThat(parser.parseExpression("#root.?[#this>3]").getValue(context))
-                .asList().containsExactly(4,5);
+                .asList().containsExactly(4, 5);
     }
 
 }

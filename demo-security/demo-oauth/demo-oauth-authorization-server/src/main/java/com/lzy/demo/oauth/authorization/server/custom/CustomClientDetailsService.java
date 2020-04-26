@@ -41,7 +41,8 @@ public class CustomClientDetailsService implements ClientDetailsService {
                 //这边为了方便,所以没有使用数据库
                 //如果没指定redirect,那么将跳转到参数给定的地址
                 //如果有指定redirect,那么参数给定的地址要跟指定的redirect一致
-                BaseClientDetails clientDetails = new BaseClientDetails(clientId, null, "read,write", "authorization_code,implicit,password,client_credentials,refresh_token", "CLIENT", "http://www.baidu.com,http://127.0.0.1:28080/authorization-code");
+                BaseClientDetails clientDetails = new BaseClientDetails(clientId, null, "read,write",
+                        "authorization_code,implicit,password,client_credentials,refresh_token", "CLIENT", "http://www.baidu.com,http://127.0.0.1:28080/authorization-code");
                 clientDetails.addAdditionalInformation("info", "lzy");
                 // 因为使用DelegatingPasswordEncoder,因此密码需要有{scrypt}来表示该密码是使用何种方式加密的
                 String password = passwordEncoder.encode("secret");

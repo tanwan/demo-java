@@ -30,7 +30,7 @@ public class PatternTest {
     /**
      * 测试问号只匹配一个字符
      *
-     * @return the string
+     * @throws Exception the exception
      */
     @Test
     public void testQuestionMark() throws Exception {
@@ -47,6 +47,8 @@ public class PatternTest {
 
     /**
      * 测试单个星号
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testSingleAsterisk() throws Exception {
@@ -62,7 +64,7 @@ public class PatternTest {
     /**
      * 测试2个星号
      *
-     * @return the string
+     * @throws Exception the exception
      */
     @Test
     public void testDoubleAsterisk() throws Exception {
@@ -86,6 +88,8 @@ public class PatternTest {
 
     /**
      * 测试正则表达式
+     *
+     * @throws Exception the exception
      */
     @Test
     public void regularExpression() throws Exception {
@@ -97,6 +101,8 @@ public class PatternTest {
 
     /**
      * 测试地址映射
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testSuffix() throws Exception {
@@ -108,6 +114,8 @@ public class PatternTest {
 
     /**
      * 测试路径后缀
+     *
+     * @throws Exception the exception
      */
     @Test
     public void suffixPathVariable() throws Exception {

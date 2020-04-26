@@ -25,6 +25,8 @@ public class ClientTest {
 
     /**
      * 测试netty客户端
+     *
+     * @throws InterruptedException the interrupted exception
      */
     @Test
     public void testClient() throws InterruptedException {

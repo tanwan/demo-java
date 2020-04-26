@@ -49,6 +49,9 @@ public class LettuceTest {
 
     /**
      * 测试set
+     *
+     * @throws ExecutionException   the execution exception
+     * @throws InterruptedException the interrupted exception
      */
     @Test
     public void testSet() throws ExecutionException, InterruptedException {

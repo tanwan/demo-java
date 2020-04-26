@@ -81,9 +81,9 @@ public class FluxTest {
                         sink.complete();
                     }
                     return state;
-                }
+                },
                 //可选参数,state的消费者,当generate完成时调用
-                , (state) -> System.out.println("state: " + state));
+                (state) -> System.out.println("state: " + state));
         //这边的subscribe是同步的
         useSameStateFlux.subscribe(System.out::println);
     }
@@ -212,8 +212,9 @@ public class FluxTest {
     public void testHandle() {
         Flux<String> flux = Flux.just(-1, 30, 13, 9, 20)
                 .handle((i, sink) -> {
-                    if (i > 10)
+                    if (i > 10) {
                         sink.next("i:" + i);
+                    }
                 });
 
         flux.subscribe(System.out::println);

@@ -7,6 +7,6 @@ package com.lzy.demo.aspectj.annotation;
  * @author lzy
  * @version v1.0
  */
-@SampleAnnotation
+@SimpleAnnotation
 public class Param {
 }

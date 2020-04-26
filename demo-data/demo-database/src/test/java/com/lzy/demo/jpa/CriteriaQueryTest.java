@@ -6,7 +6,7 @@ package com.lzy.demo.jpa;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lzy.demo.jpa.application.JpaApplication;
-import com.lzy.demo.jpa.dao.SampleJpaDao;
+import com.lzy.demo.jpa.dao.SimpleJpaDaoSimple;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
@@ -25,7 +25,7 @@ import javax.annotation.Resource;
 public class CriteriaQueryTest {
 
     @Resource
-    private SampleJpaDao sampleJpaDao;
+    private SimpleJpaDaoSimple simpleJpaDao;
 
     @Resource
     private ObjectMapper objectMapper;
@@ -34,12 +34,12 @@ public class CriteriaQueryTest {
     /**
      * 使用specification.
      *
-     * @see org.springframework.data.jpa.repository.support.SimpleJpaRepository#findAll(Specification) org.springframework.data.jpa.repository.support.SimpleJpaRepository#findAll(Specification)
+     * @see org.springframework.data.jpa.repository.support.SimpleJpaRepository#findAll(Specification)
      */
     @Test
     public void testSpecification() {
         //同CriteriaQuery
-        System.out.println(sampleJpaDao.findAll((root, query, cb) ->
+        System.out.println(simpleJpaDao.findAll((root, query, cb) ->
                 cb.and(cb.equal(root.get("name").as(String.class), "lzy"))));
     }
 
@@ -48,7 +48,7 @@ public class CriteriaQueryTest {
      */
     @Test
     public void testCriteriaQuery() {
-        System.out.println(sampleJpaDao.criteriaQuery("lzy", 3));
+        System.out.println(simpleJpaDao.criteriaQuery("lzy", 3));
     }
 
     /**
@@ -56,15 +56,17 @@ public class CriteriaQueryTest {
      */
     @Test
     public void testReturnCustom() {
-        System.out.println(sampleJpaDao.criteriaQueryReturnCustom("lzy"));
+        System.out.println(simpleJpaDao.criteriaQueryReturnCustom("lzy"));
     }
 
     /**
      * 测试返回Object
+     *
+     * @throws JsonProcessingException the json processing exception
      */
     @Test
     public void testReturnObject() throws JsonProcessingException {
-        System.out.println(objectMapper.writeValueAsString(sampleJpaDao.criteriaQueryReturnObject("lzy")));
+        System.out.println(objectMapper.writeValueAsString(simpleJpaDao.criteriaQueryReturnObject("lzy")));
     }
 
     /**
@@ -73,7 +75,7 @@ public class CriteriaQueryTest {
     @Test
     public void testReturnTuple() {
         //返回Tuple
-        sampleJpaDao.criteriaQueryReturnTuple("lzy")
+        simpleJpaDao.criteriaQueryReturnTuple("lzy")
                 .forEach(tuple -> {
                     System.out.println(tuple.get("name"));
                     System.out.println(tuple.get(1));
@@ -85,7 +87,7 @@ public class CriteriaQueryTest {
      */
     @Test
     public void testQueryJoin() {
-        sampleJpaDao.criteriaQueryJoin(1, "lzy")
+        simpleJpaDao.criteriaQueryJoin(1, "lzy")
                 .forEach(tuple -> {
                     System.out.println(tuple.get(0));
                     System.out.println(tuple.get(1));

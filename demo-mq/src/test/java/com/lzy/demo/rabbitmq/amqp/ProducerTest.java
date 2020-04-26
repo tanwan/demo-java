@@ -107,7 +107,7 @@ public class ProducerTest extends AbstractAmqpTest {
         String message = "hello world";
         //如果发送到不存在的exchange,那么此channel将会被关闭,因此需要确保发送的exchange是已经存在的
         channel.basicPublish("noExistExchange", "", MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
-        Assertions.assertThatCode(()->channel.queueDeclare("queueName", true, false, false, null))
+        Assertions.assertThatCode(() -> channel.queueDeclare("queueName", true, false, false, null))
                 .isInstanceOf(AlreadyClosedException.class);
     }
 

@@ -143,24 +143,24 @@ public class ProducerTest {
     @TestPropertySource(properties = "spring.rabbitmq.publisher-confirms=false")
     @SpringBootApplication
     @SpringBootTest
-    @SpringJUnitConfig(classes = {DeclarableConfig.class, ProducerTest.TransactionSample.class})
+    @SpringJUnitConfig(classes = {DeclarableConfig.class, ProducerTest.SimpleTransaction.class})
     public static class TransactionTest extends ProducerTest {
         /**
          * Test transaction.
          *
-         * @param transactionSample the transaction sample
+         * @param simpleTransaction the simple transaction
          */
         @Test
-        public void testTransaction(@Autowired TransactionSample transactionSample) {
-            transactionSample.transaction();
+        public void testTransaction(@Autowired SimpleTransaction simpleTransaction) {
+            simpleTransaction.transaction();
         }
     }
 
     /**
-     * The type Transaction sample.
+     * The type SimpleTransaction.
      */
     @Service
-    public static class TransactionSample {
+    public static class SimpleTransaction {
 
         @Resource
         private RabbitTemplate rabbitTemplate;

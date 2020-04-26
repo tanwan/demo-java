@@ -31,7 +31,7 @@ public class CodeGeneratorTest {
     private static final String DATABASE_URL = "localhost:3306/demo";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "123456";
-    private static final String MODULE_NAME = "sample";
+    private static final String MODULE_NAME = "simple";
     private static final String TABLE_NAMES = "new_table";
 
     /**

@@ -14,6 +14,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 /**
+ * The type Consumer test.
+ *
  * @author lzy
  * @version v1.0
  */
@@ -23,18 +25,27 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 @SpringBootTest
 public class ConsumerTest {
 
+    /**
+     * Test consumer.
+     *
+     * @throws InterruptedException the interrupted exception
+     */
     @Test
     public void testConsumer() throws InterruptedException {
         Thread.sleep(1000000);
     }
 
 
+    /**
+     * The type Declare listener.
+     */
     @Component
     public static class DeclareListener {
         /**
          * 在@RabbitListener声明,可以使用spel表达式
          *
          * @param message the message
+         * @throws InterruptedException the interrupted exception
          */
         @RabbitListener(queues = DeclarableConfig.DIRECT_ROUTING_KEY1)
         public void consumer(String message) throws InterruptedException {

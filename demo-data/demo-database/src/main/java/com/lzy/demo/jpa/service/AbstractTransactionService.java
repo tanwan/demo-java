@@ -3,8 +3,8 @@
  */
 package com.lzy.demo.jpa.service;
 
-import com.lzy.demo.jpa.dao.SampleJpaDao;
-import com.lzy.demo.jpa.entity.SampleJpa;
+import com.lzy.demo.jpa.dao.SimpleJpaDaoSimple;
+import com.lzy.demo.jpa.entity.SimpleJpa;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -20,10 +20,10 @@ import javax.annotation.Resource;
 public abstract class AbstractTransactionService {
 
     /**
-     * The Sample jpa dao.
+     * The Simple jpa dao.
      */
     @Resource
-    protected SampleJpaDao sampleJpaDao;
+    protected SimpleJpaDaoSimple simpleJpaDao;
 
     /**
      * The Jdbc template.
@@ -37,9 +37,9 @@ public abstract class AbstractTransactionService {
      * @param name the name
      */
     protected void save(String name) {
-        SampleJpa sampleJpa = new SampleJpa();
-        sampleJpa.setName(name);
-        sampleJpaDao.save(sampleJpa);
+        SimpleJpa simpleJpa = new SimpleJpa();
+        simpleJpa.setName(name);
+        simpleJpaDao.save(simpleJpa);
     }
 
     /**
@@ -48,7 +48,7 @@ public abstract class AbstractTransactionService {
      * @param name the name
      */
     protected void saveUseJDBC(String name) {
-        jdbcTemplate.update("INSERT INTO sample_jpa(name) values (?)", new Object[]{name});
+        jdbcTemplate.update("INSERT INTO simple_jpa(name) values (?)", new Object[]{name});
     }
 
     /**

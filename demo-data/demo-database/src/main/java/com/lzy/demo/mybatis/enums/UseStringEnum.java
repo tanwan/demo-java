@@ -11,16 +11,19 @@ package com.lzy.demo.mybatis.enums;
  */
 public enum UseStringEnum {
 
+
     /**
-     * One sample enum.
+     * One use string enum.
      */
     ONE(1),
+
     /**
-     * Two sample enum.
+     * Two use string enum.
      */
     TWO(2),
+
     /**
-     * Three sample enum.
+     * Three use string enum.
      */
     THREE(3);
     private int code;

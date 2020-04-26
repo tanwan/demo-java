@@ -11,16 +11,19 @@ package com.lzy.demo.mybatis.enums;
  */
 public enum UseIndexEnum {
 
+
     /**
-     * One sample enum.
+     * One use index enum.
      */
     ONE(1),
+
     /**
-     * Two sample enum.
+     * Two use index enum.
      */
     TWO(2),
+
     /**
-     * Three sample enum.
+     * Three use index enum.
      */
     THREE(3);
     private int code;

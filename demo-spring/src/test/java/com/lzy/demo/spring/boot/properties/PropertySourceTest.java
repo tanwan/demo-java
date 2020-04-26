@@ -31,7 +31,8 @@ public class PropertySourceTest {
         /**
          * 测试@PropertySource
          *
-         * @param key the key
+         * @param atConfigurationProperties the at configuration properties
+         * @param key                       the key
          */
         @Test
         public void testPropertySource(@Autowired AtConfigurationProperties atConfigurationProperties, @Value("${key}") String key) {

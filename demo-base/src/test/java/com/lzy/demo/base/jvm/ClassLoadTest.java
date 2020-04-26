@@ -30,6 +30,8 @@ public class ClassLoadTest {
 
     /**
      * 测试自定义类加载器
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testCustomClassLoader() throws Exception {

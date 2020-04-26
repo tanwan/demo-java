@@ -4,9 +4,9 @@
 package com.lzy.demo.jpa;
 
 import com.lzy.demo.jpa.application.JpaApplication;
-import com.lzy.demo.jpa.dao.SampleJpaDao;
-import com.lzy.demo.jpa.entity.SampleJpa;
-import com.lzy.demo.jpa.service.SampleTransactionService;
+import com.lzy.demo.jpa.dao.SimpleJpaDaoSimple;
+import com.lzy.demo.jpa.entity.SimpleJpa;
+import com.lzy.demo.jpa.service.SimpleTransactionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
@@ -27,10 +27,10 @@ import java.util.Arrays;
 public class JpaModifyTest {
 
     @Resource
-    private SampleJpaDao sampleJpaDao;
+    private SimpleJpaDaoSimple simpleJpaDao;
 
     @Resource
-    private SampleTransactionService sampleTransactionService;
+    private SimpleTransactionService simpleTransactionService;
 
 
     /**
@@ -38,9 +38,9 @@ public class JpaModifyTest {
      */
     @Test
     public void testInsert() {
-        SampleJpa sampleJpa = new SampleJpa();
-        sampleJpa.setName("save");
-        sampleJpaDao.save(sampleJpa);
+        SimpleJpa simpleJpa = new SimpleJpa();
+        simpleJpa.setName("save");
+        simpleJpaDao.save(simpleJpa);
     }
 
     /**
@@ -50,11 +50,11 @@ public class JpaModifyTest {
      */
     @Test
     public void testBulkInsert() {
-        SampleJpa sampleJpa1 = new SampleJpa();
-        sampleJpa1.setName("save");
-        SampleJpa sampleJpa2 = new SampleJpa();
-        sampleJpa2.setName("save2");
-        sampleJpaDao.saveAll(Arrays.asList(sampleJpa1, sampleJpa2));
+        SimpleJpa simpleJpa1 = new SimpleJpa();
+        simpleJpa1.setName("save");
+        SimpleJpa simpleJpa2 = new SimpleJpa();
+        simpleJpa2.setName("save2");
+        simpleJpaDao.saveAll(Arrays.asList(simpleJpa1, simpleJpa2));
     }
 
     /**
@@ -63,8 +63,8 @@ public class JpaModifyTest {
     @Test
     public void testDelete() {
         // 先按id查询,然后再调用CrudRepository#delete(T entity)
-        sampleJpaDao.deleteById(10);
-        sampleJpaDao.findById(11).ifPresent(sampleJpaDao::delete);
+        simpleJpaDao.deleteById(10);
+        simpleJpaDao.findById(11).ifPresent(simpleJpaDao::delete);
     }
 
     /**
@@ -72,9 +72,9 @@ public class JpaModifyTest {
      */
     @Test
     public void testUpdateWithoutTransaction() {
-        SampleJpa sampleJpa = sampleJpaDao.findById(1).get();
-        sampleJpa.setName("3");
-        sampleJpaDao.save(sampleJpa);
+        SimpleJpa simpleJpa = simpleJpaDao.findById(1).get();
+        simpleJpa.setName("3");
+        simpleJpaDao.save(simpleJpa);
     }
 
     /**
@@ -82,7 +82,7 @@ public class JpaModifyTest {
      */
     @Test
     public void testUpdateWithTransaction() {
-        sampleTransactionService.update("5");
+        simpleTransactionService.update("5");
     }
 
     /**
@@ -90,6 +90,6 @@ public class JpaModifyTest {
      */
     @Test
     public void testModify() {
-        System.out.println("modify: " + sampleJpaDao.useModifying("lzy", 1));
+        System.out.println("modify: " + simpleJpaDao.useModifying("lzy", 1));
     }
 }

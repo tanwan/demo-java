@@ -13,16 +13,19 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
  */
 public enum UseEnumValueEnum {
 
+
     /**
-     * One sample enum.
+     * One use enum value enum.
      */
     ONE(1),
+
     /**
-     * Two sample enum.
+     * Two use enum value enum.
      */
     TWO(2),
+
     /**
-     * Three sample enum.
+     * Three use enum value enum.
      */
     THREE(3);
 

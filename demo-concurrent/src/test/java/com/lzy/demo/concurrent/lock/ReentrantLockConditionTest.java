@@ -20,6 +20,8 @@ public class ReentrantLockConditionTest {
 
     /**
      * 测试条件
+     *
+     * @throws InterruptedException the interrupted exception
      */
     @Test
     public void testCondition() throws InterruptedException {

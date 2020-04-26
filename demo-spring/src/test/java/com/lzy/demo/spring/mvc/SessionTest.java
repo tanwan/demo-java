@@ -33,6 +33,8 @@ public class SessionTest {
 
     /**
      * 测试session
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testHttpSession() throws Exception {
@@ -50,6 +52,8 @@ public class SessionTest {
 
     /**
      * 测试使用HttpServletRequest 读写session
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testHttpServletRequest() throws Exception {
@@ -68,7 +72,7 @@ public class SessionTest {
     /**
      * 测试使用@SessionAttribute获取session
      *
-     * @return the string
+     * @throws Exception the exception
      */
     @Test
     public void testSessionAttribute() throws Exception {

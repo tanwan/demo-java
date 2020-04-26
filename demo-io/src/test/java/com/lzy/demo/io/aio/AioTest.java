@@ -96,7 +96,7 @@ public class AioTest {
 
         private AsynchronousSocketChannel socketChannel;
 
-        public ReadHandler(AsynchronousSocketChannel socketChannel) {
+        ReadHandler(AsynchronousSocketChannel socketChannel) {
             this.socketChannel = socketChannel;
         }
 

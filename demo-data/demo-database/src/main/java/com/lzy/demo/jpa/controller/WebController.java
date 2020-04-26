@@ -3,7 +3,7 @@
  */
 package com.lzy.demo.jpa.controller;
 
-import com.lzy.demo.jpa.entity.SampleJpa;
+import com.lzy.demo.jpa.entity.SimpleJpa;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,13 +29,13 @@ public class WebController {
     /**
      * 直接按id查询
      *
-     * @param sampleJpa the sample jpa
-     * @return the sample jpa
+     * @param simpleJpa the simple jpa
+     * @return the simple jpa
      * @see DomainClassConverter
      */
     @RequestMapping("/jpa/find/{id}")
-    public SampleJpa findOne(@PathVariable("id") SampleJpa sampleJpa) {
-        return sampleJpa;
+    public SimpleJpa findOne(@PathVariable("id") SimpleJpa simpleJpa) {
+        return simpleJpa;
     }
 
 

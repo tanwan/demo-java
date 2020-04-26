@@ -23,17 +23,17 @@ public class CopyTest {
 
     private int[] src = {1, 2, 3};
 
-    private Sample[] srcSample;
+    private Simple[] srcSimple;
 
     /**
      * Init.
      */
     @BeforeEach
     public void init() {
-        srcSample = new Sample[3];
-        srcSample[0] = new Sample(1);
-        srcSample[1] = new Sample(2);
-        srcSample[2] = new Sample(3);
+        srcSimple = new Simple[3];
+        srcSimple[0] = new Simple(1);
+        srcSimple[1] = new Simple(2);
+        srcSimple[2] = new Simple(3);
     }
 
     /**
@@ -52,11 +52,11 @@ public class CopyTest {
      */
     @Test
     public void testSystemCopyShadowCopy() {
-        Sample[] dest = new Sample[srcSample.length];
-        System.arraycopy(srcSample, 0, dest, 0, 3);
-        Assertions.assertArrayEquals(srcSample, dest);
-        Assertions.assertNotSame(srcSample, dest);
-        Assertions.assertSame(srcSample[0], dest[0]);
+        Simple[] dest = new Simple[srcSimple.length];
+        System.arraycopy(srcSimple, 0, dest, 0, 3);
+        Assertions.assertArrayEquals(srcSimple, dest);
+        Assertions.assertNotSame(srcSimple, dest);
+        Assertions.assertSame(srcSimple[0], dest[0]);
     }
 
 
@@ -76,10 +76,10 @@ public class CopyTest {
      */
     @Test
     public void testArraysCopyOfShadowCopy() {
-        Sample[] dest = Arrays.copyOf(srcSample, 3);
-        Assertions.assertArrayEquals(srcSample, dest);
-        Assertions.assertNotSame(srcSample, dest);
-        Assertions.assertSame(srcSample[0], dest[0]);
+        Simple[] dest = Arrays.copyOf(srcSimple, 3);
+        Assertions.assertArrayEquals(srcSimple, dest);
+        Assertions.assertNotSame(srcSimple, dest);
+        Assertions.assertSame(srcSimple[0], dest[0]);
     }
 
     /**
@@ -87,8 +87,8 @@ public class CopyTest {
      */
     @Test
     public void testStreamToArray() {
-        Sample[] dest = Arrays.stream(srcSample).toArray(Sample[]::new);
-        Assertions.assertArrayEquals(srcSample, dest);
+        Simple[] dest = Arrays.stream(srcSimple).toArray(Simple[]::new);
+        Assertions.assertArrayEquals(srcSimple, dest);
     }
 
     /**
@@ -96,18 +96,18 @@ public class CopyTest {
      */
     @Test
     public void testDeepCopy() {
-        Sample[] dest = SerializationUtils.clone(srcSample);
-        Assertions.assertArrayEquals(srcSample, dest);
-        Assertions.assertNotSame(srcSample[0], dest[0]);
+        Simple[] dest = SerializationUtils.clone(srcSimple);
+        Assertions.assertArrayEquals(srcSimple, dest);
+        Assertions.assertNotSame(srcSimple[0], dest[0]);
     }
 
 
     /**
-     * sample
+     * simple
      */
     @Data
     @AllArgsConstructor
-    private static class Sample implements Serializable {
+    private static class Simple implements Serializable {
         private int value;
     }
 }

@@ -15,15 +15,15 @@ import java.util.List;
  */
 public class Caller {
 
-    private List<AspectSample> aspectSamples;
+    private List<SimpleAspect> simpleAspects;
 
     /**
      * Instantiates a new Caller.
      *
-     * @param aspectSamples the aspect samples
+     * @param simpleAspects the aspect simples
      */
-    public Caller(List<AspectSample> aspectSamples) {
-        this.aspectSamples = aspectSamples;
+    public Caller(List<SimpleAspect> simpleAspects) {
+        this.simpleAspects = simpleAspects;
     }
 
     /**
@@ -32,7 +32,7 @@ public class Caller {
     public void call() {
         System.out.println("Caller call");
         // 不能使用方法引用
-        aspectSamples.forEach(t -> t.call());
+        simpleAspects.forEach(t -> t.call());
     }
 
     /**
@@ -41,7 +41,7 @@ public class Caller {
     public void execution() {
         System.out.println("Caller execution");
         // 不能使用方法引用
-        aspectSamples.forEach(t -> t.execution());
+        simpleAspects.forEach(t -> t.execution());
     }
 
     /**
@@ -50,7 +50,7 @@ public class Caller {
     public void parameterAnnotation() {
         System.out.println("Caller parameterAnnotation");
         // 不能使用方法引用
-        aspectSamples.forEach(t -> t.parameterAnnotation(1, 2));
+        simpleAspects.forEach(t -> t.parameterAnnotation(1, 2));
     }
 
     /**
@@ -59,7 +59,7 @@ public class Caller {
     public void typeAnnotation() {
         System.out.println("Caller parameterAnnotation");
         // 不能使用方法引用
-        aspectSamples.forEach(t -> t.typeAnnotation(new Param(), 2));
+        simpleAspects.forEach(t -> t.typeAnnotation(new Param(), 2));
     }
 
 
@@ -68,7 +68,7 @@ public class Caller {
      */
     public void within() {
         System.out.println("Caller within");
-        aspectSamples.forEach(t -> t.within());
+        simpleAspects.forEach(t -> t.within());
     }
 
 
@@ -77,7 +77,7 @@ public class Caller {
      */
     public void atWithin() {
         System.out.println("Caller atWithin");
-        aspectSamples.forEach(t -> t.atWithin());
+        simpleAspects.forEach(t -> t.atWithin());
     }
 
     /**
@@ -85,7 +85,7 @@ public class Caller {
      */
     public void thiz() {
         System.out.println("Caller thiz");
-        aspectSamples.forEach(t -> t.thiz());
+        simpleAspects.forEach(t -> t.thiz());
     }
 
     /**
@@ -93,7 +93,7 @@ public class Caller {
      */
     public void thisArgs() {
         System.out.println("Caller thisArgs");
-        aspectSamples.forEach(t -> t.thisArgs());
+        simpleAspects.forEach(t -> t.thisArgs());
     }
 
 
@@ -102,7 +102,7 @@ public class Caller {
      */
     public void target() {
         System.out.println("Caller target");
-        aspectSamples.forEach(t -> t.target());
+        simpleAspects.forEach(t -> t.target());
     }
 
     /**
@@ -110,7 +110,7 @@ public class Caller {
      */
     public void atTarget() {
         System.out.println("Caller atTarget");
-        aspectSamples.forEach(t -> t.atTarget());
+        simpleAspects.forEach(t -> t.atTarget());
     }
 
     /**
@@ -118,7 +118,7 @@ public class Caller {
      */
     public void targetArgs() {
         System.out.println("Caller targetArgs");
-        aspectSamples.forEach(t -> t.targetArgs());
+        simpleAspects.forEach(t -> t.targetArgs());
     }
 
     /**
@@ -126,7 +126,7 @@ public class Caller {
      */
     public void args() {
         System.out.println("Caller args");
-        aspectSamples.forEach(t -> t.args(1));
+        simpleAspects.forEach(t -> t.args(1));
     }
 
 
@@ -135,7 +135,7 @@ public class Caller {
      */
     public void atArgs() {
         System.out.println("Caller args");
-        aspectSamples.forEach(t -> t.atArgs(new Param(), 1, 2));
+        simpleAspects.forEach(t -> t.atArgs(new Param(), 1, 2));
     }
 
     /**
@@ -143,7 +143,7 @@ public class Caller {
      */
     public void atAnnotation() {
         System.out.println("Caller atAnnotation");
-        aspectSamples.forEach(t -> t.atAnnotation());
+        simpleAspects.forEach(t -> t.atAnnotation());
     }
 
 
@@ -152,7 +152,7 @@ public class Caller {
      */
     public void handler() {
         System.out.println("Caller handler");
-        aspectSamples.forEach(t -> t.handler());
+        simpleAspects.forEach(t -> t.handler());
     }
 
     /**
@@ -160,7 +160,7 @@ public class Caller {
      */
     public void order() {
         System.out.println("Caller order");
-        aspectSamples.forEach(t -> t.order());
+        simpleAspects.forEach(t -> t.order());
     }
 
     /**
@@ -168,6 +168,6 @@ public class Caller {
      */
     public void clause() {
         System.out.println("Caller clause");
-        aspectSamples.forEach(t -> t.clause());
+        simpleAspects.forEach(t -> t.clause());
     }
 }

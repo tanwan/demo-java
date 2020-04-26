@@ -6,7 +6,7 @@ package com.lzy.demo.jpa;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lzy.demo.jpa.application.JpaApplication;
-import com.lzy.demo.jpa.dao.SampleJpaDao;
+import com.lzy.demo.jpa.dao.SimpleJpaDaoSimple;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +28,7 @@ import java.util.Arrays;
 public class JpaQueryTest {
 
     @Resource
-    private SampleJpaDao sampleJpaDao;
+    private SimpleJpaDaoSimple simpleJpaDao;
 
     @Resource
     private ObjectMapper objectMapper;
@@ -43,22 +43,24 @@ public class JpaQueryTest {
         Sort.Order order2 = new Sort.Order(Sort.Direction.DESC, "createTime");
         Sort sort = Sort.by(Arrays.asList(order1, order2));
         //使用Sort
-        System.out.println(sampleJpaDao.findByName("lzy", sort));
+        System.out.println(simpleJpaDao.findByName("lzy", sort));
 
         //使用Sort
-        System.out.println(sampleJpaDao.sortQuery("lzy", Sort.by(Sort.Order.desc("createTime"))));
+        System.out.println(simpleJpaDao.sortQuery("lzy", Sort.by(Sort.Order.desc("createTime"))));
     }
 
 
     /**
      * 测试分页
+     *
+     * @throws JsonProcessingException the json processing exception
      */
     @Test
     public void testPage() throws JsonProcessingException {
         //使用分页 0表示第一页
         Pageable pageable = PageRequest.of(0, 2, Sort.by(Sort.Direction.DESC, "id"));
-        System.out.println(objectMapper.writeValueAsString(sampleJpaDao.findByName("lzy", pageable)));
-        System.out.println(objectMapper.writeValueAsString(sampleJpaDao.pageQuery("lzy", pageable)));
+        System.out.println(objectMapper.writeValueAsString(simpleJpaDao.findByName("lzy", pageable)));
+        System.out.println(objectMapper.writeValueAsString(simpleJpaDao.pageQuery("lzy", pageable)));
     }
 
     /**
@@ -66,7 +68,7 @@ public class JpaQueryTest {
      */
     @Test
     public void testInQuery() {
-        System.out.println(sampleJpaDao.inQuery(Arrays.asList(1, 2, 3)));
+        System.out.println(simpleJpaDao.inQuery(Arrays.asList(1, 2, 3)));
     }
 
 
@@ -75,49 +77,59 @@ public class JpaQueryTest {
      */
     @Test
     public void testReturnList() {
-        System.out.println(sampleJpaDao.returnList("lzy"));
+        System.out.println(simpleJpaDao.returnList("lzy"));
     }
 
     /**
      * 测试返回{@code List<Map<String,Object>>}
+     *
+     * @throws JsonProcessingException the json processing exception
      */
     @Test
     public void testReturnListMap() throws JsonProcessingException {
-        System.out.println(objectMapper.writeValueAsString(sampleJpaDao.returnListMap("lzy")));
+        System.out.println(objectMapper.writeValueAsString(simpleJpaDao.returnListMap("lzy")));
     }
 
     /**
      * 测试返回{@code List<Object[]>}
+     *
+     * @throws JsonProcessingException the json processing exception
      */
     @Test
     public void testReturnListObjects() throws JsonProcessingException {
-        System.out.println(objectMapper.writeValueAsString(sampleJpaDao.returnListObjects()));
+        System.out.println(objectMapper.writeValueAsString(simpleJpaDao.returnListObjects()));
     }
 
     /**
      * 测试返回Object
+     *
+     * @throws JsonProcessingException the json processing exception
      */
     @Test
     public void testReturnObject() throws JsonProcessingException {
         // 其实是数组
-        System.out.println(objectMapper.writeValueAsString(sampleJpaDao.returnObject()));
+        System.out.println(objectMapper.writeValueAsString(simpleJpaDao.returnObject()));
     }
 
     /**
      * 测试返回Object数组
+     *
+     * @throws JsonProcessingException the json processing exception
      */
     @Test
     public void testReturnObjects() throws JsonProcessingException {
         // 其实是二维数组
-        System.out.println(objectMapper.writeValueAsString(sampleJpaDao.returnObjects()));
+        System.out.println(objectMapper.writeValueAsString(simpleJpaDao.returnObjects()));
     }
 
     /**
      * 测试返回Map
+     *
+     * @throws JsonProcessingException the json processing exception
      */
     @Test
     public void testReturnMap() throws JsonProcessingException {
-        System.out.println(objectMapper.writeValueAsString(sampleJpaDao.returnMap()));
+        System.out.println(objectMapper.writeValueAsString(simpleJpaDao.returnMap()));
     }
 
     /**
@@ -125,17 +137,19 @@ public class JpaQueryTest {
      */
     @Test
     public void testNativeQuery() {
-        System.out.println(sampleJpaDao.nativeQuery(1));
+        System.out.println(simpleJpaDao.nativeQuery(1));
     }
 
     /**
      * 测试使用原生sql
+     *
+     * @throws JsonProcessingException the json processing exception
      */
     @Test
     public void testNativeQueryPage() throws JsonProcessingException {
         Pageable pageable = PageRequest.of(0, 2);
         //使用nativeQuery
-        System.out.println(objectMapper.writeValueAsString(sampleJpaDao.nativeQueryPage("lzy", pageable)));
+        System.out.println(objectMapper.writeValueAsString(simpleJpaDao.nativeQueryPage("lzy", pageable)));
     }
 
     /**
@@ -143,7 +157,7 @@ public class JpaQueryTest {
      */
     @Test
     public void testCustomQuery() {
-        System.out.println(sampleJpaDao.customQuery("lzy"));
+        System.out.println(simpleJpaDao.customQuery("lzy"));
     }
 
 
@@ -152,6 +166,6 @@ public class JpaQueryTest {
      */
     @Test
     public void testCompletableFuture() {
-        sampleJpaDao.findByName("lzy").whenComplete((list, e) -> System.out.println(list));
+        simpleJpaDao.findByName("lzy").whenComplete((list, e) -> System.out.println(list));
     }
 }

@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 /**
+ * The type Consumer test.
+ *
  * @author lzy
  * @version v1.0
  */
@@ -21,6 +23,8 @@ public class ConsumerTest {
 
     /**
      * 测试消费
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testConsumer() throws Exception {

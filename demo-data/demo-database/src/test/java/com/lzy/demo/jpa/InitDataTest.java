@@ -20,6 +20,8 @@ public class InitDataTest {
 
     /**
      * 测试数据初始化
+     *
+     * @throws ClassNotFoundException the class not found exception
      */
     @Test
     public void testInitData() throws ClassNotFoundException {

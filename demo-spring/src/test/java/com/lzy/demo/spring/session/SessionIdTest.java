@@ -53,15 +53,16 @@ public class SessionIdTest {
      */
     @SpringJUnitConfig(classes = UseJavaConfig.CookieConfig.class)
     public static class UseJavaConfig extends SessionTest {
-        private final static String COOKIE_NAME = "COOKIE_NAME";
+        private static final String COOKIE_NAME = "COOKIE_NAME";
 
         @Configuration
         public static class CookieConfig {
             /**
              * 配置session的cookie
+             *
+             * @return the cookie serializer
              * @see SpringHttpSessionConfiguration#init()
              * @see SpringHttpSessionConfiguration#setCookieSerializer(org.springframework.session.web.http.CookieSerializer)
-             * @return the cookie serializer
              */
             @Bean
             public CookieSerializer cookieSerializer() {
@@ -92,15 +93,16 @@ public class SessionIdTest {
      */
     @SpringJUnitConfig(classes = UseHeadSessionId.HeaderHttpSessionIdResolverConfig.class)
     public static class UseHeadSessionId extends SessionTest {
-        private final static String HEADER_NAME = "HEADER_NAME";
+        private static final String HEADER_NAME = "HEADER_NAME";
 
         @Configuration
         public static class HeaderHttpSessionIdResolverConfig {
             /**
              * 配置session的cookie
+             *
+             * @return the cookie serializer
              * @see SpringHttpSessionConfiguration#setHttpSessionIdResolver(org.springframework.session.web.http.HttpSessionIdResolver)
              * @see SpringHttpSessionConfiguration#springSessionRepositoryFilter(org.springframework.session.SessionRepository)
-             * @return the cookie serializer
              */
             @Bean
             public HeaderHttpSessionIdResolver headerHttpSessionIdResolver() {

@@ -4,8 +4,8 @@
 package com.lzy.demo.mongo;
 
 import com.lzy.demo.mongo.config.MongoConfiguration;
-import com.lzy.demo.mongo.model.MongoSample;
-import com.lzy.demo.mongo.repository.MongoSampleRepository;
+import com.lzy.demo.mongo.model.SimpleMongo;
+import com.lzy.demo.mongo.repository.SimpleMongoRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
@@ -29,16 +29,16 @@ import javax.annotation.Resource;
 public class SpringMongoTest {
 
     @Resource
-    private MongoSampleRepository mongoSampleRepository;
+    private SimpleMongoRepository simpleMongoRepository;
 
     /**
      * 测试保存
      */
     @Test
     public void testSave() {
-        MongoSample mongoSample = new MongoSample();
-        mongoSample.setAge(24);
-        mongoSample.setName("lzy");
-        mongoSampleRepository.save(mongoSample);
+        SimpleMongo simpleMongo = new SimpleMongo();
+        simpleMongo.setAge(24);
+        simpleMongo.setName("lzy");
+        simpleMongoRepository.save(simpleMongo);
     }
 }

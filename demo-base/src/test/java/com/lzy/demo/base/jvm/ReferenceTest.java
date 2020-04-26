@@ -3,7 +3,7 @@
  */
 package com.lzy.demo.base.jvm;
 
-import com.lzy.demo.base.jvm.reference.SoftReferenceSample;
+import com.lzy.demo.base.jvm.reference.SimpleSoftReference;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -22,15 +22,15 @@ public class ReferenceTest {
      */
     @Test
     public void testSoftReference() {
-        SoftReferenceSample softReferenceSample = new SoftReferenceSample();
-        System.out.println("data length: " + softReferenceSample.getSoftReferenceData().length);
-        if (softReferenceSample.getSoftReferenceData().length > 0) {
+        SimpleSoftReference simpleSoftReference = new SimpleSoftReference();
+        System.out.println("data length: " + simpleSoftReference.getSoftReferenceData().length);
+        if (simpleSoftReference.getSoftReferenceData().length > 0) {
             List<byte[]> list = new ArrayList<>();
             for (int i = 0; i < 6; i++) {
                 System.out.println("new byte[]");
-                list.add(new byte[SoftReferenceSample._1MB]);
+                list.add(new byte[SimpleSoftReference._1MB]);
             }
         }
-        System.out.println("data length: " + softReferenceSample.getSoftReferenceData().length);
+        System.out.println("data length: " + simpleSoftReference.getSoftReferenceData().length);
     }
 }

@@ -24,6 +24,8 @@ public class InnerTransactionService extends AbstractTransactionService {
 
     /**
      * 内部无事务
+     *
+     * @param throwException the throw exception
      */
     public void no(boolean throwException) {
         registerCallback(SERVICE_NAME);
@@ -33,6 +35,8 @@ public class InnerTransactionService extends AbstractTransactionService {
 
     /**
      * 内部Propagation.SUPPORTS
+     *
+     * @param throwException the throw exception
      */
     @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
     public void supports(boolean throwException) {
@@ -43,6 +47,8 @@ public class InnerTransactionService extends AbstractTransactionService {
 
     /**
      * 内部Propagation.NOT_SUPPORTED
+     *
+     * @param throwException the throw exception
      */
     @Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
     public void notSupported(boolean throwException) {
@@ -53,6 +59,8 @@ public class InnerTransactionService extends AbstractTransactionService {
 
     /**
      * 内部Propagation.MANDATORY
+     *
+     * @param throwException the throw exception
      */
     @Transactional(propagation = Propagation.MANDATORY, rollbackFor = Exception.class)
     public void mandatory(boolean throwException) {
@@ -63,6 +71,8 @@ public class InnerTransactionService extends AbstractTransactionService {
 
     /**
      * 内部Propagation.REQUIRED
+     *
+     * @param throwException the throw exception
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void required(boolean throwException) {
@@ -73,6 +83,8 @@ public class InnerTransactionService extends AbstractTransactionService {
 
     /**
      * 内部Propagation.REQUIRES_NEW
+     *
+     * @param throwException the throw exception
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     public void requiresNew(boolean throwException) {
@@ -83,6 +95,8 @@ public class InnerTransactionService extends AbstractTransactionService {
 
     /**
      * 内部Propagation.NEVER
+     *
+     * @param throwException the throw exception
      */
     @Transactional(propagation = Propagation.NEVER, rollbackFor = Exception.class)
     public void never(boolean throwException) {
@@ -93,6 +107,8 @@ public class InnerTransactionService extends AbstractTransactionService {
 
     /**
      * 内部事务
+     *
+     * @param throwException the throw exception
      */
     @Transactional(propagation = Propagation.NESTED, rollbackFor = Exception.class)
     public void nested(boolean throwException) {

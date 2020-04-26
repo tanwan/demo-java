@@ -4,7 +4,7 @@
 package com.lzy.demo.jpa;
 
 import com.lzy.demo.jpa.application.JpaApplication;
-import com.lzy.demo.jpa.service.SampleCacheService;
+import com.lzy.demo.jpa.service.SimpleCacheService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -21,14 +21,14 @@ import javax.annotation.Resource;
 @TestPropertySource(properties = "spring.config.location=classpath:jpa/jpa-hakari.yml")
 public class CacheTest {
     @Resource
-    protected SampleCacheService sampleCacheService;
+    protected SimpleCacheService simpleCacheService;
 
     /**
      * 一级缓存是Session级别的,不在同一事务下,没有一级缓存
      */
     @Test
     public void testFirstLevelCacheWithoutTransactional() {
-        sampleCacheService.firstLevelCacheWithoutTransactional(1);
+        simpleCacheService.firstLevelCacheWithoutTransactional(1);
     }
 
     /**
@@ -36,7 +36,7 @@ public class CacheTest {
      */
     @Test
     public void testFirstLevelCacheWithTransactional() {
-        sampleCacheService.firstLevelCacheWithTransactional(1);
+        simpleCacheService.firstLevelCacheWithTransactional(1);
     }
 
 
@@ -47,7 +47,7 @@ public class CacheTest {
          */
         @Test
         public void testSecondLevelCache() {
-            sampleCacheService.secondLevelCache(1, 2);
+            simpleCacheService.secondLevelCache(1, 2);
         }
 
         /**
@@ -55,7 +55,7 @@ public class CacheTest {
          */
         @Test
         public void testQueryHint() {
-            sampleCacheService.queryHint();
+            simpleCacheService.queryHint();
         }
 
         /**
@@ -63,7 +63,7 @@ public class CacheTest {
          */
         @Test
         public void testQueryCache() {
-            sampleCacheService.queryCache();
+            simpleCacheService.queryCache();
         }
     }
 
@@ -74,7 +74,7 @@ public class CacheTest {
          */
         @Test
         public void testSecondLevelCache() {
-            sampleCacheService.secondLevelCache(1, 2);
+            simpleCacheService.secondLevelCache(1, 2);
         }
 
         /**
@@ -82,7 +82,7 @@ public class CacheTest {
          */
         @Test
         public void testQueryHint() {
-            sampleCacheService.queryHint();
+            simpleCacheService.queryHint();
         }
 
         /**
@@ -90,7 +90,7 @@ public class CacheTest {
          */
         @Test
         public void testQueryCache() {
-            sampleCacheService.queryCache();
+            simpleCacheService.queryCache();
         }
     }
 }

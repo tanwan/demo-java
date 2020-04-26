@@ -3,8 +3,8 @@
  */
 package com.lzy.demo.aspectj;
 
-import com.lzy.demo.aspectj.bean.AspectSampleBean1;
-import com.lzy.demo.aspectj.bean.AspectSampleBean2;
+import com.lzy.demo.aspectj.bean.SimpleAspectBean1;
+import com.lzy.demo.aspectj.bean.SimpleAspectBean2;
 import com.lzy.demo.aspectj.bean.Caller;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +25,7 @@ public class AspectJTest {
      */
     @Test
     public void testCall() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).call();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).call();
     }
 
 
@@ -34,7 +34,7 @@ public class AspectJTest {
      */
     @Test
     public void testExecution() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).execution();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).execution();
     }
 
     /**
@@ -42,7 +42,7 @@ public class AspectJTest {
      */
     @Test
     public void testParameterAnnotation() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).parameterAnnotation();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).parameterAnnotation();
     }
 
     /**
@@ -50,7 +50,7 @@ public class AspectJTest {
      */
     @Test
     public void typeAnnotation() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).typeAnnotation();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).typeAnnotation();
     }
 
 
@@ -59,7 +59,7 @@ public class AspectJTest {
      */
     @Test
     public void testWithin() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).within();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).within();
     }
 
     /**
@@ -67,7 +67,7 @@ public class AspectJTest {
      */
     @Test
     public void testAtWithin() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).atWithin();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).atWithin();
     }
 
     /**
@@ -75,7 +75,7 @@ public class AspectJTest {
      */
     @Test
     public void testThis() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).thiz();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).thiz();
     }
 
     /**
@@ -83,7 +83,7 @@ public class AspectJTest {
      */
     @Test
     public void testThisArgs() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).thisArgs();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).thisArgs();
     }
 
     /**
@@ -91,7 +91,7 @@ public class AspectJTest {
      */
     @Test
     public void testTarget() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).target();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).target();
     }
 
     /**
@@ -99,7 +99,7 @@ public class AspectJTest {
      */
     @Test
     public void testAtTarget() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).atTarget();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).atTarget();
     }
 
     /**
@@ -107,7 +107,7 @@ public class AspectJTest {
      */
     @Test
     public void testTargetArgs() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).targetArgs();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).targetArgs();
     }
 
     /**
@@ -115,7 +115,7 @@ public class AspectJTest {
      */
     @Test
     public void testArgs() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).args();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).args();
     }
 
     /**
@@ -123,7 +123,7 @@ public class AspectJTest {
      */
     @Test
     public void testAtArgs() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).atArgs();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).atArgs();
     }
 
     /**
@@ -131,7 +131,7 @@ public class AspectJTest {
      */
     @Test
     public void testAtAnnotation() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).atAnnotation();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).atAnnotation();
     }
 
     /**
@@ -139,7 +139,7 @@ public class AspectJTest {
      */
     @Test
     public void testHandler() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).handler();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).handler();
     }
 
     /**
@@ -147,7 +147,7 @@ public class AspectJTest {
      */
     @Test
     public void testOrder() {
-        new Caller(Collections.singletonList(new AspectSampleBean1())).order();
+        new Caller(Collections.singletonList(new SimpleAspectBean1())).order();
     }
 
     /**
@@ -155,6 +155,6 @@ public class AspectJTest {
      */
     @Test
     public void testClause() {
-        new Caller(Arrays.asList(new AspectSampleBean1(), new AspectSampleBean2())).clause();
+        new Caller(Arrays.asList(new SimpleAspectBean1(), new SimpleAspectBean2())).clause();
     }
 }

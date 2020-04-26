@@ -4,9 +4,9 @@
 package com.lzy.demo.jpa;
 
 import com.lzy.demo.jpa.application.JpaApplication;
-import com.lzy.demo.jpa.dao.SampleOptimisticLockDao;
-import com.lzy.demo.jpa.entity.SampleOptimisticLock;
-import com.lzy.demo.jpa.service.SampleLockService;
+import com.lzy.demo.jpa.dao.SimpleOptimisticLockDao;
+import com.lzy.demo.jpa.entity.SimpleOptimisticLock;
+import com.lzy.demo.jpa.service.SimpleLockService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,19 +28,19 @@ public class LockTest {
 
 
     @Resource
-    private SampleOptimisticLockDao sampleOptimisticLockDao;
+    private SimpleOptimisticLockDao simpleOptimisticLockDao;
 
     @Resource
-    private SampleLockService sampleLockService;
+    private SimpleLockService simpleLockService;
 
     /**
      * 测试Version
      */
     @Test
     public void testVersion() {
-        SampleOptimisticLock sampleOptimisticLock = sampleOptimisticLockDao.findById(1).get();
-        sampleOptimisticLock.setName("5");
-        sampleOptimisticLockDao.save(sampleOptimisticLock);
+        SimpleOptimisticLock simpleOptimisticLock = simpleOptimisticLockDao.findById(1).get();
+        simpleOptimisticLock.setName("5");
+        simpleOptimisticLockDao.save(simpleOptimisticLock);
     }
 
     /**
@@ -55,16 +55,16 @@ public class LockTest {
     @Test
     public void testOptimistic() throws InterruptedException {
         // 模拟一个读线程获取实体,获取实体后,会等待2秒模拟耗时操作
-        new Thread(() -> sampleLockService.optimisticForRead("readThread1")).start();
+        new Thread(() -> simpleLockService.optimisticForRead("readThread1")).start();
         Thread.sleep(200);
         // 模拟另一个读线程获取实体
-        new Thread(() -> Assertions.assertThatCode(() -> sampleLockService.optimisticForRead("readThread2"))
+        new Thread(() -> Assertions.assertThatCode(() -> simpleLockService.optimisticForRead("readThread2"))
                 .doesNotThrowAnyException()).start();
 
         // 模拟一个写线程进行更新实体
-        new Thread(() -> sampleLockService.updateOptimisticLock()).start();
+        new Thread(() -> simpleLockService.updateOptimisticLock()).start();
         // 模拟另一个写线程进行更新实体
-        new Thread(() -> sampleLockService.updateOptimisticLock()).start();
+        new Thread(() -> simpleLockService.updateOptimisticLock()).start();
         Thread.sleep(5000);
     }
 
@@ -80,13 +80,13 @@ public class LockTest {
     @Test
     public void testOptimisticForceIncrement() throws InterruptedException {
         // 模拟一个读线程获取实体,获取实体后,会等待2秒模拟耗时操作
-        new Thread(() -> sampleLockService.optimisticForceIncrementForRead("readThread1")).start();
+        new Thread(() -> simpleLockService.optimisticForceIncrementForRead("readThread1")).start();
         Thread.sleep(200);
         // 模拟另一个读线程获取实体
-        new Thread(() -> sampleLockService.optimisticForceIncrementForRead("readThread2")).start();
+        new Thread(() -> simpleLockService.optimisticForceIncrementForRead("readThread2")).start();
 
         // 模拟一个写线程进行更新实体
-        new Thread(() -> sampleLockService.updateOptimisticLock()).start();
+        new Thread(() -> simpleLockService.updateOptimisticLock()).start();
         Thread.sleep(5000);
     }
 
@@ -102,12 +102,12 @@ public class LockTest {
     @Test
     public void testPessimisticRead() throws InterruptedException {
         // 模拟一个读线程获取实体,获取实体后,会等待2秒模拟耗时操作
-        new Thread(() -> sampleLockService.pessimisticReadForRead("read1")).start();
+        new Thread(() -> simpleLockService.pessimisticReadForRead("read1")).start();
         Thread.sleep(200);
         // 模拟另一个读线程获取实体
-        new Thread(() -> sampleLockService.pessimisticReadForRead("read2")).start();
+        new Thread(() -> simpleLockService.pessimisticReadForRead("read2")).start();
         // 模拟一个写线程进行更新实体,这个线程更新成功后打印的时间比读线程多了4秒(如果不阻塞,应该是2秒)
-        new Thread(() -> sampleLockService.updateLock()).start();
+        new Thread(() -> simpleLockService.updateLock()).start();
         Thread.sleep(5000);
     }
 
@@ -121,9 +121,9 @@ public class LockTest {
     @Test
     public void testPessimisticReadWrite() throws InterruptedException {
         // 模拟一个写线程进行更新实体
-        new Thread(() -> sampleLockService.pessimisticReadForWrite()).start();
+        new Thread(() -> simpleLockService.pessimisticReadForWrite()).start();
         // 模拟另一个写线程进行更新实体
-        new Thread(() -> sampleLockService.pessimisticReadForWrite()).start();
+        new Thread(() -> simpleLockService.pessimisticReadForWrite()).start();
         Thread.sleep(1000);
     }
 
@@ -139,15 +139,15 @@ public class LockTest {
     @Test
     public void testPessimisticWrite() throws InterruptedException {
         // 模拟一个读线程获取实体,获取实体后,会等待2秒模拟耗时操作
-        new Thread(() -> sampleLockService.pessimisticWriteForRead("read1")
+        new Thread(() -> simpleLockService.pessimisticWriteForRead("read1")
         ).start();
         Thread.sleep(200);
         // 模拟另一个读线程获取实体,这个线程打印的时间比前一个读线程多了2秒(因为阻塞)
-        new Thread(() -> sampleLockService.pessimisticWriteForRead("read2")
+        new Thread(() -> simpleLockService.pessimisticWriteForRead("read2")
         ).start();
         Thread.sleep(200);
         // 模拟一个写线程进行更新实体,这个线程更新成功后打印的时间比读线程多了4秒(如果不阻塞,应该是2秒)
-        new Thread(() -> sampleLockService.updateLock()).start();
+        new Thread(() -> simpleLockService.updateLock()).start();
         Thread.sleep(8000);
     }
 
@@ -162,10 +162,10 @@ public class LockTest {
      */
     @Test
     public void testPessimisticForceIncrement() throws InterruptedException {
-        new Thread(() -> sampleLockService.pessimisticForceIncrementForRead("read1")).start();
+        new Thread(() -> simpleLockService.pessimisticForceIncrementForRead("read1")).start();
         Thread.sleep(200);
-        new Thread(() -> sampleLockService.pessimisticForceIncrementForRead("read2")).start();
-        new Thread(() -> sampleLockService.updateOptimisticLock()).start();
+        new Thread(() -> simpleLockService.pessimisticForceIncrementForRead("read2")).start();
+        new Thread(() -> simpleLockService.updateOptimisticLock()).start();
         Thread.sleep(8000);
     }
 }

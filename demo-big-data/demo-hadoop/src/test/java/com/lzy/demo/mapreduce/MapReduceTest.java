@@ -55,6 +55,8 @@ public class MapReduceTest {
 
     /**
      * 把任务提交到远程的hadoop执行
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testRealHadoopWordCount() throws Exception {

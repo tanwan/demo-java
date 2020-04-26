@@ -92,6 +92,8 @@ public class SocketChannelTest {
 
     /**
      * 阻塞模式客户端
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testBlockingClient() throws Exception {

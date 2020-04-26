@@ -32,6 +32,8 @@ public class DatasetTest {
 
     /**
      * Test remote.
+     *
+     * @throws UnknownHostException the unknown host exception
      */
     @Test
     public void testRemote() throws UnknownHostException {

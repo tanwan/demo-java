@@ -5,7 +5,7 @@ package com.lzy.demo.spring.mvc;
 
 import com.lzy.demo.spring.mvc.application.MVCApplication;
 import com.lzy.demo.spring.mvc.config.CrosFilterConfig;
-import com.lzy.demo.spring.mvc.controller.SampleRestController;
+import com.lzy.demo.spring.mvc.controller.SimpleRestController;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
  * @version v1.0
  */
 @SpringBootTest(classes = MVCApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@SpringJUnitConfig(classes = {SampleRestController.class, CrosFilterConfig.class})
+@SpringJUnitConfig(classes = {SimpleRestController.class, CrosFilterConfig.class})
 public class CrosTest {
 
     /**

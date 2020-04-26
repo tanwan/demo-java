@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 import java.util.concurrent.RecursiveTask;
@@ -20,8 +19,8 @@ import java.util.stream.IntStream;
  *
  * @author LZY
  * @version v1.0
- * @see RecursiveTask 有返回值的
- * @see java.util.concurrent.RecursiveAction 没有返回值的
+ * @see RecursiveTask有返回值的
+ * @see java.util.concurrent.RecursiveAction没有返回值的
  */
 public class ForkJoinTest {
     //最大任务数
@@ -31,22 +30,21 @@ public class ForkJoinTest {
     /**
      * 测试fork join
      *
-     * @throws ExecutionException   the execution exception
-     * @throws InterruptedException the interrupted exception
+     * @throws Exception the exception
      */
     @Test
     public void testForkJoin() throws Exception {
         List<Integer> list = IntStream.range(1, 101).boxed().collect(Collectors.toList());
         int sizeThread = (int) Math.ceil(1.0 * list.size() / MAX_TASK);
         ForkJoinPool forkJoinPool = new ForkJoinPool();
-        ForkJoinSample forkJoinSample = new ForkJoinSample(list, sizeThread);
-        Future<Integer> result = forkJoinPool.submit(forkJoinSample);
+        SimpleForkJoin simpleForkJoin = new SimpleForkJoin(list, sizeThread);
+        Future<Integer> result = forkJoinPool.submit(simpleForkJoin);
         System.out.println(result.get());
     }
 
-    private static class ForkJoinSample extends RecursiveTask<Integer> {
+    private static class SimpleForkJoin extends RecursiveTask<Integer> {
 
-        private static Logger logger = LoggerFactory.getLogger(ForkJoinSample.class);
+        private static Logger logger = LoggerFactory.getLogger(SimpleForkJoin.class);
 
         private List<Integer> list;
 
@@ -60,7 +58,7 @@ public class ForkJoinTest {
          * @param list     the list
          * @param sizeTask the size thread
          */
-        public ForkJoinSample(List<Integer> list, int sizeTask) {
+        SimpleForkJoin(List<Integer> list, int sizeTask) {
             this.list = list;
             this.sizeTask = sizeTask;
         }
@@ -81,8 +79,8 @@ public class ForkJoinTest {
             if (this.list.size() > sizeTask) {
                 //大于就拆分任务
                 int middle = list.size() / 2;
-                ForkJoinSample leftTask = new ForkJoinSample(list.subList(0, middle), this.sizeTask);
-                ForkJoinSample rightTask = new ForkJoinSample(list.subList(middle, this.list.size()), this.sizeTask);
+                SimpleForkJoin leftTask = new SimpleForkJoin(list.subList(0, middle), this.sizeTask);
+                SimpleForkJoin rightTask = new SimpleForkJoin(list.subList(middle, this.list.size()), this.sizeTask);
                 //只要调用fork方法,任务就会拆解,并执行子任务的该方法
                 leftTask.fork();
                 rightTask.fork();

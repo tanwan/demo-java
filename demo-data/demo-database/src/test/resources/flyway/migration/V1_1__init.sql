@@ -1,4 +1,4 @@
-CREATE TABLE `sample_mybatis` (
+CREATE TABLE `simple_mybatis` (
                                    `id` int(11) NOT NULL AUTO_INCREMENT,
                                    `name` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                    `use_string_enum` enum('ONE','TWO','THREE') COLLATE utf8mb4_unicode_ci DEFAULT NULL,

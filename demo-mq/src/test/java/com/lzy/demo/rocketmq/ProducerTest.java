@@ -22,6 +22,8 @@ public class ProducerTest {
 
     /**
      * 测试生产者
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testProducer() throws Exception {

@@ -122,6 +122,9 @@ public class ProxyTest {
 
     /**
      * 测试cglib生成的代理类
+     *
+     * @throws IllegalAccessException the illegal access exception
+     * @throws InstantiationException the instantiation exception
      */
     @Test
     public void testCglibClass() throws IllegalAccessException, InstantiationException {

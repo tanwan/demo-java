@@ -14,6 +14,6 @@ import org.springframework.context.annotation.PropertySource;
  * @version v1.0
  */
 @Configuration
-@PropertySource(value = "classpath:properties.yml",factory = YamlPropertyLoaderFactory.class)
+@PropertySource(value = "classpath:properties.yml", factory = YamlPropertyLoaderFactory.class)
 public class PropertySourceWithFactoryConfig {
 }

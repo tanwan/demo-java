@@ -23,6 +23,8 @@ public class SemaphoreTest {
 
     /**
      * 测试信号量
+     *
+     * @throws InterruptedException the interrupted exception
      */
     @Test
     public void testSemaphore() throws InterruptedException {

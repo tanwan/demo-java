@@ -235,7 +235,7 @@ public class ShiroController {
      * 获取用户
      *
      * @return the user
-     * @see ShiroConfiguration#securityManager()
+     * @see ShiroConfiguration#securityManager() ShiroConfiguration#securityManager()
      */
     @GetMapping("/get-user")
     @ResponseBody
@@ -275,6 +275,7 @@ public class ShiroController {
     /**
      * jwt登陆
      *
+     * @param response the response
      * @param username the username
      * @param password the password
      * @return the string

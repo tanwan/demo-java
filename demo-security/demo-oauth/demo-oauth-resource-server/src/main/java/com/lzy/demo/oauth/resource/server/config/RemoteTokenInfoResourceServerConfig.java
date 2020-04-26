@@ -68,7 +68,6 @@ public class RemoteTokenInfoResourceServerConfig extends ResourceServerConfigure
                 //oauth2或者spring security都能访问,如果要使用spring-security,则必须配置spring-security
                 .antMatchers("/oauth2/oauth-or-security").access("#oauth2.hasScope('read') or (!#oauth2.isOAuth() and hasRole('ROLE_USER'))")
                 //因为ResourceServerConfiguration会把session策略设置为无状态的,如果要同时使用spring security和oauth,则需要修改session策略
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-        ;
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
     }
 }

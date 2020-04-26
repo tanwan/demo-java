@@ -27,6 +27,8 @@ public class ServerTest {
 
     /**
      * 测试netty服务端
+     *
+     * @throws InterruptedException the interrupted exception
      */
     @Test
     public void testServer() throws InterruptedException {

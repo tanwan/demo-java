@@ -28,6 +28,13 @@ fileExtensions：需要检查的文件后缀
 -->
 <module name="Checker">
 
+    <!-- https://checkstyle.org/config_filters.html#SuppressionFilter -->
+    <!--排除一些不需要检查的-->
+    <module name="SuppressionFilter">
+        <property name="file" value="./suppressions.xml"/>
+        <property name="optional" value="false"/>
+    </module>
+
     <property name="charset" value="UTF-8"/>
 
     <property name="fileExtensions" value="java, properties, xml"/>

@@ -17,37 +17,37 @@ import java.util.regex.Pattern;
  */
 public class RegexTest {
 
-    private static Pattern CHINESE_WHIT_SYMBOL_PATTERN = Pattern.compile("[\\u4e00-\\u9fa5]+.*([^\\x00-\\xff])+|[\\u4e00-\\u9fa5]+");
+    private static final Pattern CHINESE_WHIT_SYMBOL_PATTERN = Pattern.compile("[\\u4e00-\\u9fa5]+.*([^\\x00-\\xff])+|[\\u4e00-\\u9fa5]+");
 
     /**
      * 中文
      */
-    private static Pattern CHINESE_PATTERN = Pattern.compile("[\\u4e00-\\u9fa5]+");
+    private static final Pattern CHINESE_PATTERN = Pattern.compile("[\\u4e00-\\u9fa5]+");
 
     /**
      * 匹配//左边的字符串
      */
-    private static Pattern SINGLE_COMMENT_PATTERN = Pattern.compile("[^'\"]*(?=//)");
+    private static final Pattern SINGLE_COMMENT_PATTERN = Pattern.compile("[^'\"]*(?=//)");
 
     /**
      * ?表示非贪婪,\\1表示第一个捕获组
      */
-    private static Pattern QUOTE_NO_GREEDY_PATTERN = Pattern.compile("([\"']).*?\\1");
+    private static final Pattern QUOTE_NO_GREEDY_PATTERN = Pattern.compile("([\"']).*?\\1");
 
     /**
      * .*是贪婪匹配的,\\1表示第一个捕获组
      */
-    private static Pattern QUOTE_GREEDY_PATTERN = Pattern.compile("([\"']).*\\1");
+    private static final Pattern QUOTE_GREEDY_PATTERN = Pattern.compile("([\"']).*\\1");
 
     /**
      * 零宽度正先行断言
      */
-    private static Pattern MULTI_COMMENT_BEGIN_PATTERN = Pattern.compile("[^'\"]*(?=/\\*)");
+    private static final Pattern MULTI_COMMENT_BEGIN_PATTERN = Pattern.compile("[^'\"]*(?=/\\*)");
 
     /**
      * 零宽度正回顾后发断言
      */
-    private static Pattern MULTI_COMMENT_END_PATTERN = Pattern.compile("(?<=\\*/)[^'\"]*");
+    private static final Pattern MULTI_COMMENT_END_PATTERN = Pattern.compile("(?<=\\*/)[^'\"]*");
 
 
     /**

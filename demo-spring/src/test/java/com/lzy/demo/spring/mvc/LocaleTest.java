@@ -5,7 +5,7 @@ package com.lzy.demo.spring.mvc;
 
 import com.lzy.demo.spring.mvc.application.MVCApplication;
 import com.lzy.demo.spring.mvc.config.LocaleConfig;
-import com.lzy.demo.spring.mvc.controller.SampleRestController;
+import com.lzy.demo.spring.mvc.controller.SimpleRestController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,7 +27,7 @@ import java.util.Locale;
  */
 @SpringBootTest(classes = MVCApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@SpringJUnitConfig(classes = {SampleRestController.class, LocaleConfig.class})
+@SpringJUnitConfig(classes = {SimpleRestController.class, LocaleConfig.class})
 public class LocaleTest {
 
     @Autowired

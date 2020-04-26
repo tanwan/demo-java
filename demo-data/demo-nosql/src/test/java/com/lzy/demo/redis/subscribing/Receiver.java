@@ -12,7 +12,7 @@ import java.util.concurrent.CountDownLatch;
  * @version v1.0
  */
 public class Receiver {
-    public static CountDownLatch countDownLatch = new CountDownLatch(1);
+    private static CountDownLatch countDownLatch = new CountDownLatch(1);
 
     /**
      * Receiver.

@@ -4,7 +4,7 @@
 package com.lzy.demo.jpa;
 
 import com.lzy.demo.jpa.application.JpaApplication;
-import com.lzy.demo.jpa.dao.SampleJpaDao;
+import com.lzy.demo.jpa.dao.SimpleJpaDaoSimple;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
@@ -23,14 +23,14 @@ import javax.annotation.Resource;
 public class JpaSpecialQueryTest {
 
     @Resource
-    private SampleJpaDao sampleJpaDao;
+    private SimpleJpaDaoSimple simpleJpaDao;
 
     /**
      * 测试IgnoreCase
      */
     @Test
     public void testIgnoreCase() {
-        System.out.println(sampleJpaDao.findByNameIgnoreCase("LZY"));
+        System.out.println(simpleJpaDao.findByNameIgnoreCase("LZY"));
     }
 
     /**
@@ -38,7 +38,7 @@ public class JpaSpecialQueryTest {
      */
     @Test
     public void testOrderBy() {
-        System.out.println(sampleJpaDao.findByNameOrderByAgeDesc("lzy"));
+        System.out.println(simpleJpaDao.findByNameOrderByAgeDesc("lzy"));
     }
 
     /**
@@ -47,8 +47,8 @@ public class JpaSpecialQueryTest {
     @Test
     public void testTop() {
         //使用Top
-        System.out.println(sampleJpaDao.findTopByOrderByAgeDesc());
+        System.out.println(simpleJpaDao.findTopByOrderByAgeDesc());
         //使用Top加数字
-        System.out.println(sampleJpaDao.findTop2ByName("lzy", Sort.by("id")));
+        System.out.println(simpleJpaDao.findTop2ByName("lzy", Sort.by("id")));
     }
 }

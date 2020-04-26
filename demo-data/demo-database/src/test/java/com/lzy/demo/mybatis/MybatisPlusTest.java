@@ -6,11 +6,11 @@ package com.lzy.demo.mybatis;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzy.demo.mybatis.config.MybatisPlusConfig;
-import com.lzy.demo.mybatis.entity.SampleMybatis;
+import com.lzy.demo.mybatis.entity.SimpleMybatis;
 import com.lzy.demo.mybatis.enums.UseEnumValueEnum;
 import com.lzy.demo.mybatis.enums.UseStringEnum;
-import com.lzy.demo.mybatis.mapper.SampleMybatisPlusMapper;
-import com.lzy.demo.mybatis.service.SampleCacheService;
+import com.lzy.demo.mybatis.mapper.SimpleMybatisPlusMapper;
+import com.lzy.demo.mybatis.service.SimpleCacheService;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -34,21 +34,21 @@ import java.util.Map;
 public class MybatisPlusTest {
 
     @Resource
-    private SampleMybatisPlusMapper sampleMybatisPlusMapper;
+    private SimpleMybatisPlusMapper simpleMybatisPlusMapper;
 
     @Resource
-    private SampleCacheService sampleCacheService;
+    private SimpleCacheService simpleCacheService;
 
     /**
      * 测试插入
      */
     @Test
     public void testInsert() {
-        SampleMybatis sampleMybatis = new SampleMybatis();
-        sampleMybatis.setName("mybatis plus");
-        sampleMybatis.setUseStringEnum(UseStringEnum.ONE);
-        sampleMybatis.setUseEnumValueEnum(UseEnumValueEnum.ONE);
-        sampleMybatisPlusMapper.insert(sampleMybatis);
+        SimpleMybatis simpleMybatis = new SimpleMybatis();
+        simpleMybatis.setName("mybatis plus");
+        simpleMybatis.setUseStringEnum(UseStringEnum.ONE);
+        simpleMybatis.setUseEnumValueEnum(UseEnumValueEnum.ONE);
+        simpleMybatisPlusMapper.insert(simpleMybatis);
     }
 
     /**
@@ -59,7 +59,7 @@ public class MybatisPlusTest {
         Map<String, Object> map = new HashMap<>(1);
         map.put("use_index_enum", 3);
         // key为表字段名
-        System.out.println(sampleMybatisPlusMapper.deleteByMap(map));
+        System.out.println(simpleMybatisPlusMapper.deleteByMap(map));
     }
 
     /**
@@ -69,10 +69,10 @@ public class MybatisPlusTest {
      */
     @Test
     public void testPage() {
-        SampleMybatis sampleMybatis = new SampleMybatis();
-        sampleMybatis.setDelFlg(1);
-        Page<SampleMybatis> page = new Page<>(1, 2);
-        sampleMybatisPlusMapper.selectPage(page, Wrappers.query(sampleMybatis));
+        SimpleMybatis simpleMybatis = new SimpleMybatis();
+        simpleMybatis.setDelFlg(1);
+        Page<SimpleMybatis> page = new Page<>(1, 2);
+        simpleMybatisPlusMapper.selectPage(page, Wrappers.query(simpleMybatis));
         System.out.println(page.getRecords());
     }
 
@@ -83,8 +83,8 @@ public class MybatisPlusTest {
      */
     @Test
     public void testCustomPage() {
-        Page<SampleMybatis> page = new Page<>(1, 2);
-        sampleMybatisPlusMapper.customPage(page);
+        Page<SimpleMybatis> page = new Page<>(1, 2);
+        simpleMybatisPlusMapper.customPage(page);
         System.out.println(page.getRecords());
     }
 
@@ -93,7 +93,7 @@ public class MybatisPlusTest {
      */
     @Test
     public void testSqlInjector() {
-        System.out.println(sampleMybatisPlusMapper.customInjectorMethod(1));
+        System.out.println(simpleMybatisPlusMapper.customInjectorMethod(1));
     }
 
     /**
@@ -103,11 +103,11 @@ public class MybatisPlusTest {
      */
     @Test
     public void testVersion() {
-        SampleMybatis sampleMybatis = new SampleMybatis();
-        sampleMybatis.setId(1);
-        sampleMybatis.setName("update");
-        sampleMybatis.setVersion(0);
-        System.out.println(sampleMybatisPlusMapper.updateById(sampleMybatis));
+        SimpleMybatis simpleMybatis = new SimpleMybatis();
+        simpleMybatis.setId(1);
+        simpleMybatis.setName("update");
+        simpleMybatis.setVersion(0);
+        System.out.println(simpleMybatisPlusMapper.updateById(simpleMybatis));
     }
 
     /**
@@ -115,7 +115,7 @@ public class MybatisPlusTest {
      */
     @Test
     public void testFirstLevelCacheWithoutTransactional() {
-        sampleCacheService.firstLevelCacheWithoutTransactional(1);
+        simpleCacheService.firstLevelCacheWithoutTransactional(1);
     }
 
     /**
@@ -123,6 +123,6 @@ public class MybatisPlusTest {
      */
     @Test
     public void testFirstLevelCacheWithTransactional() {
-        sampleCacheService.firstLevelCacheWithTransactional(1);
+        simpleCacheService.firstLevelCacheWithTransactional(1);
     }
 }

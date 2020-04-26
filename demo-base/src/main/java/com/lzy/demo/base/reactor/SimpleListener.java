@@ -33,7 +33,7 @@ public class SimpleListener {
      * @param chunk the chunk
      */
     public void onDataChunk(List<String> chunk) {
-        for(String s : chunk) {
+        for (String s : chunk) {
             //产生一个元素
             sink.next(s);
         }

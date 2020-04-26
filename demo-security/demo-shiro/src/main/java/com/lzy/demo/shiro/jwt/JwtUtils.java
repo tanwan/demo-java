@@ -29,7 +29,7 @@ public class JwtUtils {
     /**
      * 过期时间
      */
-    private final static int EXPIRE_TIME = 10 * 60 * 1000;
+    private static final int EXPIRE_TIME = 10 * 60 * 1000;
 
 
     /**

@@ -16,6 +16,8 @@ import reactor.core.publisher.Mono;
 import javax.annotation.Resource;
 
 /**
+ * The type Webflux controller.
+ *
  * @author lzy
  * @version v1.0
  */
@@ -31,7 +33,7 @@ public class WebfluxController {
     /**
      * 查询单个用户
      *
-     * @return 返回Mono:非阻塞单个结果
+     * @return 返回Mono :非阻塞单个结果
      */
     @GetMapping("/one")
     public Mono<WebfluxEntity> getOne() {
@@ -40,7 +42,10 @@ public class WebfluxController {
     }
 
     /**
-     * @return 返回Flux:非阻塞序列
+     * Gets much.
+     *
+     * @return 返回Flux :非阻塞序列
+     * @throws InterruptedException the interrupted exception
      */
     @GetMapping("/much")
     public Flux<WebfluxEntity> getMuch() throws InterruptedException {

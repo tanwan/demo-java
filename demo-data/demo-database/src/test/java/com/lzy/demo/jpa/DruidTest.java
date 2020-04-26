@@ -4,7 +4,7 @@
 package com.lzy.demo.jpa;
 
 import com.lzy.demo.jpa.application.JpaApplication;
-import com.lzy.demo.jpa.dao.SampleJpaDao;
+import com.lzy.demo.jpa.dao.SimpleJpaDaoSimple;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class DruidTest {
 
     @Resource
-    private SampleJpaDao sampleJpaDao;
+    private SimpleJpaDaoSimple simpleJpaDao;
 
     /**
      * 测试druid,访问http://127.0.0.1:8080/druid/sql.html
@@ -36,7 +36,7 @@ public class DruidTest {
     public void testDruidMonitor() throws InterruptedException {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
         scheduledExecutorService.scheduleAtFixedRate(() ->
-                sampleJpaDao.findTopByOrderByAgeDesc(), 0, 10L, TimeUnit.SECONDS);
+                simpleJpaDao.findTopByOrderByAgeDesc(), 0, 10L, TimeUnit.SECONDS);
         Thread.sleep(1000000);
     }
 }

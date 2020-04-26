@@ -30,7 +30,7 @@ public class HDFSTest {
     @Test
     public void testConfiguration() {
         Configuration configuration = new Configuration();
-        configuration.addResource("sample-configuration.xml");
+        configuration.addResource("simple-configuration.xml");
         Assertions.assertThat(configuration.getInt("size", 0))
                 .isEqualTo(10);
     }
@@ -56,7 +56,7 @@ public class HDFSTest {
      */
     @Test
     public void testMkDir() throws IOException {
-        Path path = new Path("/sampleDir");
+        Path path = new Path("/simpleDir");
         fileSystem.mkdirs(path);
     }
 
@@ -81,7 +81,7 @@ public class HDFSTest {
         // 源路径
         Path src = new Path(this.getClass().getClassLoader().getResource("logback.xml").toString());
         // 目的路径
-        Path desc = new Path("/sampleDir/logback.xml");
+        Path desc = new Path("/simpleDir/logback.xml");
         fileSystem.copyFromLocalFile(src, desc);
     }
 
@@ -93,7 +93,7 @@ public class HDFSTest {
     @Test
     public void download() throws IOException {
         // 源路径
-        Path src = new Path("/sampleDir/logback.xml");
+        Path src = new Path("/simpleDir/logback.xml");
         // 目标路径
         Path desc = new Path("Users/lzy/Desktop/logback.xml");
         fileSystem.copyToLocalFile(src, desc);

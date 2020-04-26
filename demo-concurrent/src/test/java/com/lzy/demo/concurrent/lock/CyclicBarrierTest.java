@@ -21,6 +21,8 @@ public class CyclicBarrierTest {
 
     /**
      * 测试CyclicBarrier
+     *
+     * @throws InterruptedException the interrupted exception
      */
     @Test
     public void testCyclicBarrier() throws InterruptedException {

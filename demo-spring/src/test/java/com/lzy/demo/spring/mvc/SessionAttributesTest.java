@@ -34,6 +34,8 @@ public class SessionAttributesTest {
 
     /**
      * 测试ModelMap
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testModelMap() throws Exception {
@@ -51,6 +53,8 @@ public class SessionAttributesTest {
 
     /**
      * 测试HttpSession
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testHttpSession() throws Exception {
@@ -68,6 +72,8 @@ public class SessionAttributesTest {
 
     /**
      * 测试ModelMap
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testModelAttribute() throws Exception {

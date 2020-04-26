@@ -94,7 +94,7 @@ public class JedisTest {
         aaa(list);
     }
 
-    private static <T> void aaa(List<T> list){
+    private static <T> void aaa(List<T> list) {
 
     }
 }

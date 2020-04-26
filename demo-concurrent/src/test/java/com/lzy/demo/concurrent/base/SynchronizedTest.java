@@ -38,24 +38,24 @@ public class SynchronizedTest {
 
 
     private void testSynchronized(boolean sync) throws InterruptedException {
-        SynchronizedSample synchronizedSample = new SynchronizedSample(sync);
+        SimpleSynchronized simpleSynchronized = new SimpleSynchronized(sync);
         //这里要保证increase的对象是同一个
         //如果thread1和thread2都使用new Thread(new SynchronizedTest())赋值,那么两个线程需要获得的锁是不一样的,
         //因此不存在竞争关系,也就都能同时访问increase
-        Thread thread1 = new Thread(synchronizedSample);
-        Thread thread2 = new Thread(synchronizedSample);
+        Thread thread1 = new Thread(simpleSynchronized);
+        Thread thread2 = new Thread(simpleSynchronized);
         thread1.start();
         thread2.start();
         thread1.join();
         thread2.join();
-        System.out.println("i: " + SynchronizedSample.i);
+        System.out.println("i: " + SimpleSynchronized.i);
     }
 
-    private static class SynchronizedSample implements Runnable {
+    private static class SimpleSynchronized implements Runnable {
 
         private boolean sync = true;
 
-        public SynchronizedSample(boolean sync) {
+        SimpleSynchronized(boolean sync) {
             this.sync = sync;
         }
 

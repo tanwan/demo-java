@@ -17,7 +17,7 @@ import java.io.IOException;
  * @version v1.0
  */
 public class CharacterStreamDemo {
-    private final static String FILE_PATH = "out/test/resources/tempFile.tmp";
+    private static final String FILE_PATH = "out/test/resources/tempFile.tmp";
 
     /**
      * Reader.

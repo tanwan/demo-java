@@ -21,6 +21,8 @@ public class DeadLetterExchangeTest extends AbstractAmqpTest {
 
     /**
      * 测试死信
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testDLX() throws Exception {
@@ -91,6 +93,8 @@ public class DeadLetterExchangeTest extends AbstractAmqpTest {
 
     /**
      * 测试延时消息
+     *
+     * @throws Exception the exception
      */
     @Test
     public void testDelayMessage() throws Exception {
