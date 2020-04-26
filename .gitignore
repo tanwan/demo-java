@@ -103,3 +103,5 @@ fabric.properties
 
 # 排除generated目录
 generated/
+
+build/
