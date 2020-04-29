@@ -26,4 +26,7 @@ findProject(':demo-security:demo-oauth:demo-oauth-resource-server')?.name = 'dem
 include 'demo-big-data:demo-spark'
 findProject(':demo-big-data:demo-spark')?.name = 'demo-spark'
 include 'demo-webflux'
+include 'demo-vert:demo-vert-server'
+findProject(':demo-vert:demo-vert-server')?.name = 'demo-vert-server'
+include 'demo-test'
 
