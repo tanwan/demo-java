@@ -16,4 +16,7 @@ dependencies {
     //mongodb
     implementation group: 'org.mongodb', name: 'mongo-java-driver', version: project['mongodb.version']
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: project['spring-boot.version']
+
+    //hazelcast
+    implementation group: 'com.hazelcast', name: 'hazelcast', version: project['hazelcast.vertsion']
 }
