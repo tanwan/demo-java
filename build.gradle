@@ -69,6 +69,8 @@ subprojects {
 
         //slf4j
         implementation group: 'org.slf4j', name: 'slf4j-api', version: project['slf4j.version']
+
+        testImplementation group: 'org.spockframework', name: 'spock-core', version: project['spock.version']
     }
 
     publishing {

@@ -1,0 +1,29 @@
+/*
+ * Created by lzy on 2020/4/29 1:29 PM.
+ */
+package com.lzy.demo.test.serivce;
+
+import com.lzy.demo.test.bean.SimpleBean;
+
+/**
+ * The interface Simple service.
+ *
+ * @author lzy
+ * @version v1.0
+ */
+public interface SimpleService {
+
+    /**
+     * Simple method simple bean.
+     *
+     * @param simpleBean the simple bean
+     * @return the simple bean
+     */
+    SimpleBean simpleMethod(SimpleBean simpleBean);
+
+
+    /**
+     * 使用回调
+     */
+    void doConsumer();
+}
