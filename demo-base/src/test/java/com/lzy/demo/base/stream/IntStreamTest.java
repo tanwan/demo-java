@@ -1,7 +1,7 @@
 /*
  * Created by lzy on 2018/8/20 2:05 PM.
  */
-package com.lzy.demo.base.functional.stream;
+package com.lzy.demo.base.stream;
 
 import org.junit.jupiter.api.Test;
 

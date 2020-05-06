@@ -1,7 +1,7 @@
 /*
  * Created by lzy on 17-6-8 下午1:28.
  */
-package com.lzy.demo.base.functional.lamdba;
+package com.lzy.demo.base.lamdba;
 
 import org.junit.jupiter.api.Test;
 

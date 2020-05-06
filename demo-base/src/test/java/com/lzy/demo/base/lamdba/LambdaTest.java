@@ -1,9 +1,9 @@
 /*
  * Created by LZY on 12/4/2016 18:52.
  */
-package com.lzy.demo.base.functional.lamdba;
+package com.lzy.demo.base.lamdba;
 
-import com.lzy.demo.base.functional.lamdba.bean.LambdaInterface;
+import com.lzy.demo.base.lamdba.bean.LambdaInterface;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -1,9 +1,9 @@
 /*
  * Created by LZY on 12/4/2016 21:37.
  */
-package com.lzy.demo.base.functional.lamdba;
+package com.lzy.demo.base.lamdba;
 
-import com.lzy.demo.base.functional.lamdba.bean.MethodReference;
+import com.lzy.demo.base.lamdba.bean.MethodReference;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;

@@ -1,7 +1,7 @@
 /*
  * Created by lzy on 2018/8/20 10:42 AM.
  */
-package com.lzy.demo.base.functional.lamdba.bean;
+package com.lzy.demo.base.lamdba.bean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

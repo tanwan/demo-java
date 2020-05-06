@@ -1,9 +1,9 @@
 /*
  * Created by LZY on 12/4/2016 19:07.
  */
-package com.lzy.demo.base.functional.lamdba;
+package com.lzy.demo.base.lamdba;
 
-import com.lzy.demo.base.functional.lamdba.bean.DefaultMethodInterface;
+import com.lzy.demo.base.lamdba.bean.DefaultMethodInterface;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
