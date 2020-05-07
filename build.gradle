@@ -59,8 +59,10 @@ subprojects {
 
         //lombok,idea需要开启Annotation Processors
         compileOnly group: 'org.projectlombok', name: 'lombok', version: project['lombok.version']
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: project['lombok.version']
         //lombok,idea需要开启Annotation Processors
         testCompileOnly group: 'org.projectlombok', name: 'lombok', version: project['lombok.version']
+        testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: project['lombok.version']
         
         //groovy
         implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: project['groovy.version']

@@ -8,8 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.loader.LaunchedURLClassLoader;
 import org.springframework.boot.loader.jar.JarFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
 
 /**
  * spring boot loader测试
@@ -17,6 +21,11 @@ import java.net.URLClassLoader;
  * 1. 把spring-boot-configuration-processor修改成implementation
  * 2. 使用spring-boot插件进行打包
  * 3. 把spring-boot-configuration-processor再修改成compileOnly
+ *
+ * 为什么使用spring-boot-configuration-processor?
+ * 因为spring-boot-configuration-processor不在运行此测试类的classpath路径下
+ * 这样获取该依赖下的类就可以排除是该测试类依赖进来的
+ *
  *
  * @author lzy
  * @version v1.0
@@ -102,5 +111,19 @@ public class SpringBootLoaderTest {
         LaunchedURLClassLoader classLoader = new LaunchedURLClassLoader(getUrls(), getClass().getClassLoader());
         URL url = classLoader.getResource(className.replace(".", "/") + ".class");
         System.out.println(url);
+    }
+
+
+    /**
+     * 测试JarFile
+     */
+    @Test
+    public void testJarFile() throws IOException {
+        JarFile.registerUrlProtocolHandler();
+        JarFile jarFile = new JarFile(new File("/Users/lzy/SourceCode/me/demo/demo-java/demo-spring/build/libs/demo-spring-1.0.jar"));
+        Enumeration<JarEntry> enumeration = jarFile.entries();
+        while (enumeration.hasMoreElements()){
+            System.out.println(enumeration.nextElement().getName());
+        }
     }
 }
