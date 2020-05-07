@@ -1,7 +1,7 @@
 /*
  * Created by LZY on 2016-10-26 21:45.
  */
-package com.lzy.demo.concurrent.base;
+package com.lzy.demo.base.concurrent.base;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,7 @@
 /*
  * Created by LZY on 2016-10-25 21:15.
  */
-package com.lzy.demo.concurrent.threadpool;
+package com.lzy.demo.base.concurrent.threadpool;
 
 import org.junit.jupiter.api.Test;
 

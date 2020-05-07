@@ -1,7 +1,7 @@
 /*
  * Created by lzy on 7/17/17.
  */
-package com.lzy.demo.concurrent.atomic;
+package com.lzy.demo.base.concurrent.atomic;
 
 import org.junit.jupiter.api.Test;
 
