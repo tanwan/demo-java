@@ -38,7 +38,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
      * @see WebSecurity#performBuild()
      */
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         //可以配置一些需要忽略的资源,每个路径对应一个SecurityFilterChain
         web.ignoring().antMatchers("/static/**");
     }
