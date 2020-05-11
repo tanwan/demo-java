@@ -1,3 +1,5 @@
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 apply plugin: 'scala'
 dependencies {
     // 注意这边的scala版本需要同安装的spark编译的scala一致,否则会连接不了

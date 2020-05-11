@@ -7,13 +7,19 @@ buildscript{
 }
 
 plugins {
-    id "org.springframework.boot" version "2.2.0.RELEASE"
+    id 'org.springframework.boot' version '2.2.0.RELEASE'
+    // 打包成可运行jar,See https://docs.gradle.org/current/userguide/application_plugin.html
+    // 直接扩展build任务
+    //id: 'application'
+    id 'java-library'
+    id 'idea'
+    id 'project-report'
+    id 'maven-publish'
+    //java模块jlink插件
+    id 'org.beryx.jlink' version '2.19.0' apply false
 }
 
 allprojects {
-    // 打包成可运行jar,See https://docs.gradle.org/current/userguide/application_plugin.html
-    // 直接扩展build任务
-    //apply plugin: 'application'
     apply plugin: 'java-library'
     apply plugin: 'idea'
     apply plugin: 'project-report'
@@ -22,11 +28,18 @@ allprojects {
     group 'com.lzy'
     version '1.0'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = JavaVersion.VERSION_14
+    targetCompatibility = JavaVersion.VERSION_14
+
+    //java模块块需要设置inferModulePath为true,否则依赖其它模块时在打包的时候会报错
+    plugins.withType(JavaPlugin).configureEach {
+        java {
+            modularity.inferModulePath = true
+        }
+    }
 
     repositories {
-        //mavenLocal()
+        mavenLocal()
         //阿里云镜像
         maven{ url "http://maven.aliyun.com/nexus/content/groups/public/"}
         jcenter()
