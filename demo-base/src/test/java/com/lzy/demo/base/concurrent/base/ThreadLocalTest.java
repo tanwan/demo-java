@@ -22,8 +22,19 @@ public class ThreadLocalTest {
         new Thread(() -> {
             try {
                 if (threadLocal.get() == null) {
-                    //如果ThreadLocal存放的是对象,则不能为每个线程分配相同的实例对象,否则ThreadLocal也不能保证线程安全
                     threadLocal.set(1);
+                }
+                System.out.println(threadLocal.get());
+            } finally {
+                // 最后,需要进行释放
+                threadLocal.remove();
+            }
+        }).start();
+        new Thread(() -> {
+            try {
+                //只能获取到本线程设置的值,因此这边第一次get会返回null
+                if (threadLocal.get() == null) {
+                    threadLocal.set(2);
                 }
                 System.out.println(threadLocal.get());
             } finally {
@@ -53,7 +64,6 @@ public class ThreadLocalTest {
         new Thread(() -> {
             try {
                 if (threadLocal.get() == null) {
-                    //如果ThreadLocal存放的是对象,则不能为每个线程分配相同的实例对象,否则ThreadLocal也不能保证线程安全
                     threadLocal.set(1);
                 }
                 // 子线程无法继承父线程的ThreadLocal
