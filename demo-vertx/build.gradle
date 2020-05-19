@@ -1,3 +1,5 @@
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 dependencies {
     implementation group: 'io.vertx', name: 'vertx-core', version: project['vert.x.version']
 

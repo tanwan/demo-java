@@ -13,6 +13,7 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.FileUpload;
+import io.vertx.ext.web.LanguageHeader;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
@@ -24,6 +25,7 @@ import io.vertx.ext.web.sstore.SessionStore;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * The type Web verticle.
@@ -81,7 +83,7 @@ public class WebVerticle extends AbstractVerticle {
 
         //创建session存储,也可以使用分布式
         SessionStore store = LocalSessionStore.create(vertx);
-        //处理handler的
+        //处理session的handler
         SessionHandler sessionHandler = SessionHandler.create(store);
 
         //cookie的sameSite属性,用来控制csrf的
@@ -97,6 +99,26 @@ public class WebVerticle extends AbstractVerticle {
 
         //文件下载
         router.route("/file-download").handler(this::fileDownload);
+
+        //指定mime类型,可以使用通配符
+        router.route("/mime").consumes("application/json").handler(this::mime);
+
+        //reroute,类似forward,不是重定向
+        router.route("/reroute").handler(this::reroute);
+
+
+        //子路由,这样subRoute的路径就变成了outRoute/subRoute
+        Router subRouter = Router.router(vertx);
+        subRouter.route("/sub-route").handler(this::subRouter);
+        router.mountSubRouter("/out-route", subRouter);
+
+        //语言
+        router.route("/acceptable-languages").handler(this::acceptableLanguages);
+
+        //抛出异常
+        router.route("/failure").handler(this::failure);
+        //异常处理
+        router.route().failureHandler(this::handleFailure);
 
         HttpServer server = vertx.createHttpServer();
         server.requestHandler(router).listen(8080);
@@ -218,7 +240,7 @@ public class WebVerticle extends AbstractVerticle {
     /**
      * 文件下载
      */
-    private void fileDownload(RoutingContext routingContext){
+    private void fileDownload(RoutingContext routingContext) {
         routingContext.response()
                 .putHeader(HttpHeaders.CONTENT_TYPE, "text/plain")
                 .putHeader("Content-Disposition", "attachment; filename=\"file-download.txt\"")
@@ -231,5 +253,50 @@ public class WebVerticle extends AbstractVerticle {
                 //如果文件在本地,直接使用sendFile
                 //.sendFile("/Users/lzy/desktop/file.txt")
                 .end();
+    }
+
+    /**
+     * 使用mime
+     */
+    private void mime(RoutingContext routingContext) {
+        routingContext.response().end("mime");
+    }
+
+    /**
+     * reroute
+     */
+    private void reroute(RoutingContext routingContext) {
+        //reroute类似于forward,不是重定向
+        routingContext.reroute("/asterisk/hello");
+    }
+
+    /**
+     * 子路由
+     */
+    private void subRouter(RoutingContext routingContext) {
+        routingContext.response().end("subRouter");
+    }
+
+    /**
+     * 接受语言
+     */
+    private void acceptableLanguages(RoutingContext routingContext) {
+        routingContext.response().end(routingContext.acceptableLanguages().stream().map(LanguageHeader::tag).collect(Collectors.joining()));
+    }
+
+
+    /**
+     * 异常
+     */
+    private void failure(RoutingContext routingContext) {
+       throw new RuntimeException("expect exception");
+    }
+
+    /**
+     * 异常处理
+     */
+    private void handleFailure(RoutingContext routingContext) {
+        routingContext.failure().printStackTrace();
+        routingContext.response().end("handleFailure");
     }
 }
