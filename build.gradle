@@ -28,8 +28,8 @@ allprojects {
     group 'com.lzy'
     version '1.0'
 
-    sourceCompatibility = JavaVersion.VERSION_14
-    targetCompatibility = JavaVersion.VERSION_14
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
     //java模块块需要设置inferModulePath为true,否则依赖其它模块时在打包的时候会报错
     plugins.withType(JavaPlugin).configureEach {
