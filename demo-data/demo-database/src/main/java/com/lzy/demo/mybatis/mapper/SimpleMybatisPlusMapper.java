@@ -30,6 +30,8 @@ public interface SimpleMybatisPlusMapper extends BaseMapper<SimpleMybatis> {
 
     /**
      * 分页查询
+     * 分页的参数需要放在第一个参数的位置
+     *
      * @param page page
      * @return page
      */

@@ -1,0 +1,64 @@
+spring:
+  flyway:
+    enabled: false
+  shardingsphere:
+    datasource:
+      names: master,slave0
+      master:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver: com.mysql.cj.jdbc.Driver
+        jdbcUrl: jdbc:mysql://localhost:3307/demo
+        username: root
+        password: 123456
+      slave0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver: com.mysql.cj.jdbc.Driver
+        jdbcUrl: jdbc:mysql://localhost:3308/demo
+        username: root
+        password: 123456
+    masterslave:
+      name: ms
+      master-data-source-name: master
+      slave-data-source-names:
+        - slave0
+    props:
+      sql.show: true
+mybatis-plus:
+  #  这些配置就是配置MybatisConfiguration,注入到MybatisSqlSessionFactoryBean
+  #  configLocation: mybatis配置文件的路径
+  #  MyBatis Mapper所对应的XML文件位置,依赖包需要使用classpath*
+  mapper-locations:
+    - classpath:/mybatis/mapper/*.xml
+  #类型转换器的包,多个使用,分隔
+  type-handlers-package: com.lzy.demo.mybatis.typehandler
+  #@EnumValue扫描包
+  type-enums-package: com.lzy.demo.mybatis.enums
+  #包别名扫描路径
+  type-aliases-package: com.lzy.demo.mybatis.entity
+  #  type-aliases-super-type: 跟type-aliases-package配合,那边就只会扫描以此类为父类的对象
+  #  check-config-location: 是否检查mybatis xml存在
+  #  executor-type: 同mybatis配置的defaultExecutorType
+  #  configuration-properties: mybatis外部properties文件
+  #  configuration: 原生mybatis配置
+  configuration:
+    mapUnderscoreToCamelCase: true
+    #default-enum-type-handler: 配置默认枚举的处理器
+    # mybatis的日志输出
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+  #  global-config就是配置GlobalConfig注入到MybatisSqlSessionFactoryBean
+  global-config:
+    banner: true
+    #    super-mapper-class: 通用Mapper父类
+    #    worker-id: 机器id,影响雪花算法
+    #db-config就是配置DbConfig,注入到GlobalConfig
+    db-config:
+      # 默认主键类型
+      id-type: auto
+      table-prefix: 表名前缀
+#      table-underline: 表名是否使用下划线命名
+#      logic-delete-value: 逻辑删除值
+#      logic-not-delete-value: 逻辑未删除值
+#      insert-strategy: 插入字段验证策略
+#      update-strategy: 更新字段验证策略
+#      select-strategy: 查询字段验证策略

@@ -41,4 +41,12 @@ dependencies {
 
     //sql监控
     implementation group: 'p6spy', name: 'p6spy', version: project['p6spy.version']
+
+    //sharding-jdbc
+    implementation(group: 'org.apache.shardingsphere', name: 'sharding-jdbc-core', version: project['sharding-jdbc.version']){
+        exclude group: 'org.yaml', module: 'snakeyaml'
+    }
+    implementation(group: 'org.apache.shardingsphere', name: 'sharding-jdbc-spring-boot-starter', version: project['sharding-jdbc.version']){
+        exclude group: 'org.yaml', module: 'snakeyaml'
+    }
 }
