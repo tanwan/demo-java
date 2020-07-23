@@ -114,17 +114,20 @@ fileExtensions：需要检查的文件后缀
           allowMissingThrowsTags:false 是否忽略对throws注释的检查
           allowMissingReturnTag: false 是否忽略对return注释的检查
           allowMissingJavadoc:false 是否忽略方法没有javadoc
-          allowMissingPropertyJavadoc:false 是否忽略geter setter没有javadoc
           logLoadErrors:true
           suppressLoadErrors:false
           ignoreMethodNamesRegex:null 正则表达式 符合条件的将不检查
           tokens：METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF.
         -->
         <module name="JavadocMethod">
-            <property name="allowMissingPropertyJavadoc" value="true"/>
             <property name="validateThrows" value="true"/>
             <property name="tokens" value="METHOD_DEF,ANNOTATION_FIELD_DEF"/>
             <property name="excludeScope" value="private"/>
+        </module>
+
+
+        <module name="MissingJavadocMethod">
+            <property name="allowMissingPropertyJavadoc" value="true"/>
         </module>
 
         <!--检查class、interface、enum、@interface的 javadoc
