@@ -14,4 +14,7 @@ dependencies {
     implementation group: 'org.jsoup', name: 'jsoup', version: project['jsoup.version']
 
     implementation group: 'commons-io', name: 'commons-io', version: project['commons-io.version']
+
+    //执行shell
+    implementation group: 'org.zeroturnaround', name: 'zt-exec', version: project['zt-exec.version']
 }
