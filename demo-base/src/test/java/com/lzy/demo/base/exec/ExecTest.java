@@ -30,6 +30,8 @@ public class ExecTest {
         System.out.println(IOUtils.toString(Runtime.getRuntime().exec("ls").getInputStream(), StandardCharsets.UTF_8));
         //如果有cd等指令,无法获取到结果
         System.out.println(IOUtils.toString(Runtime.getRuntime().exec("cd ..; ls").getInputStream(), StandardCharsets.UTF_8));
+        //可以直接指定路径
+        System.out.println(IOUtils.toString(Runtime.getRuntime().exec("ls", null, new File("..")).getInputStream(), StandardCharsets.UTF_8));
     }
 
     /**
@@ -40,7 +42,6 @@ public class ExecTest {
      */
     @Test
     public void testExecStringArray() throws IOException {
-        //windows使用{"cmd.exe", "/c", "cd ..; ls"}
         System.out.println(IOUtils.toString(Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", "cd ..; ls"}).getInputStream(), StandardCharsets.UTF_8));
     }
 
