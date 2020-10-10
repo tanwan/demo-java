@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * @author lzy
  * @version v1.0
  */
-public class SampleVerticle extends AbstractVerticle {
+public class SimpleVerticle extends AbstractVerticle {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
 

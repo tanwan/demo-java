@@ -1,5 +1,5 @@
 /*
- * Created by luke.luo on 2020/9/4 16:18.
+ * Created by lzy on 2020/9/4 16:18.
  */
 package com.lzy.demo.base.exec;
 
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @author luke.luo
+ * @author lzy
  * @version v1.0
  */
 public class ExecTest {
