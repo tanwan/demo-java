@@ -1,0 +1,8 @@
+query{
+    customResolver{
+        simpleEntityWithQueryType(query:{id:1}){
+            id
+            withDirective
+        }
+    }
+}

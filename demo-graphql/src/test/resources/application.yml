@@ -1,0 +1,4 @@
+graphql:
+  servlet:
+    #默认值
+    mapping: /graphql

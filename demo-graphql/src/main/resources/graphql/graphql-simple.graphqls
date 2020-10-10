@@ -1,0 +1,48 @@
+type SimpleEntity {
+    #!表示非空,[String!]!表示数组非空,数组里的元素也非空
+    id: ID!
+    age: Int
+    name: String!
+    #字段带上参数,所在的实体类对应的方法也要加上参数
+    withArgument(argu:Int):String
+    withDirective:String @simpleDirective(str:"str",array:[1],bool:true)
+}
+
+#定义查询的类型
+input SimpleRequest {
+    id: ID
+    name: String
+}
+
+#有且必须只能有一个Query(查)
+type Query {
+}
+
+#有且最多只能有一个Mutation(增删改)
+type Mutation {
+}
+
+extend type Mutation {
+    simpleMutation(request:SimpleRequest): SimpleEntity
+}
+
+#可以使用extend继承,这样query可以放在多个文件
+extend type Query {
+    simpleEntity: [SimpleEntity]
+    simpleEntityWithQueryType(query:SimpleRequest):[SimpleEntity]
+}
+
+extend type Query {
+    #customResolver方法返回的类型有自己的GraphQLResolver,此时会先执行GraphQLResolver匹配的方法(返回类型的方法可以省略),不存在时,再执行返回类型的方法
+    #com.lzy.demo.graphql.resolver.SimpleQueryResolver.customResolver
+    customResolver:CustomResolver
+}
+
+type CustomResolver{
+    #see com.lzy.demo.graphql.resolver.CustomResolver
+    simpleEntity:SimpleEntity
+    simpleEntityWithQueryType(query:SimpleRequest):SimpleEntity
+}
+
+#自定义指令
+directive @simpleDirective(str: String, array:[Int], bool: Boolean) on FIELD_DEFINITION
