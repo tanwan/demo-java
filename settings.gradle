@@ -1,3 +1,9 @@
+//pluginManagement必须放在第一个代码块
+pluginManagement {
+    plugins {
+        id 'org.flywaydb.flyway' version "$flywayPluginVersion"
+    }
+}
 rootProject.name = 'demo-java'
 include 'demo-spring'
 include 'demo-base'
@@ -32,4 +38,6 @@ findProject(':demo-module:demo-module-A')?.name = 'demo-module-A'
 include 'demo-module:demo-module-B'
 findProject(':demo-module:demo-module-B')?.name = 'demo-module-B'
 include 'demo-graphql'
+
+
 

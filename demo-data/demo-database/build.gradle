@@ -1,3 +1,8 @@
+//plugins已经在settings.gradle配置了版本
+plugins {
+    //see https://flywaydb.org/documentation/usage/gradle/
+    id 'org.flywaydb.flyway'
+}
 dependencies {
     //aspectj 为aop 提供依赖
     implementation group: 'org.aspectj', name: 'aspectjweaver', version: project['aspectj.version']
@@ -19,6 +24,8 @@ dependencies {
 
     // freemarker
     implementation group: 'org.freemarker', name: 'freemarker', version: project['freemarker.version']
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jooq', version: project['spring-boot.version']
 
     //mysql驱动
     implementation group: 'mysql', name: 'mysql-connector-java', version: project['mysql.version']
@@ -49,4 +56,13 @@ dependencies {
     implementation(group: 'org.apache.shardingsphere', name: 'sharding-jdbc-spring-boot-starter', version: project['sharding-jdbc.version']){
         exclude group: 'org.yaml', module: 'snakeyaml'
     }
+}
+
+//因为locations使用了classpath,所以需要依赖classes
+flywayMigrate.dependsOn classes
+flyway {
+    url = 'jdbc:mysql://127.0.0.1:3306/demo'
+    user = 'root'
+    password = '123456'
+    locations = ['classpath:flyway/migration']
 }
