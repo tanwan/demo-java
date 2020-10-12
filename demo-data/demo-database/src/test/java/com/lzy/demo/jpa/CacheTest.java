@@ -18,7 +18,7 @@ import javax.annotation.Resource;
  * @version v1.0
  */
 @SpringBootTest(classes = JpaApplication.class)
-@TestPropertySource(properties = "spring.config.location=classpath:jpa/jpa-hakari.yml")
+@TestPropertySource(properties = "spring.config.additional-location=classpath:jpa/jpa-hakari.yml")
 public class CacheTest {
     @Resource
     protected SimpleCacheService simpleCacheService;
@@ -40,7 +40,7 @@ public class CacheTest {
     }
 
 
-    @TestPropertySource(properties = "spring.config.location=classpath:jpa/jpa-ehcache2.yml")
+    @TestPropertySource(properties = "spring.config.additional-location=classpath:jpa/jpa-ehcache2.yml")
     public static class Ehcache2Test extends CacheTest {
         /**
          * 测试二级缓存
@@ -67,7 +67,7 @@ public class CacheTest {
         }
     }
 
-    @TestPropertySource(properties = "spring.config.location=classpath:jpa/jpa-ehcache3.yml")
+    @TestPropertySource(properties = "spring.config.additional-location=classpath:jpa/jpa-ehcache3.yml")
     public static class Ehcache3Test extends CacheTest {
         /**
          * 测试二级缓存

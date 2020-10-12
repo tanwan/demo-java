@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
  */
 @AutoConfigureMockMvc
 @SpringBootTest(classes = JpaApplication.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@TestPropertySource(properties = "spring.config.location=classpath:jpa/jpa-hakari.yml")
+@TestPropertySource(properties = "spring.config.additional-location=classpath:jpa/jpa-hakari.yml")
 public class WebTest {
 
     @Autowired

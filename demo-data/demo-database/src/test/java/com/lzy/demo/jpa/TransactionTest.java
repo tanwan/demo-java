@@ -35,7 +35,7 @@ import javax.sql.DataSource;
  * @version v1.0
  */
 @SpringBootTest(classes = JpaApplication.class)
-@TestPropertySource(properties = "spring.config.location=classpath:jpa/jpa-hakari.yml")
+@TestPropertySource(properties = "spring.config.additional-location=classpath:jpa/jpa-hakari.yml")
 @Commit
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class TransactionTest {
@@ -226,7 +226,7 @@ public abstract class TransactionTest {
      * The type Nested test.
      */
     @SpringBootTest(classes = JpaApplication.class)
-    @TestPropertySource(properties = "spring.config.location=classpath:jpa/jpa-hakari.yml")
+    @TestPropertySource(properties = "spring.config.additional-location=classpath:jpa/jpa-hakari.yml")
     @Commit
     @Import(NestedTest.TransactionManagerConfig.class)
     public static class NestedTest {

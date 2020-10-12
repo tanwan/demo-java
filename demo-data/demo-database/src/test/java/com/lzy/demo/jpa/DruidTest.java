@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  * @version v1.0
  */
 @SpringBootTest(classes = JpaApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@TestPropertySource(properties = "spring.config.location=classpath:jpa/jpa-druid.yml")
+@TestPropertySource(properties = "spring.config.additional-location=classpath:jpa/jpa-druid.yml")
 public class DruidTest {
 
     @Resource

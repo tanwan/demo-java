@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * @version v1.0
  */
 @SpringBootTest(classes = JpaApplication.class)
-@TestPropertySource(properties = "spring.config.location=classpath:jpa/jpa-hakari.yml")
+@TestPropertySource(properties = "spring.config.additional-location=classpath:jpa/jpa-hakari.yml")
 @Commit
 public class AuditionTest {
     @Resource
