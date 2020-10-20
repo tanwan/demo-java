@@ -2,6 +2,7 @@
 plugins {
     //see https://flywaydb.org/documentation/usage/gradle/
     id 'org.flywaydb.flyway'
+    id 'nu.studer.jooq'
 }
 dependencies {
     //aspectj 为aop 提供依赖
@@ -27,12 +28,14 @@ dependencies {
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jooq', version: project['spring-boot.version']
 
+    //jooq生成代码需要的依赖
+    jooqGenerator group: 'mysql', name: 'mysql-connector-java', version: project['mysql.version']
     //mysql驱动
     implementation group: 'mysql', name: 'mysql-connector-java', version: project['mysql.version']
 
     //mybatis plus
     implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: project['mybatis-plus-boot.version']
-    implementation group: 'com.baomidou', name:'mybatis-plus-generator',version: project['mybatis-plus-boot.version']
+    implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: project['mybatis-plus-boot.version']
 
     //spring data jpa
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: project['spring-boot.version']
@@ -50,10 +53,10 @@ dependencies {
     implementation group: 'p6spy', name: 'p6spy', version: project['p6spy.version']
 
     //sharding-jdbc
-    implementation(group: 'org.apache.shardingsphere', name: 'sharding-jdbc-core', version: project['sharding-jdbc.version']){
+    implementation(group: 'org.apache.shardingsphere', name: 'sharding-jdbc-core', version: project['sharding-jdbc.version']) {
         exclude group: 'org.yaml', module: 'snakeyaml'
     }
-    implementation(group: 'org.apache.shardingsphere', name: 'sharding-jdbc-spring-boot-starter', version: project['sharding-jdbc.version']){
+    implementation(group: 'org.apache.shardingsphere', name: 'sharding-jdbc-spring-boot-starter', version: project['sharding-jdbc.version']) {
         exclude group: 'org.yaml', module: 'snakeyaml'
     }
 }
@@ -65,4 +68,63 @@ flyway {
     user = 'root'
     password = '123456'
     locations = ['classpath:flyway/migration']
+}
+
+
+//see https://www.jooq.org/doc/latest/manual/code-generation/codegen-gradle/
+//see https://www.jooq.org/doc/latest/manual/code-generation
+//see https://github.com/etiennestuder/gradle-jooq-plugin
+jooq {
+    configurations {
+        main {
+            generationTool {
+                logging = org.jooq.meta.jaxb.Logging.INFO
+                jdbc {
+                    driver = 'com.mysql.cj.jdbc.Driver'
+                    url = 'jdbc:mysql://127.0.0.1:3306/demo'
+                    user = 'root'
+                    password = '123456'
+                }
+
+                generator {
+                    //如果要自定义生成器,则需要将自定义生成器添加到jooqGenerator的依赖下(不能放在本项目中)
+                    name = 'org.jooq.codegen.JavaGenerator'
+                    database {
+                        //多个使用|连接
+                        includes = '.*'
+                        excludes = '''flyway_schema_history'''
+                        schemata {
+                            //可以有多个schema
+                            schema {
+                                inputSchema = 'demo'
+                            }
+                        }
+                    }
+                    generate {
+                        deprecated = false
+                        records = true
+                        //pojo和record都有接口
+                        interfaces = true
+                        //生成pojo
+                        pojos = true
+                        fluentSetters = true
+                        //生成的dao没什么用,建议自己继承DAOImpl
+                        daos = false
+                        //spring注解
+                        springAnnotations = true
+
+                    }
+                    target {
+                        packageName = 'com.lzy.demo.jooq'
+                        directory = 'src/main/generated/jooq'
+                    }
+                    strategy.name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+                }
+            }
+        }
+    }
+}
+//增量构建
+tasks.named('generateJooq').configure {
+    allInputsDeclared = true
 }

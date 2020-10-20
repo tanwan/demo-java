@@ -38,18 +38,6 @@ appender("STDERR", ConsoleAppender) {
         pattern = "%d{HH:mm:ss.SSS} %red(%-5level)  %magenta([%thread])  - %boldRed(%msg) [at %class.%method:\\(%file:%line\\)]%n"
     }
 }
-//只输出WARN级别的日志
-appender("STDWARN", ConsoleAppender) {
-    //See http://logback.qos.ch/manual/filters.html
-    filter(LevelFilter) {
-        level = WARN
-        onMatch = ACCEPT
-        onMismatch = DENY
-    }
-    encoder(PatternLayoutEncoder) {
-        pattern = "%d{HH:mm:ss.SSS} %yellow(%-5level)  %magenta([%thread]) - %boldYellow(%msg) [at %class.%method:\\(%file:%line\\)]%n"
-    }
-}
 
 //druid日志
 appender("STD_DRUID", ConsoleAppender) {
@@ -68,5 +56,6 @@ appender("STD_DRUID", ConsoleAppender) {
     }
 }
 logger("druid.sql.Statement", DEBUG, ["STD_DRUID"], false)
-logger("com.lzy", INFO, ["STDOUT", "STDERR", "STDWARN"], false)
-root(INFO, ["STDOUT", "STDERR", "STDWARN"])
+logger("com.lzy", INFO, ["STDOUT", "STDERR"], false)
+logger("org.jooq.tools.LoggerListener", DEBUG, ["STDOUT"], false)
+root(INFO, ["STDOUT", "STDERR"])

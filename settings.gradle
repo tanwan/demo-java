@@ -2,6 +2,7 @@
 pluginManagement {
     plugins {
         id 'org.flywaydb.flyway' version "$flywayPluginVersion"
+        id 'nu.studer.jooq' version "$jooqPluginVersion"
     }
 }
 rootProject.name = 'demo-java'
@@ -38,6 +39,4 @@ findProject(':demo-module:demo-module-A')?.name = 'demo-module-A'
 include 'demo-module:demo-module-B'
 findProject(':demo-module:demo-module-B')?.name = 'demo-module-B'
 include 'demo-graphql'
-
-
 

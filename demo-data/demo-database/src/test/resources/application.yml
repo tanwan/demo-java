@@ -6,3 +6,5 @@ spring:
     password: 123456
   shardingsphere:
     enabled: false
+  flyway:
+    enabled: false
