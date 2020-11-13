@@ -77,6 +77,8 @@ flyway {
 jooq {
     configurations {
         main {
+            //compileJava是需要需要依赖generateJooq
+            generateSchemaSourceOnCompilation = false
             generationTool {
                 logging = org.jooq.meta.jaxb.Logging.INFO
                 jdbc {
@@ -87,7 +89,7 @@ jooq {
                 }
 
                 generator {
-                    //如果要自定义生成器,则需要将自定义生成器添加到jooqGenerator的依赖下(不能放在本项目中)
+                    //如果要自定义生成器,则需要将自定义生成器添加到jooqGenerator的依赖下,但是不能放在本项目中,也就是需要建另一个项目
                     name = 'org.jooq.codegen.JavaGenerator'
                     database {
                         //多个使用|连接
