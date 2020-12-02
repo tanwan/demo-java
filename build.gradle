@@ -61,6 +61,9 @@ subprojects {
         
         //jackson
         implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: project['jackson.version']
+
+        //jackson jsr310
+        implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: project['jackson.version']
         
         //junit
         testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: project['junit-jupiter.version']
