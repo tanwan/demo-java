@@ -7,16 +7,12 @@ dependencies {
 
     //spring boot test
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project['spring-boot.version']
-   // lettuce group: 'io.lettuce', name: 'lettuce-core', version: project['lettuce.version']
+    // lettuce group: 'io.lettuce', name: 'lettuce-core', version: project['lettuce.version']
     implementation group: 'io.lettuce', name: 'lettuce-core', version: project['lettuce.version']
     // hbase
     implementation group: 'org.apache.hbase', name: 'hbase-client', version: project['hbase.version']
 
-
     //mongodb
     implementation group: 'org.mongodb', name: 'mongo-java-driver', version: project['mongodb.version']
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: project['spring-boot.version']
-
-    //hazelcast
-    implementation group: 'com.hazelcast', name: 'hazelcast', version: project['hazelcast.vertsion']
 }

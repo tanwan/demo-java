@@ -39,4 +39,6 @@ findProject(':demo-module:demo-module-A')?.name = 'demo-module-A'
 include 'demo-module:demo-module-B'
 findProject(':demo-module:demo-module-B')?.name = 'demo-module-B'
 include 'demo-graphql'
+include 'demo-data:demo-distributed-database'
+findProject(':demo-data:demo-distributed-database')?.name = 'demo-distributed-database'
 

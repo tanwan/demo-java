@@ -1,0 +1,8 @@
+dependencies {
+    //hazelcast
+    implementation group: 'com.hazelcast', name: 'hazelcast', version: project['hazelcast.vertsion']
+}
+
+test {
+    useJUnitPlatform()
+}
