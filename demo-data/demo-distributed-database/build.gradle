@@ -1,6 +1,9 @@
 dependencies {
     //hazelcast
     implementation group: 'com.hazelcast', name: 'hazelcast', version: project['hazelcast.vertsion']
+
+    //ignite
+    implementation group: 'org.apache.ignite', name: 'ignite-core', version:  project['ignite.version']
 }
 
 test {
