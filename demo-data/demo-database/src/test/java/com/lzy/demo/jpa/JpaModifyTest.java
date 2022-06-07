@@ -1,6 +1,5 @@
 package com.lzy.demo.jpa;
 
-import com.lzy.demo.jpa.application.JpaApplication;
 import com.lzy.demo.jpa.dao.SimpleJpaDao;
 import com.lzy.demo.jpa.entity.SimpleJpa;
 import com.lzy.demo.jpa.service.SimpleTransactionService;
@@ -12,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import javax.annotation.Resource;
 import java.util.Arrays;
 
-@SpringBootTest(classes = JpaApplication.class)
+@SpringBootTest
 @ActiveProfiles("jpa")
 @Commit
 public class JpaModifyTest {

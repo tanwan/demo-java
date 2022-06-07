@@ -46,8 +46,7 @@ public class SpringBootWithSpringBootConfigurationTest {
      * 设置spring.config.location的值,指定springboot的配置
      * 更好的方法应该是使用ActiveProfiles
      */
-    @SpringBootTest
-    @TestPropertySource(properties = "spring.config.location=classpath:properties.yml")
+    @SpringBootTest(properties = "spring.config.location=classpath:properties.yml")
     public static class SpringConfigTest {
         /**
          * 设置spring.config.location,指定springboot的配置

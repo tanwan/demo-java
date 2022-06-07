@@ -1,6 +1,5 @@
 package com.lzy.demo.jpa;
 
-import com.lzy.demo.jpa.application.JpaApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,7 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
  * @version v1.0
  */
 @AutoConfigureMockMvc
-@SpringBootTest(classes = JpaApplication.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @ActiveProfiles("jpa")
 public class WebTest {
 

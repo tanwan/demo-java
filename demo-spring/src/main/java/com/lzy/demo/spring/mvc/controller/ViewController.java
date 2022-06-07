@@ -47,9 +47,9 @@ public class ViewController {
      */
     @GetMapping("/public-view-without-template")
     public String publicViewWithoutTemplate() {
-        //以/开头的表示根路径,不以/开头的表示当前路径
-        //请求地址为127.0.0.1/view/public-view,那么会forward到127.0.0.1/public.html
-        //请求地址为127.0.0.1/view/public-view,那么会forward到127.0.0.1/view/public.html
+        //以/开头的表示根路径,请求地址为127.0.0.1/view/public-view-without-template,那么会forward到127.0.0.1/public.html
+        //不以/开头的表示当前路径请求地址为127.0.0.1/view/public-view-without-template,那么会forward到127.0.0.1/view/public.html
+        //相当于forward
         return "/public.html";
     }
 
@@ -74,7 +74,6 @@ public class ViewController {
     }
 
     /**
-     * 不使用模板的情况下,不使用redirect和forward就可以返回页面
      * 如果使用模板,要返回非模板的页面,必需使用redirect或者forward
      *
      * @return the modelAndView
@@ -110,7 +109,7 @@ public class ViewController {
 
 
     /**
-     * 使用String进行重定向
+     * 使用String进行重定向,使用模板和禁用模板都适用
      *
      * @return the view
      */
@@ -123,7 +122,7 @@ public class ViewController {
     }
 
     /**
-     * 使用RedirectView进行重定向
+     * 使用RedirectView进行重定向,使用模板和禁用模板都适用
      *
      * @return the view
      */

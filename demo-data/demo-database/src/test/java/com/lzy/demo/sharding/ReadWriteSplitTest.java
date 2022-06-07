@@ -3,7 +3,6 @@ package com.lzy.demo.sharding;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.lzy.demo.mybatis.entity.SimpleMybatis;
 import com.lzy.demo.mybatis.mapper.SimpleMybatisPlusMapper;
-import com.lzy.demo.sharding.application.Application;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.shardingsphere.api.config.masterslave.MasterSlaveRuleConfiguration;
 import org.apache.shardingsphere.api.hint.HintManager;
@@ -16,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.SqlSessionUtils;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
@@ -179,9 +179,10 @@ public class ReadWriteSplitTest {
     /**
      * 配合spring boot使用
      */
-    @SpringBootTest(classes = Application.class)
+    @SpringBootTest
     @MapperScan("com.lzy.demo.mybatis.mapper")
     @ActiveProfiles({"shardingsphere-read-write-split", "mybatis-plus"})
+    @SpringBootApplication
     public static class SpringBootReadWriteSplitTest {
 
         @Resource

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -22,9 +21,8 @@ import java.util.List;
  * @author lzy
  * @version v1.0
  */
-@SpringBootTest(classes = {MVCApplication.class, AsyncController.class})
+@SpringBootTest(classes = {MVCApplication.class, AsyncController.class}, properties = {"server.tomcat.max-threads=1", "waitRate=5"})
 @AutoConfigureMockMvc
-@TestPropertySource(properties = {"server.tomcat.max-threads=1", "waitRate=5"})
 public class AsyncTest {
 
     @Autowired

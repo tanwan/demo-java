@@ -126,9 +126,8 @@ public class ProducerTest {
     /**
      * The type Transaction test.
      */
-    @TestPropertySource(properties = "spring.rabbitmq.publisher-confirms=false")
     @SpringBootApplication
-    @SpringBootTest(classes = {DeclarableConfig.class, ProducerTest.SimpleTransaction.class})
+    @SpringBootTest(classes = {DeclarableConfig.class, ProducerTest.SimpleTransaction.class}, properties = "spring.rabbitmq.publisher-confirms=false")
     public static class TransactionTest extends ProducerTest {
         /**
          * Test transaction.

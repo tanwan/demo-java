@@ -27,6 +27,9 @@ dependencies {
     //ehcache2
     implementation group: 'net.sf.ehcache', name: 'ehcache'
 
+    // html单元测试
+    testImplementation group: 'net.sourceforge.htmlunit', name: 'htmlunit'
+
     //spring boot cache
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
 

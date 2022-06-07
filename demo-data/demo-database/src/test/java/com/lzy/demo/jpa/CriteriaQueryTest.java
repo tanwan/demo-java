@@ -2,7 +2,6 @@ package com.lzy.demo.jpa;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lzy.demo.jpa.application.JpaApplication;
 import com.lzy.demo.jpa.dao.SimpleJpaDao;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,7 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.annotation.Resource;
 
-@SpringBootTest(classes = JpaApplication.class)
+@SpringBootTest
 @ActiveProfiles("jpa")
 public class CriteriaQueryTest {
 

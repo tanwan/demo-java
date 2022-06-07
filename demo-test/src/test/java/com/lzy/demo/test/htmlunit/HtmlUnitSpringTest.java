@@ -10,6 +10,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -71,5 +72,9 @@ public class HtmlUnitSpringTest {
         HtmlAnchor htmlAnchor = page.querySelector("#anchor");
         HtmlPage newPage = htmlAnchor.click();
         assertThat(newPage.getHtmlElementById("result").getTextContent()).contains("clickAnchor");
+    }
+
+    @SpringBootApplication
+    public static class Application {
     }
 }

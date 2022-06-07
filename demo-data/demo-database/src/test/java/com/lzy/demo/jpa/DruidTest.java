@@ -1,6 +1,5 @@
 package com.lzy.demo.jpa;
 
-import com.lzy.demo.jpa.application.JpaApplication;
 import com.lzy.demo.jpa.dao.SimpleJpaDao;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,7 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootTest(classes = JpaApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles({"druid", "jpa"})
 public class DruidTest {
 

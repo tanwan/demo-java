@@ -1,6 +1,5 @@
 package com.lzy.demo.jpa;
 
-import com.lzy.demo.jpa.application.JpaApplication;
 import com.lzy.demo.jpa.service.SimpleTransactionService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -31,7 +30,7 @@ import javax.sql.DataSource;
  * @author LZY
  * @version v1.0
  */
-@SpringBootTest(classes = JpaApplication.class)
+@SpringBootTest
 @ActiveProfiles("jpa")
 @Commit
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -210,7 +209,7 @@ public abstract class TransactionTest {
     /**
      * The type Nested test.
      */
-    @SpringBootTest(classes = JpaApplication.class)
+    @SpringBootTest(classes = Application.class)
     @ActiveProfiles("jpa")
     @Commit
     @Import(NestedTest.TransactionManagerConfig.class)

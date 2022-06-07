@@ -1,6 +1,5 @@
 package com.lzy.demo.jpa;
 
-import com.lzy.demo.jpa.application.JpaApplication;
 import com.lzy.demo.jpa.dao.SimpleOptimisticLockDao;
 import com.lzy.demo.jpa.entity.SimpleOptimisticLock;
 import com.lzy.demo.jpa.service.SimpleLockService;
@@ -12,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.annotation.Resource;
 
-@SpringBootTest(classes = JpaApplication.class)
+@SpringBootTest
 @ActiveProfiles("jpa")
 @Commit
 public class LockTest {

@@ -3,9 +3,9 @@ package com.lzy.demo.sharding;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzy.demo.mybatis.entity.Order;
 import com.lzy.demo.mybatis.mapper.OrderMapper;
-import com.lzy.demo.sharding.application.Application;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -17,7 +17,8 @@ import javax.annotation.Resource;
  * @author lzy
  * @version v1.0
  */
-@SpringBootTest(classes = Application.class)
+@SpringBootApplication
+@SpringBootTest
 @MapperScan("com.lzy.demo.mybatis.mapper")
 @ActiveProfiles({"shardingsphere-sharding", "mybatis-plus"})
 public class SpringBootShardingTest {
