@@ -1,0 +1,20 @@
+dependencies {
+    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-authorization-server', version: project['spring-authorization-server.version']
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
+
+    //使用nimbusds-jose-jwt
+    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose'
+
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test'
+
+    runtimeOnly group: 'com.h2database', name: 'h2'
+
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+
+    testImplementation group: 'net.sourceforge.htmlunit', name: 'htmlunit'
+}

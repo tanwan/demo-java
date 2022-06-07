@@ -1,0 +1,8 @@
+#模块名
+moduleName=DemoExtension
+#版本信息
+moduleVersion=1.0
+#扩展实例方法,多个逗号分隔
+extensionClasses=com.lzy.demo.groovy.metadata.SimpleExtension,com.lzy.demo.groovy.dsl.ScriptExtension
+#扩展静态方法,多个逗号分隔
+staticExtensionClasses=com.lzy.demo.groovy.metadata.SimpleStaticExtension

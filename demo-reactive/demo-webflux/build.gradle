@@ -1,0 +1,9 @@
+dependencies {
+
+    //spring boot web
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux'
+
+    //spring boot test
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+
+}

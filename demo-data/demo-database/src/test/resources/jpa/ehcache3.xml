@@ -1,0 +1,21 @@
+<config xmlns='http://www.ehcache.org/v3'
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:jsr107="http://www.ehcache.org/v3/jsr107"
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
+							http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
+    <!--ehcache3-->
+    <!--See http://www.ehcache.org/documentation/-->
+    <!--使用${}相当于System#getProperty()-->
+    <persistence directory="${java.io.tmpdir}/cache-data"/>
+
+    <!--模板-->
+    <cache-template name="default">
+        <heap unit="entries">200</heap>
+    </cache-template>
+
+    <cache alias="simpleJpa" uses-template="default"/>
+
+    <cache alias="queryCacheRegion" uses-template="default">
+        <heap unit="entries">10</heap>
+    </cache>
+</config>

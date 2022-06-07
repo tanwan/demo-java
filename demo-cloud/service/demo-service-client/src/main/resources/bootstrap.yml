@@ -1,0 +1,22 @@
+# eureka配置,spring cloud config需要用到,所以定义在bootstrap.yml
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:28761/eureka/
+    enabled: true
+
+# 使用spring config server 使用注册中心
+---
+spring:
+  config:
+    activate:
+      on-profile: spring-cloud-config-eureka
+  cloud:
+    #See ConfigClientProperties
+    config:
+      enabled: true
+      name: demo-service-client,business
+      profile: test
+      discovery:
+        enabled: true
+        serviceId: demo-config-server

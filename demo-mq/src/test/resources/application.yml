@@ -1,0 +1,28 @@
+# See http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#common-application-properties
+# 注入到RabbitProperties
+spring:
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: demo
+    publisher-confirms: true
+    publisher-returns: true
+    connection-timeout: 3000
+    listener:
+       #设置SimpleMessageListenerContainer的属性
+       simple:
+         concurrency: 1
+         max-concurrency:
+    template:
+       #设置template的属性
+       receive-timeout: 5000
+       retry:
+          max-attempts: 3
+
+
+
+
+
+

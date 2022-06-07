@@ -1,0 +1,7 @@
+dependencies {
+    //这边zipkin.version是https://github.com/openzipkin/brave/blob/master/brave-bom/pom.xml引入的,在dependencyManagement.importedProperties没有,所以使用dependencyManagement.managedVersions['io.zipkin.zipkin2:zipkin']
+    implementation group: 'io.zipkin', name: 'zipkin-server', version: dependencyManagement.managedVersions['io.zipkin.zipkin2:zipkin']
+
+    //使用rabbitmq收集
+    implementation group: 'io.zipkin.zipkin2', name: 'zipkin-collector-rabbitmq', version: dependencyManagement.managedVersions['io.zipkin.zipkin2:zipkin']
+}

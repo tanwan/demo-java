@@ -1,0 +1,7 @@
+server:
+  port: 18080
+spring:
+  h2:
+    console:
+      # 访问h2 console: http://127.0.0.1:18080/h2-console
+      enabled: true

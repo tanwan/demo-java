@@ -1,0 +1,4 @@
+dependencies {
+    implementation group: 'org.kie', name: 'kie-ci', version: project['drool.version']
+    implementation group: 'org.drools', name: 'drools-decisiontables', version: project['drool.version']
+}

@@ -1,0 +1,7 @@
+#@PropertySource测试用
+
+
+key: value
+configuration.properties.integer: 1
+configuration.properties.email: 99156629@qq.com
+configuration.properties.actual-value: expectValue

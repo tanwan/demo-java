@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    default: jwt
+---
+spring:
+  config:
+    activate:
+      on-profile: jwt
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # 用来校验jwt的issuer
+          issuer-uri: http://127.0.0.1:18080
+          # 用来获取jwt的公钥
+          jwk-set-uri: http://localhost:18080/oauth2/jwks
+          # 可以使用issuer-uri,如果能拿到公钥的话,也可以直接使用public-key-location
+          # See OAuth2ResourceServerJwtConfiguration.JwtDecoderConfiguration.jwtDecoderByPublicKeyValue
+          # public-key-location: classpath:my-key.pub

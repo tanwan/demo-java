@@ -1,0 +1,173 @@
+spring:
+  # spring推荐使用spring.config.import,它由三个部分组成:[optional:]<configserver:|file:|classpath:>[url],configserver表示从配置中心读取配置
+  # 默认的import见 org.springframework.boot.context.config.ConfigDataEnvironment.DEFAULT_SEARCH_LOCATIONS
+  # 但是如果使用注册中心来连接spring-cloud-config的话,spring.config.import是有问题的
+  # ConfigDataEnvironment#processWithProfiles,这边是先处理imports再重新注册bootstrapContext的Binder(有activationContext)
+  # ConfigServerConfigDataLocationResolver.resolveProfileSpecific,这个是在处理imports的时候调用的,bootstrapContext的Binder还没有activationContext
+  # 所以这时候bootstrapContext是获取不到配置在application-<profile>.yml的注册中心的信息的,也就没有办法通过注册中心连接到spring-cloud-config
+  #config:
+  #  注意spring.cloud.import跟其它配置不一样,是一定会执行的,所以不要在default profile配置configserver
+  #  import: 'optional:classpath:/'
+  # 所以这边还是先使用bootstrap的启动方式,添加spring.cloud.bootstrap.enabled=true
+  # See org.springframework.cloud.util.PropertyUtils.bootstrapEnabled
+  cloud:
+    config:
+      enabled: false
+    bootstrap:
+      #可以使用此配置,也可以添加spring-cloud-starter-bootstrap的依赖
+      enabled: true
+
+  application:
+    name: demo-service-client
+
+  boot:
+    admin:
+      client:
+        enabled: false
+  zipkin:
+    enabled: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+
+server:
+  port: 28080
+
+# spring-admin需要配置这些
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:28761/eureka/
+    enabled: true
+
+
+---
+# 使用spring config server 使用注册中心
+# 使用bootstrap的方式,配置在bootstrap.yml中
+
+---
+# 使用spring config server 使用url
+spring:
+  config:
+    # 可以直接带上配置中心的地址
+    import: 'optional:configserver:http://127.0.0.1:28888'
+    activate:
+      on-profile: spring-cloud-config-url
+  cloud:
+    #See ConfigClientProperties
+    config:
+      name: demo-service-client,business
+      profile: test
+      enabled: true
+      # 如果spring.config.import有带url,那么这边的url可以省略
+      uri: http://127.0.0.1:28888
+
+---
+# spring admin不使用注册中心
+spring:
+  config:
+    activate:
+      on-profile: spring-admin-client-url
+  boot:
+    admin:
+      client:
+        url: 'http://localhost:25010'
+        enabled: true
+eureka:
+  client:
+    enabled: false
+
+---
+# spring admin使用注册中心
+spring:
+  config:
+    activate:
+      on-profile: spring-admin-eureka
+  boot:
+    admin:
+      client:
+        enabled: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: sleuth
+---
+spring:
+  config:
+    activate:
+      on-profile: sleuth-zipkin-web
+  zipkin:
+    enabled: true
+    #zipkin地址
+    base-url: http://localhost:9411/
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      #采样率
+      probability: 100
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: sleuth-zipkin-rabbit
+  zipkin:
+    enabled: true
+    sender:
+      type: rabbit
+  sleuth:
+    sampler:
+      #采样率
+      probability: 100
+  rabbitmq:
+    addresses: 127.0.0.1:5672
+    virtual-host: zipkin
+    username: guest
+    password: guest
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+---
+spring:
+  config:
+    activate:
+      on-profile: sleuth-zipkin-kafka
+  zipkin:
+    enabled: true
+    sender:
+      type: kafka
+    kafka:
+      topic: zipkin
+  sleuth:
+    sampler:
+      #采样率
+      probability: 100
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+---
+spring:
+  config:
+    activate:
+      on-profile: logstash
+logging:
+  config: classpath:logback-logstash.xml
+---
+spring:
+  config:
+    activate:
+      on-profile: filebeat
+logging:
+  config: classpath:logback-filebeat.xml

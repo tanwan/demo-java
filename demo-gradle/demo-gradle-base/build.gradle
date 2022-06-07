@@ -1,0 +1,249 @@
+//plugins {
+//    id 'com.lzy.demo.simple-java-plugin' version '1.0'
+//    id 'com.lzy.demo.simple-groovy-plugin' version '1.0'
+//}
+
+task lifecycle {
+    //gradle的生命周期有三个阶段
+    //1.Initialization初始化阶段,执行项目中的settings.gradle,为每个项目创建Project实例
+    //2.Configuration配置阶段,执行项目中的build.gradle,但是不会执行task,只是创建出task的有向无环图
+    //3.Execution执行阶段,gradle根据命令,执行相应的task
+    group = 'demo-gradle'
+    //整个build,除了doFirst和doLast之外的都是在配置阶段运行
+    if (project.gradle.startParameter.taskNames.contains(name)) {
+        println 'lifecycle Configuration'
+    }
+
+    doFirst {
+        //执行阶段最先运行
+        println 'lifecycle Execution doFirst'
+    }
+
+    doLast {
+        //执行阶段最后运行
+        println 'lifecycle Execution doLast'
+    }
+}
+
+task dependTask1 {
+    group = 'demo-gradle'
+    doLast {
+        println 'dependTask1 Execution doLast'
+    }
+}
+
+task dependTask2 {
+    group = 'demo-gradle'
+    doLast {
+        println 'dependTask2 Execution doLast'
+    }
+}
+
+//dependTask1要在dependTask2之后执行
+dependTask1.mustRunAfter dependTask2
+
+
+task dependTask3 {
+    group = 'demo-gradle'
+    //dependTask2依赖dependTask1, 执行顺序:dependTask2#doFirst,doLast,dependTask2#doFirst,doLast,,dependTask3#doFirst,doLast
+    dependsOn dependTask1, dependTask2
+
+    doLast {
+        println 'dependTask3 Execution doLast'
+    }
+}
+
+task dependTask4 {
+    group = 'demo-gradle'
+    doLast {
+        println 'dependTask4 Execution doLast'
+    }
+}
+task dependTask5 {
+    group = 'demo-gradle'
+    //跟dependsOn相反,执行顺序:dependTask5#doFirst,doLast,dependTask4#doFirst,doLast
+    finalizedBy dependTask4
+    doLast {
+        println 'dependTask5 Execution doLast'
+    }
+}
+//extensions
+class InnerExt {
+    String property1
+    String property2
+
+    @Override
+    String toString() {
+        return "InnerExt{property1=$property1, property2=$property2}"
+    }
+}
+//还有一种扩展是使用NamedDomainObjectContainer的
+class SimpleDomain {
+    //必需要有这个属性
+    String name
+    String msg
+
+    //构造函数必须要有name属性
+    SimpleDomain(String name) {
+        this.name = name
+    }
+
+    //这个方法就是下面为msg设值的方法,此方法不能省略
+    void msg(String msg) {
+        this.msg = msg
+    }
+
+    String toString() {
+        return "name = ${name}, msg = ${msg}"
+    }
+}
+
+class OuterExt {
+    String name
+    String property1
+    String property2
+    InnerExt newInnerExt = new InnerExt()
+    //定义一个NamedDomainObjectContainer属性
+    NamedDomainObjectContainer<SimpleDomain> simpleNamedDomainObjectContainer
+
+    OuterExt(String name, Project project) {
+        this.name = name
+        //使用project.container创建container
+        NamedDomainObjectContainer<SimpleDomain> simpleNamedDomainObjectContainer = project.container(SimpleDomain)
+        this.simpleNamedDomainObjectContainer = simpleNamedDomainObjectContainer
+    }
+
+    //这个方法就是扩展outerExt的innerExtMethod
+    void innerExtMethod(Action<InnerExt> action) {
+        //这边就是把闭包的detegate指向newInnerExt
+        action.execute(newInnerExt)
+    }
+
+    //这个方法就是扩展出outerExt的simpleDomainMethod
+    void simpleDomainMethod(Action<NamedDomainObjectContainer<SimpleDomain>> action) {
+        //这边就是把闭包的detegate指向simpleNamedDomainObjectContainer
+        action.execute(simpleNamedDomainObjectContainer)
+    }
+
+    @Override
+    public String toString() {
+        return "OuterExt{name=$name, property1=$property1, property2=$property2}, newInnerExt=$newInnerExt"
+    }
+}
+
+//为project扩展,使用create,gradle会创造出outerExt的实例
+extensions.create('outerExt', OuterExt, 'outerExt', project)
+def outerExtension = extensions.findByName('outerExt')
+//为outerExt扩展
+outerExtension.extensions.create('createInnerExt', InnerExt)
+//跟create不同的是,add是使用我们创建的实例
+def addInner = new InnerExt(property1: 'init addInnerExt1')
+outerExtension.extensions.add(InnerExt, 'addInnerExt', addInner)
+//NamedDomainObjectContainer也可以直接添加到extensions
+NamedDomainObjectContainer<SimpleDomain> addNamedDomainObjectContainer = project.container(SimpleDomain)
+outerExtension.extensions.add(InnerExt, 'addSimpleDomain', addNamedDomainObjectContainer)
+
+//创建完outerExt后,当遇到outerExt时,就会把此闭包delegate指向extensions.create创建出来的outerExt,然后执行此闭包
+outerExt {
+    //此闭包的delegate
+    if (project.gradle.startParameter.taskNames.contains('extension')) {
+        println "delegate=$delegate"
+    }
+    property1 = 'out1'
+    property2 = 'out2'
+    //这边的newInnerExt是OuterExt的一个方法,参数就是闭包,See OuterExt#innerExtMethod
+    innerExtMethod {
+        property1 = 'newInnerExt1'
+        property2 = 'newInnerExt2'
+    }
+    //把delegate指向createInnerExt(gradle创建的),然后执行闭包
+    createInnerExt {
+        property1 = 'createInnerExt1'
+        property2 = 'createInnerExt2'
+    }
+    //把detegate指向addInnerExt(我们自己创建的),然后执行闭包
+    addInnerExt {
+        property2 = 'addInnerExt2'
+    }
+    //这边的simpleDomainMethod就是OuterExt的一个方法,参数就是这个闭包,See OuterExt#simpleDomainMethod
+    simpleDomainMethod {
+        //simpleNamedDomainObjectContainer(创建出来的NamedDomainObjectContainer)执行这个闭包时,把domainbean1/2当作name创建SimpleDomain,然后再用SimpleDomain执行闭包
+        domainbean1 {
+            //这边的msg就是SimpleDomain的msg方法
+            msg 'simpleDomainMethod:domainbean1'
+        }
+        domainbean2 {
+            msg 'simpleDomainMethod:domainbean2'
+        }
+    }
+    //把detegate指向addNamedDomainObjectContainer(我们自己创建的),然后执行闭包
+    addSimpleDomain {
+        domainbean1 {
+            //这边的msg就是SimpleDomain的msg方法
+            msg 'addSimpleDomain:domainbean1'
+        }
+        domainbean2 {
+            msg 'addSimpleDomain:domainbean2'
+        }
+    }
+}
+
+task extension {
+    group = 'demo-gradle'
+    doLast {
+        println "outerExt: $project.outerExt"
+        //获取createInnerExt的值,outerExt并没有createInnerExt,这边的createInnerExt实际上是project.outerExt.extensions.findByName('createInnerExt')
+        def createInner = project.outerExt.extensions.findByName('createInnerExt')
+        println "createInnerExt: $project.outerExt.createInnerExt, findByName:$createInner"
+        println "addInnerExt:$project.outerExt.addInnerExt"
+
+        //NamedDomainObjectContainer本质是一个Set
+        //simpleDomainMethod没有加到extensions中,所以不能使用project.outer.simpleDomainMethod获取值,要用simpleNamedDomainObjectContainer取值
+        project.outerExt.simpleNamedDomainObjectContainer.all { println "simpleDomainMethod:$it" }
+
+        //addSimpleDomain加到了extensions中了,所以可以直接使用project.outerExt.addSimpleDomain取值
+        project.outerExt.addSimpleDomain.all { println "addSimpleDomain:$it" }
+    }
+}
+
+
+class ConfigureTask extends DefaultTask {
+    //需要有@Input才能在configure中配置此属性
+    @Input
+    String msg
+
+    @TaskAction
+    def process() {
+        println "group:$group, msg:$msg"
+    }
+}
+
+project.tasks.create('configureTask', ConfigureTask)
+
+configure(tasks.configureTask) {
+    //配置msg属性
+    msg = 'configure task'
+    group = 'demo-gradle'
+}
+
+
+//执行此任务,则先把demo-gradle-plugin发布到本地仓库,然后再把插件加进来,也就是去掉此文件上面的plugin块的注释即可
+task pluginTask {
+    group 'demo-plugin'
+    if (project.gradle.startParameter.taskNames.contains(name)) {
+        groovyPlugin {
+            name = 'groovyPlugin'
+            info = 'groovy plugin info'
+        }
+
+        javaPlugin {
+            name = 'javaPlugin'
+            info = 'java plugin info'
+        }
+        dependsOn simpleGroovyPluginTask, simpleJavaPluginTask
+    }
+}
+
+//debug插件
+//在命令行执行task并加上参数: ./gradlew :demo-gradle:demo-gradle-base:pluginTask  -Dorg.gradle.daemon=false -Dorg.gradle.debug=true
+//然后启动Remote JVM Debug进行调试即可,端口默认为5005

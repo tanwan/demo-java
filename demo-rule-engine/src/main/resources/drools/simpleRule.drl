@@ -1,0 +1,92 @@
+// See https://docs.jboss.org/drools/release/7.69.0.Final/drools-docs/html_single/#_droolslanguagereferencechapter
+// idea可以安装drools插件
+// package可以理解为是名称空间,同一个package下的drools可以互相使用query和function
+package com.lzy.demo.drools;
+
+import com.lzy.demo.drools.model.Request;
+import com.lzy.demo.drools.model.Result;
+
+// global用来为会话定义一个全局级别的变量,它可以用来传递参数
+global com.lzy.demo.drools.model.Result ret;
+
+// dialect用来指定表达式使用的方言,默认为java
+dialect  "mvel"
+
+// 定义rule
+rule "rule1"
+    when // 条件,也叫作规则的LHS(Left Hand Side)
+        // 可以声明变量
+        // 详细的运算符可以See https://docs.jboss.org/drools/release/7.69.0.Final/drools-docs/html_single/#drl-rules-WHEN-con_drl-rules
+        // .:访问属性,#:转换类型,[n]:获取数据元素,</<=/>/>=/==/!=:常见运算符,&&/||:逻辑运算
+        // matches/not matches:正则,contains/not contains: 集合是否包含,memberOf/not memberOf: 元素是否属于集合
+        // in/not in: 类似memberOf/not memberOf, 比如: type in ("red", "blue")
+        // str: string的操作,比如:demoStr str[startsWith] "str",也可以写成String(startsWith("str"))
+        req: Request(str=="rule1")
+        // 这两个条件是&关系
+        Request(integer > 0 && integer <= 3)
+    then // 动作/结果,也叫作规则的RHS(Right Hand Side)
+        System.out.println("rule1:" + req);
+        ret.setValue("rule1");
+         // 也可以直接给fact设置值
+        req.setResult("rule1");
+end
+
+
+rule "rule2-1"
+    // 相当于是规则的优先级,数值越大,越早执行,如果没有指定的话,则先定义的先执行
+    salience 1
+    when
+        Request(str=="rule2")
+        // not取反
+        not(Request(integer > 0))
+    then
+        System.out.println("rule2-1");
+end
+
+
+rule "rule2-2"
+    // 默认为true, 还有date-effective,date-expires可以根据时间来判断是否enable
+    enabled true
+    salience 2
+    when
+        req: Request(str=="rule2")
+    then
+        System.out.println("rule2-2");
+end
+
+rule "rule3"
+    // update/insert重新触发规则时,不会再激活此规则
+    no-loop true
+    when
+        req: Request(str=="rule3" && integer==0)
+    then
+        System.out.println("rule3:" + req);
+        req.setInteger(4);
+        // update用于更新fact,然后重新触发规则
+        update(req)
+end
+
+rule "rule3-update"
+    no-loop true
+    when
+        // 使用逗号分隔也相当于&&
+        req: Request(str=="rule3", integer==4)
+    then
+        System.out.println("rule3-update:" + req);
+        // insert用于插入fact,然后重新触发规则
+        insert(new Request(4,"rule3-insert"))
+end
+
+rule "rule3-insert"
+    no-loop true
+    when
+        req: Request(str=="rule3")
+        reqInsert: Request(str=="rule3-insert")
+    then
+        System.out.println(simpleFunc(req,reqInsert));
+end
+
+// function
+function String simpleFunc(Request req1,Request req2) {
+    return "rule3-insert:req:"+req1+" insert:"+req2;
+}

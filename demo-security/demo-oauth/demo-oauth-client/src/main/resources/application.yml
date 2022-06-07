@@ -1,0 +1,34 @@
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          demo-oauth-client:
+            token-uri: http://127.0.0.1:18080/oauth2/token
+          demo-oauth-code:
+            token-uri: http://127.0.0.1:18080/oauth2/token
+            authorization-uri: http://127.0.0.1:18080/oauth2/authorize
+            jwk-set-uri: http://127.0.0.1:18080/oauth2/jwks
+        registration:
+          # 标识提供方,这个需要跟上面的provider对应,也可以使用provider进行指定
+          demo-oauth-client:
+            #provider: demo-oauth-client
+            client-id: demo-client
+            client-secret: 123456
+            authorization-grant-type: client_credentials
+          demo-oauth-code:
+            client-id: demo-client
+            client-secret: 123456
+            authorization-grant-type: authorization_code
+            scope: openid,message:read
+            # See OAuth2LoginAuthenticationFilter
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+
+server:
+  port: 28080
+  servlet:
+    session:
+      cookie:
+        # 授权码模式会在授权服务器上进行登陆,这边两个服务都是使用127.0.0.1,所以JSESSIONID会造成污染
+        # 所以这边使用了不同的cookie name,也可以让授权服务器和此服务使用不同的域名
+        name: OAUTH-CLIENT-JSESSIONID

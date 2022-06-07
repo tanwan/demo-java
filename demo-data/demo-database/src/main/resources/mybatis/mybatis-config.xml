@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--
+        在 properties 元素体内指定的属性首先被读取。
+        然后根据 properties 元素中的 resource 属性读取类路径下属性文件或根据 url 属性指定的路径读取属性文件，并覆盖已读取的同名属性。
+        最后读取作为方法参数传递的属性，并覆盖已读取的同名属性。
+    -->
+    <properties resource="mybatis/mybatis.properties">
+        <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+        <!-- 用来开启这个功能,${key:defaultValue}冒号后的为默认值-->
+        <property name="org.apache.ibatis.parsing.PropertyParser.enable-default-value" value="true"/>
+    </properties>
+    <!--mybatis的一些设置-->
+    <settings>
+        <!--全局开启或关闭配置文件中的所有映射器已经配置的任何缓存,默认true-->
+        <setting name="cacheEnabled" value="true"/>
+        <!--延迟加载的全局开关.当开启时,所有关联对象都会延迟加载.特定关联关系中可通过设置fetchType属性来覆盖该项的开关状态,默认false-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--是否允许单一语句返回多结果集(需要驱动支持),默认true-->
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <!--使用列标签代替列名,默认true-->
+        <setting name="useColumnLabel" value="true"/>
+        <!--允许 JDBC 支持自动生成主键,默认true-->
+        <setting name="useGeneratedKeys" value="false"/>
+        <!--指定MyBatis应如何自动映射列到字段或属性.NONE表示取消自动映射,PARTIAL只会自动映射没有定义嵌套结果集映射的结果集.FULL会自动映射任意复杂的结果集(无论是否嵌套),默认PARTIAL-->
+        <setting name="autoMappingBehavior" value="PARTIAL"/>
+        <!--指定发现自动映射目标未知列(或者未知属性类型)的行为,NONE不作出反应,WARNING打印警告日志,FAILING抛出异常,默认NONE-->
+        <setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
+        <!--配置默认的执行器.SIMPLE就是普通的执行器,REUSE执行器会重用预处理语句(prepared statements),BATCH执行器将重用语句并执行批量更新,默认SIMPLE-->
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+        <!--设置超时时间,它决定驱动等待数据库响应的秒数-->
+        <setting name="defaultStatementTimeout" value="25"/>
+        <!--为驱动的结果集获取数量(fetchSize)设置一个提示值.此参数只可以在查询设置中被覆盖-->
+        <setting name="defaultFetchSize" value="100"/>
+        <!--允许在嵌套语句中使用分页(RowBounds).如果允许使用则设置为false,默认false-->
+        <setting name="safeRowBoundsEnabled" value="false"/>
+        <!--是否开启自动驼峰命名规则(camel case)映射,默认false-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--MyBatis利用本地缓存机制(Local Cache)防止循环引用(circular references)和加速重复嵌套查询.SESSION,会缓存一个会话中执行的所有查询.STATEMENT,本地会话仅用在语句执行上,对相同SqlSession的不同调用将不会共享数据.默认SESSION-->
+        <setting name="localCacheScope" value="SESSION"/>
+        <!--当没有为参数提供特定的JDBC类型时,指定JDBC类型-->
+        <setting name="jdbcTypeForNull" value="OTHER"/>
+        <!--指定哪个对象的方法触发一次延迟加载-->
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
+    </settings>
+    <!--类型别名是为Java类型设置一个短的名字.那么在mapper文件就可以使用别名,不用使用全限定名,存在的意义仅在于mapper文件用来减少类完全限定名的冗余-->
+    <typeAliases>
+        <typeAlias alias="simpleMybatis" type="com.lzy.demo.mybatis.entity.SimpleMybatis"/>
+        <!--使用package,指定的包下的类,别名默认为首字母小写的简单类名,可以使用@Alias指定-->
+        <package name="com.lzy.demo.mybatis.entity"/>
+    </typeAliases>
+    <!--类型处理器,在org.apache.ibatis.type包下,比如BooleanTypeHandler-->
+    <typeHandlers>
+        <!--可以直接指定包名,mybatis会自动查找TypeHandler-->
+        <!--<package name=""/>-->
+
+        <!--typeHandler的属性,javaType,jdbcType,对应CustomStringTypeHandler上的@MappedTypes和@MappedJdbcTypes,javaType,jdbcType优先级高-->
+        <typeHandler handler="com.lzy.demo.mybatis.typehandler.CustomStringTypeHandler"/>
+        <!--使用EnumOrdinalTypeHandler的话,数据库保存的值为整数,0,1,2分别表示SimpleEnum的ONE,TWO,THREE,原理是使用Class#getEnumConstants把枚举获取成数组-->
+        <typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+                     javaType="com.lzy.demo.mybatis.enums.UseIndexEnum"/>
+        <!--使用EnumTypeHandler的话,数据库保存的值为枚举的值(ONE,TWO,THREE)-->
+        <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler"
+                     javaType="com.lzy.demo.mybatis.enums.UseStringEnum"/>
+        <!--使用mybatis plus的MybatisEnumTypeHandler,数据库保存的是UseEnumValueEnum的变量code的值,变量code需要使用@EnumValue-->
+        <typeHandler handler="com.baomidou.mybatisplus.extension.handlers.MybatisEnumTypeHandler"
+                     javaType="com.lzy.demo.mybatis.enums.UseEnumValueEnum"/>
+    </typeHandlers>
+
+    <plugins>
+        <plugin interceptor="com.lzy.demo.mybatis.plugins.SimpleInterceptor">
+            <property name="someProperty" value="100"/>
+        </plugin>
+    </plugins>
+    <!--SqlSessionFactoryBuilder.build(InputStream inputStream, String environment)可以指定环境-->
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <!--${key:defaultValue}冒号后的为默认值,需要配置开启这个功能-->
+                <property name="url" value="${url}"/>
+                <property name="driver" value="${driver}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!--映射文件,无法使用通配符-->
+        <mapper resource="mybatis/mapper/simpleMybatisMapper.xml"/>
+
+        <!--直接配置Mapper,无法找到mapper.xml,也就是都使用注解-->
+        <!--<package name="com.lzy.demo.mybatis.mapper"/>-->
+    </mappers>
+</configuration>
+

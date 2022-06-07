@@ -1,0 +1,140 @@
+//plugins已经在settings.gradle配置了版本
+plugins {
+    //see https://flywaydb.org/documentation/usage/gradle/
+    id 'org.flywaydb.flyway' version "$flywayPluginVersion"
+    id 'nu.studer.jooq' version "$jooqPluginVersion"
+}
+dependencies {
+
+    implementation group: 'org.flywaydb', name: 'flyway-core'
+
+    //hibernate
+    implementation group: 'org.hibernate', name: 'hibernate-entitymanager'
+
+    // hikari
+    implementation group: 'com.zaxxer', name: 'HikariCP'
+
+    //ehcache2
+    implementation group: 'org.hibernate', name: 'hibernate-ehcache'
+
+    //ehcache3
+    implementation group: 'org.hibernate', name: 'hibernate-jcache'
+    implementation group: 'org.ehcache', name: 'ehcache'
+
+    // freemarker
+    implementation group: 'org.freemarker', name: 'freemarker'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jooq'
+
+    //jooq生成代码需要的依赖
+    jooqGenerator group: 'mysql', name: 'mysql-connector-java'
+    //mysql驱动
+    implementation group: 'mysql', name: 'mysql-connector-java'
+
+    //mybatis plus
+    implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: project['mybatis-plus-boot.version']
+    implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: project['mybatis-plus-generator.version']
+
+    //spring data jpa
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+
+    //spring boot test
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+
+    //spring boot web
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+
+    //druid(阿里巴巴数据库连接池)
+    implementation group: 'com.alibaba', name: 'druid-spring-boot-starter', version: project['druid.springboot.version']
+
+    //sql监控
+    implementation group: 'p6spy', name: 'p6spy', version: project['p6spy.version']
+
+    //sharding-jdbc
+    implementation(group: 'org.apache.shardingsphere', name: 'sharding-jdbc-core', version: project['sharding-jdbc.version']) {
+        exclude group: 'org.yaml', module: 'snakeyaml'
+    }
+    implementation(group: 'org.apache.shardingsphere', name: 'sharding-jdbc-spring-boot-starter', version: project['sharding-jdbc.version']) {
+        exclude group: 'org.yaml', module: 'snakeyaml'
+    }
+}
+
+//如果flyway的locations使用classpath:flyway/migration,则flywayMigrate需要依赖classes
+flywayMigrate.dependsOn classes
+flyway {
+    url = 'jdbc:mysql://127.0.0.1:3306/demo'
+    user = 'root'
+    password = '123456'
+    locations = ['classpath:flyway/migration']
+}
+
+
+//see https://www.jooq.org/doc/latest/manual/code-generation/codegen-gradle/
+//see https://www.jooq.org/doc/latest/manual/code-generation
+//see https://github.com/etiennestuder/gradle-jooq-plugin
+jooq {
+    configurations {
+        main {
+            //compileJava是需要需要依赖generateJooq
+            generateSchemaSourceOnCompilation = false
+            generationTool {
+                logging = org.jooq.meta.jaxb.Logging.INFO
+                jdbc {
+                    driver = 'com.mysql.cj.jdbc.Driver'
+                    url = flyway.url
+                    user = flyway.user
+                    password = flyway.password
+                }
+
+                generator {
+                    //如果要自定义生成器,则需要将自定义生成器添加到jooqGenerator的依赖下,但是不能放在本项目中,也就是需要建另一个项目
+                    name = 'org.jooq.codegen.JavaGenerator'
+                    database {
+                        //多个使用|连接
+                        includes = '.*'
+                        excludes = '''flyway_schema_history'''
+                        schemata {
+                            //可以有多个schema
+                            schema {
+                                inputSchema = 'demo'
+                            }
+                        }
+                    }
+                    generate {
+                        deprecated = false
+                        records = true
+                        //pojo和record都有接口
+                        interfaces = true
+                        //生成pojo
+                        pojos = true
+                        fluentSetters = true
+                        //生成的dao没什么用,建议自己继承DAOImpl
+                        daos = false
+                        //spring注解
+                        springAnnotations = true
+
+                    }
+                    target {
+                        packageName = 'com.lzy.demo.jooq'
+                        //默认值为 build/generated-src/jooq/main
+                        //nu.studer.jooq会将这个目录添加到sourceSet去,如果idea没有显示出这个目录为sourceSet,则可以手动添加
+                        directory = 'src/generated/jooq'
+                    }
+                    strategy.name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+                }
+            }
+        }
+    }
+}
+//增量构建
+tasks.named('generateJooq').configure {
+
+    //可以设置generateJooq依赖flyway
+    //dependsOn tasks.named('flywayMigrate')
+
+    allInputsDeclared = true
+}
+
+test {
+    onlyIf{false}
+}

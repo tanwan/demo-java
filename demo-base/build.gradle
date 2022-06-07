@@ -1,0 +1,40 @@
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+dependencies {
+    compileOnly group: 'org.projectlombok', name: 'lombok'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok'
+    testCompileOnly group: 'org.projectlombok', name: 'lombok'
+    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok'
+
+    implementation group: 'org.apache.commons', name: 'commons-lang3'
+    implementation group: 'io.projectreactor', name: 'reactor-core'
+
+    implementation group: 'org.springframework', name: 'spring-context'
+
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: project['poi.version']
+
+    implementation group: 'com.google.zxing', name: 'javase', version: project['zxing.version']
+
+    //用来解析xml,html
+    implementation group: 'org.jsoup', name: 'jsoup', version: project['jsoup.version']
+
+    implementation group: 'commons-io', name: 'commons-io', version: project['commons-io.version']
+
+    //执行shell
+    implementation group: 'org.zeroturnaround', name: 'zt-exec', version: project['zt-exec.version']
+
+    //mapstruct
+    implementation group: 'org.mapstruct', name: 'mapstruct', version: project['mapstruct.version']
+    annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: project['mapstruct.version']
+}
+
+test {
+    filter {
+        excludeTestsMatching "com.lzy.demo.base.concurrent.threadpool.ThreadPoolTest"
+        excludeTestsMatching "com.lzy.demo.base.future.AsyncFutureTest"
+    }
+}

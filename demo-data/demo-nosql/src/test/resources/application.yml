@@ -1,0 +1,29 @@
+spring:
+  config:
+    activate:
+      on-profile: redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    database: 0
+    timeout: 1000
+    lettuce:
+      pool:
+        maxIdle: 8
+        minIdle: 0
+        maxActive: 8
+        maxWait: -1
+
+---
+spring:
+  config:
+    activate:
+      on-profile: mongo
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+      username: demo
+      password: '123456'
+      database: demo

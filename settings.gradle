@@ -1,0 +1,132 @@
+//pluginManagement必须放在第一个代码块
+pluginManagement {
+    repositories {
+        mavenLocal()
+        maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+        gradlePluginPortal()
+        mavenCentral()
+    }
+    plugins {
+        //使用spring的依赖管理版本,see:https://docs.spring.io/dependency-management-plugin/docs/current-SNAPSHOT/reference/html/
+        // org.springframework.boot其实有包含了io.spring.dependency-management
+        id 'org.springframework.boot' version "$springbootVersion"
+
+        //可以在gradle设置一些idea的配置
+        id "org.jetbrains.gradle.plugin.idea-ext" version "$ideaExtVersion"
+    }
+}
+rootProject.name = 'demo-java'
+include 'demo-spring'
+include 'demo-base'
+include 'demo-io'
+include 'demo-mq'
+include 'demo-design-pattern'
+include 'demo-test'
+include 'demo-graphql'
+include 'demo-groovy'
+include 'demo-kotlin'
+include 'demo-mqtt'
+include 'demo-axon'
+include 'demo-rule-engine'
+
+//demo-data
+include 'demo-data:demo-database'
+findProject(':demo-data:demo-database')?.name = 'demo-database'
+include 'demo-data:demo-nosql'
+findProject(':demo-data:demo-nosql')?.name = 'demo-nosql'
+include 'demo-data:demo-distributed-database'
+findProject(':demo-data:demo-distributed-database')?.name = 'demo-distributed-database'
+include 'demo-data:demo-transaction'
+findProject(':demo-data:demo-transaction')?.name = 'demo-transaction'
+
+//demo-big-data
+include 'demo-big-data:demo-hadoop'
+findProject(':demo-big-data:demo-hadoop')?.name = 'demo-hadoop'
+include 'demo-big-data:demo-spark'
+findProject(':demo-big-data:demo-spark')?.name = 'demo-spark'
+
+//demo-security
+include 'demo-security:demo-shiro'
+findProject(':demo-security:demo-shiro')?.name = 'demo-shiro'
+include 'demo-security:demo-spring-security'
+findProject(':demo-security:demo-spring-security')?.name = 'demo-spring-security'
+include 'demo-security:demo-oauth:demo-oauth-authorization-server'
+findProject(':demo-security:demo-oauth:demo-oauth-authorization-server')?.name = 'demo-oauth-authorization-server'
+include 'demo-security:demo-oauth:demo-oauth-client'
+findProject(':demo-security:demo-oauth:demo-oauth-client')?.name = 'demo-oauth-client'
+include 'demo-security:demo-oauth:demo-oauth-resource-server'
+findProject(':demo-security:demo-oauth:demo-oauth-resource-server')?.name = 'demo-oauth-resource-server'
+include 'demo-security:demo-security-base'
+findProject(':demo-security:demo-security-base')?.name = 'demo-security-base'
+
+//demo-reactive
+include 'demo-reactive:demo-webflux'
+findProject(':demo-reactive:demo-reactive:demo-webflux')?.name = 'demo-reactive:demo-webflux'
+include 'demo-reactive:demo-vertx'
+findProject(':demo-reactive:demo-reactive:demo-vertx')?.name = 'demo-reactive:demo-vertx'
+
+//demo-module
+include 'demo-module:demo-module-A'
+findProject(':demo-module:demo-module-A')?.name = 'demo-module-A'
+include 'demo-module:demo-module-B'
+findProject(':demo-module:demo-module-B')?.name = 'demo-module-B'
+
+//demo-gradle
+include 'demo-gradle:demo-gradle-base'
+findProject(':demo-gradle:demo-gradle-base')?.name = 'demo-gradle-base'
+include 'demo-gradle:demo-gradle-plugin'
+findProject(':demo-gradle:demo-gradle-plugin')?.name = 'demo-gradle-plugin'
+
+
+// demo-cloud
+// config-server
+include ':demo-cloud:config-server:demo-spring-config-server'
+findProject(':demo-cloud:config-server:demo-spring-config-server')?.name = 'demo-spring-config-server'
+
+// service-registry
+include ':demo-cloud:service-registry:demo-eureka'
+findProject(':demo-cloud:service-registry:demo-eureka')?.name = 'demo-eureka'
+
+// service
+// service-client
+include ':demo-cloud:service:demo-service-client'
+findProject(':demo-cloud:service:demo-service-client')?.name = 'demo-service-client'
+
+// service-server
+include ':demo-cloud:service:demo-service-server'
+findProject(':demo-cloud:service:demo-service-server')?.name = 'demo-service-server'
+
+// dubbo-service-api
+include ':demo-cloud:service:demo-dubbo-service-api'
+findProject(':demo-cloud:service:demo-dubbo-service-api')?.name = 'demo-dubbo-service-api'
+
+// dubbo-service-client
+include ':demo-cloud:service:demo-dubbo-service-client'
+findProject(':demo-cloud:service:demo-dubbo-service-client')?.name = 'demo-dubbo-service-client'
+
+// dubbo-service-server
+include ':demo-cloud:service:demo-dubbo-service-server'
+findProject(':demo-cloud:service:demo-dubbo-service-server')?.name = 'demo-dubbo-service-server'
+
+// circuit-breaker
+include ':demo-cloud:circuit-breaker:demo-resilience4j'
+findProject(':demo-cloud:circuit-breaker:demo-resilience4j')?.name = 'demo-resilience4j'
+
+// component
+include ':demo-cloud:component:demo-spring-admin-server'
+findProject(':demo-cloud:component:demo-spring-admin-server')?.name = 'demo-spring-admin-server'
+
+include 'demo-cloud:component:demo-micrometer-prometheus'
+findProject(':demo-cloud:component:demo-micrometer-prometheus')?.name = 'demo-micrometer-prometheus'
+
+include ':demo-cloud:component:demo-zookeeper'
+findProject(':demo-cloud:component:demo-zookeeper')?.name = 'demo-zookeeper'
+
+include ':demo-cloud:component:demo-zipkin-server'
+findProject(':demo-cloud:component:demo-zipkin-server')?.name = 'demo-zipkin-server'
+
+//gateway
+include ':demo-cloud:gateway:demo-spring-gateway'
+findProject(':demo-cloud:gateway:demo-spring-gateway')?.name = 'demo-spring-gateway'
+
+

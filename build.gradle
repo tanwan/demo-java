@@ -1,0 +1,179 @@
+plugins {
+    //目前gradle还不支持在allprojects底下使用plugins{},所以还需要在这边声明plugins,版本已经在settings.gradle定义了
+    id 'org.springframework.boot'
+    //可以在gradle设置一些idea的配置
+    id 'org.jetbrains.gradle.plugin.idea-ext' apply true
+}
+
+//所有项目(包括root项目和子项目)
+allprojects {
+    apply plugin: 'idea'
+
+    group 'com.lzy'
+    version '1.0'
+}
+
+//只包括子项目
+subprojects {
+    //有子项目的,就只是目录,所以不需要插件和依赖
+    if (it.subprojects) {
+        return
+    }
+
+    // 打包成可运行jar,see https://docs.gradle.org/current/userguide/application_plugin.html
+    // 直接扩展build任务
+    //id: 'application'
+    //使用checkstyleMain/checkstyleTest task
+    apply plugin: 'checkstyle'
+    apply plugin: 'java-library'
+    apply plugin: 'project-report'
+    apply plugin: 'maven-publish'
+    apply plugin: 'io.spring.dependency-management'
+
+    //io.spring.dependency-management,这边使用spring boot的bom,可以用自己的bom,也可以直接在这边定义版本,see:https://docs.spring.io/dependency-management-plugin/docs/current-SNAPSHOT/reference/html/
+    dependencyManagement {
+        imports {
+
+            //这边demo-cloud需要使用spring-cloud-dependencies,其它的只要使用spring-boot-dependencies
+            if (path.startsWith(":demo-cloud")) {
+                //See: https://docs.spring.io/spring-cloud/docs/current/reference/html/
+                //See: https://github.com/spring-cloud/spring-cloud-release/blob/main/spring-cloud-dependencies/pom.xml
+                mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudDependenciesVersion"
+                //spring cloud支持的spring boot的版本比较旧
+                mavenBom "org.springframework.boot:spring-boot-dependencies:$springCloudSupportSpringBootVersion"
+            } else {
+                //版本定义 see: https://docs.spring.io/spring-boot/docs/current/reference/html/dependency-versions.html#dependency-versions.coordinates
+                //可以使用bomProperty定义版本,也可以在gradle.properties定义
+                //使用spring的依赖管理版本,see:https://docs.spring.io/dependency-management-plugin/docs/current-SNAPSHOT/reference/html/
+                mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+            }
+
+        }
+        dependencies {
+            //在这里定义的依赖,相当于是扩展bom,在使用时,就不需要指定版本了,版本已经在这里指定了
+            //dependency(group: '', name: '', version: '') {
+            //    exclude group: '', name: ''
+            //}
+        }
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(8)
+        }
+    }
+
+    repositories {
+        mavenLocal()
+        //阿里云镜像
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        mavenCentral()
+        maven {
+            url 'https://repo.spring.io/milestone'
+        }
+    }
+
+
+    dependencies {
+        testImplementation group: 'org.assertj', name: 'assertj-core'
+
+        //jackson
+        implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
+
+        //jackson jsr310
+        implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310'
+
+        //junit
+        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api'
+        //junit
+        testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine'
+
+        //排除依赖,也可以使用configurations
+        //implementation group: '', name: ''{
+        // exclude group: '', module: ''
+        //}
+        //implementation(project('')) {
+        // exclude group: '', module: ''
+        //}
+    }
+
+    configurations {
+        //implementation.exclude group: '', module: ''
+    }
+
+    //maven-publish提供了几个task
+    //1.generateMetadataFileFor<PubName>Publication: 生成元数据
+    //2.generatePomFileFor<PubName>Publication: 生成pom文件
+    //3.publish<PubName>PublicationTo<RepoName>Repository: 将PubName发布到定义的仓库
+    //4.publish<PubName>PublicationToMavenLocal: 将PubName发布到本地maven
+    //5.publish: 相当于执行所有的publish<PubName>PublicationTo<RepoName>Repository
+    //6.publishToMavenLocal: 相当于执行所有的publish<PubName>PublicationToMavenLocal
+    publishing {
+        //https://docs.gradle.org/current/userguide/publishing_maven.html#publishing_maven:publications
+        publications {
+            maven(MavenPublication) {
+                //生成jar,如果是有apply org.springframework.boot,也可以直接使用artifact bootJar,就不需要from components.java和versionMapping了
+                from components.java
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
+                    }
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
+                }
+            }
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    checkstyle {
+        //默认为config/checkstyle/checkstyle.xml
+        configFile = rootProject.file('config/checkstyle/lzy_checkstyle.xml')
+    }
+
+    clean.doFirst {
+        //删除log和out
+        delete file('./log')
+        delete file('./out')
+    }
+
+//这边把logback.xml添加到各个模块中的resources中,但是这边idea有个bug,会提示duplicate content roots detected
+//    sourceSets {
+//        main {
+//            resources {
+//                srcDirs rootProject.file('config/logback') include 'logback.xml'
+//            }
+//        }
+//    }
+}
+
+//这边通过运行配置来实现日志配置
+import org.jetbrains.gradle.ext.*
+
+idea {
+    project {
+        //See https://github.com/JetBrains/gradle-idea-ext-plugin
+        settings {
+            withIDEAFileXml("workspace.xml") {
+                //这边按照文档是可以修改配置的,但是不知道啥原因没有执行
+            }
+            runConfigurations {
+                def loggingPath = '$PROJECT_DIR$/config/logback/logback.xml'
+                //原理就是往workspace.xml添加默认的配置,这个是idea去添加的,目前不支持springboot
+                //可以参考类型为Application手动去添加,类型是SpringBootApplicationConfigurationType
+                def loggerConfig = "-Dlogback.configurationFile=$loggingPath"
+                defaults(JUnit) {
+                    vmParameters = loggerConfig
+                }
+
+                defaults(Application) {
+                    jvmArgs = loggerConfig
+                }
+            }
+        }
+    }
+}

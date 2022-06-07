@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: eureka-server
+  profiles:
+    default: standalone
+---
+spring:
+  config:
+    activate:
+      on-profile: standalone
+server:
+  port: 28761
+eureka:
+   #See EurekaServerConfigBean
+   server:
+      #续约比例的阈值,默认值为0.85,单实例的时候要调低,因为没有自我注册,所以相当于多算了一台实例进去
+      renewalPercentThreshold: 0.49
+   #See EurekaInstanceConfigBean
+   instance:
+     #设置实例的主机名
+     hostname: localhost
+   #See EurekaClientConfigBean
+   client:
+      #不向eureka注册
+      register-with-eureka: false
+      #不从eureka获取注册信息
+      fetch-registry: false
+      serviceUrl:
+          defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+---
+spring:
+  config:
+    activate:
+      on-profile: peer1
+server:
+  port: 28761
+eureka:
+  instance:
+    #在hosts做映射
+    hostname: peer1
+  client:
+    serviceUrl:
+      defaultZone: http://peer2:28762/eureka/
+---
+spring:
+  config:
+    activate:
+      on-profile: peer2
+server:
+  port: 28762
+eureka:
+  instance:
+    #在hosts做映射
+    hostname: peer2
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:28761/eureka/

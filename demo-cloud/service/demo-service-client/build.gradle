@@ -1,0 +1,37 @@
+dependencies {
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-eureka-client'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-config'
+  
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+
+    // spring boot admin
+    implementation group: 'de.codecentric', name: 'spring-boot-admin-starter-client', version: project['spring-boot-admin.version']
+
+    // spring cloud sleuth
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth'
+
+    // zipkin
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin'
+
+    // rabbitmq
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp'
+
+    // kafka
+    implementation group: 'org.springframework.kafka', name: 'spring-kafka'
+
+    // logstash
+    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: project['logstash-logback-encoder.version']
+
+    // hessian
+    implementation group: 'com.caucho', name: 'hessian', version: project['hessian.version']
+
+    // thrift
+    implementation group: 'org.apache.thrift', name: 'libthrift', version: project['thrift.version']
+}
+
+test {
+    onlyIf { false }
+}

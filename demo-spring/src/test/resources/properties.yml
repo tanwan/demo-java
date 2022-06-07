@@ -1,0 +1,41 @@
+# Properties测试用
+configuration:
+  properties:
+    integer: 1
+    a-double: 1.1
+    str: str
+    map1:
+      k1: v1
+      k2: v2
+      #这里的key为k3
+      /k3: v3
+      #这里的key为/k4
+      "[/k4]": v4
+    map2:  {k1: v1,k2: v2,/k3: v3,"[/k4]":v4}
+    list1:
+      - list1
+      - list2
+    list2: list1,list2
+    array:
+      - array1
+      - array2
+    local-date-time: 2018-11-03 10:55:22
+    custom-class: customerClass
+    another-class:
+      property1: property1
+      property2: property2
+    another-classes:
+      - property1: property1
+        property2: property2
+      - property1: property1
+        property2: property2
+    email: 99156629@qq.com
+    actual-value: expectValue
+    # 可以获取到随机数,See RandomValuePropertySource
+    random: ${random.uuid}
+    # 引用前面配置的属性,先替换成${random.uuid},所以reference-exist跟random不会相等
+    reference-exist: ${configuration.properties.random}
+    # 获取不到值的时候,直接使用这个表达式
+    reference-not-exist: ${not.exist.key}
+    # 获取不到值,使用默认值
+    reference-default-value: ${not.exist.key:defaultValue}

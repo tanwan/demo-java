@@ -1,0 +1,11 @@
+dependencies {
+    //hazelcast
+    implementation group: 'com.hazelcast', name: 'hazelcast'
+
+    //ignite
+    implementation group: 'org.apache.ignite', name: 'ignite-core', version: project['ignite.version']
+}
+
+test {
+    onlyIf{false}
+}

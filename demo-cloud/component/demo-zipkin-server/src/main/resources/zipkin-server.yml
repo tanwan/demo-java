@@ -1,0 +1,9 @@
+#这边由于使用了zipkin.server.ZipkinServer 作为启动类,因此配置文件名为zipkin-server.yml
+COLLECTOR_RABBITMQ_ENABLED: true
+RABBIT_VIRTUAL_HOST: zipkin
+RABBIT_ADDRESSES: 127.0.0.1:5672
+RABBIT_USER: guest
+RABBIT_PASSWORD: guest
+RABBIT_QUEUE: zipkin
+#包括了zipkin-server-shared.yml
+spring.profiles.include: shared

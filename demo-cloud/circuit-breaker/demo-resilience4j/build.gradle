@@ -1,0 +1,21 @@
+dependencies {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    //spring cloud引入的resilience4j, 但是spring cloud排除了resilience4j-bulkhead,无法使用@Bulkhead
+    implementation group: 'org.springframework.cloud',name:'spring-cloud-starter-circuitbreaker-resilience4j'
+    //所以这边单独把resilience4j-bulkhead依赖进来,也可以直接依赖resilience4j-spring-cloud2代替spring-cloud-starter-circuitbreaker-resilience4j
+    implementation group: 'io.github.resilience4j', name: 'resilience4j-bulkhead', version: dependencyManagement.importedProperties['resilience4j.version']
+
+    //aop
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+
+    //spring boot test
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+}
+
+test{
+    filter{
+        excludeTestsMatching "com.lzy.demo.resilience.*.testDynamicConfig"
+    }
+}

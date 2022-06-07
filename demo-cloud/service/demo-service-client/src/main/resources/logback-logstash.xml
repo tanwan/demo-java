@@ -1,0 +1,44 @@
+<configuration scan="false" scanPeriod="60 seconds" debug="false">
+    <!-- 如果没有logback配置,则使用org.springframework.boot.logging.logback.DefaultLogbackConfiguration-->
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    <!--ConsoleAppender-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 在brave.propagation.ThreadLocalCurrentTraceContext.newScope设置span的信息-->
+            <!-- 使用at <fully-qualified-class-name>.<method-name>(<file-name>:<line-number>))可以快速跳转到类 See https://www.jetbrains.com/help/idea/setting-log-options.html-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %green(%-5level) %green([${springAppName},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]) %magenta([%thread]) - %boldWhite(%msg) [at %class.%method:\(%file:%line\)]%n</pattern>
+            <!-- 也可以直接使用caller{1} -->
+<!--             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %green(%-5level) %green([${springAppName},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]) %magenta([%thread]) - %boldWhite(%msg) %caller{1}</pattern>-->
+        </encoder>
+        <target>System.out</target>
+    </appender>
+
+
+
+
+    <!--TCP对应logstash使用的是json_lines-->
+    <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!--可以配置多个地址 详见https://github.com/logstash/logstash-logback-encoder-->
+        <destination>127.0.0.1:4560</destination>
+
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" >
+            <!--logstash可以配置使用appname来建立索引-->
+            <!--logback1.3会提供CanonicalHostNamePropertyDefiner获取host-->
+            <customFields>
+                {"appname":"${springAppName}","host":"${HOSTNAME}"}
+            </customFields>
+        </encoder>
+    </appender>
+
+
+    <logger name="com.lzy" level="debug" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="STASH" />
+    </logger>
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="STASH" />
+    </root>
+
+
+</configuration>

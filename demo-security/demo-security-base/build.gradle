@@ -1,0 +1,10 @@
+
+dependencies {
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: project['jjwt.version']
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: project['jjwt.version']
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: project['jjwt.version']
+
+    // 为了引入nimbusds-jose-jwt
+    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose'
+}
+

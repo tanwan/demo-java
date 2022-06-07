@@ -1,0 +1,19 @@
+dependencies {
+    implementation group: 'org.apache.dubbo', name: 'dubbo', version: project['dubbo.version']
+
+    //使用zookeeper需要使用curator
+    implementation group: 'org.apache.curator', name: 'curator-framework', version: project['curator.version']
+    implementation group: 'org.apache.curator', name: 'curator-recipes', version: project['curator.version']
+    implementation group: 'org.apache.curator', name: 'curator-x-discovery', version: project['curator.version']
+
+    //spring boot test
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+
+    //这边gradle没有把demo-dubbo-service-api依赖的hibernate-validator添加到testCompile中,所以这边显式添加一下
+    implementation group: 'org.hibernate.validator', name: 'hibernate-validator'
+    implementation project(':demo-cloud:service:demo-dubbo-service-api')
+}
+
+test {
+    onlyIf { false }
+}

@@ -1,0 +1,5 @@
+key: value
+outer:
+  inner:
+    key: outer.inner.value
+    key2: outer.inner.value2

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--名称空间对应了Mapper类-->
+<mapper namespace="com.lzy.demo.mybatis.mapper.SimpleMybatisMapper">
+    <!--
+    select的属性
+    id: 唯一标识,用来引用这条语句
+    parameterType: 参数类型
+    resultType: 返回值类型,如果返回集合,则设置的是集合元素的类型
+    resultMap: 对返回值进行映射,跟resultType只能使用一个
+    flushCache: 将其设置为true后,只要语句被调用,都会导致本地缓存和二级缓存被清空,默认值:false
+    useCache: 将其设置为true后,将会导致本条语句的结果被二级缓存缓存起来,默认值:对select元素为 true。
+    timeout: 这个设置是在抛出异常之前,驱动程序等待数据库返回请求结果的秒数
+    fetchSize: 尝试让驱动程序每次批量返回的结果行数和这个设置值相等
+    statementType: STATEMENT,PREPARED或CALLABLE中的一个.这会让MyBatis分别使用Statement,PreparedStatement或CallableStatement,默认值：PREPARED
+    -->
+    <!--resultType表示的是一条记录要转换成的类型-->
+    <select id="findOne" resultType="simpleMybatis">
+        select *
+        from simple_mybatis
+        where id = #{id}
+    </select>
+
+    <select id="findAll" resultType="map">
+        select *
+        from simple_mybatis
+    </select>
+
+    <select id="selectOrder" resultType="com.lzy.demo.mybatis.entity.SimpleMybatis">
+        select *
+        from simple_mybatis
+        <!--$会直接替换,而不是使用PreparedStatement的占位符-->
+        simpleOrder by ${orderBy}
+    </select>
+
+
+    <select id="selectIf" resultType="com.lzy.demo.mybatis.entity.SimpleMybatis">
+        select *
+        from simple_mybatis
+        <!-- 如果if条件不符合的话,就不会有where条件,相当于<trim prefix="WHERE" prefixOverrides="AND |OR ">-->
+        <where>
+            <if test="name!=null and name!=''">
+                name = #{name}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectChoose" resultType="com.lzy.demo.mybatis.entity.SimpleMybatis">
+        select *
+        from simple_mybatis
+        where
+        <choose>
+            <when test="name == null">
+                name = '1'
+            </when>
+            <when test="name == ''">
+                name = #{name}
+            </when>
+            <otherwise>
+                name = #{name}
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="selectForeach" resultType="com.lzy.demo.mybatis.entity.SimpleMybatis">
+        select *
+        from simple_mybatis
+        where
+        id in
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <!--
+    insert,update,delete的属性
+    id: 唯一标识,用来引用这条语句
+    parameterType: 参数类型
+    flushCache: 将其设置为true后,只要语句被调用,都会导致本地缓存和二级缓存被清空,默认值:true
+    timeout: 这个设置是在抛出异常之前,驱动程序等待数据库返回请求结果的秒数
+    statementType: STATEMENT,PREPARED或CALLABLE中的一个.这会让MyBatis分别使用Statement,PreparedStatement或CallableStatement,默认值：PREPARED
+    useGeneratedKeys: (仅对insert和update有用)这会令MyBatis使用JDBC的getGeneratedKeys方法来取出由数据库内部生成的主键,默认值:false
+    keyProperty: (仅对insert和update有用)唯一标记一个属性,MyBatis会通过getGeneratedKeys的返回值或者通过insert语句的selectKey子元素设置它的键值.如果希望得到多个生成的列,也可以是逗号分隔的属性名称列表.
+    keyColumn:
+    -->
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id">
+        insert into simple_mybatis(name, use_string_enum, use_index_enum)
+        values (#{name}, #{useStringEnum}, #{useIndexEnum})
+    </insert>
+
+    <update id="updateOne">
+        UPDATE simple_mybatis
+        <!--在前面添加SET,然后删除无关的逗号,相当于<trim prefix="SET" suffixOverrides=",">-->
+        <set>
+            <!--使用指定的TypeHandler-->
+            use_index_enum =
+            #{simpleMybatis.useIndexEnum,javaType=com.lzy.demo.mybatis.enums.UseIndexEnum,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler }
+        </set>
+
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOne">
+        delete
+        from simple_mybatis
+        where id = #{id}
+    </delete>
+
+    <!--可被其他语句引用的可重用语句块,其它语句使用<include refid = "id"/>来引用-->
+    <!--<sql id="shareSQL">${alias}.id</sql>-->
+    <!--<include refid="shareSQL"><property name="alias" value="t1"/></include>-->
+
+    <select id="selectPage" resultType="com.lzy.demo.mybatis.entity.SimpleMybatis">
+        select *
+        from simple_mybatis
+    </select>
+
+    <!--描述如何从数据库结果集中来加载对象,详情见 http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html#Result_Maps
+    resultMap的属性及元素
+    属性:
+    id: 唯一标识,用来引用这条语句
+    type: 返回值类型
+    元素:
+    constructor: 返回值的构造函数
+          <constructor>
+              idArg表示id参数
+              <idArg column="列名" javaType="java类型" typeHandler="类型处理器"/>
+              <arg column="列名" javaType="java类型" typeHandler="类型处理器"/>
+           </constructor>
+
+    result: 返回值的属性
+            <result property="属性名" column="列名" javaType="java类型" typeHandler="类型处理器"/>
+
+    association: 返回值里面的复杂类
+            <association property="属性名" javaType="类型">
+                 <id property="id属性" column="列名"/>
+                 <result property="属性名" column="列名"/>
+            </association>
+
+    collection: 返回值里面的集合
+            <collection property="属性" ofType="集合元素的类型">
+                  <id property="id属性" column="列名"/>
+                  <result property="属性" column="列名"/>
+                  <association property="属性" javaType="类型"/>
+                  <collection property="属性" ofType="类型">
+                   </collection>
+             </collection>
+    -->
+
+
+    <!--对本命名空间进行二级缓存配置,缓存对象需要实现Serializable-->
+    <!--
+    cache的属性
+    eviction:缓存清除策略,LRU,FIFO,SOFT(软引用),WEAK(弱引用)
+    flushInterval:缓存间隔(毫秒),缓存仅仅会在调用语句时刷新
+    size:缓存的数目,默认1024
+    readOnly:是否是只读的缓存,默认false
+    type: 使用自定义缓存,实现org.mybatis.cache.Cache接口
+    -->
+    <!--<cache/>-->
+
+    <!--对其它命名空间的缓存配置的引用-->
+    <!--<cache-ref namespace=""/>-->
+</mapper>

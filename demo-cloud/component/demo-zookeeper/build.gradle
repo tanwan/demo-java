@@ -1,0 +1,9 @@
+dependencies {
+    //curator已经依赖了zookeeper了
+    implementation group: 'org.apache.curator', name: 'curator-framework'
+    implementation group: 'org.apache.curator', name: 'curator-recipes'
+}
+
+test {
+    onlyIf { false }
+}

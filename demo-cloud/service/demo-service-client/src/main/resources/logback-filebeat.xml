@@ -1,0 +1,44 @@
+<configuration scan="false" scanPeriod="60 seconds" debug="false">
+    <!-- 如果没有logback配置,则使用org.springframework.boot.logging.logback.DefaultLogbackConfiguration-->
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    <!--ConsoleAppender-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 在brave.propagation.ThreadLocalCurrentTraceContext.newScope设置span的信息-->
+            <!-- 使用at <fully-qualified-class-name>.<method-name>(<file-name>:<line-number>))可以快速跳转到类 See https://www.jetbrains.com/help/idea/setting-log-options.html-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %green(%-5level) %green([${springAppName},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]) %magenta([%thread]) - %boldWhite(%msg) [at %class.%method:\(%file:%line\)]%n</pattern>
+            <!-- 也可以直接使用caller{1} -->
+<!--             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %green(%-5level) %green([${springAppName},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]) %magenta([%thread]) - %boldWhite(%msg) %caller{1}</pattern>-->
+        </encoder>
+        <target>System.out</target>
+    </appender>
+
+
+
+
+    <appender name="FILE_BEAT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${user.home}/docker-data/filebeat/log/log.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>log.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" >
+            <customFields>
+                {"appname":"${springAppName}","host":"${HOSTNAME}"}
+            </customFields>
+        </encoder>
+    </appender>
+
+
+
+    <logger name="com.lzy" level="debug" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE_BEAT" />
+    </logger>
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE_BEAT" />
+    </root>
+
+
+</configuration>

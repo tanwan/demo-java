@@ -1,0 +1,31 @@
+plugins {
+    id 'groovy'
+}
+
+configurations {
+    ivy
+}
+
+dependencies {
+    implementation group: 'org.codehaus.groovy', name: 'groovy'
+    implementation group: 'org.codehaus.groovy', name: 'groovy-json'
+    implementation group: 'org.codehaus.groovy', name: 'groovy-yaml'
+    implementation group: 'org.codehaus.groovy', name: 'groovy-xml'
+    implementation group: 'org.reflections', name: 'reflections', version: project['reflections.version']
+    ivy group: 'org.apache.ivy', name: 'ivy', version: project['ivy.version']
+    implementation group: 'org.apache.ivy', name: 'ivy', version: project['ivy.version']
+    testImplementation group: 'org.spockframework', name: 'spock-core', version: project['spock.version']
+}
+
+// gradle编译中添加ivy的依赖,@Grab的编译需要使用ivy
+// 如果使用groovy sdk编译的话,则自带ivy
+tasks.withType(GroovyCompile) {
+    groovyClasspath += configurations.ivy
+}
+
+
+test {
+    filter {
+        excludeTest 'com.lzy.demo.groovy.other.OtherTest', null
+    }
+}

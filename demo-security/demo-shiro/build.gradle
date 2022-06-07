@@ -1,0 +1,10 @@
+dependencies {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation group: 'org.apache.shiro', name: 'shiro-core', version: project['shiro.version']
+    implementation group: 'org.apache.shiro', name: 'shiro-spring', version: project['shiro.version']
+    implementation group: 'org.crazycake', name: 'shiro-redis', version: project['shiro-redis.version']
+
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: project['jjwt.version']
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: project['jjwt.version']
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: project['jjwt.version']
+}

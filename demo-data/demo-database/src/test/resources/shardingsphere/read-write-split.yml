@@ -1,0 +1,23 @@
+dataSources:
+  #使用!!可以指定类型
+  ds_master: !!com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    #HikariDataSource是使用jdbcUrl,其它的不一定
+    jdbcUrl: jdbc:mysql://localhost:3307/demo
+    username: root
+    password: 123456
+  #使用!!可以指定类型
+  ds_slave0: !!com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    #HikariDataSource是使用jdbcUrl,其它的不一定
+    jdbcUrl: jdbc:mysql://localhost:3308/demo
+    username: root
+    password: 123456
+
+masterSlaveRule:
+  name: ds_ms
+  masterDataSourceName: ds_master
+  slaveDataSourceNames:
+     - ds_slave0
+props:
+  sql.show: true

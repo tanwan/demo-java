@@ -1,0 +1,66 @@
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin'
+    id 'org.jetbrains.gradle.plugin.idea-ext'
+    id 'maven-publish'
+}
+
+dependencies {
+    testImplementation group: 'org.spockframework', name: 'spock-core', version: project['spock.version']
+}
+
+test {
+    onlyIf { false }
+}
+
+gradlePlugin {
+    plugins {
+        simpleGroovyPlugin {
+            id = 'com.lzy.demo.simple-groovy-plugin'
+            implementationClass = 'com.lzy.demo.gradle.plugin.SimpleGroovyPlugin'
+        }
+        simpleJavaPlugin {
+            id = 'com.lzy.demo.simple-java-plugin'
+            implementationClass = 'com.lzy.demo.gradle.plugin.SimpleJavaPlugin'
+        }
+    }
+}
+
+//这边使用idea-ext来配置
+rootProject.idea.project.settings {
+    taskTriggers {
+        //pluginUnderTestMetadata是java-gradle-plugin的task,用来生成plugin-under-test-metadata.properties
+        beforeBuild pluginUnderTestMetadata
+    }
+}
+
+//这边就是全部交给groovy去处理,这样java就可以直接调用到groovy的类
+sourceSets {
+    main {
+        groovy {
+            srcDirs += sourceSets.main.java.srcDirs
+        }
+        java {
+            srcDirs = []
+        }
+    }
+}
+
+publishing {
+    publications {
+        //java-gradle-plugin会创造出pluginMaven这个publication
+        //see build.gradle的publishing
+        pluginMaven(MavenPublication) {
+            //如果项目使用了bom,就需要这边的配置从runtime的classpath解析出依赖的版本
+            //如果在dependencies{}块中显式的指定了版本,那么就不需要这边的配置
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}

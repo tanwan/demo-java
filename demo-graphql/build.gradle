@@ -1,0 +1,84 @@
+plugins {
+
+    //graphql生成java代码
+    id "com.graphql_java_generator.graphql-gradle-plugin" version "$javaGraphqlGradlePluginVersion"
+
+
+    // 生成kotlin代码,需要kotlin
+//    id "com.expediagroup.graphql" version "$kotlinGraphqlGradlePluginVersion"
+//    id "org.jetbrains.kotlin.jvm" version "$kotlinJVMVersion"
+}
+
+dependencyManagement {
+    imports {
+        // kickstart的graphql跟springboot2.7不兼容
+        mavenBom "org.springframework.boot:spring-boot-dependencies:2.6.0"
+    }
+}
+
+dependencies {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+
+    // graphql
+    implementation group: 'com.graphql-java-kickstart', name: 'graphql-spring-boot-starter', version: project['graphql-spring-boot.version']
+    testImplementation group: 'com.graphql-java-kickstart', name: 'graphql-spring-boot-starter-test', version: project['graphql-spring-boot.version']
+
+    //spring boot test
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+
+    //生成的kotlin代码需要此依赖
+    implementation group: 'com.expediagroup', name: 'graphql-kotlin-client', version: project['graphql-kotlin-client.version']
+}
+
+test {
+    filter {
+        excludeTestsMatching "com.lzy.demo.graphql.SchemaMergeTest"
+    }
+}
+
+// 根据graphql生成java代码
+// See https://github.com/graphql-java-generator/graphql-gradle-plugin-project
+// 生成的代码,不会自动加入到SourceSet
+// generateClientCode: 生成客户端代码
+// generatePojo: 生成Pojo
+// 要配置task就是在taskName + Conf
+generatePojoConf {
+    // 默认为src/main/resources
+    schemaFileFolder = "src/main/resources/graphql"
+    packageName = "com.lzy.demo.graphql.generated"
+    skipGenerationIfSchemaHasNotChanged = true
+    // 配置自定义的Scalars
+    customScalars = [[
+                             graphQLTypeName: "DateTime",
+                             javaType       : "java.time.OffsetDateTime"
+                     ], [
+                             graphQLTypeName: "CommonDateTime",
+                             javaType       : "java.time.LocalDateTime"
+                     ]]
+}
+
+
+// 根据graphql生成kotlin代码
+// See https://opensource.expediagroup.com/graphql-kotlin/docs/plugins/gradle-plugin-tasks
+// graphqlIntrospectSchema: 对endpoint的执行introspection query,然后保存schema文件
+// graphqlGenerateClient: 根据query文件和schema生成客户端代码,生成代码之后,会自动加入到SourceSet中
+
+//import com.expediagroup.graphql.plugin.gradle.config.GraphQLScalar
+//
+//graphql {
+//    client {
+//        packageName = "com.lzy.demo.graphql.generated"
+//        //See com.lzy.demo.graphql.SchemaMergeTest
+//        schemaFile = file("out/production/resources/schema.graphqls")
+//
+//        //使用服务端的endpoint
+//        //endpoint = "http://127.0.0.1:8080/graphql"
+//        queryFileDirectory = "src/test/resources/graphql"
+//
+//        // 实现ScalarConverter接口
+//        // See com.lzy.demo.graphql.converter.DateTimeConverter
+//        customScalars = [new GraphQLScalar("DateTime", "java.time.OffsetDateTime", "com.lzy.demo.graphql.converter.DateTimeConverter"),
+//                         new GraphQLScalar("CommonDateTime", "java.time.LocalDateTime", "com.lzy.demo.graphql.converter.LocalDateTimeConverter")
+//        ]
+//    }
+//}

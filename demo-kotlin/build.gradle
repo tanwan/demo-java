@@ -1,0 +1,13 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "$kotlinJVMVersion"
+}
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core"
+}
+
+test{
+    filter{
+        excludeTestsMatching 'com.lzy.demo.kotlin.coroutine.*'
+    }
+}

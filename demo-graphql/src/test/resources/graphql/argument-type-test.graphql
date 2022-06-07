@@ -1,0 +1,8 @@
+query testArgumentsWithType($request:SimpleRequest){
+    argumentsWithType(request:$request){
+        id
+        str
+        dateTime
+        commonDateTime
+    }
+}

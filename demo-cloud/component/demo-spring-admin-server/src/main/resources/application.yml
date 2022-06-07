@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: springboot-admin-server
+  # 配置邮件服务
+#  mail:
+#    host:
+#    username:
+#    password:
+#  boot:
+#    admin:
+#      notify:
+#        mail:
+#          # 开启邮件通知
+#          to: 99156629@qq.com
+server:
+  port: 25010
+
+---
+# spring admin 使用url
+spring:
+  config:
+    activate:
+      on-profile: spring-admin-url
+
+eureka:
+  client:
+    enabled: false
+
+---
+# spring admin 使用eureka
+spring:
+  config:
+    activate:
+      on-profile: spring-admin-eureka
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://127.0.0.1:28761/eureka/

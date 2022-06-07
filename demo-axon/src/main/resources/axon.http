@@ -1,0 +1,28 @@
+### 获取所有记录
+
+GET http://localhost:8080/all
+
+
+### 创建记录
+
+POST http://localhost:8080/create
+
+
+### 创建记录,添加member,并且完成, simpleMemberName为pathVariable
+
+POST http://localhost:8080/create-add-member-complete/simpleMemberName
+
+
+### 添加member
+
+POST http://localhost:8080/4816ee07-756f-4724-ac9f-63ac8872cc3f/simpleMemberName/add-member
+
+
+### 增加member数量
+
+POST http://localhost:8080/4816ee07-756f-4724-ac9f-63ac8872cc3f/simpleMemberName/increment
+
+
+### 减少member数量
+
+POST http://localhost:8080/4816ee07-756f-4724-ac9f-63ac8872cc3f/simpleMemberName/decrement

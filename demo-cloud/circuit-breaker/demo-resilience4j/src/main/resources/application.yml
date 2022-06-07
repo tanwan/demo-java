@@ -1,0 +1,105 @@
+server:
+  port: 26080
+
+management:
+  endpoint:
+    health:
+      #details需要开启,或者使用group开启
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  health:
+    circuitbreakers:
+      enabled: true
+#熔断器配置
+resilience4j.circuitbreaker:
+  configs:
+    #默认配置,还可以配置其它名称的公共配置
+    #see io.github.resilience4j.circuitbreaker.CircuitBreakerConfig
+    default:
+      #开启Spring Boot Actuator的健康状态,management.health.circuitbreakers.enabled需要开启
+      registerHealthIndicator: true
+      #TIME_BASED(以时间作为滑动窗口),COUNT_BASED(以调用次数作为滑动窗口),默认为COUNT_BASED
+      slidingWindowType: COUNT_BASED
+      #滑动窗口大小,失败率计算是以滑动窗口期间计算的,当到了下一个滑动窗口,失败率就要重新计算,默认为100
+      slidingWindowSize: 10
+      #在熔断器关闭的时候,至少要调用minimumNumberOfCalls次,才会进行计算失败率,默认为100
+      minimumNumberOfCalls: 5
+      #熔断器为HALF_OPEN时,允许的调用次数,默认为10
+      permittedNumberOfCallsInHalfOpenState: 3
+      #等待时间到了是否自动从OPEN切换到HALF_OPEN,true的话,自动切换,false的话,需要一个请求来触发切换,默认为false
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      #OPEN到HALF_OPEN的等待时间,默认为60(s)
+      waitDurationInOpenState: 30s
+      #CLOSED,HALF_OPEN的失败率阈值,默认为50
+      failureRateThreshold: 50
+      #慢调用率
+      slowCallRateThreshold: 50
+      #慢调用时长
+      slowCallDurationThreshold: 1s
+      #忽略的异常,这些异常不会触发熔断
+      ignoreExceptions:
+        - com.lzy.demo.resilience.exception.IgnoreException
+  instances:
+    simpleBackend:
+      #默认就是使用default,这边也可以指定配置在resilience4j.circuitbreaker.configs的其它公共配置
+      baseConfig: default
+#重试的配置
+resilience4j.retry:
+  configs:
+    #@see io.github.resilience4j.retry.RetryConfig
+    default:
+      maxRetryAttempts: 3
+      waitDuration: 100
+      retryExceptions:
+        - java.io.IOException
+      ignoreExceptions:
+        - com.lzy.demo.resilience.exception.IgnoreException
+  instances:
+    simpleBackend:
+      baseConfig: default
+
+#舱壁(限制并发数),基于信号量
+resilience4j.bulkhead:
+  configs:
+    #@see io.github.resilience4j.bulkhead.BulkheadConfig
+    default:
+      #允许最大的并发数
+      maxConcurrentCalls: 3
+      #等待时间,0表示不等待
+      maxWaitDuration: 0
+  instances:
+    simpleBackend:
+      baseConfig: default
+#舱壁(限制并发数),基于固定线程池
+resilience4j.thread-pool-bulkhead:
+  #@see io.github.resilience4j.bulkhead.ThreadPoolBulkheadConfig
+  configs:
+    default:
+      #最大线程数
+      maxThreadPoolSize: 4
+      #核心线程数
+      coreThreadPoolSize: 2
+      #等待队列,超过等待队列的任务将被丢弃
+      queueCapacity: 4
+  instances:
+    simpleBackend:
+      baseConfig: default
+#频率限制
+resilience4j.ratelimiter:
+  configs:
+    #@see io.github.resilience4j.ratelimiter.RateLimiterConfig
+    default:
+      #开启Spring Boot Actuator的健康状态
+      registerHealthIndicator: true
+      #限流周期允许的调用次数
+      limitForPeriod: 5
+      #限流的周期
+      limitRefreshPeriod: 1s
+      #等待时间,0表示不等待
+      timeoutDuration: 0
+  instances:
+    simpleBackend:
+      baseConfig: default

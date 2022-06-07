@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+           http://dubbo.apache.org/schema/dubbo
+           http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <!-- 提供方应用信息名 -->
+    <dubbo:application name="demo-dubbo-service-server"/>
+
+    <!-- 注册中心地址,这边使用zookeeper -->
+    <dubbo:registry protocol="zookeeper" address="127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183"/>
+
+    <!-- 用于配置提供服务的协议信息,协议由提供方指定,消费方被动接受 -->
+    <dubbo:protocol name="dubbo" port="20880"/>
+
+
+    <!--
+       提供者和消费者都有三级配置,全局配置,接口级配置,方法级配置
+       优先级如下: 消费者方法级,提供者方法级,消费者接口级,提供者接口级,消费者全局,提供者全局
+       建议: 提供者进行配置
+    -->
+    <!-- 提供服务者的全局配置 -->
+    <dubbo:provider timeout="3000"/>
+    <!-- 声明需要暴露的服务接口,ref表示spring的bean -->
+    <dubbo:service interface="com.lzy.demo.dubbo.api.SimpleService" ref="simpleServiceSpringImpl" timeout="2000" validation="true">
+        <!-- 用来定义方法级的配置,消费端也可以配置, 这边的方法名跟service的bean名如果一样会报Duplicate spring bean name的错误,所以方法跟bean不要同名-->
+        <dubbo:method name="simpleService" timeout="1000"/>
+    </dubbo:service>
+</beans>

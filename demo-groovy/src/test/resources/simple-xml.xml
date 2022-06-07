@@ -1,0 +1,11 @@
+<root attr1="root attr1" attr2="root attr2">
+    <sub attr1="sub attr1" attr2="sub attr2">
+        <list attr1="list attr1" attr2="list attr2">
+            <item attr1="item1 attr1" attr2="item1 attr2">1</item>
+            <item attr1="item2 attr1">item2</item>
+            <item attr2="item3 attr2">item3</item>
+            <item>item4</item>
+        </list>
+        <str>str</str>
+    </sub>
+</root>

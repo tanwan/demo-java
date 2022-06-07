@@ -1,0 +1,57 @@
+dataSources:
+  #使用!!可以指定类型
+  ds_0: !!com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    #HikariDataSource是使用jdbcUrl,其它的不一定
+    jdbcUrl: jdbc:mysql://localhost:3306/demo
+    username: root
+    password: 123456
+  #使用!!可以指定类型
+  ds_1: !!com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    #HikariDataSource是使用jdbcUrl,其它的不一定
+    jdbcUrl: jdbc:mysql://localhost:3307/demo
+    username: root
+    password: 123456
+shardingRule:
+  tables:
+    #order表
+    order:
+      actualDataNodes: ds_${0..1}.order_${0..1}
+      #分库策略
+      databaseStrategy:
+        inline:
+          shardingColumn: user_id
+          algorithmExpression: ds_${user_id % 2}
+      #分表策略
+      tableStrategy:
+        inline:
+          shardingColumn: order_id
+          algorithmExpression: order_${order_id % 2}
+    #order_other表
+    order_other:
+      actualDataNodes: ds_${0..1}.order_other_${0..1}
+      databaseStrategy:
+        inline:
+          shardingColumn: user_id
+          algorithmExpression: ds_${user_id % 2}
+      tableStrategy:
+        inline:
+          shardingColumn: order_id
+          algorithmExpression: order_other_${order_id % 2}
+  #默认数据库
+  defaultDataSourceName: ds_0
+  defaultTableStrategy:
+    none:
+  #绑定表
+  bindingTables:
+    - order,order_other
+  #读写分离的配置
+  #masterSlaveRules:
+     #ds_0:
+       #masterDataSourceName: ds_master
+       #slaveDataSourceNames:
+         #- ds_slave0
+
+props:
+  sql.show: true

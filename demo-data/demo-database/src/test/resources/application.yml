@@ -1,0 +1,308 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/demo
+    username: root
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+  shardingsphere:
+    enabled: false
+  flyway:
+    enabled: false
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+
+---
+spring:
+  config:
+    activate:
+      on-profile: flyway
+  flyway:
+    # 初次启动需要这个配置
+    baseline-on-migrate: true
+    # 初次版本,我们的脚本需要比这个版本大
+    baseline-version: 1
+    locations:
+      - classpath:flyway/migration
+
+---
+spring:
+  config:
+    activate:
+      on-profile: mybatis-plus
+mybatis-plus:
+  #  这些配置就是配置MybatisConfiguration,注入到MybatisSqlSessionFactoryBean
+  #  configLocation: mybatis配置文件的路径
+  #  MyBatis Mapper所对应的XML文件位置,依赖包需要使用classpath*
+  mapper-locations:
+    - classpath:/mybatis/mapper/*.xml
+  #类型转换器的包,多个使用,分隔
+  type-handlers-package: com.lzy.demo.mybatis.typehandler
+  #@EnumValue扫描包
+  type-enums-package: com.lzy.demo.mybatis.enums
+  #包别名扫描路径
+  type-aliases-package: com.lzy.demo.mybatis.entity
+  #  type-aliases-super-type: 跟type-aliases-package配合,那边就只会扫描以此类为父类的对象
+  #  check-config-location: 是否检查mybatis xml存在
+  #  executor-type: 同mybatis配置的defaultExecutorType
+  #  configuration-properties: mybatis外部properties文件
+  #  configuration: 原生mybatis配置
+  configuration:
+    mapUnderscoreToCamelCase: true
+    #default-enum-type-handler: 配置默认枚举的处理器
+    # mybatis的日志输出
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+  #  global-config就是配置GlobalConfig注入到MybatisSqlSessionFactoryBean
+  global-config:
+    banner: true
+    #    super-mapper-class: 通用Mapper父类
+    #    worker-id: 机器id,影响雪花算法
+    #db-config就是配置DbConfig,注入到GlobalConfig
+    db-config:
+      # 默认主键类型
+      id-type: auto
+      table-prefix: 表名前缀
+#      table-underline: 表名是否使用下划线命名
+#      logic-delete-value: 逻辑删除值
+#      logic-not-delete-value: 逻辑未删除值
+#      insert-strategy: 插入字段验证策略
+#      update-strategy: 更新字段验证策略
+#      select-strategy: 查询字段验证策略
+
+---
+# 不建议生产使用
+spring:
+  config:
+    activate:
+      on-profile: p6spy
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:mysql://127.0.0.1:3306/demo
+
+---
+spring:
+  config:
+    activate:
+      on-profile: jpa
+  # 如果spring.jpa配置和spring.jpa.properties.hibernate属性冲突,则以spring.jpa.properties.hibernate属性为准
+  jpa:
+    showSql: false
+    database: MYSQL
+    # 使用innodb
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddlAuto: update
+    #hibernate属性 See http://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#configurations
+
+    properties:
+      hibernate:
+        #sql server需要填写schema的值,oracle则填写大写的数据库用户名,否则这两种数据库的ddl.auto的值不生效
+        #hibernate.default_schema:
+        #打开hibernate统计信息
+        #generate_statistics: true
+        show_sql: true
+        format_sql: true
+        # hibernate生成的sql注释
+        use_sql_comments: true
+        hbm2ddl:
+          auto: update
+        enable_lazy_load_no_trans: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: druid
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    # See https://github.com/alibaba/druid/wiki/
+    druid:
+      initial-size: 5
+      max-active: 10
+      min-idle: 3
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      filter:
+        stat:
+          enabled: true
+          db-type: mysql
+          log-slow-sql: true
+          slow-sql-millis: 2000
+        # Slf4jLogFilter(过滤select,update,delete,insert可以配合logback的过滤器)
+        slf4j:
+          enabled: true
+          statementExecutableSqlLogEnable: true
+          StatementPrepareAfterLogEnabled: false
+          statementExecuteQueryAfterLogEnabled: false
+          resultSetLogEnabled: false
+          connectionLogEnabled: false
+          dataSourceLogEnabled: false
+          statementCreateAfterLogEnabled: false
+          statementParameterSetLogEnabled: false
+          statementPrepareCallAfterLogEnabled: false
+          statementParameterClearLogEnable: false
+          statementCloseAfterLogEnabled: false
+      # 监控过滤器
+      web-stat-filter:
+        enabled: true
+        exclusions:
+          - "*.js"
+          - "*.gif"
+          - "*.jpg"
+          - "*.png"
+          - "*.css"
+          - "*.ico"
+          - "/druid/*"
+      # druid 监控页面
+      stat-view-servlet:
+        enabled: true
+        url-pattern: '/druid/*'
+        reset-enable: false
+        login-username: lzy
+        login-password: 123456
+  autoconfigure:
+    exclude:
+
+---
+spring:
+  config:
+    activate:
+      on-profile: init
+  sql:
+    init:
+      # 发生错误是否继续运行
+      continue-on-error: true
+      # 初始化模式
+      mode: always
+      # 初始化的dml文件,可以使用通配符,多个使用逗号分隔classpath:sql/*.sql,classpath*:sql/*.sql
+      # 调用的是 DataSourceInitializer#initSchema
+      data-locations: classpath*:jpa/sql/demo-data-jpa-init-data.sql
+      schema-locations: classpath*:jpa/sql/demo-data-jpa-ddl.sql
+
+---
+spring:
+  config:
+    activate:
+      on-profile: jpa-ehcache2
+  jpa:
+    properties:
+      # ehcache配置的路径,从classpath路径下读取
+      net.sf.ehcache.configurationResourceName: jpa/ehcache2.xml
+      hibernate:
+        #打开二级缓存
+        cache.use_second_level_cache: true
+        # 打开查询缓存
+        cache.use_query_cache: true
+        #ehcache2配置
+        cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+
+---
+spring:
+  config:
+    activate:
+      on-profile: jpa-ehcache3
+  jpa:
+    properties:
+      cache.use_second_level_cache: true
+      # 打开查询缓存
+      cache.use_query_cache: true
+
+      cache.region.factory_class: org.hibernate.cache.jcache.internal.JCacheRegionFactory
+      #ehcache配置文件的地址,从classpath路径下读取
+      javax.cache.uri: jpa/ehcache3.xml
+      javax.cache.provider: org.ehcache.jsr107.EhcacheCachingProvider
+
+---
+spring:
+  config:
+    activate:
+      on-profile: shardingsphere-read-write-split
+  shardingsphere:
+    enabled: true
+    datasource:
+      names: master,slave0
+      master:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver: com.mysql.cj.jdbc.Driver
+        jdbcUrl: jdbc:mysql://localhost:3307/demo
+        username: root
+        password: 123456
+      slave0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver: com.mysql.cj.jdbc.Driver
+        jdbcUrl: jdbc:mysql://localhost:3308/demo
+        username: root
+        password: 123456
+    masterslave:
+      name: ms
+      master-data-source-name: master
+      slave-data-source-names:
+        - slave0
+    props:
+      sql.show: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: shardingsphere-sharding
+  shardingsphere:
+    enabled: true
+    datasource:
+      names: ds0,ds1
+      #springboot不允许使用下划线,所以这边是ds0,ds1
+      ds0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver: com.mysql.cj.jdbc.Driver
+        jdbcUrl: jdbc:mysql://localhost:3307/demo
+        username: root
+        password: 123456
+      ds1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver: com.mysql.cj.jdbc.Driver
+        jdbcUrl: jdbc:mysql://localhost:3308/demo
+        username: root
+        password: 123456
+    sharding:
+      tables:
+        #order表
+        order:
+          actualDataNodes: ds${0..1}.order_${0..1}
+          #分库策略
+          databaseStrategy:
+            inline:
+              shardingColumn: user_id
+              algorithmExpression: ds${user_id % 2}
+          #分表策略
+          tableStrategy:
+            inline:
+              shardingColumn: order_id
+              algorithmExpression: order_${order_id % 2}
+        #order_other表
+        order_other:
+          actualDataNodes: ds${0..1}.order_other_${0..1}
+          databaseStrategy:
+            inline:
+              shardingColumn: user_id
+              algorithmExpression: ds${user_id % 2}
+          tableStrategy:
+            inline:
+              shardingColumn: order_id
+              algorithmExpression: order_other_${order_id % 2}
+      #默认数据库
+      defaultDataSourceName: ds0
+      defaultTableStrategy:
+        none:
+      #绑定表
+      bindingTables:
+        - order,order_other
+          #读写分离
+          #master-slave-rules:
+          #ds_0:
+          #master-data-source-name: ds_master
+        #slave-data-source-names:
+        #- slave0
+    props:
+      sql.show: true

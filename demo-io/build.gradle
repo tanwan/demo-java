@@ -1,0 +1,28 @@
+dependencies {
+    //yaml
+    implementation group: 'org.yaml', name: 'snakeyaml'
+    implementation group: 'org.springframework', name: 'spring-context'
+    implementation group: 'org.zeroturnaround', name: 'zt-zip', version: project['zt-zip.version']
+    implementation group: 'org.apache.commons', name: 'commons-compress', version: project['commons-compress.version']
+    implementation group:'io.netty' ,name:'netty-all'
+    //spring boot loader
+    implementation group: 'org.springframework.boot', name: 'spring-boot-loader'
+
+    //logback
+    implementation group: 'ch.qos.logback', name: 'logback-classic'
+    //slf4j
+    implementation group: 'org.slf4j', name: 'slf4j-api'
+}
+
+
+test{
+    filter{
+        excludeTestsMatching "com.lzy.demo.io.copy.CopyTest"
+        //用idea跑测试跟使用gradle跑测试的classpath不一样
+        excludeTestsMatching "com.lzy.demo.io.resource.ResourcePathTest"
+        excludeTestsMatching "com.lzy.demo.io.aio.*"
+        excludeTestsMatching "com.lzy.demo.io.multicast.*"
+        excludeTestsMatching "com.lzy.demo.io.netty.*"
+        excludeTestsMatching "com.lzy.demo.io.nio.SocketChannelTest"
+    }
+}

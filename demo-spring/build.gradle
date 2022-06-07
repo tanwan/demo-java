@@ -1,0 +1,84 @@
+plugins {
+    id 'org.springframework.boot'
+}
+
+def buildSpringBootLoaderTestJarTask = 'buildSpringBootLoaderTestJar'
+def runBuildSpringBootLoaderTestJarTask = project.gradle.startParameter.taskNames.contains(buildSpringBootLoaderTestJarTask)
+
+dependencies {
+    compileOnly group: 'org.projectlombok', name: 'lombok'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok'
+    testCompileOnly group: 'org.projectlombok', name: 'lombok'
+    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok'
+
+    //spring boot web
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+
+    //spring retry
+    implementation group: 'org.springframework.retry', name: 'spring-retry'
+
+    implementation group: 'org.hibernate.validator', name: 'hibernate-validator'
+
+    //jcache
+    implementation group: 'javax.cache', name: 'cache-api'
+    //ehcache3
+    implementation group: 'org.ehcache', name: 'ehcache'
+
+    //ehcache2
+    implementation group: 'net.sf.ehcache', name: 'ehcache'
+
+    //spring boot cache
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
+
+    //spring boot test
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
+
+    //处理配置元数据
+    if (runBuildSpringBootLoaderTestJarTask) {
+        implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
+    } else {
+        compileOnly group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
+    }
+    compileJava.dependsOn processResources
+
+    //spring boot loader
+    implementation group: 'org.springframework.boot', name: 'spring-boot-loader'
+
+    // spring索引文件,加快启动速度
+    compileOnly group: 'org.springframework', name: 'spring-context-indexer'
+
+    // spring 使用aspectj的依赖
+    implementation group: 'org.springframework', name: 'spring-aspects'
+    // 使用spring使用aspectj需要的依赖
+    implementation group: 'org.springframework', name: 'spring-tx'
+    // spring-session-data-redis
+    implementation group: 'org.springframework.session', name: 'spring-session-data-redis'
+    //lettuce
+    implementation group: 'io.lettuce', name: 'lettuce-core'
+}
+
+test {
+    filter {
+        excludeTestsMatching "com.lzy.demo.spring.boot.loader.SpringBootLoaderTest"
+        excludeTestsMatching "com.lzy.demo.spring.mvc.*.startApplication"
+        excludeTestsMatching "com.lzy.demo.spring.session.SessionTest"
+        excludeTestsMatching "com.lzy.demo.spring.session.SessionIdTest*"
+        excludeTestsMatching "com.lzy.demo.spring.retry.RetryTest"
+        excludeTestsMatching "com.lzy.demo.spring.scheduled.ScheduledTest*"
+    }
+}
+
+tasks.register(buildSpringBootLoaderTestJarTask) {
+    group = "build"
+    if (runBuildSpringBootLoaderTestJarTask) {
+        test.onlyIf { false }
+        it.dependsOn tasks.build
+    }
+}
+
+
+

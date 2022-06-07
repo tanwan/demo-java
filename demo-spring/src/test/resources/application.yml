@@ -1,0 +1,43 @@
+spring:
+  config:
+    activate:
+      on-profile: spring-cache-ehcache
+  cache:
+    type: ehcache
+    ehcache:
+      config: classpath:ehcache2.xml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: spring-cache-jcache
+  cache:
+    type: jcache
+    jcache:
+      provider: org.ehcache.jsr107.EhcacheCachingProvider
+      config: classpath:ehcache3.xml
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: spring-session
+  session:
+    storeType: REDIS
+  redis:
+    host: 127.0.0.1
+    database: 0
+    port: 6379
+    timeout: 15000
+---
+spring:
+  config:
+    activate:
+      on-profile: spring-session-server-properties
+server:
+  servlet:
+    session:
+      cookie:
+        name: PROPERTIES_COOKIE_NAME

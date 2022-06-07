@@ -1,0 +1,71 @@
+#详见hazelcast-full.yaml
+#如果存在hazelcast.yml,则hazelcast.yml为默认配置
+hazelcast:
+  cluster-name: dev
+  network:
+    port:
+      #多个实例运行在同一个机器时的端口选择
+      auto-increment: true
+      port-count: 100
+      #指定hazelcast用于集群成员之间数据通信的端口
+      port: 5701
+    outbound-ports:
+      #跟其它节点连接的时候,会打开一个临时的端口,但是如果启用某些安全策略或防火墙可能会限制某些临时端口的使用,所以这边可以指定要使用的端口
+      #38500-38600表示一个端口范围
+      #0或者*表示hazelcast自己选择可用端口
+      - 0
+    join:
+      #使用组播
+      multicast:
+        enabled: true
+        #组播ip
+        multicast-group: 224.2.2.3
+        #用于hazelcast监听外部发送来的组网请求
+        multicast-port: 54327
+
+  map:
+    demoMap:
+      #元素在map的存活时间,0表示永久
+      time-to-live-seconds: 3
+      eviction:
+        #驱逐策略,LRU,LFU
+        eviction-policy: LFU
+        max-size-policy: PER_NODE
+        #hazelcast是按分区来进行淘汰的,分区的最大size= size * 节点数量 / 分区数量(默认271),等于0会置为1,当达到分区的最大size时,使用策略进行淘汰
+        #所以这边配置为1时,分区的最大size=1,也就是最大可以保存271个
+        size: 1
+    default:
+      #存储的数据格式
+      in-memory-format: BINARY
+
+      #元数据创建策略,可以提高查询速度,CREATE_ON_UPDATE(创建和更新的时候创建元数据)
+      metadata-policy: CREATE_ON_UPDATE
+
+      #副本数
+      backup-count: 1
+
+      #异步备份,0表示没有
+      async-backup-count: 0
+
+      #元素在map的存活时间,0表示永久
+      time-to-live-seconds: 0
+
+      #最大空闲时间(没有被使用则为空闲),0表示无限大
+      max-idle-seconds: 0
+
+      eviction:
+        #驱逐策略,LRU,LFU
+        eviction-policy: NONE
+        max-size-policy: PER_NODE
+        #hazelcast是按分区来进行淘汰的,分区的最大size= size * 节点数量 / 分区数量(默认271),等于0会置为1,当达到分区的最大size时,使用策略进行淘汰
+        size: 0
+
+        #从脑裂恢复时的合并策略
+        merge-policy:
+          batch-size: 100
+          class-name: com.hazelcast.spi.merge.PutIfAbsentMergePolicy
+
+        #缓存反序列化的值,可以提高查询速度,但是会占用内存
+        cache-deserialized-values: NEVER
+
+

@@ -1,0 +1,23 @@
+apply plugin: 'org.springframework.boot'
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+
+    // spring cloud sleuth
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth'
+    // zipkin
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin'
+    // rabbitmq
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp'
+
+    // hessian
+    implementation group: 'com.caucho', name: 'hessian', version: project['hessian.version']
+
+    // thrift
+    implementation group: 'org.apache.thrift', name: 'libthrift', version: project['thrift.version']
+}
+
+test {
+    onlyIf { false }
+}

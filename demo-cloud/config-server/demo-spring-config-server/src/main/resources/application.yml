@@ -1,0 +1,100 @@
+server:
+  port: 28888
+spring:
+  application:
+    name: demo-config-server
+  profiles:
+    default: local-git
+    group:
+      #这边相当于使用eureka和local-git
+      eureka: local-git
+      #这边相当于使用encrypt和local-git
+      encrypt: local-git
+
+eureka:
+  client:
+    enabled: false
+
+
+---
+# 使用本地git目录,该目录必须有.git文件夹,并且使用的分支需要提交过
+spring:
+  config:
+    activate:
+      on-profile: local-git
+  cloud:
+    config:
+      server:
+        git:
+          # See MultipleJGitEnvironmentRepository
+          uri: file://${user.dir}/../demo-cloud-config-repo
+          search-paths: business,./**
+
+---
+# 如果使用ssh连接的话,可以把known_hosts和密钥文件放在~/.ssh目录下,也可以继承JschConfigSessionFactory去重写getJSch方法
+# 这边只支持以BEGIN RSA PRIVATE KEY开头,以END RSA PRIVATE KEY结尾的密钥(使用`ssh-keygen -m PEM -t rsa -b 4096 -C "<email>"`生成)
+# 不支持以BEGIN OPENSSH PRIVATE KEY开头,以END OPENSSH PRIVATE KEY结尾的密钥(使用`ssh-keygen -t rsa -C "<email>"`生成)
+# 也可以把hostKey和密钥配置在spring.cloud.config.server.git下面
+spring:
+  config:
+    activate:
+      on-profile: remote-git
+  cloud:
+    config:
+      server:
+        git:
+          # See MultipleJGitEnvironmentRepository
+          uri: git@github.com:tanwan/demo-cloud-config-repo.git
+          search-paths: ./**
+
+---
+# 使用注册中心
+spring:
+  config:
+    activate:
+      on-profile: eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:28761/eureka/
+    enabled: true
+
+---
+# 使用加解密
+encrypt:
+  # See KeyProperties
+  key: tanwan
+spring:
+  config:
+    activate:
+      on-profile: encrypt
+
+---
+# 使用文件系统,只能使用单层目录,无法使用多层目录
+spring:
+  config:
+    activate:
+      on-profile: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file://${user.dir}/../demo-cloud-config-repo/
+
+---
+# 多仓库
+spring:
+  config:
+    activate:
+      on-profile: multiple-repo
+  cloud:
+    config:
+      server:
+        git:
+          uri: file://${user.dir}/../demo-cloud-config-repo
+          repos:
+            second-repo:
+              # 客户端application符合second-*的,并且profile是test则使用demo-cloud-config-repo2,其它的使用demo-cloud-config-repo
+              pattern:
+                - second-*/test
+              uri: file://${user.dir}/../demo-cloud-config-repo2

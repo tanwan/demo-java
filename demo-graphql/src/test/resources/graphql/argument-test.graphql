@@ -1,0 +1,9 @@
+query testArguments($integer: Int!,$str: String!){
+    arguments(integer:$integer, str:$str){
+        id
+        integer
+        str
+        dateTime
+        commonDateTime
+    }
+}

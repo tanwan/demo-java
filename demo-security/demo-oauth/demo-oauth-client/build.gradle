@@ -1,0 +1,13 @@
+dependencies {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client'
+
+    implementation group: 'org.springframework', name: 'spring-webflux'
+
+    implementation group: 'io.projectreactor.netty', name: 'reactor-netty'
+
+    testImplementation group: 'com.squareup.okhttp3', name: 'mockwebserver'
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test'
+}

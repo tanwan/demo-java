@@ -1,0 +1,67 @@
+# graphqls和graphql其实是一样的,只是graphqls用来定义scheme, graphql用来client端定义query和mutation
+type SimpleEntity {
+    #!表示非空,[String!]!表示数组非空,数组里的元素也非空
+    id: ID!
+    integer: Int
+    str: String!
+    dateTime: DateTime
+    commonDateTime:CommonDateTime
+    withDirective:String @simpleDirective(str:"str",array:[1],bool:true)
+}
+
+#定义类型
+input SimpleRequest {
+    id: ID
+    str: String
+    dateTime: DateTime
+    commonDateTime:CommonDateTime
+}
+
+#有且必须只能有一个Query(查)
+type Query {
+}
+
+#有且最多只能有一个Mutation(增删改)
+type Mutation {
+}
+
+#可以使用extend继承,这样query可以放在多个文件
+extend type Query {
+    baseQuery: [SimpleEntity]
+    arguments(integer:Int, str:String): SimpleEntity
+    #使用定义的类型
+    argumentsWithType(request:SimpleRequest):SimpleEntity
+}
+
+extend type Mutation {
+    simpleMutation(request:SimpleRequest): SimpleEntity
+}
+
+extend type Query {
+    #customWithResolver方法返回的类型有自己的GraphQLResolver,此时会先执行GraphQLResolver匹配的方法
+    #See com.lzy.demo.graphql.resolver.SimpleQueryResolver#customWithResolver
+    customWithResolver:CustomWithResolver
+
+    #withoutResolver方法返回的类型没有GraphQLResolver,此时会直接执行返回类型的方法
+    #See com.lzy.demo.graphql.entity.WithoutResolver
+    withoutResolver:WithoutResolver
+}
+
+type CustomWithResolver{
+    #see com.lzy.demo.graphql.resolver.CustomResolver
+    simpleEntity:SimpleEntity
+    argumentsWithType(request:SimpleRequest):SimpleEntity
+}
+
+type WithoutResolver{
+    #see com.lzy.demo.graphql.entity.WithoutResolver
+    simpleEntity:SimpleEntity
+    argumentsWithType(request:SimpleRequest):SimpleEntity
+}
+
+#自定义指令
+directive @simpleDirective(str: String, array:[Int], bool: Boolean) on FIELD_DEFINITION
+
+#See com.lzy.demo.graphql.config.ScalarConfig.dateTime,名称需要跟GraphQLScalarType#name匹配
+scalar DateTime
+scalar CommonDateTime

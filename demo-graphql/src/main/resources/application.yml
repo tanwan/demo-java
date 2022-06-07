@@ -1,0 +1,7 @@
+graphql:
+  servlet:
+    #默认值
+    mapping: /graphql
+  tools:
+    #schema文件,默认值
+    schema-location-pattern: "**/*.graphqls"

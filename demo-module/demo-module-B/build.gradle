@@ -1,0 +1,50 @@
+plugins {
+    //java模块jlink插件, 生成的文件在build/image底下
+    id 'org.beryx.jlink' version "$jlinkVersion"
+}
+
+//java模块化需要设置inferModulePath为true,否则依赖其它模块时在打包的时候会报错
+plugins.withType(JavaPlugin).configureEach {
+    java {
+        modularity.inferModulePath = true
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+
+//jlink插件配置
+jlink {
+    //配置使用的java模块
+    mergedModule {
+        requires 'java.base'
+    }
+    //启动项配置
+    launcher {
+        //启动脚本的名称
+        name = 'moduleB'
+        //jvm启动参数,如果没有启动参数,不能设置成'',否则无法启动
+        //jvmArgs = ['']
+    }
+}
+//将resources的配置文件复制到bin底下
+tasks.jlink.doLast {
+    copy {
+        from('src/main/resources')
+        into("$buildDir/image/bin")
+    }
+}
+//设置启动类
+application {
+    mainClass.set('com.lzy.demo.module.b.Application')
+}
+
+dependencies {
+    implementation(project(':demo-module:demo-module-A'))
+    //java模块化 lombok需要此依赖
+    compileOnly group: 'org.mapstruct', name: 'mapstruct-processor', version: project['mapstruct.version']
+}

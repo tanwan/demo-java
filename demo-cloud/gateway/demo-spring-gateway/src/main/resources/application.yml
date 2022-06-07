@@ -1,0 +1,76 @@
+server:
+  port: 27020
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:28761/eureka/
+    enabled: true
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+  application:
+    name: demo-spring-gateway
+---
+spring:
+  config:
+    activate:
+      on-profile: path_route
+  cloud:
+    gateway:
+      routes:
+        - id: path_route
+          uri: 'http://127.0.0.1:28010'
+          predicates:
+            #匹配请求路径符合/get/{pathVariable},/post/{pathVariable}
+            - Path=/get/{pathVariable},/post/{pathVariable}
+eureka:
+  client:
+    enabled: false
+---
+#使用负载均衡
+spring:
+  config:
+    activate:
+      on-profile: loadbalancer
+  cloud:
+    gateway:
+      routes:
+        - id: loadbalancer
+          uri: lb://demo-service-server
+          predicates:
+            #匹配请求路径符合/get/{pathVariable},/post/{pathVariable}
+            - Path=/get/{pathVariable},/post/{pathVariable}
+---
+#默认路由,路径加上服务名称,就可以直接路由到对应的服务上
+spring:
+  config:
+    activate:
+      on-profile: default_route
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          # 服务名称使用小写
+          lower-case-service-id: true
+          enabled: true
+---
+#使用代码配置路由
+spring:
+  config:
+    activate:
+      on-profile: java-config
+
+---
+#使用动态路由
+spring:
+  config:
+    activate:
+      on-profile: dynamic
+  autoconfigure:
+    exclude:
+#开启GatewayControllerEndpoint
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

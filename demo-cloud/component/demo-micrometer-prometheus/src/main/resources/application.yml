@@ -1,0 +1,15 @@
+#访问http://localhost:29090/actuator/prometheus,可以获取数据
+#然后安装prometheus,来读取这边的数据
+spring:
+  application:
+    name: demo-micrometer-prometheus
+server:
+  port: 28090
+management:
+  server:
+    #端口跟服务端口区分开
+    port: 29090
+  endpoints:
+    web:
+      exposure:
+        include: "*"

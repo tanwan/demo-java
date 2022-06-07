@@ -1,0 +1,63 @@
+spring:
+   application:
+      name: demo-service-server
+   autoconfigure:
+      exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+   zipkin:
+      enabled: false
+
+eureka:
+   client:
+      serviceUrl:
+         defaultZone: http://127.0.0.1:28761/eureka/
+server:
+   port: 28010
+management:
+   endpoints:
+      web:
+         exposure:
+            include: '*'
+
+---
+spring:
+   config:
+      activate:
+         on-profile: sleuth-zipkin-web
+   zipkin:
+      enabled: true
+      #zipkin地址
+      base-url: http://localhost:9411/
+
+   sleuth:
+      sampler:
+         #采样率
+         probability: 100
+
+---
+spring:
+   config:
+      activate:
+         on-profile: sleuth-zipkin-rabbit
+   zipkin:
+      enabled: true
+      sender:
+         type: rabbit
+   sleuth:
+      sampler:
+         #采样率
+         probability: 100
+   rabbitmq:
+      addresses: 127.0.0.1:5672
+      virtual-host: zipkin
+      username: guest
+      password: guest
+   autoconfigure:
+      exclude:
+---
+spring:
+   config:
+      activate:
+         on-profile: hessian
+eureka:
+   client:
+      enabled: false

@@ -1,0 +1,7 @@
+axon:
+  axonserver:
+    # 使用docker启动axon server
+    servers: 127.0.0.1
+spring:
+  application:
+    name: demo-axon
