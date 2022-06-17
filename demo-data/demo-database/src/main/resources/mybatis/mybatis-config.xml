@@ -61,13 +61,13 @@
         <typeHandler handler="com.lzy.demo.mybatis.typehandler.CustomStringTypeHandler"/>
         <!--使用EnumOrdinalTypeHandler的话,数据库保存的值为整数,0,1,2分别表示SimpleEnum的ONE,TWO,THREE,原理是使用Class#getEnumConstants把枚举获取成数组-->
         <typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
-                     javaType="com.lzy.demo.mybatis.enums.UseIndexEnum"/>
+                     javaType="com.lzy.demo.enums.UseIndexEnum"/>
         <!--使用EnumTypeHandler的话,数据库保存的值为枚举的值(ONE,TWO,THREE)-->
         <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler"
-                     javaType="com.lzy.demo.mybatis.enums.UseStringEnum"/>
+                     javaType="com.lzy.demo.enums.UseStringEnum"/>
         <!--使用mybatis plus的MybatisEnumTypeHandler,数据库保存的是UseEnumValueEnum的变量code的值,变量code需要使用@EnumValue-->
         <typeHandler handler="com.baomidou.mybatisplus.extension.handlers.MybatisEnumTypeHandler"
-                     javaType="com.lzy.demo.mybatis.enums.UseEnumValueEnum"/>
+                     javaType="com.lzy.demo.enums.UseEnumValueEnum"/>
     </typeHandlers>
 
     <plugins>

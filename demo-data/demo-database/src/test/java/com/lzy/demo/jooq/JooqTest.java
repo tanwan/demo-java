@@ -6,6 +6,7 @@ import com.lzy.demo.jooq.enums.SimpleJooqUseStringEnum;
 import com.lzy.demo.jooq.enums.SimpleMybatisUseStringEnum;
 import com.lzy.demo.jooq.tables.pojos.SimpleJooq;
 import com.lzy.demo.jooq.tables.records.SimpleJooqRecord;
+import com.lzy.demo.utils.ConfigUtils;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Record2;
@@ -18,9 +19,6 @@ import org.jooq.impl.DSL;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +31,6 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * sql脚本在/flyway/migration/V1_1__init.sql,使用flyway
@@ -53,12 +50,7 @@ public class JooqTest {
      */
     @BeforeAll
     public void init() throws SQLException {
-        YamlPropertiesFactoryBean yamlPropertiesFactoryBean = new YamlPropertiesFactoryBean();
-        ResourceLoader resourceLoader = new DefaultResourceLoader();
-        yamlPropertiesFactoryBean.setResources(resourceLoader.getResource("jpa/application.yml"));
-        Properties properties = yamlPropertiesFactoryBean.getObject();
-        Connection connection = DriverManager.getConnection(properties.getProperty("spring.datasource.url"),
-                properties.getProperty("spring.datasource.username"), properties.getProperty("spring.datasource.password"));
+        Connection connection = DriverManager.getConnection(ConfigUtils.getDBUrl(), ConfigUtils.getDBUsername(), ConfigUtils.getDBPassword());
         //jooq执行器
         dslContext = DSL.using(connection, SQLDialect.MYSQL);
     }

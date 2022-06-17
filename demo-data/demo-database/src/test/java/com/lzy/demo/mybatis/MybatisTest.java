@@ -1,7 +1,7 @@
 package com.lzy.demo.mybatis;
 
 import com.lzy.demo.mybatis.entity.SimpleMybatis;
-import com.lzy.demo.mybatis.enums.UseStringEnum;
+import com.lzy.demo.enums.UseStringEnum;
 import com.lzy.demo.mybatis.mapper.SimpleMybatisMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;

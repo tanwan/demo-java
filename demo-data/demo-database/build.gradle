@@ -11,6 +11,10 @@ dependencies {
     //hibernate
     implementation group: 'org.hibernate', name: 'hibernate-entitymanager'
 
+    implementation group: 'org.jdbi', name: 'jdbi3-core', version: project['jdbi.version']
+    implementation group: 'org.jdbi', name: 'jdbi3-sqlobject', version: project['jdbi.version']
+    implementation group: 'org.jdbi', name: 'jdbi3-stringtemplate4', version: project['jdbi.version']
+
     // hikari
     implementation group: 'com.zaxxer', name: 'HikariCP'
 

@@ -1,6 +1,8 @@
-package com.lzy.demo.mybatis.enums;
+package com.lzy.demo.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+
+import java.util.Arrays;
 
 /**
  * 使用枚举值,数据库存储的是枚举的code,1表示ONE,2表示TWO,3表示THREE
@@ -43,6 +45,10 @@ public enum UseEnumValueEnum {
      */
     public int getCode() {
         return code;
+    }
+
+    public static UseEnumValueEnum byCode(Integer code) {
+        return Arrays.stream(UseEnumValueEnum.values()).filter(c -> c.getCode() == code).findFirst().orElse(null);
     }
 
 }

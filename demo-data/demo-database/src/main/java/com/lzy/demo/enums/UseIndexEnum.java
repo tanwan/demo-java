@@ -1,31 +1,31 @@
-package com.lzy.demo.mybatis.enums;
+package com.lzy.demo.enums;
 
 /**
- * 使用枚举字符串,数据库存储的是 ONE,TWO,THREE
+ * 使用枚举索引,数据库存储的是0,1,2,0表示ONE,1表示TWO,2表示THREE
  *
  * @author lzy
  * @version v1.0
  */
-public enum UseStringEnum {
+public enum UseIndexEnum {
 
 
     /**
-     * One use string enum.
+     * One use index enum.
      */
     ONE(1),
 
     /**
-     * Two use string enum.
+     * Two use index enum.
      */
     TWO(2),
 
     /**
-     * Three use string enum.
+     * Three use index enum.
      */
     THREE(3);
     private int code;
 
-    UseStringEnum(int code) {
+    UseIndexEnum(int code) {
         this.code = code;
     }
 

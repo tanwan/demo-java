@@ -1,6 +1,6 @@
 package com.lzy.demo.mybatis.typehandler;
 
-import com.lzy.demo.mybatis.enums.UseIndexEnum;
+import com.lzy.demo.enums.UseIndexEnum;
 import org.apache.ibatis.type.EnumOrdinalTypeHandler;
 import org.apache.ibatis.type.MappedTypes;
 

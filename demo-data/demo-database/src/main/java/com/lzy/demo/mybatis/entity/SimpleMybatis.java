@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.Version;
-import com.lzy.demo.mybatis.enums.UseEnumValueEnum;
-import com.lzy.demo.mybatis.enums.UseStringEnum;
+import com.lzy.demo.enums.UseEnumValueEnum;
+import com.lzy.demo.enums.UseStringEnum;
 
 import java.io.Serializable;
 

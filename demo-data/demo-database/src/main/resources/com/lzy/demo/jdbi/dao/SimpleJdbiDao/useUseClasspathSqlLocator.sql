@@ -1,0 +1,1 @@
+SELECT * from simple_jdbi where id in (<ids>)
