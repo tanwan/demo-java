@@ -105,3 +105,5 @@ fabric.properties
 
 build/
 /demo-cloud/skywalking/agent/
+
+demo-base/src/main/generated
