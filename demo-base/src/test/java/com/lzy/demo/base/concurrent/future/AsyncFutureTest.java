@@ -89,7 +89,7 @@ public class AsyncFutureTest {
      * @throws InterruptedException the interrupted exception
      */
     @Test
-    public void test() throws InterruptedException {
+    public void testCombine() throws InterruptedException {
         CompletableFuture<String> combineFuture1 = CompletableFuture.supplyAsync(() -> {
             try {
                 Thread.sleep(1000);

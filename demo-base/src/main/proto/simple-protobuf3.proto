@@ -1,0 +1,37 @@
+// 使用proto3
+syntax = "proto3";
+
+// 引用外部的文件
+import "simple-enum.proto";
+
+
+// 定义package
+package com.lzy.demo.base.protobuf;
+
+// 这个文件会声明一个类,类名为这边指定的,类名不能跟以下的message相同
+option java_outer_classname = "SimpleProtos3";
+
+// message定义一个消息类型,相当于是class关键字, 会生成一个内部类,因此java_outer_classname不能跟message重名
+// 同一个package下的message也不能重名
+message SimpleProtoBufOuter3 {
+  // proto3本质上所有的字段都是optional的, 也不能设置默认值
+
+  // bool,int32,float,double和string
+  int64 int64Field = 1;
+  int32 int32Field = 2 ;
+  string stringField = 3;
+  float floatField = 4;
+  double doubleField = 5;
+  bool boolField = 6;
+  repeated string repeatedString = 7;
+
+  // SimpleProtoBufInner也可以在这边定义,在这边定义就作为SimpleProtoBufOuter3的内部类
+  SimpleProtoBufInner3 simpleProtoBufInner = 8;
+  repeated SimpleProtoBufInner3 repeatedSimpleProtoBufInner = 9;
+  // 如果在不同的package,需要使用全限定名
+  SimpleEnum simpleEnum = 10;
+}
+
+message SimpleProtoBufInner3 {
+  int64 int64Field = 1;
+}

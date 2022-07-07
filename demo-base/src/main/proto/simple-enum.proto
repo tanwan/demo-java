@@ -1,0 +1,11 @@
+// 使用proto3
+syntax = "proto3";
+
+// 定义package
+package com.lzy.demo.base.protobuf;
+option java_outer_classname = "SimpleEnumProtos";
+
+enum SimpleEnum {
+  Enum1 = 0;
+  Enum2 = 1;
+}

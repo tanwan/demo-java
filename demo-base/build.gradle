@@ -1,8 +1,12 @@
+plugins {
+    id "com.google.protobuf" version "$protobufPlugin"
+}
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
+
 
 dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok'
@@ -30,11 +34,53 @@ dependencies {
     //mapstruct
     implementation group: 'org.mapstruct', name: 'mapstruct', version: project['mapstruct.version']
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: project['mapstruct.version']
+
+    //精简版:protobuf-javalite, 普通版:protobuf-java
+    implementation group: 'com.google.protobuf', name: 'protobuf-javalite', version: project['protobuf.version']
 }
 
 test {
     filter {
         excludeTestsMatching "com.lzy.demo.base.concurrent.threadpool.ThreadPoolTest"
         excludeTestsMatching "com.lzy.demo.base.future.AsyncFutureTest"
+    }
+}
+
+// See https://github.com/google/protobuf-gradle-plugin
+// extractIncludeProto: 从依赖包中提取出proto文件
+// extractProto: 提出proto文件(暂不知道从哪里提取)
+// generateProto: 根据proto文件生成类文件
+
+// protobuffer文件默认放在src/main/proto,如果放在其它地方,需要进行自定义,方法参照文档
+protobuf {
+    // 默认为$buildDir/generated/source/proto
+    // generatedFilesBaseDir = "$projectDir/src"
+    protoc {
+        // 自定义protoc的版本
+        artifact = 'com.google.protobuf:protoc:' + project['protobuf.version']
+    }
+    // 使用精简版需要添加此配置, 此配置是在project.afterEvaluate执行的
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option "lite"
+                }
+            }
+        }
+    }
+}
+
+
+// 在idea的sync之前执行generateProto, 也可以通过手动去进行配置(在idea找到generateProto task, 然后右键选择Execute Before Sync)
+// 首次reload project不会执行generateProto,可以手动执行,也可以再reload一次
+project.afterEvaluate {
+    //子模块需要使用rootProject.idea,因为idea是配置在父模块的
+    rootProject.idea.project.settings {
+        taskTriggers {
+            // protobuf的task是在project.afterEvaluate添加的,See com.google.protobuf.gradle.ProtobufPlugin#doApply
+            // 所以这边也需要在project.afterEvaluate执行,才能获取到generateProto
+            beforeSync(tasks.generateProto)
+        }
     }
 }
