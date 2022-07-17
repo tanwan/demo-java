@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class CharacterStreamDemo {
+public class CharacterStreamTest {
     private static final String FILE_PATH = "out/test/resources/tempFile.tmp";
 
     /**

@@ -4,7 +4,7 @@ dependencies {
     implementation group: 'org.springframework', name: 'spring-context'
     implementation group: 'org.zeroturnaround', name: 'zt-zip', version: project['zt-zip.version']
     implementation group: 'org.apache.commons', name: 'commons-compress', version: project['commons-compress.version']
-    implementation group:'io.netty' ,name:'netty-all'
+    implementation group: 'io.netty', name: 'netty-all'
     //spring boot loader
     implementation group: 'org.springframework.boot', name: 'spring-boot-loader'
 
@@ -12,11 +12,15 @@ dependencies {
     implementation group: 'ch.qos.logback', name: 'logback-classic'
     //slf4j
     implementation group: 'org.slf4j', name: 'slf4j-api'
+
+    implementation group: 'com.hellokaton', name: 'blade-core', version: project['blade.version']
+
+    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5'
 }
 
 
-test{
-    filter{
+test {
+    filter {
         excludeTestsMatching "com.lzy.demo.io.copy.CopyTest"
         //用idea跑测试跟使用gradle跑测试的classpath不一样
         excludeTestsMatching "com.lzy.demo.io.resource.ResourcePathTest"
@@ -24,5 +28,8 @@ test{
         excludeTestsMatching "com.lzy.demo.io.multicast.*"
         excludeTestsMatching "com.lzy.demo.io.netty.*"
         excludeTestsMatching "com.lzy.demo.io.nio.SocketChannelTest"
+        excludeTestsMatching "com.lzy.demo.io.bio.ByteStreamTest"
+        excludeTestsMatching "com.lzy.demo.io.bio.CharacterStreamTest"
+        excludeTestsMatching "com.lzy.demo.io.*.testProxy"
     }
 }
