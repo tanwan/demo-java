@@ -16,6 +16,11 @@ dependencies {
     implementation group: 'com.hellokaton', name: 'blade-core', version: project['blade.version']
 
     implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5'
+
+    implementation group: 'org.glassfish.jersey.core', name: 'jersey-client'
+    implementation group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson'
+    implementation group: 'org.glassfish.jersey.inject', name: 'jersey-hk2'
+    implementation group: 'org.glassfish.jersey.media', name: 'jersey-media-multipart'
 }
 
 

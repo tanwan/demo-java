@@ -79,12 +79,13 @@ public class BladeApplication {
         }
 
         @GET(value = "/rest/header", responseType = ResponseType.JSON)
-        public Map<String, Object> header(@Header("header-key") String headerKey, RouteContext ctx) {
+        public Map<String, Object> header(@Header("headerKey") String headerKey, RouteContext ctx) {
             // cxt.headers()可以拿到所有的header
             System.out.println(ctx.headers());
-            // 设置header
-            ctx.header("header-key", "header-key override");
-            return toMap("method", "header", "ctx.header(\"header-key\")", ctx.header("header-key"), "simpleHeader", headerKey);
+            // 设置header(response)
+            ctx.header("headerKey", "headerKey override");
+            //  ctx.header("headerKey")(request)
+            return toMap("method", "header", "ctx.header(\"headerKey\")", ctx.header("headerKey"), "headerKey", headerKey);
         }
 
         @GET(value = "/rest/cookie", responseType = ResponseType.JSON)

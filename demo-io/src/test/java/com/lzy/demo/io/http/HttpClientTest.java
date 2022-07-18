@@ -189,13 +189,13 @@ public class HttpClientTest {
     @Test
     public void testHeader() {
         HttpGet httpGet = new HttpGet(HOST + "/rest/header");
-        httpGet.addHeader("header-key", "header value");
+        httpGet.addHeader("headerKey", "header value");
         try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
             HttpEntity entity = response.getEntity();
             String content = EntityUtils.toString(entity);
             System.out.println(content);
             assertThat(content).contains("header value");
-            assertThat(response.getHeader("header-key").getValue()).isEqualTo("header-key override");
+            assertThat(response.getHeader("headerKey").getValue()).isEqualTo("headerKey override");
         } catch (Exception e) {
             e.printStackTrace();
         }
