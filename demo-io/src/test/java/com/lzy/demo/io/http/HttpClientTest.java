@@ -240,13 +240,14 @@ public class HttpClientTest {
     /**
      * HttpClient代理
      * HttpClient底层跟URL发送请求一样,都是使用Socket的
+     * 无proxy的时候,socket连接的是目标地址,然后发送请求
+     * 有proxy的时候,socket连接的就是proxy,然后发送请求(使用源目标地址)
+     * 发送的请求就是HTTP的报文格式
+     * <p>
      * URL参考:sun.net.NetworkClient#doConnect
      * HttpClient参考: DefaultManagedHttpClientConnection.bind
      * 不同的地方在于, HttpURLConnection都有使用sun.net.spi.DefaultProxySelector进行选择proxy
      * 而HttpClient只有当使用了SystemDefaultRoutePlanner才会使用使用sun.net.spi.DefaultProxySelector进行选择proxy
-     * <p>
-     * 无proxy的时候,socket连接的是目标地址,然后发送请求
-     * 有proxy的时候,socket连接的就是proxy,然后发送请求(包括了源目标地址)
      * <p>
      * 对于proxy,都是在DefaultRoutePlanner#determineRoute进行确定proxy
      * 区别在于是使用哪种的HttpRoutePlanner
@@ -260,7 +261,7 @@ public class HttpClientTest {
     @Test
     public void testProxy() {
         String proxyHost = "127.0.0.1";
-        int proxyPort = 9091;
+        int proxyPort = 9090;
 
         // 默认情况下,http.proxyHost对它并不起作用,需要使用HttpClients.createSystem()创建HttpClient才能起作用
         System.setProperty("http.proxyHost", proxyHost);
