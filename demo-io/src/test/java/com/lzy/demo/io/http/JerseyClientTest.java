@@ -5,6 +5,7 @@ import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.client.Client;
@@ -18,10 +19,10 @@ import javax.ws.rs.core.Response;
 import java.util.Collections;
 import java.util.Map;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class JerseyClientTest {
-
 
     private static final Integer PORT = 19002;
 
@@ -163,10 +164,13 @@ public class JerseyClientTest {
      * 代理
      * 底层使用URL#openConnection
      * 所以只需要配置http.proxyHost/proxyPort即可使用proxy
+     * <p>
+     * 使用@Disabled避免http.proxyHost影响到其它测试(使用idea执行整个类的测试)
      *
      * @see org.glassfish.jersey.client.HttpUrlConnectorProvider.DefaultConnectionFactory#getConnection
      */
     @Test
+    @Disabled
     public void testProxy() {
         System.setProperty("http.proxyHost", "127.0.0.1");
         System.setProperty("http.proxyPort", "9090");
