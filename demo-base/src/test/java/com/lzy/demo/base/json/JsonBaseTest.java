@@ -3,12 +3,13 @@ package com.lzy.demo.base.json;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class JsonBaseTest {
@@ -32,8 +33,8 @@ public class JsonBaseTest {
         List<SimpleJsonBean> beanList = objectMapper.readValue(json, new TypeReference<>() {
         });
 
-        Assertions.assertTrue(mapList.get(0) instanceof Map);
+        assertTrue(mapList.get(0) instanceof Map);
 
-        Assertions.assertTrue(beanList.get(0) instanceof SimpleJsonBean);
+        assertTrue(beanList.get(0) instanceof SimpleJsonBean);
     }
 }

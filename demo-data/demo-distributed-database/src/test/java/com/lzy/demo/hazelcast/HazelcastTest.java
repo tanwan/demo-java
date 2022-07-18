@@ -6,11 +6,12 @@ import com.hazelcast.config.MapConfig;
 import com.hazelcast.config.NetworkConfig;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 import java.util.Queue;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class HazelcastTest {
 
@@ -46,9 +47,9 @@ public class HazelcastTest {
         HazelcastInstance instance = Hazelcast.newHazelcastInstance(config);
         Map<Integer, String> demoMap = instance.getMap("demoMap");
         demoMap.put(1, "hello world");
-        Assertions.assertThat(demoMap.get(1)).isEqualTo("hello world");
+        assertThat(demoMap.get(1)).isEqualTo("hello world");
         Thread.sleep(3100);
-        Assertions.assertThat(demoMap.get(1)).isEqualTo(null);
+        assertThat(demoMap.get(1)).isEqualTo(null);
     }
 
     /**
@@ -69,9 +70,9 @@ public class HazelcastTest {
         Map<Integer, String> demoMap = instance.getMap("map.demoMap");
         String value = "hello world";
         demoMap.put(1, value);
-        Assertions.assertThat(demoMap.get(1)).isEqualTo(value);
+        assertThat(demoMap.get(1)).isEqualTo(value);
         Thread.sleep(3100);
-        Assertions.assertThat(demoMap.get(1)).isEqualTo(null);
+        assertThat(demoMap.get(1)).isEqualTo(null);
     }
 
     /**
@@ -104,8 +105,8 @@ public class HazelcastTest {
 
         Thread.sleep(3100);
         //动态添加前先获取出map,并且插入过数据,动态添加是不生效的
-        Assertions.assertThat(defaultMap.get(1)).isEqualTo(value);
+        assertThat(defaultMap.get(1)).isEqualTo(value);
         //动态添加后再获取出map,动态添加生效
-        Assertions.assertThat(dynamicMap.get(1)).isEqualTo(null);
+        assertThat(dynamicMap.get(1)).isEqualTo(null);
     }
 }

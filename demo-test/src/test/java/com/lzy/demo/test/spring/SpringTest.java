@@ -1,6 +1,5 @@
 package com.lzy.demo.test.spring;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +9,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.annotation.Resource;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * spring测试
@@ -62,10 +64,10 @@ public class SpringTest {
                                        @Value("${key}") String key, @Value("${outer.inner.key}") String innerKey) {
             // TestPropertySource为spring.config.additional-location设置了值
             // 也就是为springboot添加了额外的配置文件
-            Assertions.assertEquals("classpath:properties.yml", location);
+            assertEquals("classpath:properties.yml", location);
             // ConfigDataApplicationContextInitializer的作用就是读取springboot的配置
-            Assertions.assertEquals("value", key);
-            Assertions.assertEquals("outer.inner.value", innerKey);
+            assertEquals("value", key);
+            assertEquals("outer.inner.value", innerKey);
         }
     }
 
@@ -88,11 +90,11 @@ public class SpringTest {
         public void testPropertySource(@Value("${key}") String key, @Value("${key2}") String key2, @Value("${outer.inner.key:#{null}}") String innerKey) {
             // 因为将yml当成properties处理
             // key会取成outer.inner.value(覆盖掉value)
-            Assertions.assertEquals("outer.inner.value", key);
+            assertEquals("outer.inner.value", key);
             // key2可以取到outer.inner.value2
-            Assertions.assertEquals("outer.inner.value2", key2);
+            assertEquals("outer.inner.value2", key2);
             // 而outer.inner.key则无法取到值
-            Assertions.assertNull(innerKey);
+            assertNull(innerKey);
         }
     }
 }

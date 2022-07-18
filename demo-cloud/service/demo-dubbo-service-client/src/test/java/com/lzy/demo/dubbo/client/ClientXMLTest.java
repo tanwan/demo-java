@@ -2,13 +2,14 @@ package com.lzy.demo.dubbo.client;
 
 import com.lzy.demo.dubbo.api.SimpleService;
 import com.lzy.demo.dubbo.message.SimpleRequest;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.validation.ValidationException;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 /**
  * 配置xml配置dubbo
@@ -40,6 +41,6 @@ public class ClientXMLTest {
      */
     @Test
     public void testValidation(@Autowired SimpleService simpleService) {
-        Assertions.assertThatCode(() -> simpleService.simpleService(new SimpleRequest())).isInstanceOf(ValidationException.class);
+        assertThatCode(() -> simpleService.simpleService(new SimpleRequest())).isInstanceOf(ValidationException.class);
     }
 }

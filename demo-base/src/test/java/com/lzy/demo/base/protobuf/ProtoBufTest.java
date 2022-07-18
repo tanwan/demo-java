@@ -1,10 +1,12 @@
 package com.lzy.demo.base.protobuf;
 
 import com.google.protobuf.UninitializedMessageException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 public class ProtoBufTest {
     /**
@@ -13,11 +15,11 @@ public class ProtoBufTest {
     @Test
     public void testRequired() {
         // proto2必填字段无值会抛异常
-        Assertions.assertThatCode(() -> SimpleProtos2.SimpleProtoBufOuter2.newBuilder().setInt64Field(64L).build())
+        assertThatCode(() -> SimpleProtos2.SimpleProtoBufOuter2.newBuilder().setInt64Field(64L).build())
                 .isInstanceOf(UninitializedMessageException.class);
 
         // proto3没有必填字段
-        Assertions.assertThatCode(() -> SimpleProtos3.SimpleProtoBufOuter3.newBuilder().setInt64Field(64L).build())
+        assertThatCode(() -> SimpleProtos3.SimpleProtoBufOuter3.newBuilder().setInt64Field(64L).build())
                 .doesNotThrowAnyException();
     }
 
@@ -31,7 +33,7 @@ public class ProtoBufTest {
                 .setSimpleProtoBufInner(SimpleProtos2.SimpleProtoBufOuter2.SimpleProtoBufInner2.newBuilder().setInt64Field(64L).build())
                 .setSimpleEnum(SimpleEnumProtos.SimpleEnum.Enum1)
                 .build();
-        Assertions.assertThat(simpleProtoBufOuter2.getStringField()).isEqualTo("default value");
+        assertThat(simpleProtoBufOuter2.getStringField()).isEqualTo("default value");
     }
 
     /**
@@ -54,7 +56,7 @@ public class ProtoBufTest {
         byte[] bytes = simpleProtoBufOuter2.toByteArray();
         SimpleProtos2.SimpleProtoBufOuter2 deserialized2 = SimpleProtos2.SimpleProtoBufOuter2.newBuilder().mergeFrom(bytes).build();
         System.out.println(deserialized2);
-        Assertions.assertThat(deserialized2).hasFieldOrPropertyWithValue("int64Field", 64L)
+        assertThat(deserialized2).hasFieldOrPropertyWithValue("int64Field", 64L)
                 .hasFieldOrPropertyWithValue("int32Field", 32);
 
 
@@ -71,7 +73,7 @@ public class ProtoBufTest {
         bytes = simpleProtoBufOuter3.toByteArray();
         SimpleProtos3.SimpleProtoBufOuter3 deserialized3 = SimpleProtos3.SimpleProtoBufOuter3.newBuilder().mergeFrom(bytes).build();
         System.out.println(deserialized3);
-        Assertions.assertThat(deserialized3).hasFieldOrPropertyWithValue("int64Field", 64L)
+        assertThat(deserialized3).hasFieldOrPropertyWithValue("int64Field", 64L)
                 .hasFieldOrPropertyWithValue("int32Field", 32);
 
     }

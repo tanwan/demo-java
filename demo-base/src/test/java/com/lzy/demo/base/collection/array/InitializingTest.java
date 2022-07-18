@@ -1,9 +1,10 @@
 package com.lzy.demo.base.collection.array;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class InitializingTest {
     private int[] array = new int[3];
@@ -16,7 +17,7 @@ public class InitializingTest {
         for (int i = 0; i < 3; i++) {
             array[i] = i + 1;
         }
-        Assertions.assertArrayEquals(new int[]{1, 2, 3}, array);
+        assertArrayEquals(new int[]{1, 2, 3}, array);
     }
 
     /**
@@ -25,7 +26,7 @@ public class InitializingTest {
     @Test
     public void testUseInit() {
         int[] array = {1, 2, 3};
-        Assertions.assertArrayEquals(new int[]{1, 2, 3}, array);
+        assertArrayEquals(new int[]{1, 2, 3}, array);
     }
 
     /**
@@ -34,7 +35,7 @@ public class InitializingTest {
     @Test
     public void testArraysFill() {
         Arrays.fill(array, 1);
-        Assertions.assertArrayEquals(new int[]{1, 1, 1}, array);
+        assertArrayEquals(new int[]{1, 1, 1}, array);
     }
 
     /**
@@ -43,7 +44,7 @@ public class InitializingTest {
     @Test
     public void testArraysSetAll() {
         Arrays.setAll(array, i -> i + 1);
-        Assertions.assertArrayEquals(new int[]{1, 2, 3}, array);
+        assertArrayEquals(new int[]{1, 2, 3}, array);
     }
 
 }

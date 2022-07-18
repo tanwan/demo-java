@@ -1,10 +1,11 @@
 package com.lzy.demo.base.feature.java17;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class Java17FeatureTest {
 
@@ -15,7 +16,7 @@ public class Java17FeatureTest {
     public void testStreamToList() {
         // stream可以直接toList,
         List<Integer> list = Stream.of("1", "2", "3").map(Integer::valueOf).toList();
-        Assertions.assertThat(list).contains(1, 2, 3);
+        assertThat(list).contains(1, 2, 3);
     }
 
 }

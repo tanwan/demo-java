@@ -1,10 +1,11 @@
 package com.lzy.demo.base.misc;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class RegexTest {
 
@@ -49,23 +50,23 @@ public class RegexTest {
         String testStr = "贪玩";
         Matcher matcher = CHINESE_PATTERN.matcher(testStr);
         // matches方法是将字符串从开头到结尾,进行匹配,匹配成功即为true,反之为false
-        Assertions.assertThat(matcher.matches()).isEqualTo(true);
+        assertThat(matcher.matches()).isEqualTo(true);
         // 将Matcher重置,相当于将匹配的位置重置为字符串开头
         matcher.reset();
         // find方法是将字符串从当前位置(首次调用的位置为字符串开头,后续调用的位置为上一次匹配后的位置)
         // 当匹配成功时,可以调用Matcher#group()获取出匹配的字符串
-        Assertions.assertThat(matcher.find()).isEqualTo(true);
+        assertThat(matcher.find()).isEqualTo(true);
         testStr = "贪玩and玩贪";
         matcher = CHINESE_PATTERN.matcher(testStr);
         // 整个字符串不能匹配,所以是false
-        Assertions.assertThat(matcher.matches()).isEqualTo(false);
+        assertThat(matcher.matches()).isEqualTo(false);
         matcher.reset();
         // 从字符串开头开始匹配,匹配到贪玩后,就返回true
-        Assertions.assertThat(matcher.find()).isEqualTo(true);
+        assertThat(matcher.find()).isEqualTo(true);
         // 当find方法返回true时,可以使用group获取到匹配的字符串,这边就是贪玩
         System.out.println(matcher.group());
         // 再继续调用find方法时,就是从a开始匹配,当匹配到玩贪的时候,则返回true
-        Assertions.assertThat(matcher.find()).isEqualTo(true);
+        assertThat(matcher.find()).isEqualTo(true);
         // 这边就是玩贪
         System.out.println(matcher.group());
     }

@@ -9,10 +9,11 @@ import org.apache.ignite.configuration.ClientConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi;
 import org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class IgniteTest {
     private static final String CACHE_NAME = "demoCache";
@@ -44,7 +45,7 @@ public class IgniteTest {
         Ignite ignite = Ignition.start(getIgniteConfiguration(true));
 
         IgniteCache<String, String> cache = ignite.cache(CACHE_NAME);
-        Assertions.assertThat(cache.get("key")).isEqualTo("value");
+        assertThat(cache.get("key")).isEqualTo("value");
 
         // Disconnect from the cluster.
         ignite.close();
@@ -63,7 +64,7 @@ public class IgniteTest {
         if (!cache.containsKey("key")) {
             cache.put("key", "value");
         }
-        Assertions.assertThat(cache.get("key")).isEqualTo("value");
+        assertThat(cache.get("key")).isEqualTo("value");
     }
 
 

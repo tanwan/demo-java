@@ -11,13 +11,14 @@ import net.sf.cglib.proxy.CallbackFilter;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
 import net.sf.cglib.proxy.NoOp;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 /**
  * 代理模式测试
@@ -63,7 +64,7 @@ public class ProxyTest {
         Class proxyClass = (Class<Subject>) Proxy.getProxyClass(Subject.class.getClassLoader(), Subject.class);
         Constructor<Subject> constructor = proxyClass.getConstructor(InvocationHandler.class);
         // 无法直接使用默认构造函数实例化对象
-        Assertions.assertThatCode(() -> constructor.newInstance())
+        assertThatCode(() -> constructor.newInstance())
                 .isInstanceOf(IllegalArgumentException.class);
         //需要调用带有InvocationHandler的构造函数
         Subject subjectProxy = constructor.newInstance(new JdkProxy(realSubject));

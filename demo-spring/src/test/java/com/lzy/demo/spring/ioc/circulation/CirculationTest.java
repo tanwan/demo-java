@@ -11,11 +11,13 @@ import com.lzy.demo.spring.ioc.circulation.setter.async.AsyncSetterBean1;
 import com.lzy.demo.spring.ioc.circulation.setter.async.AsyncSetterBean2;
 import com.lzy.demo.spring.ioc.circulation.setter.raw.SetterBean1;
 import com.lzy.demo.spring.ioc.circulation.setter.raw.SetterBean2;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanCurrentlyInCreationException;
 import org.springframework.beans.factory.UnsatisfiedDependencyException;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * 测试循环依赖
@@ -32,7 +34,7 @@ public class CirculationTest {
     @Test
     public void testConstructorCirculation() {
         //断言会抛出循环依赖的异常
-        Assertions.assertThatExceptionOfType(UnsatisfiedDependencyException.class)
+        assertThatExceptionOfType(UnsatisfiedDependencyException.class)
                 .isThrownBy(() -> new AnnotationConfigApplicationContext(ConstructorBean1.class, ConstructorBean2.class));
     }
 
@@ -44,7 +46,7 @@ public class CirculationTest {
     @Test
     public void testLazyConstructorCirculation() {
         //断言不会抛出任何异常
-        Assertions.assertThatCode(() -> new AnnotationConfigApplicationContext(ConstructorLazyBean1.class, ConstructorLazyBean2.class))
+        assertThatCode(() -> new AnnotationConfigApplicationContext(ConstructorLazyBean1.class, ConstructorLazyBean2.class))
                 .doesNotThrowAnyException();
     }
 
@@ -56,7 +58,7 @@ public class CirculationTest {
     @Test
     public void testSetterCirculationTest() {
         //断言不会抛出任何异常
-        Assertions.assertThatCode(() -> new AnnotationConfigApplicationContext(SetterBean1.class, SetterBean2.class))
+        assertThatCode(() -> new AnnotationConfigApplicationContext(SetterBean1.class, SetterBean2.class))
                 .doesNotThrowAnyException();
     }
 
@@ -69,7 +71,7 @@ public class CirculationTest {
     @Test
     public void testAsyncSetterCirculationTest() {
         //断言会抛出异常
-        Assertions.assertThatExceptionOfType(BeanCurrentlyInCreationException.class)
+        assertThatExceptionOfType(BeanCurrentlyInCreationException.class)
                 .isThrownBy(() -> new AnnotationConfigApplicationContext(AsyncSetterBean1.class, AsyncSetterBean2.class));
     }
 
@@ -82,7 +84,7 @@ public class CirculationTest {
     @Test
     public void testAopSetterCirculationTest() {
         //断言不会抛出任何异常
-        Assertions.assertThatCode(() -> new AnnotationConfigApplicationContext(AopConfig.class, AopSetterBean1.class, AopSetterBean2.class))
+        assertThatCode(() -> new AnnotationConfigApplicationContext(AopConfig.class, AopSetterBean1.class, AopSetterBean2.class))
                 .doesNotThrowAnyException();
     }
 }

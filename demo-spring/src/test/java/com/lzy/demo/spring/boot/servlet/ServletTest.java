@@ -1,7 +1,6 @@
 package com.lzy.demo.spring.boot.servlet;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
@@ -33,6 +32,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * Servlet测试
@@ -57,7 +58,7 @@ public class ServletTest {
      */
     @Test
     public void testServlet(@Autowired TestRestTemplate testRestTemplate) {
-        Assertions.assertEquals("hello world", testRestTemplate.getForObject("/test-servlet", String.class));
+        assertEquals("hello world", testRestTemplate.getForObject("/test-servlet", String.class));
     }
 
     /**

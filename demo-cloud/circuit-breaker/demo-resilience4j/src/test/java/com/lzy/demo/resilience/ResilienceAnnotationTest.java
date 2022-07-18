@@ -3,7 +3,6 @@ package com.lzy.demo.resilience;
 import com.lzy.demo.resilience.exception.IgnoreException;
 import com.lzy.demo.resilience.service.ResilienceAnnotationService;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.TestInstance;
@@ -14,6 +13,9 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.concurrent.ExecutorService;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 /**
  * 测试使用resilience注解
@@ -38,11 +40,11 @@ public class ResilienceAnnotationTest extends AbstractResilienceTest {
     public void testException(RepetitionInfo repetitionInfo) {
         if (repetitionInfo.getCurrentRepetition() <= 5) {
             //熔断未打开的时候,抛出IOException
-            Assertions.assertThatCode(() -> resilienceAnnotationService.exception(IOException.class.getSimpleName()))
+            assertThatCode(() -> resilienceAnnotationService.exception(IOException.class.getSimpleName()))
                     .isInstanceOf(IOException.class);
         } else {
             //熔断打开后,抛出CallNotPermittedException
-            Assertions.assertThatCode(() -> resilienceAnnotationService.exception(IOException.class.getSimpleName()))
+            assertThatCode(() -> resilienceAnnotationService.exception(IOException.class.getSimpleName()))
                     .isInstanceOf(CallNotPermittedException.class);
         }
     }
@@ -53,7 +55,7 @@ public class ResilienceAnnotationTest extends AbstractResilienceTest {
      */
     @RepeatedTest(10)
     public void textIgnoreException() {
-        Assertions.assertThatCode(() -> resilienceAnnotationService.exception(IgnoreException.class.getSimpleName()))
+        assertThatCode(() -> resilienceAnnotationService.exception(IgnoreException.class.getSimpleName()))
                 .isInstanceOf(IgnoreException.class);
     }
 
@@ -77,11 +79,11 @@ public class ResilienceAnnotationTest extends AbstractResilienceTest {
     public void testSlowCall(RepetitionInfo repetitionInfo) throws Throwable {
         if (repetitionInfo.getCurrentRepetition() <= 5) {
             //熔断未打开的时候,成功执行
-            Assertions.assertThat(resilienceAnnotationService.slowCall())
+            assertThat(resilienceAnnotationService.slowCall())
                     .isEqualTo("slow");
         } else {
             //熔断打开后,抛出CallNotPermittedException
-            Assertions.assertThatCode(() -> resilienceAnnotationService.slowCall())
+            assertThatCode(() -> resilienceAnnotationService.slowCall())
                     .isInstanceOf(CallNotPermittedException.class);
         }
     }
@@ -110,10 +112,10 @@ public class ResilienceAnnotationTest extends AbstractResilienceTest {
     public void testDynamicConfig() {
         changeCircuitBreakerConfig();
         for (int i = 0; i < 2; i++) {
-            Assertions.assertThatCode(() -> resilienceAnnotationService.exception(IOException.class.getSimpleName()))
+            assertThatCode(() -> resilienceAnnotationService.exception(IOException.class.getSimpleName()))
                     .isInstanceOf(IOException.class);
         }
-        Assertions.assertThatCode(() -> resilienceAnnotationService.exception(IOException.class.getSimpleName()))
+        assertThatCode(() -> resilienceAnnotationService.exception(IOException.class.getSimpleName()))
                 .isInstanceOf(CallNotPermittedException.class);
     }
 

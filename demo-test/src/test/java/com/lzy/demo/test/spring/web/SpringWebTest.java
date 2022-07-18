@@ -3,7 +3,6 @@ package com.lzy.demo.test.spring.web;
 import com.lzy.demo.test.spring.AnotherSpringController;
 import com.lzy.demo.test.spring.SpringBean;
 import com.lzy.demo.test.spring.SpringController;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,6 +17,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * AutoConfigureMockMvc不能跟@Configuration和SpringBootConfiguration(SpringBootApplication)注解在同一个类上
@@ -47,7 +49,7 @@ public class SpringWebTest {
          */
         @Test
         public void testMockMvc(@Autowired MockMvc mockMvc) {
-            Assertions.assertNotNull(mockMvc);
+            assertNotNull(mockMvc);
         }
     }
 
@@ -69,7 +71,7 @@ public class SpringWebTest {
          */
         @Test
         public void testDefinedPort(@Autowired MockMvc mockMvc) {
-            Assertions.assertNotNull(mockMvc);
+            assertNotNull(mockMvc);
         }
     }
 
@@ -102,7 +104,7 @@ public class SpringWebTest {
          */
         @Test
         public void testMockMvc(@Autowired MockMvc mockMvc) {
-            Assertions.assertNotNull(mockMvc);
+            assertNotNull(mockMvc);
         }
     }
 
@@ -120,7 +122,7 @@ public class SpringWebTest {
          */
         @Test
         public void testMockMvc(@Autowired MockMvc mockMvc) {
-            Assertions.assertNotNull(mockMvc);
+            assertNotNull(mockMvc);
         }
 
         /**
@@ -145,7 +147,7 @@ public class SpringWebTest {
          */
         @Test
         public void testMockMvc(@Autowired MockMvc mockMvc) {
-            Assertions.assertNotNull(mockMvc);
+            assertNotNull(mockMvc);
         }
 
         /**
@@ -173,9 +175,9 @@ public class SpringWebTest {
          */
         @Test
         public void testController(@Autowired SpringController springController, @Autowired(required = false) AnotherSpringController anotherSpringController) {
-            Assertions.assertNotNull(springController);
+            assertNotNull(springController);
             // 因为WebMvcTest指定了controller为SpringController,所以AnotherSpringController没有被装配
-            Assertions.assertNull(anotherSpringController);
+            assertNull(anotherSpringController);
         }
 
         /**

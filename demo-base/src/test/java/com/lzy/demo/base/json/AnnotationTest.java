@@ -18,12 +18,13 @@ import com.lzy.demo.base.json.annotation.SimpleJsonType;
 import com.lzy.demo.base.json.annotation.SimpleJsonUnwrapped;
 import com.lzy.demo.base.json.annotation.SimpleJsonValue;
 import com.lzy.demo.base.json.annotation.SimpleJsonView;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AnnotationTest {
 
@@ -48,10 +49,10 @@ public class AnnotationTest {
         simpleJsonAny.add("attr2", "val2");
         String result = objectMapper.writeValueAsString(simpleJsonAny);
         //序列化时,attr1和attr2直接晋升为SimpleJSONAny的属性,不会出现others
-        Assertions.assertThat(result).doesNotContain("others").contains("attr1").contains("attr2");
+        assertThat(result).doesNotContain("others").contains("attr1").contains("attr2");
         //反序列化时,attr1和attr2未匹配上SimpleJSONAny的属性,就放到oathers里
         simpleJsonAny = objectMapper.readValue(result, SimpleJsonAny.class);
-        Assertions.assertThat(simpleJsonAny.getOthers()).containsOnlyKeys("attr1", "attr2");
+        assertThat(simpleJsonAny.getOthers()).containsOnlyKeys("attr1", "attr2");
     }
 
 
@@ -66,10 +67,10 @@ public class AnnotationTest {
         SimpleJsonProperty simpleJsonProperty = new SimpleJsonProperty("property1", "property2");
         String result = objectMapper.writeValueAsString(simpleJsonProperty);
         //序列化
-        Assertions.assertThat(result).contains("renameProperty1").contains("renameGetProperty2");
+        assertThat(result).contains("renameProperty1").contains("renameGetProperty2");
         //反序列化
         simpleJsonProperty = objectMapper.readValue(result.replace("renameGetProperty2", "renameSetProperty2"), SimpleJsonProperty.class);
-        Assertions.assertThat(simpleJsonProperty).hasFieldOrPropertyWithValue("property1", "property1")
+        assertThat(simpleJsonProperty).hasFieldOrPropertyWithValue("property1", "property1")
                 .hasFieldOrPropertyWithValue("property2", "property2");
 
     }
@@ -85,7 +86,7 @@ public class AnnotationTest {
         SimpleJsonPropertyOrder simpleJsonPropertyOrder = new SimpleJsonPropertyOrder("property1", "property2");
         String result = objectMapper.writeValueAsString(simpleJsonPropertyOrder);
         //序列化出来的key是有顺序的
-        Assertions.assertThat(result.indexOf("property2") < result.indexOf("property1")).isTrue();
+        assertThat(result.indexOf("property2") < result.indexOf("property1")).isTrue();
     }
 
 
@@ -100,7 +101,7 @@ public class AnnotationTest {
         SimpleJsonRawValue simpleJsonRawValue = new SimpleJsonRawValue("{\"attr\":false}", "{\"attr\":false}");
         String result = objectMapper.writeValueAsString(simpleJsonRawValue);
         //序列化后,property2的值也是json,而不是字符串
-        Assertions.assertThat(result).contains("\"property2\":{\"attr\":false}");
+        assertThat(result).contains("\"property2\":{\"attr\":false}");
     }
 
     /**
@@ -115,7 +116,7 @@ public class AnnotationTest {
         //需要开启SerializationFeature.WRAP_ROOT_VALUE
         objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
         String result = objectMapper.writeValueAsString(simpleJsonRootName);
-        Assertions.assertThat(result).contains("simpleJsonRootName");
+        assertThat(result).contains("simpleJsonRootName");
     }
 
     /**
@@ -129,11 +130,11 @@ public class AnnotationTest {
         SimpleJsonValue simpleJsonValue = new SimpleJsonValue();
         simpleJsonValue.setSimpleJsonValueEnum(SimpleJsonValue.SimpleJsonValueEnum.SIMPLE_JSON_VALUE2);
         String result = objectMapper.writeValueAsString(simpleJsonValue);
-        Assertions.assertThat(result).isEqualTo("{\"simpleJsonValueEnum\":\"value\"}");
+        assertThat(result).isEqualTo("{\"simpleJsonValueEnum\":\"value\"}");
 
         //使用@JsonValue时,当不同对象的序列化结果是相同的,此时反序列化是不准确的
         simpleJsonValue = objectMapper.readValue(result, SimpleJsonValue.class);
-        Assertions.assertThat(simpleJsonValue.getSimpleJsonValueEnum()).isEqualTo(SimpleJsonValue.SimpleJsonValueEnum.SIMPLE_JSON_VALUE);
+        assertThat(simpleJsonValue.getSimpleJsonValueEnum()).isEqualTo(SimpleJsonValue.SimpleJsonValueEnum.SIMPLE_JSON_VALUE);
     }
 
     /**
@@ -147,11 +148,11 @@ public class AnnotationTest {
         LocalDateTime now = LocalDateTime.now().withNano(0);
         SimpleJsonSerializer simpleJsonSerializer = new SimpleJsonSerializer("property", now);
         String result = objectMapper.writeValueAsString(simpleJsonSerializer);
-        Assertions.assertThat(result).contains("customproperty").contains(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(now));
+        assertThat(result).contains("customproperty").contains(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(now));
 
         simpleJsonSerializer = objectMapper.readValue(result, SimpleJsonSerializer.class);
-        Assertions.assertThat(simpleJsonSerializer.getProperty()).isEqualTo("property");
-        Assertions.assertThat(simpleJsonSerializer.getLocalDateTime()).isEqualTo(now);
+        assertThat(simpleJsonSerializer.getProperty()).isEqualTo("property");
+        assertThat(simpleJsonSerializer.getLocalDateTime()).isEqualTo(now);
     }
 
 
@@ -164,7 +165,7 @@ public class AnnotationTest {
     @Test
     public void testJsonCreator() throws JsonProcessingException {
         SimpleJsonCreator simpleJsonCreator = objectMapper.readValue("{\"property\":\"property\"}", SimpleJsonCreator.class);
-        Assertions.assertThat(simpleJsonCreator.getProperty()).isEqualTo("property");
+        assertThat(simpleJsonCreator.getProperty()).isEqualTo("property");
     }
 
     /**
@@ -182,7 +183,7 @@ public class AnnotationTest {
         final SimpleJacksonInject simpleJacksonInject = objectMapper.reader(inject)
                 .forType(SimpleJacksonInject.class)
                 .readValue(json);
-        Assertions.assertThat(simpleJacksonInject.getProperty2()).isEqualTo("property2");
+        assertThat(simpleJacksonInject.getProperty2()).isEqualTo("property2");
     }
 
 
@@ -197,11 +198,11 @@ public class AnnotationTest {
         SimpleJsonIgnore simpleJsonIgnore = new SimpleJsonIgnore("property1", "property2");
         //序列化会忽略此字段
         String result = objectMapper.writeValueAsString(simpleJsonIgnore);
-        Assertions.assertThat(result).doesNotContain("property1").doesNotContain("property2").doesNotContain("name");
+        assertThat(result).doesNotContain("property1").doesNotContain("property2").doesNotContain("name");
 
         //反序列化也会忽略此字段
         simpleJsonIgnore = objectMapper.readValue("{\"property1\":\"property1\",\"property2\":\"property2\",\"name\":{\"firstName\":\"demo\"}}", SimpleJsonIgnore.class);
-        Assertions.assertThat(simpleJsonIgnore).hasAllNullFieldsOrProperties();
+        assertThat(simpleJsonIgnore).hasAllNullFieldsOrProperties();
     }
 
     /**
@@ -215,7 +216,7 @@ public class AnnotationTest {
         SimpleJsonInclude simpleJsonInclude = new SimpleJsonInclude("property1");
         //空字段不进行序列化
         String result = objectMapper.writeValueAsString(simpleJsonInclude);
-        Assertions.assertThat(result).contains("property1").doesNotContain("property2");
+        assertThat(result).contains("property1").doesNotContain("property2");
     }
 
 
@@ -230,11 +231,11 @@ public class AnnotationTest {
         SimpleJsonType simpleJsonType = new SimpleJsonType(new SimpleJsonType.Sub1("sub1"));
         //序列化会多了type来标识是哪个子类
         String result = objectMapper.writeValueAsString(simpleJsonType);
-        Assertions.assertThat(result).contains("type");
+        assertThat(result).contains("type");
 
         //根据type会自动序列化为相应的子类
         simpleJsonType = objectMapper.readValue(result, SimpleJsonType.class);
-        Assertions.assertThat(simpleJsonType.getSubType()).isInstanceOf(SimpleJsonType.Sub1.class);
+        assertThat(simpleJsonType.getSubType()).isInstanceOf(SimpleJsonType.Sub1.class);
     }
 
     /**
@@ -248,11 +249,11 @@ public class AnnotationTest {
         SimpleJsonUnwrapped simpleJsonUnwrapped = new SimpleJsonUnwrapped("property");
         //序列化将subProperty提升给外层
         String result = objectMapper.writeValueAsString(simpleJsonUnwrapped);
-        Assertions.assertThat(result).contains("subProperty").doesNotContain("unwrappedType");
+        assertThat(result).contains("subProperty").doesNotContain("unwrappedType");
 
         //反序列化会自动封装为UnwrappedType
         simpleJsonUnwrapped = objectMapper.readValue(result, SimpleJsonUnwrapped.class);
-        Assertions.assertThat(simpleJsonUnwrapped.getUnwrappedType().getSubProperty()).isEqualTo("subProperty");
+        assertThat(simpleJsonUnwrapped.getUnwrappedType().getSubProperty()).isEqualTo("subProperty");
     }
 
     /**
@@ -266,12 +267,12 @@ public class AnnotationTest {
         SimpleJsonView simpleJsonView = new SimpleJsonView("property1", "property2", "property3");
         //序列化只会序列化符合条件的字段
         String result = objectMapper.writerWithView(SimpleJsonView.Middle.class).writeValueAsString(simpleJsonView);
-        Assertions.assertThat(result).contains("property1").contains("property2").doesNotContain("property3");
+        assertThat(result).contains("property1").contains("property2").doesNotContain("property3");
 
         //反序列化只会反序列化符合条件的字段
         simpleJsonView = objectMapper.readerWithView(SimpleJsonView.Low.class)
                 .forType(SimpleJsonView.class).readValue(result);
-        Assertions.assertThat(simpleJsonView)
+        assertThat(simpleJsonView)
                 .hasAllNullFieldsOrPropertiesExcept("property1")
                 .hasNoNullFieldsOrPropertiesExcept("property2", "property3");
     }

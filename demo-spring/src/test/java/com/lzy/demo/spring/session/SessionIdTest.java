@@ -1,6 +1,5 @@
 package com.lzy.demo.spring.session;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Objects;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 /**
@@ -47,7 +48,7 @@ public abstract class SessionIdTest {
             // 请求创建session
             mockMvc.perform(MockMvcRequestBuilders.get("/session/create")
                     .param("sessionValue", sessionValue)
-            ).andExpect(result -> Assertions.assertThat(Objects.requireNonNull(result.getResponse().getCookie("PROPERTIES_COOKIE_NAME")).getName()).isEqualTo("PROPERTIES_COOKIE_NAME"));
+            ).andExpect(result -> assertThat(Objects.requireNonNull(result.getResponse().getCookie("PROPERTIES_COOKIE_NAME")).getName()).isEqualTo("PROPERTIES_COOKIE_NAME"));
         }
     }
 
@@ -87,7 +88,7 @@ public abstract class SessionIdTest {
             // 请求创建session
             mockMvc.perform(MockMvcRequestBuilders.get("/session/create")
                     .param("sessionValue", sessionValue)
-            ).andExpect(result -> Assertions.assertThat(result.getResponse().getCookie(COOKIE_NAME)).isNotNull());
+            ).andExpect(result -> assertThat(result.getResponse().getCookie(COOKIE_NAME)).isNotNull());
         }
     }
 
@@ -125,7 +126,7 @@ public abstract class SessionIdTest {
             // 请求创建session
             mockMvc.perform(MockMvcRequestBuilders.get("/session/create")
                     .param("sessionValue", sessionValue)
-            ).andExpect(result -> Assertions.assertThat(result.getResponse().getHeader(HEADER_NAME)).isNotNull());
+            ).andExpect(result -> assertThat(result.getResponse().getHeader(HEADER_NAME)).isNotNull());
         }
     }
 }

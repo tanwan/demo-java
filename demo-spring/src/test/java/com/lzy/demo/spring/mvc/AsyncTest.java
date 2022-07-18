@@ -2,7 +2,6 @@ package com.lzy.demo.spring.mvc;
 
 import com.lzy.demo.spring.mvc.application.MVCApplication;
 import com.lzy.demo.spring.mvc.controller.AsyncController;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +13,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 /**
  * 测试异步
@@ -90,7 +91,7 @@ public class AsyncTest {
                         .param("sleep", "6000"))
                 .andReturn();
         // 超时抛出异常
-        Assertions.assertThatCode(() -> mockMvc.perform(MockMvcRequestBuilders.asyncDispatch(result))
+        assertThatCode(() -> mockMvc.perform(MockMvcRequestBuilders.asyncDispatch(result))
                         .andDo(MockMvcResultHandlers.print()))
                 .isInstanceOf(IllegalStateException.class);
     }

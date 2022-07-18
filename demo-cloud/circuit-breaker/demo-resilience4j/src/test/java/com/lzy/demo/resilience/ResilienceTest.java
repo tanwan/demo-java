@@ -11,7 +11,6 @@ import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.retry.Retry;
 import io.vavr.control.Try;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.TestInstance;
@@ -22,6 +21,9 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.concurrent.ExecutorService;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 /**
  * 测试代码使用resilience
@@ -50,11 +52,11 @@ public class ResilienceTest extends AbstractResilienceTest {
         CircuitBreaker circuitBreaker = circuitBreakerRegistry.circuitBreaker(ResilienceService.SIMPLE_BACKEND);
         if (repetitionInfo.getCurrentRepetition() <= 5) {
             //熔断未打开的时候,抛出IOException
-            Assertions.assertThatCode(() -> circuitBreaker.executeCheckedSupplier(() -> resilienceService.exception(IOException.class.getSimpleName())))
+            assertThatCode(() -> circuitBreaker.executeCheckedSupplier(() -> resilienceService.exception(IOException.class.getSimpleName())))
                     .isInstanceOf(IOException.class);
         } else {
             //熔断打开后,抛出CallNotPermittedException
-            Assertions.assertThatCode(() -> circuitBreaker.executeCheckedSupplier(() -> resilienceService.exception(IOException.class.getSimpleName())))
+            assertThatCode(() -> circuitBreaker.executeCheckedSupplier(() -> resilienceService.exception(IOException.class.getSimpleName())))
                     .isInstanceOf(CallNotPermittedException.class);
         }
     }
@@ -65,7 +67,7 @@ public class ResilienceTest extends AbstractResilienceTest {
     @RepeatedTest(10)
     public void textIgnoreException() {
         CircuitBreaker circuitBreaker = circuitBreakerRegistry.circuitBreaker(ResilienceService.SIMPLE_BACKEND);
-        Assertions.assertThatCode(() -> circuitBreaker.executeCheckedSupplier(() -> resilienceService.exception(IgnoreException.class.getSimpleName())))
+        assertThatCode(() -> circuitBreaker.executeCheckedSupplier(() -> resilienceService.exception(IgnoreException.class.getSimpleName())))
                 .isInstanceOf(IgnoreException.class);
     }
 
@@ -96,11 +98,11 @@ public class ResilienceTest extends AbstractResilienceTest {
         CircuitBreaker circuitBreaker = circuitBreakerRegistry.circuitBreaker(ResilienceService.SIMPLE_BACKEND);
         if (repetitionInfo.getCurrentRepetition() <= 5) {
             //熔断未打开的时候,成功执行
-            Assertions.assertThat(circuitBreaker.executeCheckedSupplier(() -> resilienceService.slowCall()))
+            assertThat(circuitBreaker.executeCheckedSupplier(() -> resilienceService.slowCall()))
                     .isEqualTo("slow");
         } else {
             //熔断打开后,抛出CallNotPermittedException
-            Assertions.assertThatCode(() -> circuitBreaker.executeCheckedSupplier(() -> resilienceService.slowCall()))
+            assertThatCode(() -> circuitBreaker.executeCheckedSupplier(() -> resilienceService.slowCall()))
                     .isInstanceOf(CallNotPermittedException.class);
         }
     }
@@ -147,10 +149,10 @@ public class ResilienceTest extends AbstractResilienceTest {
         changeCircuitBreakerConfig();
         CircuitBreaker circuitBreaker = circuitBreakerRegistry.circuitBreaker(ResilienceService.SIMPLE_BACKEND);
         for (int i = 0; i < 2; i++) {
-            Assertions.assertThatCode(() -> circuitBreaker.executeCheckedSupplier(() -> resilienceService.exception(IOException.class.getSimpleName())))
+            assertThatCode(() -> circuitBreaker.executeCheckedSupplier(() -> resilienceService.exception(IOException.class.getSimpleName())))
                     .isInstanceOf(IOException.class);
         }
-        Assertions.assertThatCode(() -> circuitBreaker.executeCheckedSupplier(() -> resilienceService.exception(IOException.class.getSimpleName())))
+        assertThatCode(() -> circuitBreaker.executeCheckedSupplier(() -> resilienceService.exception(IOException.class.getSimpleName())))
                 .isInstanceOf(CallNotPermittedException.class);
 
     }

@@ -5,12 +5,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.graphql.spring.boot.test.GraphQLResponse;
 import com.graphql.spring.boot.test.GraphQLTest;
 import com.graphql.spring.boot.test.GraphQLTestTemplate;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @GraphQLTest
@@ -28,8 +29,8 @@ public class GraphqlTest {
         // testBase是operationName,可以省略
         String graphql = "{\"query\":\"query testBase{baseQuery{id integer str dateTime commonDateTime}}\"}";
         GraphQLResponse response = graphQLTestTemplate.post(graphql);
-        Assertions.assertThat(response.get("$.data.baseQuery[0].id")).isEqualTo("1");
-        Assertions.assertThat(response.get("$.data.baseQuery[1].str")).isEqualTo("SimpleQueryResolver#baseQuery");
+        assertThat(response.get("$.data.baseQuery[0].id")).isEqualTo("1");
+        assertThat(response.get("$.data.baseQuery[1].str")).isEqualTo("SimpleQueryResolver#baseQuery");
         System.out.println(response.getRawResponse().getBody());
     }
 
@@ -42,7 +43,7 @@ public class GraphqlTest {
         // 在这边需要使用str:\\\"str\\\", 实际请求需要需要str:"str"
         String graphql = "{\"query\":\"query testArguments{arguments(integer:23, str:\\\"str\\\"){id integer str}}\"}";
         GraphQLResponse response = graphQLTestTemplate.post(graphql);
-        Assertions.assertThat(response.get("$.data.arguments.str")).isEqualTo("SimpleQueryResolver#arguments:str");
+        assertThat(response.get("$.data.arguments.str")).isEqualTo("SimpleQueryResolver#arguments:str");
 
         // 请求使用了参数, operationName同样也可以省略
         graphql = "{\"query\":\"query ($integer: Int!,$str: String!){arguments(integer:$integer, str:$str){id integer str}}\",\"variables\":{\"integer\":23,\"str\":\"str\"}}";
@@ -68,7 +69,7 @@ public class GraphqlTest {
         String graphql = "{\"query\":\"query testArgumentsWithType{argumentsWithType(request:{id:1, str:\\\"str\\\",dateTime:\\\"2022-01-01T01:01:01.000000+08:00\\\"," +
                 " commonDateTime:\\\"2022-01-01 01:01:01\\\"}){id integer str}}\"}";
         GraphQLResponse response = graphQLTestTemplate.post(graphql);
-        Assertions.assertThat(response.get("$.data.argumentsWithType.str")).isEqualTo("SimpleQueryResolver#argumentsWithType:str");
+        assertThat(response.get("$.data.argumentsWithType.str")).isEqualTo("SimpleQueryResolver#argumentsWithType:str");
 
         // 请求使用了参数
         graphql = "{\"query\":\"query testArgumentsWithType($id: ID!,$str: String!){argumentsWithType(request:{id:$id, str:$str}){id integer str}}\",\"variables\":{\"id\":1,\"str\":\"str\"}}";
@@ -101,7 +102,7 @@ public class GraphqlTest {
     public void testCustomResolver() {
         String graphql = "{\"query\":\"query testCustomResolver{customWithResolver{simpleEntity{id str}}}\"}";
         GraphQLResponse response = graphQLTestTemplate.post(graphql);
-        Assertions.assertThat(response.get("$.data.customWithResolver.simpleEntity.str")).isEqualTo("CustomResolver#simpleEntity:customWithResolver");
+        assertThat(response.get("$.data.customWithResolver.simpleEntity.str")).isEqualTo("CustomResolver#simpleEntity:customWithResolver");
 
         // 带请求参数
         graphql = "{\"query\":\"query{customWithResolver{argumentsWithType(request:{id:1}){id str}}}\"}";
@@ -116,7 +117,7 @@ public class GraphqlTest {
     public void testWithoutResolver() {
         String graphql = "{\"query\":\"query testWithoutResolver{withoutResolver{simpleEntity{id str}}}\"}";
         GraphQLResponse response = graphQLTestTemplate.post(graphql);
-        Assertions.assertThat(response.get("$.data.withoutResolver.simpleEntity.str")).isEqualTo("WithoutResolver#simpleEntity");
+        assertThat(response.get("$.data.withoutResolver.simpleEntity.str")).isEqualTo("WithoutResolver#simpleEntity");
 
         // 带请求参数
         graphql = "{\"query\":\"query{withoutResolver{argumentsWithType(request:{id:1}){id str}}}\"}";
@@ -133,8 +134,8 @@ public class GraphqlTest {
     public void testDirectives() throws IOException {
         // 直接使用graphqls文件
         GraphQLResponse response = graphQLTestTemplate.postForResource("graphql/directive-test.graphql");
-        Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.isOk()).isTrue();
-        Assertions.assertThat(response.get("$.data.customWithResolver.argumentsWithType.withDirective")).isEqualTo("WITHDIRECTIVE");
+        assertThat(response).isNotNull();
+        assertThat(response.isOk()).isTrue();
+        assertThat(response.get("$.data.customWithResolver.argumentsWithType.withDirective")).isEqualTo("WITHDIRECTIVE");
     }
 }

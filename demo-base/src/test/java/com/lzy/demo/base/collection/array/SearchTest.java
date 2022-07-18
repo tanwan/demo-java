@@ -1,10 +1,12 @@
 package com.lzy.demo.base.collection.array;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * 从数组中查找某个元素
@@ -20,7 +22,7 @@ public class SearchTest {
      */
     @Test
     public void testSearchList() {
-        Assertions.assertTrue(Arrays.asList(arrays).contains(1));
+        assertTrue(Arrays.asList(arrays).contains(1));
     }
 
 
@@ -29,7 +31,7 @@ public class SearchTest {
      */
     @Test
     public void testSearchSet() {
-        Assertions.assertTrue(new HashSet<>(Arrays.asList(arrays)).contains(1));
+        assertTrue(new HashSet<>(Arrays.asList(arrays)).contains(1));
     }
 
     /**
@@ -37,7 +39,7 @@ public class SearchTest {
      */
     @Test
     public void testSearchLoop() {
-        Assertions.assertTrue(searchLoop(3));
+        assertTrue(searchLoop(3));
     }
 
     /**
@@ -48,7 +50,7 @@ public class SearchTest {
         //需要进行排序
         Arrays.sort(arrays);
         //返回值为目标元素在数组的下标
-        Assertions.assertEquals(Arrays.binarySearch(arrays, 2), 1);
+        assertEquals(Arrays.binarySearch(arrays, 2), 1);
     }
 
     private boolean searchLoop(Integer except) {

@@ -3,12 +3,15 @@ package com.lzy.demo.base.collection.array;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.apache.commons.lang3.SerializationUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class CopyTest {
 
@@ -31,8 +34,8 @@ public class CopyTest {
     public void testSystemCopy() {
         int[] dest = new int[src.length];
         System.arraycopy(src, 0, dest, 0, 3);
-        Assertions.assertNotSame(src, dest);
-        Assertions.assertArrayEquals(src, dest);
+        assertNotSame(src, dest);
+        assertArrayEquals(src, dest);
     }
 
     /**
@@ -42,9 +45,9 @@ public class CopyTest {
     public void testSystemCopyShadowCopy() {
         Simple[] dest = new Simple[srcSimple.length];
         System.arraycopy(srcSimple, 0, dest, 0, 3);
-        Assertions.assertArrayEquals(srcSimple, dest);
-        Assertions.assertNotSame(srcSimple, dest);
-        Assertions.assertSame(srcSimple[0], dest[0]);
+        assertArrayEquals(srcSimple, dest);
+        assertNotSame(srcSimple, dest);
+        assertSame(srcSimple[0], dest[0]);
     }
 
 
@@ -55,8 +58,8 @@ public class CopyTest {
     public void testArraysCopyOf() {
         int[] dest = Arrays.copyOf(src, 3);
         int[] dest2 = Arrays.copyOfRange(src, 0, 3);
-        Assertions.assertArrayEquals(src, dest);
-        Assertions.assertArrayEquals(src, dest2);
+        assertArrayEquals(src, dest);
+        assertArrayEquals(src, dest2);
     }
 
     /**
@@ -65,9 +68,9 @@ public class CopyTest {
     @Test
     public void testArraysCopyOfShadowCopy() {
         Simple[] dest = Arrays.copyOf(srcSimple, 3);
-        Assertions.assertArrayEquals(srcSimple, dest);
-        Assertions.assertNotSame(srcSimple, dest);
-        Assertions.assertSame(srcSimple[0], dest[0]);
+        assertArrayEquals(srcSimple, dest);
+        assertNotSame(srcSimple, dest);
+        assertSame(srcSimple[0], dest[0]);
     }
 
     /**
@@ -76,7 +79,7 @@ public class CopyTest {
     @Test
     public void testStreamToArray() {
         Simple[] dest = Arrays.stream(srcSimple).toArray(Simple[]::new);
-        Assertions.assertArrayEquals(srcSimple, dest);
+        assertArrayEquals(srcSimple, dest);
     }
 
     /**
@@ -85,8 +88,8 @@ public class CopyTest {
     @Test
     public void testDeepCopy() {
         Simple[] dest = SerializationUtils.clone(srcSimple);
-        Assertions.assertArrayEquals(srcSimple, dest);
-        Assertions.assertNotSame(srcSimple[0], dest[0]);
+        assertArrayEquals(srcSimple, dest);
+        assertNotSame(srcSimple[0], dest[0]);
     }
 
     @Data

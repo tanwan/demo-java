@@ -4,13 +4,14 @@ import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.async.RedisAsyncCommands;
 import io.lettuce.core.api.sync.RedisCommands;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.util.concurrent.ExecutionException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LettuceTest {
@@ -44,11 +45,11 @@ public class LettuceTest {
     @Test
     public void testSet() throws ExecutionException, InterruptedException {
         syncCommands.set(getKey("key"), "hello world");
-        Assertions.assertThat(syncCommands.get(getKey("key")))
+        assertThat(syncCommands.get(getKey("key")))
                 .isEqualTo("hello world");
         // 异步调用,返回RedisFuture
         asyncCommands.set(getKey("key1"), "hello world1").get();
-        Assertions.assertThat(syncCommands.get(getKey("key1")))
+        assertThat(syncCommands.get(getKey("key1")))
                 .isEqualTo("hello world1");
     }
 
@@ -59,17 +60,17 @@ public class LettuceTest {
     public void testBit() {
         //把第8位设为1
         syncCommands.setbit(getKey("bit"), 8, 1);
-        Assertions.assertThat(syncCommands.getbit(getKey("bit"), 8))
+        assertThat(syncCommands.getbit(getKey("bit"), 8))
                 .isEqualTo(1);
         //被设置成1的个数
-        Assertions.assertThat(syncCommands.bitcount(getKey("bit"))).isEqualTo(1);
+        assertThat(syncCommands.bitcount(getKey("bit"))).isEqualTo(1);
 
         //把第8位设为0
         syncCommands.setbit(getKey("bit"), 8, 0);
-        Assertions.assertThat(syncCommands.getbit(getKey("bit"), 8))
+        assertThat(syncCommands.getbit(getKey("bit"), 8))
                 .isEqualTo(0);
         //被设置成1的个数
-        Assertions.assertThat(syncCommands.bitcount(getKey("bit"))).isEqualTo(0);
+        assertThat(syncCommands.bitcount(getKey("bit"))).isEqualTo(0);
 
     }
 

@@ -3,7 +3,6 @@ package com.lzy.demo.jwt;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.KeyUse;
 import com.nimbusds.jose.jwk.RSAKey;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.security.KeyFactory;
@@ -17,6 +16,8 @@ import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * JWK(JSON Web Key),将公钥保存为json格式
@@ -41,11 +42,11 @@ public class JWKTest {
 
         // 解析JWK
         JWK parseJWK = JWK.parse(jwk.toString());
-        Assertions.assertEquals(parseJWK, jwk);
+        assertEquals(parseJWK, jwk);
 
         // 从JWK获取publicKey
         PublicKey parsePublicKey = parseJWK.toRSAKey().toRSAPublicKey();
-        Assertions.assertEquals(parsePublicKey, certificate.getPublicKey());
+        assertEquals(parsePublicKey, certificate.getPublicKey());
     }
 
     /**
@@ -73,11 +74,11 @@ public class JWKTest {
 
         // 解析JWK
         JWK parseJWK = JWK.parse(jwk.toString());
-        Assertions.assertEquals(parseJWK, jwk);
+        assertEquals(parseJWK, jwk);
 
         // 从JWK获取KeyPair
         KeyPair parseKeyPair = parseJWK.toRSAKey().toKeyPair();
-        Assertions.assertEquals(parseKeyPair.getPrivate(), keyPair.getPrivate());
-        Assertions.assertEquals(parseKeyPair.getPublic(), keyPair.getPublic());
+        assertEquals(parseKeyPair.getPrivate(), keyPair.getPrivate());
+        assertEquals(parseKeyPair.getPublic(), keyPair.getPublic());
     }
 }

@@ -1,6 +1,5 @@
 package com.lzy.demo.gradle.plugin;
 
-import org.assertj.core.api.Assertions;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.gradle.testkit.runner.TaskOutcome;
@@ -12,6 +11,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * 测试java plugin
@@ -58,8 +59,8 @@ public class JavaPluginTest {
                 .withArguments("simpleJavaPluginTask")
                 .build();
 
-        Assertions.assertThat(result.getOutput().contains("javaPlugin")).isTrue();
-        Assertions.assertThat(result.task(":simpleJavaPluginTask").getOutcome())
+        assertThat(result.getOutput().contains("javaPlugin")).isTrue();
+        assertThat(result.task(":simpleJavaPluginTask").getOutcome())
                 .isEqualTo(TaskOutcome.SUCCESS);
     }
 

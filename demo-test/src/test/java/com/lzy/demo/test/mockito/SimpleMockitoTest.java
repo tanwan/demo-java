@@ -5,7 +5,6 @@ import com.lzy.demo.test.serivce.DependenceService;
 import com.lzy.demo.test.serivce.impl.DependenceServiceImpl;
 import com.lzy.demo.test.serivce.impl.FinalClassServiceImpl;
 import com.lzy.demo.test.serivce.impl.SimpleServiceImpl;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -20,6 +19,8 @@ import org.mockito.internal.configuration.injection.PropertyAndSetterInjection;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.function.Consumer;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 public class SimpleMockitoTest {
@@ -60,26 +61,26 @@ public class SimpleMockitoTest {
         DependenceService anyMockService = Mockito.mock(DependenceService.class);
         //不管参数是什么,都返回new SimpleBean("any mock")
         Mockito.when(anyMockService.dependenceMethod(Mockito.any())).thenReturn(new SimpleBean("any mock"));
-        Assertions.assertThat(anyMockService.dependenceMethod(new SimpleBean("param1")))
+        assertThat(anyMockService.dependenceMethod(new SimpleBean("param1")))
                 .extracting(SimpleBean::getBody).isEqualTo("any mock");
-        Assertions.assertThat(anyMockService.dependenceMethod(new SimpleBean("param2")))
+        assertThat(anyMockService.dependenceMethod(new SimpleBean("param2")))
                 .extracting(SimpleBean::getBody).isEqualTo("any mock");
 
         //使用doReturn
         DependenceService doReturnAnyMockService = Mockito.mock(DependenceService.class);
         Mockito.doReturn(new SimpleBean("any mock")).when(doReturnAnyMockService)
                 .dependenceMethod(Mockito.any());
-        Assertions.assertThat(doReturnAnyMockService.dependenceMethod(new SimpleBean("param2")))
+        assertThat(doReturnAnyMockService.dependenceMethod(new SimpleBean("param2")))
                 .extracting(SimpleBean::getBody).isEqualTo("any mock");
 
         //精确的返回
         SimpleBean preciseSimpleBean = new SimpleBean("precise mock");
         DependenceService preciseMockService = Mockito.mock(DependenceService.class);
         Mockito.when(preciseMockService.dependenceMethod(preciseSimpleBean)).thenReturn(preciseSimpleBean);
-        Assertions.assertThat(preciseMockService.dependenceMethod(preciseSimpleBean))
+        assertThat(preciseMockService.dependenceMethod(preciseSimpleBean))
                 .extracting(SimpleBean::getBody).isEqualTo("precise mock");
         //入参跟when不一样,则只能返回null
-        Assertions.assertThat(preciseMockService.dependenceMethod(new SimpleBean("param")))
+        assertThat(preciseMockService.dependenceMethod(new SimpleBean("param")))
                 .isNull();
 
         //多次调用
@@ -88,9 +89,9 @@ public class SimpleMockitoTest {
                 //第一次调用返回1,第二次调用返回2,后面都是返回2
                 .thenReturn(new SimpleBean("1"))
                 .thenReturn(new SimpleBean("2"));
-        Assertions.assertThat(multiCallMockService.dependenceMethod(preciseSimpleBean))
+        assertThat(multiCallMockService.dependenceMethod(preciseSimpleBean))
                 .extracting(SimpleBean::getBody).isEqualTo("1");
-        Assertions.assertThat(multiCallMockService.dependenceMethod(preciseSimpleBean))
+        assertThat(multiCallMockService.dependenceMethod(preciseSimpleBean))
                 .extracting(SimpleBean::getBody).isEqualTo("2");
 
 
@@ -99,7 +100,7 @@ public class SimpleMockitoTest {
         Mockito.when(answerMockService.dependenceMethod(Mockito.any()))
                 //invocation可以获取到入参
                 .thenAnswer(invocation -> invocation.getArgument(0));
-        Assertions.assertThat(answerMockService.dependenceMethod(new SimpleBean("answer")))
+        assertThat(answerMockService.dependenceMethod(new SimpleBean("answer")))
                 .extracting(SimpleBean::getBody).isEqualTo("answer");
     }
 
@@ -135,9 +136,9 @@ public class SimpleMockitoTest {
         // 使用@Spy
         Mockito.when(spyDependenceService.defaultMethod()).thenReturn("defaultMethod");
         //调用的是mock的方法
-        Assertions.assertThat(spyDependenceService.defaultMethod()).isEqualTo("defaultMethod");
+        assertThat(spyDependenceService.defaultMethod()).isEqualTo("defaultMethod");
         //调用的是真实的方法
-        Assertions.assertThat(spyDependenceService.dependenceMethod(new SimpleBean("")))
+        assertThat(spyDependenceService.dependenceMethod(new SimpleBean("")))
                 .extracting(SimpleBean::getBody).isEqualTo("real DependenceServiceImpl object");
 
         //使用Mockito.spy
@@ -145,9 +146,9 @@ public class SimpleMockitoTest {
         DependenceService dependenceService = Mockito.spy(DependenceServiceImpl.class);
         Mockito.when(dependenceService.defaultMethod()).thenReturn("defaultMethod");
         //调用的是mock的方法
-        Assertions.assertThat(dependenceService.defaultMethod()).isEqualTo("defaultMethod");
+        assertThat(dependenceService.defaultMethod()).isEqualTo("defaultMethod");
         //调用的是真实的方法
-        Assertions.assertThat(dependenceService.dependenceMethod(new SimpleBean("")))
+        assertThat(dependenceService.dependenceMethod(new SimpleBean("")))
                 .extracting(SimpleBean::getBody).isEqualTo("real DependenceServiceImpl object");
     }
 
@@ -159,7 +160,7 @@ public class SimpleMockitoTest {
     public void testInjectMocks() {
         Mockito.when(dependenceService.dependenceMethod(Mockito.any())).thenReturn(new SimpleBean("mock"));
         //SimpleServiceImpl依赖的dependenceService已经是Mock的了,所以这边返回的是mock而不是
-        Assertions.assertThat(simpleService.simpleMethod(new SimpleBean("simpleService")))
+        assertThat(simpleService.simpleMethod(new SimpleBean("simpleService")))
                 .extracting(SimpleBean::getBody)
                 .isEqualTo("mock");
     }
@@ -181,16 +182,16 @@ public class SimpleMockitoTest {
         Mockito.verify(dependenceService, Mockito.times(2)).defaultNoReturn(argumentCaptor.capture());
 
         //校验所有的参数
-        Assertions.assertThat(useCaptorAnnotation.getAllValues())
+        assertThat(useCaptorAnnotation.getAllValues())
                 .contains(simpleBean1, simpleBean2);
         //校验最后一次的参数
-        Assertions.assertThat(useCaptorAnnotation.getValue()).isEqualTo(simpleBean2);
+        assertThat(useCaptorAnnotation.getValue()).isEqualTo(simpleBean2);
 
         //校验所有的参数
-        Assertions.assertThat(argumentCaptor.getAllValues())
+        assertThat(argumentCaptor.getAllValues())
                 .contains(simpleBean1, simpleBean2);
         //校验最后一次的参数
-        Assertions.assertThat(argumentCaptor.getValue()).isEqualTo(simpleBean2);
+        assertThat(argumentCaptor.getValue()).isEqualTo(simpleBean2);
     }
 
 
@@ -203,7 +204,7 @@ public class SimpleMockitoTest {
     public void testFinal() {
         FinalClassServiceImpl finalClassServiceImpl = Mockito.mock(FinalClassServiceImpl.class);
         Mockito.when(finalClassServiceImpl.finalMethod()).thenReturn("mock");
-        Assertions.assertThat(finalClassServiceImpl.finalMethod()).isEqualTo("mock");
+        assertThat(finalClassServiceImpl.finalMethod()).isEqualTo("mock");
     }
 
 
@@ -222,7 +223,7 @@ public class SimpleMockitoTest {
         //这边相当于手动执行了一次callback
         argumentCaptor.getValue().accept(simpleBean);
 
-        Assertions.assertThat(simpleBean.getBody()).isEqualTo("real SimpleServiceImpl");
+        assertThat(simpleBean.getBody()).isEqualTo("real SimpleServiceImpl");
     }
 
 }

@@ -1,6 +1,5 @@
 package com.lzy.demo.io.resource;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.util.AntPathMatcher;
@@ -13,6 +12,8 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class ClassLoaderGetResourceTest {
 
@@ -30,7 +31,7 @@ public class ClassLoaderGetResourceTest {
     @Test
     public void testGetNotExistResource() {
         //返回null
-        Assertions.assertNull(getClass().getClassLoader().getResource("notExistPath"));
+        assertNull(getClass().getClassLoader().getResource("notExistPath"));
     }
 
 
@@ -62,7 +63,7 @@ public class ClassLoaderGetResourceTest {
      * 获取多个资源,使用通配符,ClassLoader#getResources并不支持通配符
      * 在文件系统里,其实是使用File列出所有文件,再加上AntPathMatcher进行匹配
      *
-     * @throws IOException the io exception
+     * @throws Exception exception
      * @see PathMatchingResourcePatternResolver#doFindPathMatchingFileResources(org.springframework.core.io.Resource, java.lang.String)
      */
     @Test

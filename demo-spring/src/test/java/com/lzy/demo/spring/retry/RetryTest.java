@@ -1,6 +1,5 @@
 package com.lzy.demo.spring.retry;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -10,6 +9,9 @@ import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 /**
  * 测试重试
@@ -41,7 +43,7 @@ public class RetryTest {
     @Test
     public void testRetryNoThrowException(@Autowired RetryService retryService) {
         retryService.retryNoThrowException(atomicInteger);
-        Assertions.assertThat(atomicInteger.get()).isEqualTo(3);
+        assertThat(atomicInteger.get()).isEqualTo(3);
     }
 
     /**
@@ -52,7 +54,7 @@ public class RetryTest {
     @Test
     public void testRetryAlwaysThrowException(@Autowired RetryWithoutRecoverService retryWithoutRecoverService) {
         // 这边会抛出异常
-        Assertions.assertThatCode(() -> retryWithoutRecoverService.retryAlwaysThrowException(atomicInteger))
+        assertThatCode(() -> retryWithoutRecoverService.retryAlwaysThrowException(atomicInteger))
                 .isInstanceOf(RuntimeException.class).hasMessage("expect exception");
     }
 
@@ -103,22 +105,22 @@ public class RetryTest {
     public void testCircuitBreaker(@Autowired RetryService retryService) throws Exception {
         for (int i = 1; i <= 3; i++) {
             retryService.circuitBreaker(atomicInteger);
-            Assertions.assertThat(atomicInteger.get()).isEqualTo(i);
+            assertThat(atomicInteger.get()).isEqualTo(i);
         }
         // 熔断开启,不会调用真正的方法
         retryService.circuitBreaker(atomicInteger);
-        Assertions.assertThat(atomicInteger.get()).isEqualTo(3);
+        assertThat(atomicInteger.get()).isEqualTo(3);
 
         Thread.sleep(3000);
         // 熔断关闭后
         for (int i = 4; i <= 6; i++) {
             retryService.circuitBreaker(atomicInteger);
             Thread.sleep(2000);
-            Assertions.assertThat(atomicInteger.get()).isEqualTo(i);
+            assertThat(atomicInteger.get()).isEqualTo(i);
         }
         // 5s内,没有异常3次,因此熔断没有开启
         retryService.circuitBreaker(atomicInteger);
-        Assertions.assertThat(atomicInteger.get()).isEqualTo(7);
+        assertThat(atomicInteger.get()).isEqualTo(7);
     }
 
     /**

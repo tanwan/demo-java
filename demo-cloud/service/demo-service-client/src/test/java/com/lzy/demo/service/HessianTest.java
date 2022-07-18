@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lzy.demo.service.bean.ExtendHessianMessage;
 import com.lzy.demo.service.bean.HessianMessage;
 import com.lzy.demo.service.service.SimpleHessianService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -20,6 +19,8 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class HessianTest {
 
@@ -57,6 +58,8 @@ public class HessianTest {
 
     /**
      * 测试有重写属性的序列化
+     *
+     * @throws IOException exception
      */
     @Test
     public void testOverrideSerializable() throws IOException {
@@ -77,7 +80,7 @@ public class HessianTest {
         HessianMessage readHessianMessage = (HessianMessage) hessianSerializerInput.readObject(HessianMessage.class);
         //如果bean有重写父类属性的,hessian序列化后,此字段会为null
         //底层使用unsafe.putObject,因此不会调用set方法,unsafe.putObject在为有重写属性赋值会失败,因此这边字段会为null
-        Assertions.assertThat(readHessianMessage.getString()).isNull();
+        assertThat(readHessianMessage.getString()).isNull();
         System.out.println(readHessianMessage);
     }
 

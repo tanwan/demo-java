@@ -3,8 +3,9 @@ package com.lzy.demo.rabbitmq.amqp;
 import com.rabbitmq.client.AlreadyClosedException;
 import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.MessageProperties;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 public class ProducerTest extends AbstractAmqpTest {
 
@@ -98,7 +99,7 @@ public class ProducerTest extends AbstractAmqpTest {
         String message = "hello world";
         //如果发送到不存在的exchange,那么此channel将会被关闭,因此需要确保发送的exchange是已经存在的
         channel.basicPublish("noExistExchange", "", MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
-        Assertions.assertThatCode(() -> channel.queueDeclare("queueName", true, false, false, null))
+        assertThatCode(() -> channel.queueDeclare("queueName", true, false, false, null))
                 .isInstanceOf(AlreadyClosedException.class);
     }
 

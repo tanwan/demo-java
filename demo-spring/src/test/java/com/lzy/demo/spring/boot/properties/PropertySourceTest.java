@@ -1,11 +1,12 @@
 package com.lzy.demo.spring.boot.properties;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * {@code @PropertySource}测试
@@ -30,9 +31,9 @@ public class PropertySourceTest {
          */
         @Test
         public void testPropertySource(@Autowired AtConfigurationProperties atConfigurationProperties, @Value("${key}") String key) {
-            Assertions.assertThat(key).isEqualTo("value");
+            assertThat(key).isEqualTo("value");
             System.out.println(atConfigurationProperties);
-            Assertions.assertThat(atConfigurationProperties)
+            assertThat(atConfigurationProperties)
                     .hasFieldOrPropertyWithValue("integer", 1)
                     .hasFieldOrPropertyWithValue("email", "99156629@qq.com")
                     .hasFieldOrPropertyWithValue("actualValue", "expectValue");
@@ -52,7 +53,7 @@ public class PropertySourceTest {
         @Test
         public void testConfigurationPropertiesWithFactory(@Autowired AtConfigurationProperties atConfigurationProperties) {
             System.out.println(atConfigurationProperties);
-            Assertions.assertThat(atConfigurationProperties)
+            assertThat(atConfigurationProperties)
                     .hasFieldOrPropertyWithValue("integer", 1)
                     .hasFieldOrPropertyWithValue("email", "99156629@qq.com")
                     .hasFieldOrPropertyWithValue("actualValue", "expectValue");

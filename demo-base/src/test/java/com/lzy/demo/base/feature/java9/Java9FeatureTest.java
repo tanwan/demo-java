@@ -1,6 +1,5 @@
 package com.lzy.demo.base.feature.java9;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
@@ -12,6 +11,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 public class Java9FeatureTest {
 
@@ -27,12 +29,12 @@ public class Java9FeatureTest {
         Set<Integer> set = Set.of(1, 2);
         Map<String, Integer> map = Map.of("key1", 1, "key2", 2);
 
-        Assertions.assertThat(list).contains(1, 2, 3, 4);
-        Assertions.assertThat(set).hasSize(2);
-        Assertions.assertThat(map).containsKeys("key1", "key2");
+        assertThat(list).contains(1, 2, 3, 4);
+        assertThat(set).hasSize(2);
+        assertThat(map).containsKeys("key1", "key2");
 
         //不可变的集合不能修改
-        Assertions.assertThatCode(() -> list.add(1)).isInstanceOf(UnsupportedOperationException.class);
+        assertThatCode(() -> list.add(1)).isInstanceOf(UnsupportedOperationException.class);
     }
 
 
@@ -124,7 +126,7 @@ public class Java9FeatureTest {
         System.out.println(LocalTime.now() + " call future");
         System.out.println(completeOnTimeout.get());
         //调用orTimeout.get()抛异常
-        Assertions.assertThatCode(orTimeout::get).isInstanceOf(ExecutionException.class);
+        assertThatCode(orTimeout::get).isInstanceOf(ExecutionException.class);
     }
 
 

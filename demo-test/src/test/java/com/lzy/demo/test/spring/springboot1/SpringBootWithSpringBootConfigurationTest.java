@@ -1,14 +1,15 @@
 package com.lzy.demo.test.spring.springboot1;
 
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTestContextBootstrapper;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * 这边的springboot包是为了测试隔离
@@ -58,10 +59,10 @@ public class SpringBootWithSpringBootConfigurationTest {
         @Test
         public void testProperties(@Value("${spring.application.name:#{null}}") String applicationName,
                                    @Value("${key}") String key, @Value("${outer.inner.key}") String innerKey) {
-            Assertions.assertEquals("value", key);
-            Assertions.assertEquals("outer.inner.value", innerKey);
+            assertEquals("value", key);
+            assertEquals("outer.inner.value", innerKey);
             // spring.config.location指定springboot的配置,所以这边为null
-            Assertions.assertNull(applicationName);
+            assertNull(applicationName);
         }
     }
 
@@ -78,7 +79,7 @@ public class SpringBootWithSpringBootConfigurationTest {
          */
         @Test
         public void testActiveProfiles(@Value("${spring.application.name}") String applicationName) {
-            Assertions.assertEquals("demo-test-active", applicationName);
+            assertEquals("demo-test-active", applicationName);
         }
     }
 }

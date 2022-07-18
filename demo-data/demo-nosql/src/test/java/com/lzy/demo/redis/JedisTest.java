@@ -1,12 +1,13 @@
 package com.lzy.demo.redis;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.params.SetParams;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * 使用jedis
@@ -41,9 +42,9 @@ public class JedisTest {
         SetParams setParams = SetParams.setParams()
                 .nx().ex(30);
         jedis.set(getKey("key1"), "hello world1", setParams);
-        Assertions.assertThat(jedis.get(getKey("key")))
+        assertThat(jedis.get(getKey("key")))
                 .isEqualTo("hello world");
-        Assertions.assertThat(jedis.get(getKey("key1")))
+        assertThat(jedis.get(getKey("key1")))
                 .isEqualTo("hello world1");
     }
 
@@ -54,17 +55,17 @@ public class JedisTest {
     public void testBit() {
         //把第8位设为true(1)
         jedis.setbit(getKey("bit"), 8, true);
-        Assertions.assertThat(jedis.getbit(getKey("bit"), 8))
+        assertThat(jedis.getbit(getKey("bit"), 8))
                 .isEqualTo(true);
         //被设置成1的个数
-        Assertions.assertThat(jedis.bitcount(getKey("bit"))).isEqualTo(1);
+        assertThat(jedis.bitcount(getKey("bit"))).isEqualTo(1);
 
         //把第8位设为false(0)
         jedis.setbit(getKey("bit"), 8, false);
-        Assertions.assertThat(jedis.getbit(getKey("bit"), 8))
+        assertThat(jedis.getbit(getKey("bit"), 8))
                 .isEqualTo(false);
         //被设置成1的个数
-        Assertions.assertThat(jedis.bitcount(getKey("bit"))).isEqualTo(0);
+        assertThat(jedis.bitcount(getKey("bit"))).isEqualTo(0);
     }
 
     @AfterAll

@@ -4,12 +4,13 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * HDFS测试
@@ -28,7 +29,7 @@ public class HDFSTest {
     public void testConfiguration() {
         Configuration configuration = new Configuration();
         configuration.addResource("simple-configuration.xml");
-        Assertions.assertThat(configuration.getInt("size", 0))
+        assertThat(configuration.getInt("size", 0))
                 .isEqualTo(10);
     }
 

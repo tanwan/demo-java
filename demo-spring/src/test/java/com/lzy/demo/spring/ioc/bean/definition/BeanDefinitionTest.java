@@ -1,12 +1,13 @@
 package com.lzy.demo.spring.ioc.bean.definition;
 
 import com.lzy.demo.spring.ioc.beans.definition.ParentBean;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.support.ChildBeanDefinition;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * BeanDefinition测试
@@ -29,7 +30,7 @@ public class BeanDefinitionTest {
         rootBeanDefinition.getPropertyValues().add("name", "root");
         applicationContext.registerBeanDefinition("rootBean", rootBeanDefinition);
         applicationContext.refresh();
-        Assertions.assertThat(applicationContext.getBean("rootBean"))
+        assertThat(applicationContext.getBean("rootBean"))
                 .hasFieldOrPropertyWithValue("name", "root");
     }
 
@@ -52,11 +53,11 @@ public class BeanDefinitionTest {
 
 
         applicationContext.refresh();
-        Assertions.assertThat(applicationContext.getBean("parentBean"))
+        assertThat(applicationContext.getBean("parentBean"))
                 .hasFieldOrPropertyWithValue("name", "parent");
 
         // childBeanDefinition会使用RootBeanDefinition的属性
-        Assertions.assertThat(applicationContext.getBean("childBean"))
+        assertThat(applicationContext.getBean("childBean"))
                 .hasFieldOrPropertyWithValue("name", "parent");
     }
 
@@ -78,11 +79,11 @@ public class BeanDefinitionTest {
         applicationContext.registerBeanDefinition("childBean", childBeanDefinition);
 
         applicationContext.refresh();
-        Assertions.assertThat(applicationContext.getBean("parentBean"))
+        assertThat(applicationContext.getBean("parentBean"))
                 .hasFieldOrPropertyWithValue("name", "parent");
 
         // childBeanDefinition会使用RootBeanDefinition的属性
-        Assertions.assertThat(applicationContext.getBean("childBean"))
+        assertThat(applicationContext.getBean("childBean"))
                 .hasFieldOrPropertyWithValue("name", "parent");
     }
 }

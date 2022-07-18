@@ -4,8 +4,9 @@ import com.lzy.demo.design.pattern.singleton.EagerSingleton;
 import com.lzy.demo.design.pattern.singleton.EnumSingleton;
 import com.lzy.demo.design.pattern.singleton.InnerClassSingleton;
 import com.lzy.demo.design.pattern.singleton.LazySingleton;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * 测试单例
@@ -20,7 +21,7 @@ public class SingletonTest {
      */
     @Test
     public void testEagerSingleton() {
-        Assertions.assertThat(EagerSingleton.getInstance())
+        assertThat(EagerSingleton.getInstance())
                 .isEqualTo(EagerSingleton.getInstance());
     }
 
@@ -29,7 +30,7 @@ public class SingletonTest {
      */
     @Test
     public void testLazySingleton() {
-        Assertions.assertThat(LazySingleton.getInstance())
+        assertThat(LazySingleton.getInstance())
                 .isEqualTo(LazySingleton.getInstance());
     }
 
@@ -38,7 +39,7 @@ public class SingletonTest {
      */
     @Test
     public void innerClassSingleton() {
-        Assertions.assertThat(InnerClassSingleton.getInstance())
+        assertThat(InnerClassSingleton.getInstance())
                 .isEqualTo(InnerClassSingleton.getInstance());
     }
 
@@ -47,7 +48,7 @@ public class SingletonTest {
      */
     @Test
     public void innerEnumSingleton() {
-        Assertions.assertThat(EnumSingleton.INSTANCE)
+        assertThat(EnumSingleton.INSTANCE)
                 .isEqualTo(EnumSingleton.INSTANCE);
     }
 }

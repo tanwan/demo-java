@@ -4,7 +4,6 @@ import com.atomikos.icatch.config.UserTransactionServiceImp;
 import com.atomikos.icatch.jta.UserTransactionImp;
 import com.atomikos.jdbc.AtomikosDataSourceBean;
 import com.mysql.cj.jdbc.MysqlXADataSource;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -20,6 +19,8 @@ import java.sql.Statement;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * 如果表不存在,则先执行atomikos/ddl.sql
@@ -52,8 +53,8 @@ public class AtomikosTest {
         Statement s2 = secondDBConnection.createStatement();
         ResultSet rs2 = s2.executeQuery(String.format(QUERY_SQL, value));
 
-        Assertions.assertThat(rs1.next()).isTrue();
-        Assertions.assertThat(rs2.next()).isTrue();
+        assertThat(rs1.next()).isTrue();
+        assertThat(rs2.next()).isTrue();
     }
 
     /**
@@ -72,8 +73,8 @@ public class AtomikosTest {
         Statement s2 = secondDBConnection.createStatement();
         ResultSet rs2 = s2.executeQuery(String.format(QUERY_SQL, value));
 
-        Assertions.assertThat(rs1.next()).isFalse();
-        Assertions.assertThat(rs2.next()).isFalse();
+        assertThat(rs1.next()).isFalse();
+        assertThat(rs2.next()).isFalse();
     }
 
     private void insertValue(String value, boolean throwException) throws Exception {

@@ -13,7 +13,6 @@ import com.nimbusds.jwt.SignedJWT;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -32,10 +31,14 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class JWTTest {
 
     /**
      * 使用hs256加密
+     *
+     * @throws Exception exception
      */
     @Test
     public void testJWTUseHS256() throws Exception {
@@ -64,6 +67,8 @@ public class JWTTest {
      * 使用rsa加密 jks的密钥库
      * 在当前目录生成jks: keytool -genkey -alias demo-java -keyalg RSA -validity 36500  -keystore demo-java.jks
      * 导出公钥:         keytool -export -alias demo-java -keystore demo-java.jks -storepass 123456 -file  demo-java.cer
+     *
+     * @throws Exception exception
      */
     @Test
     public void testJWTUseRSAJKS() throws Exception {
@@ -75,6 +80,8 @@ public class JWTTest {
      * 将jks转为pkcs12  keytool -importkeystore -srckeystore demo-java.jks -destkeystore demo-java-pkcs12.p12 -deststoretype pkcs12
      * pkcs12也可以同jks使用相同的命令导出公钥
      * 使用openssl查看pkcs12 openssl pkcs12 -nokeys -info -in demo-java-pkcs12.p12 -passin pass:123456
+     *
+     * @throws Exception exception
      */
     @Test
     public void testJWTUseRSAPKCS12() throws Exception {
@@ -187,7 +194,7 @@ public class JWTTest {
     private JWTClaimsSet parserJWTUseJOSE(String jwt, JWSVerifier jwsVerifier) throws Exception {
         SignedJWT signedJWT = SignedJWT.parse(jwt);
         // 需要校验
-        Assertions.assertTrue(signedJWT.verify(jwsVerifier));
+        assertTrue(signedJWT.verify(jwsVerifier));
         return signedJWT.getJWTClaimsSet();
     }
 }

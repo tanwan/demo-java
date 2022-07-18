@@ -32,8 +32,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * 测试HttpClient

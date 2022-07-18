@@ -1,6 +1,5 @@
 package com.lzy.demo.spring.boot.loader;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -14,6 +13,9 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * spring boot loader测试
@@ -59,9 +61,9 @@ public class SpringBootLoaderTest {
         //当有嵌套jar的时候,它返回的还是外层的jar,因此内部jar的class无法被加载
         LaunchedURLClassLoader launchedURLClassLoader = new LaunchedURLClassLoader(getUrls(), getClass().getClassLoader());
         URLClassLoader urlClassLoader = new URLClassLoader(getUrls());
-        Assertions.assertThatExceptionOfType(ClassNotFoundException.class).isThrownBy(() ->
+        assertThatExceptionOfType(ClassNotFoundException.class).isThrownBy(() ->
                 launchedURLClassLoader.loadClass(className));
-        Assertions.assertThatExceptionOfType(ClassNotFoundException.class).isThrownBy(() ->
+        assertThatExceptionOfType(ClassNotFoundException.class).isThrownBy(() ->
                 urlClassLoader.loadClass(className));
     }
 
@@ -77,7 +79,7 @@ public class SpringBootLoaderTest {
         //4. 把org.springframework.boot.loader.jar.JarFile封装成org.springframework.boot.loader.jar.JarURLConnection,然后URL打开连接的时候,就可以获取到嵌套的jar了
         JarFile.registerUrlProtocolHandler();
         LaunchedURLClassLoader classLoader = new LaunchedURLClassLoader(getUrls(), getClass().getClassLoader());
-        Assertions.assertThatCode(() -> {
+        assertThatCode(() -> {
             Class clazz = classLoader.loadClass(className);
             //使用LaunchedURLClassLoader,在defineClass的时候会先definePackage,使用JarFile获取出Manifest,然后进行definePackage
             System.out.println(clazz.getPackage().getImplementationVersion());
@@ -92,7 +94,7 @@ public class SpringBootLoaderTest {
         //注册org.springframework.boot.loader.jar.Handler协议处理器
         JarFile.registerUrlProtocolHandler();
         URLClassLoader classLoader = new URLClassLoader(getUrls());
-        Assertions.assertThatCode(() -> {
+        assertThatCode(() -> {
             Class clazz = classLoader.loadClass(className);
             //使用URLClassLoader,使用的是URLClassPath来读取jar,然后封装成Resource(获取不到Manifest),因此definePackage的时候,无法获得这些信息
             System.out.println(clazz.getPackage().getImplementationVersion());

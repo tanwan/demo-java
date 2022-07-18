@@ -2,13 +2,14 @@ package com.lzy.demo.module.b;
 
 import com.lzy.demo.module.a.opens.ModuleAService;
 import com.lzy.demo.module.a.opens.UseService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InaccessibleObjectException;
 import java.lang.reflect.Method;
 import java.util.ServiceLoader;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 /**
  * 模块测试,如果启动发现报kotlin错误,Build->rebuild project
@@ -38,7 +39,7 @@ public class ModuleTest {
         //没有opens
         Constructor ownerConstructor = Class.forName("com.lzy.demo.module.a.owner.OwnerClass").getDeclaredConstructor();
         //没有open的,无法反射非public的
-        Assertions.assertThatCode(() -> ownerConstructor.setAccessible(true)).isInstanceOf(InaccessibleObjectException.class);
+        assertThatCode(() -> ownerConstructor.setAccessible(true)).isInstanceOf(InaccessibleObjectException.class);
 
         //使用opens
         Constructor openConstructor = Class.forName("com.lzy.demo.module.a.opens.OpenClass").getDeclaredConstructor();

@@ -3,13 +3,14 @@ package com.lzy.demo.jpa;
 import com.lzy.demo.jpa.dao.SimpleOptimisticLockDao;
 import com.lzy.demo.jpa.entity.SimpleOptimisticLock;
 import com.lzy.demo.jpa.service.SimpleLockService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.annotation.Resource;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 @SpringBootTest
 @ActiveProfiles("jpa")
@@ -48,7 +49,7 @@ public class LockTest {
         new Thread(() -> simpleLockService.optimisticForRead("readThread1")).start();
         Thread.sleep(200);
         // 模拟另一个读线程获取实体
-        new Thread(() -> Assertions.assertThatCode(() -> simpleLockService.optimisticForRead("readThread2"))
+        new Thread(() -> assertThatCode(() -> simpleLockService.optimisticForRead("readThread2"))
                 .doesNotThrowAnyException()).start();
 
         // 模拟一个写线程进行更新实体
