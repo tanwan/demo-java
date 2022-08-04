@@ -37,6 +37,8 @@ dependencies {
 
     //精简版:protobuf-javalite, 普通版:protobuf-java
     implementation group: 'com.google.protobuf', name: 'protobuf-javalite', version: project['protobuf.version']
+
+    implementation group: 'io.vavr', name: 'vavr', version: project['vavr.version']
 }
 
 test {
