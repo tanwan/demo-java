@@ -1,11 +1,5 @@
 package com.lzy.demo.design.pattern.singleton;
 
-/**
- * 懒汉式单例模式
- *
- * @author LZY
- * @version v1.0
- */
 public final class LazySingleton {
 
     private static volatile LazySingleton instance = null;
@@ -16,11 +10,6 @@ public final class LazySingleton {
     }
 
 
-    /**
-     * 获取实例,双重检查
-     *
-     * @return the instance
-     */
     public static LazySingleton getInstance() {
         //多个线程可能同时进入
         //instance用volatile修饰是为了禁止指令重排

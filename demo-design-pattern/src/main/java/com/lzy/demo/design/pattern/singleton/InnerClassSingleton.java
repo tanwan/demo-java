@@ -1,11 +1,5 @@
 package com.lzy.demo.design.pattern.singleton;
 
-/**
- * 内部类单例
- *
- * @author LZY
- * @version v1.0
- */
 public final class InnerClassSingleton {
 
     private InnerClassSingleton() {
@@ -20,11 +14,6 @@ public final class InnerClassSingleton {
         private static final InnerClassSingleton INSTANCE = new InnerClassSingleton();
     }
 
-    /**
-     * Gets instance.
-     *
-     * @return the instance
-     */
     public static InnerClassSingleton getInstance() {
         return InnerClassHolder.INSTANCE;
     }

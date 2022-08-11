@@ -14,11 +14,6 @@ public class Adapter implements Target {
         this.adaptee = adaptee;
     }
 
-    /**
-     * 目标接口方法
-     *
-     * @param number the number
-     */
     @Override
     public void method(String number) {
         adaptee.method(Integer.valueOf(number));

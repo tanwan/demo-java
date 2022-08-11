@@ -14,11 +14,6 @@ public class Director {
         this.builder = builder;
     }
 
-    /**
-     * Build product product.
-     *
-     * @return the product
-     */
     public Product buildProduct() {
         builder.buildComponent1();
         builder.buildComponent2();

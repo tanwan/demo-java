@@ -8,8 +8,5 @@ package com.lzy.demo.design.pattern.bridge;
  */
 public interface Implementor {
 
-    /**
-     * 实现
-     */
     void operationImpl();
 }

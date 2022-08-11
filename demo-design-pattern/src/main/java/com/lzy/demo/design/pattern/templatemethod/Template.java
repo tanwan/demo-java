@@ -8,9 +8,7 @@ package com.lzy.demo.design.pattern.templatemethod;
  * @version v1.0
  */
 public abstract class Template {
-    /**
-     * 模板方法,定义成final
-     */
+
     public final void templateMethod() {
         //这里固定调用的顺序逻辑
         this.primitiveOperation1();
@@ -19,14 +17,9 @@ public abstract class Template {
         this.hook();
     }
 
-    /**
-     * 操作步骤1
-     */
+
     protected abstract void primitiveOperation1();
 
-    /**
-     * 操作步骤2
-     */
     protected abstract void primitiveOperation2();
 
 

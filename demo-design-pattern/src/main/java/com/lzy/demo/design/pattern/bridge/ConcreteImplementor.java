@@ -7,9 +7,7 @@ package com.lzy.demo.design.pattern.bridge;
  * @version v1.0
  */
 public class ConcreteImplementor implements Implementor {
-    /**
-     * 实现类
-     */
+
     @Override
     public void operationImpl() {
         System.out.println("ConcreteImplementor#operationImpl()");

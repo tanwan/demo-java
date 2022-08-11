@@ -1,11 +1,5 @@
 package com.lzy.demo.design.pattern.decorator;
 
-/**
- * 具体装饰者1
- *
- * @author LZY
- * @version v1.0
- */
 public class ConcreteDecorator1 extends Decorator {
 
     /**

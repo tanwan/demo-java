@@ -11,9 +11,6 @@ public class Facade {
     private Module1 module1 = new Module1();
     private Module2 module2 = new Module2();
 
-    /**
-     * 外观模式方法
-     */
     public void method() {
         module1.method();
         module2.method();

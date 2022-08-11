@@ -12,9 +12,6 @@ public class RefinedAbstraction extends Abstraction {
         super(implementor);
     }
 
-    /**
-     * 操作
-     */
     @Override
     public void operation() {
         System.out.println("refinedAbstraction do something");

@@ -15,19 +15,8 @@ import com.lzy.demo.design.pattern.factory.Product;
  * @version v1.0
  */
 public interface AbstractFactoryCreator {
-    /**
-     * A产品等级的生成方法
-     *
-     * @param <T> the type parameter
-     * @return the t
-     */
+
     <T extends Product> T createA();
 
-    /**
-     * B产品等级的生成方法
-     *
-     * @param <T> the type parameter
-     * @return the t
-     */
     <T extends Product> T createB();
 }

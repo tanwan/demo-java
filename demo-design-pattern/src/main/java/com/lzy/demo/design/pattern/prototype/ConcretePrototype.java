@@ -15,11 +15,6 @@ public class ConcretePrototype implements Prototype, Cloneable {
         this.name = name;
     }
 
-    /**
-     * Copy prototype.
-     *
-     * @return the prototype
-     */
     @Override
     public <T extends Prototype> T copy() {
         //这里采用的是new一个对象

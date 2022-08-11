@@ -15,9 +15,6 @@ public abstract class Abstraction {
         this.implementor = implementor;
     }
 
-    /**
-     * 操作
-     */
     public void operation() {
         implementor.operationImpl();
     }

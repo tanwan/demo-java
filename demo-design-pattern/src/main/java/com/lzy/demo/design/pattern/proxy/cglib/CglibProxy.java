@@ -16,9 +16,6 @@ import java.lang.reflect.Method;
 public final class CglibProxy implements MethodInterceptor {
     private static Enhancer enhancer = new Enhancer();
 
-    /**
-     * 委托类的实例
-     */
     private Object realSubject;
 
     public CglibProxy(Object realSubject) {
@@ -52,14 +49,6 @@ public final class CglibProxy implements MethodInterceptor {
         return (Subject) enhancer.create();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @param obj    代理类的实例
-     * @param method 拦截的方法
-     * @param args   参数
-     * @param proxy  用来调用真实类的方法
-     */
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
         System.out.println("obj:" + obj.getClass().getName());

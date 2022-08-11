@@ -1,20 +1,8 @@
 package com.lzy.demo.design.pattern.builder;
 
-/**
- * 复杂的类
- *
- * @author LZY
- * @version v1.0
- */
 public class Product {
 
-    /**
-     * 表示复杂的组件1
-     */
     private String component1;
-    /**
-     * 表示复杂的组件2
-     */
     private String component2;
 
     public String getComponent1() {

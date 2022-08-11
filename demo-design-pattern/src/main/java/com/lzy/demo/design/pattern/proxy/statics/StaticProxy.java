@@ -17,10 +17,6 @@ public class StaticProxy implements Subject {
         this.subject = subject;
     }
 
-    /**
-     * 代理操作
-     * 一个方法对应一个代理方法
-     */
     @Override
     public void operation() {
         before();
@@ -28,11 +24,6 @@ public class StaticProxy implements Subject {
         after();
     }
 
-    /**
-     * 代理操作
-     *
-     * @param str the str
-     */
     @Override
     public void operation(String str) {
         before();

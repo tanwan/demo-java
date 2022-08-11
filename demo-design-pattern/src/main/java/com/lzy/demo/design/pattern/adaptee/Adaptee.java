@@ -1,7 +1,7 @@
 package com.lzy.demo.design.pattern.adaptee;
 
 /**
- * 不符合目录接口的类
+ * 不符合目标接口的类
  *
  * @author LZY
  * @version v1.0

@@ -15,9 +15,6 @@ import java.lang.reflect.Proxy;
  * @version v1.0
  */
 public class JdkProxy implements InvocationHandler {
-    /**
-     * 真实对象
-     */
     private Subject realSubject;
 
     public JdkProxy() {
@@ -27,21 +24,11 @@ public class JdkProxy implements InvocationHandler {
         this.realSubject = realSubject;
     }
 
-    /**
-     * 动态生成代理对象
-     *
-     * @param realSubject the real subject
-     * @return the subject
-     */
     public static Subject getProxy(Subject realSubject) {
         //只能代理接口,不能代理类
         return (Subject) Proxy.newProxyInstance(realSubject.getClass().getClassLoader(), realSubject.getClass().getInterfaces(), new JdkProxy(realSubject));
     }
 
-    /**
-     * {@inheritDoc}
-     * 对于相同逻辑,一个方法可以对应多个代理
-     */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         before();
