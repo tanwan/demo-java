@@ -10,11 +10,7 @@ import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 
 public class AioTest {
-    /**
-     * The entry point of application.
-     *
-     * @throws Exception the exception
-     */
+
     @Test
     public void testServer() throws Exception {
         AsynchronousServerSocketChannel server = AsynchronousServerSocketChannel.open().bind(new InetSocketAddress(9999));
@@ -43,7 +39,7 @@ public class AioTest {
     }
 
     /**
-     * The entry point of application.
+     * 测试客户端
      *
      * @throws Exception the exception
      */

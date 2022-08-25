@@ -8,11 +8,6 @@ import java.util.concurrent.TimeUnit;
 
 public class VertxWebApplication {
 
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
     public static void main(String[] args) {
         VertxOptions options = new VertxOptions();
         options.setMaxEventLoopExecuteTime(3000L);

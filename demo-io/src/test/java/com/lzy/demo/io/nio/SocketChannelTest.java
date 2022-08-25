@@ -13,11 +13,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class SocketChannelTest {
-    /**
-     * The entry point of application.
-     *
-     * @throws Exception the exception
-     */
+
     @Test
     public void testSever() throws Exception {
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();

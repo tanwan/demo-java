@@ -8,11 +8,6 @@ import io.vertx.core.Vertx;
 
 public class VertxCoreApplication {
 
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
         vertx.deployVerticle(SimpleVerticle.class.getName());
