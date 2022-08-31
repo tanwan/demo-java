@@ -15,13 +15,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class SimpleMutationResolver implements GraphQLMutationResolver {
 
-
-    /**
-     * Simple mutation simple entity.
-     *
-     * @param request the request
-     * @return the simple entity
-     */
     public SimpleEntity simpleMutation(SimpleRequest request) {
         return new SimpleEntity(request.getId(), 23, request.getStr());
     }

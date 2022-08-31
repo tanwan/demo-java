@@ -1,6 +1,6 @@
 package com.lzy.demo.graphql;
 
-import com.lzy.demo.graphql.config.ScalarConfig;
+import com.lzy.demo.graphql.scalar.CustomScalars;
 import graphql.scalars.ExtendedScalars;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
@@ -39,7 +39,7 @@ public class SchemaMergeTest {
                 .newRuntimeWiring()
                 // 自定义scalar
                 .scalar(ExtendedScalars.DateTime)
-                .scalar(ScalarConfig.COMMON_DATE_TIME)
+                .scalar(CustomScalars.COMMON_DATE_TIME)
                 .build();
 
         GraphQLSchema graphQLSchema = schemaGenerator.makeExecutableSchema(typeRegistry, runtimeWiring);

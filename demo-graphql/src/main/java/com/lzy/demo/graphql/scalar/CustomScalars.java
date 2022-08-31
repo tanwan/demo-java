@@ -1,43 +1,18 @@
-package com.lzy.demo.graphql.config;
+package com.lzy.demo.graphql.scalar;
 
 import graphql.language.StringValue;
-import graphql.scalars.ExtendedScalars;
 import graphql.schema.Coercing;
 import graphql.schema.CoercingParseLiteralException;
 import graphql.schema.CoercingParseValueException;
 import graphql.schema.CoercingSerializeException;
 import graphql.schema.GraphQLScalarType;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@Configuration
-public class ScalarConfig {
-
+public class CustomScalars {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-    /**
-     * 使用DateTimeFormatter.ISO_OFFSET_DATE_TIME
-     *
-     * @return GraphQLScalarType
-     */
-    @Bean
-    public GraphQLScalarType isoOffsetDateTime() {
-        return ExtendedScalars.DateTime;
-    }
-
-    /**
-     * 使用yyyy-MM-dd HH:mm:ss
-     *
-     * @return GraphQLScalarType
-     */
-    @Bean
-    public GraphQLScalarType commonDateTime() {
-        return COMMON_DATE_TIME;
-    }
 
     public static final GraphQLScalarType COMMON_DATE_TIME = GraphQLScalarType.newScalar()
             // Scalar的名称

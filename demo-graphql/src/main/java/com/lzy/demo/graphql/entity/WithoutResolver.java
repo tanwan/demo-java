@@ -14,15 +14,17 @@ public class WithoutResolver {
         return new SimpleEntity(1L, 23, "WithoutResolver#simpleEntity");
     }
 
-
     /**
-     * 带有请求参数
+     * spring boot需要使用get方法
      *
-     * @param request request
-     * @param env     env
-     * @return simple entity
+     * @return getSimpleEntity
      */
+    public SimpleEntity getSimpleEntity() {
+        return new SimpleEntity(1L, 23, "WithoutResolver#simpleEntity");
+    }
+
     public SimpleEntity argumentsWithType(SimpleRequest request, DataFetchingEnvironment env) {
         return new SimpleEntity(request.getId(), 23, "WithoutResolver#argumentsWithType");
     }
+
 }

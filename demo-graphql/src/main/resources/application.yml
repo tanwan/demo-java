@@ -1,7 +1,18 @@
+# kickstart的配置
 graphql:
   servlet:
-    #默认值
+    #默认值/graphql
     mapping: /graphql
   tools:
-    #schema文件,默认值
-    schema-location-pattern: "**/*.graphqls"
+    #schema文件,默认值:**/*.graphqls
+    schema-location-pattern: "graphql/*.graphqls"
+
+# springboot graphql的配置
+spring:
+  graphql:
+    schema:
+      locations: classpath:graphql/**/
+      printer:
+        enabled: true
+
+    path: /springboot-graphql

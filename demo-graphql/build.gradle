@@ -9,10 +9,21 @@ plugins {
 //    id "org.jetbrains.kotlin.jvm" version "$kotlinJVMVersion"
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
 
-    // graphql
+    // spring boot的graphql
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-graphql'
+    testImplementation group: 'org.springframework.graphql', name: 'spring-graphql-test'
+
+
+    // kickstart的graphql
     implementation group: 'com.graphql-java-kickstart', name: 'graphql-spring-boot-starter', version: project['graphql-spring-boot.version']
     testImplementation group: 'com.graphql-java-kickstart', name: 'graphql-spring-boot-starter-test', version: project['graphql-spring-boot.version']
 

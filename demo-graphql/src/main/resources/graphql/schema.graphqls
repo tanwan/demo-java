@@ -62,6 +62,7 @@ type WithoutResolver{
 #自定义指令
 directive @simpleDirective(str: String, array:[Int], bool: Boolean) on FIELD_DEFINITION
 
-#See com.lzy.demo.graphql.config.ScalarConfig.dateTime,名称需要跟GraphQLScalarType#name匹配
+#see com.lzy.demo.graphql.config.KickstartConfig.dateTime,名称需要跟GraphQLScalarType#name匹配
+#see com.lzy.demo.graphql.config.SpringBootConfig.runtimeWiringConfigurer
 scalar DateTime
 scalar CommonDateTime

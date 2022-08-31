@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @GraphQLTest
 @ComponentScan(basePackageClasses = GraphqlApplication.class)
-public class GraphqlTest {
+public class KickstartGraphqlTest {
 
     @Autowired
     private GraphQLTestTemplate graphQLTestTemplate;
@@ -55,7 +55,7 @@ public class GraphqlTest {
         ObjectNode objectNode = JsonNodeFactory.instance.objectNode();
         objectNode.put("integer", 3);
         objectNode.put("str", "str");
-        response = graphQLTestTemplate.perform("graphql/argument-test.graphql", objectNode);
+        response = graphQLTestTemplate.perform("graphql-test/argument.graphql", objectNode);
         System.out.println(response.getRawResponse().getBody());
     }
 
@@ -90,7 +90,7 @@ public class GraphqlTest {
         innerNode.put("dateTime", "2022-01-01T01:01:01.000000+08:00");
         innerNode.put("commonDateTime", "2022-01-01 01:01:01");
         objectNode.set("request", innerNode);
-        response = graphQLTestTemplate.perform("graphql/argument-type-test.graphql", objectNode);
+        response = graphQLTestTemplate.perform("graphql-test/argument-type.graphql", objectNode);
         System.out.println(response.getRawResponse().getBody());
     }
 
@@ -133,7 +133,7 @@ public class GraphqlTest {
     @Test
     public void testDirectives() throws IOException {
         // 直接使用graphqls文件
-        GraphQLResponse response = graphQLTestTemplate.postForResource("graphql/directive-test.graphql");
+        GraphQLResponse response = graphQLTestTemplate.postForResource("graphql-test/directive.graphql");
         assertThat(response).isNotNull();
         assertThat(response.isOk()).isTrue();
         assertThat(response.get("$.data.customWithResolver.argumentsWithType.withDirective")).isEqualTo("WITHDIRECTIVE");
