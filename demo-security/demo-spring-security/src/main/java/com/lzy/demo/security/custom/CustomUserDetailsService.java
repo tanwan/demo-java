@@ -27,9 +27,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 1. 先根据用户名从数据库获取出用户,不存在则抛出UsernameNotFoundException的异常

@@ -1,75 +1,60 @@
 package com.lzy.demo.security.config;
 
-import com.lzy.demo.security.filter.AtFilter;
+import com.lzy.demo.security.filter.AddAtFillter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Collections;
 
-/**
- * spring-security配置
- * 如果需要有多个HttpSecurity对象,则可以配置多个WebSecurityConfigurerAdapter实例(多个使用@Order控制顺序)
- *
- * @author LZY
- * @version v1.0
- */
 @Profile("default")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
-    @Resource
-    private UserDetailsService userDetailsService;
-
-    /**
-     * 在WebSecurityConfiguration#setFilterChainProxySecurityConfigurer()创建出来
-     * 为了创建{@link org.springframework.security.web.FilterChainProxy}
-     *
-     * @param web webSecurity
-     * @see WebSecurity#performBuild()
-     */
-    @Override
-    public void configure(WebSecurity web) {
+    @Bean
+    public WebSecurityCustomizer ignoringCustomizer() {
         //可以配置一些需要忽略的资源,每个路径对应一个SecurityFilterChain
-        web.ignoring().antMatchers("/static/**");
+        return web -> web.ignoring().antMatchers("/static/**");
     }
 
+
     /**
-     * 配置HttpSecurity
+     * HttpSecurity 配置
      *
-     * @param http httpSecurity
+     * @param http http
+     * @return DefaultSecurityFilterChain
      * @throws Exception exception
-     * @see HttpSecurity#performBuild()
+     * @see WebExpressionVoter
      */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public DefaultSecurityFilterChain springSecurity(HttpSecurity http) throws Exception {
         //对应着一个SecurityFilterChain
         http
                 //此HttpSecurity的配置只对/login,/logout,/security/**,/secured/**,/jsr250/**,/pre-post/**有效,默认为/**
                 .requestMatchers().antMatchers("/login", "/logout", "/security/**", "/secured/**", "/jsr250/**", "/pre-post/**")
                 .and()
-                //order跟指定过滤器一样,但会在指定过滤器之前执行,可以进行验证码判断
-                .addFilterAt(new AtFilter(), UsernamePasswordAuthenticationFilter.class)
+                //order跟指定过滤器一样,但会在指定过滤器之前执行
+                .addFilterAt(new AddAtFillter(), UsernamePasswordAuthenticationFilter.class)
                 // 关闭csrf配置
                 .csrf().disable()
-                // cors配置,这里如果不配置CorsConfigurationSource的话,则会从spring容器中获取CorsConfigurationSource的实例
+                // cors配置,这里如果不配置CorsConfigurationSource的话,则会从spring容器中获取CorsConfigurationSource的实例,所以也可以配置为Spring Bean
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
-                //使用ExpressionUrlAuthorizationConfigurer
                 .authorizeRequests()
                 //任何人都可以访问
                 .antMatchers("/security/permit-all").permitAll()
+                // 这边的判断在WebExpressionVoter
                 //角色为ROLE_USER才可以访问
                 .antMatchers("/security/user").hasRole("USER")
                 .antMatchers("/security/authority").hasAuthority("ROLE_USER")
@@ -90,10 +75,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //必需使用账号密码认证,使用rememberMe cookie登录的用户无法访问
                 .antMatchers("/security/fullyAuthenticated").fullyAuthenticated()
                 //其它请求(只针对requestMatchers().antMatchers配置的/login, /logout, /security/**)需要认证
-                .anyRequest().fullyAuthenticated()
+                .anyRequest().authenticated()
                 .and()
                 //配置rememberMe
-                .rememberMe().userDetailsService(userDetailsService)
+                .rememberMe()
                 .and()
                 // 配置登录
                 .formLogin()
@@ -114,8 +99,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //.accessDeniedHandler()
         // 配置未认证处理,默认为LoginUrlAuthenticationEntryPoint(跳转到登陆界面)
         //.authenticationEntryPoint();
+        return http.build();
     }
-
 
     /**
      * cors配置
@@ -132,25 +117,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-    /**
-     * {@inheritDoc}
-     * 可以重写userDetailsServiceBean()来配置UserDetailsService,必须声明成spring bean,重写这个的话,最好也重写userDetailsService()
-     *
-     */
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsServiceBean() throws Exception {
-//        return new CustomUserDetailsService();
-//    }
-//
-//    @Override
-//    protected UserDetailsService userDetailsService() {
-//        try {
-//            return userDetailsServiceBean();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
 }

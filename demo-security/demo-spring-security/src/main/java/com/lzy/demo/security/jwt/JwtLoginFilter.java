@@ -3,7 +3,6 @@ package com.lzy.demo.security.jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -24,9 +23,8 @@ import java.util.Collection;
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 
-    protected JwtLoginFilter(String defaultFilterProcessesUrl, AuthenticationManager authenticationManager) {
+    protected JwtLoginFilter(String defaultFilterProcessesUrl) {
         super(new AntPathRequestMatcher(defaultFilterProcessesUrl));
-        setAuthenticationManager(authenticationManager);
     }
 
     @Override
@@ -66,7 +64,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
                 // 设置密钥
                 .signWith(key)
                 .compact();
-        resp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         resp.setHeader(JwtUtils.AUTHORIZATION, JwtUtils.BEARER_TYPE + " " + jwt);
         PrintWriter out = resp.getWriter();
@@ -77,7 +75,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse resp, AuthenticationException failed) throws IOException, ServletException {
-        resp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
         PrintWriter out = resp.getWriter();
         out.write("failed");
         out.flush();

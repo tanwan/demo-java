@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,7 +35,8 @@ public class FileController {
      * @return the string
      */
     @PostMapping("/file-upload")
-    public String fileUpload(@RequestParam("file") MultipartFile file, @RequestParam Map<String, Object> params) {
+    public String fileUpload(@RequestParam("file") MultipartFile file, @RequestParam Map<String, Object> params) throws IOException {
+        file.transferTo(new File("/Users/luke.luo/Desktop/untitled/dddd"));
         return file.getOriginalFilename() + " " + file.getSize() + params;
     }
 

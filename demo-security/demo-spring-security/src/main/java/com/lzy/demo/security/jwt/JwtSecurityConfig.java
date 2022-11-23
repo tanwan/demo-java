@@ -1,15 +1,14 @@
 package com.lzy.demo.security.jwt;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import javax.annotation.Resource;
 
 /**
  * spring-security配置
@@ -21,41 +20,24 @@ import javax.annotation.Resource;
 @Profile("jwt")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
-public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Resource
-    private UserDetailsService userDetailsService;
-
-    /**
-     * 在WebSecurityConfiguration#setFilterChainProxySecurityConfigurer()创建出来
-     * 为了创建{@link org.springframework.security.web.FilterChainProxy}
-     *
-     * @param web webSecurity
-     * @throws Exception exception
-     * @see WebSecurity#performBuild()
-     */
-    @Override
-    public void configure(WebSecurity web) {
+public class JwtSecurityConfig {
+    @Bean
+    public WebSecurityCustomizer ignoringCustomizer() {
         //可以配置一些需要忽略的资源,每个路径对应一个SecurityFilterChain
-        web.ignoring().antMatchers("/static/**");
+        return web -> web.ignoring().antMatchers("/static/**");
     }
 
-    /**
-     * 配置HttpSecurity
-     *
-     * @param http httpSecurity
-     * @throws Exception exception
-     * @see HttpSecurity#performBuild()
-     */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+
+    @Bean
+    public DefaultSecurityFilterChain springSecurity(HttpSecurity http) throws Exception {
+        JwtLoginFilter jwtLoginFilter = new JwtLoginFilter("/login");
         //对应着一个SecurityFilterChain
         http
                 //此HttpSecurity的配置只对/login,/logout,/security/**,/secured/**,/jsr250/**,/pre-post/**有效,默认为/**
                 .requestMatchers().antMatchers("/login", "/logout", "/security/**", "/secured/**", "/jsr250/**", "/pre-post/**")
                 .and()
                 // jwt认证的过滤器在原来认证过滤器之前
-                .addFilterBefore(new JwtLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtLoginFilter, UsernamePasswordAuthenticationFilter.class)
                 // jwt过滤器在jwt认证过滤器之后
                 .addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class)
                 // 关闭csrf配置
@@ -90,7 +72,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().fullyAuthenticated()
                 .and()
                 //配置rememberMe
-                .rememberMe().userDetailsService(userDetailsService)
+                .rememberMe()
                 .and()
                 // 配置登录
                 .formLogin()
@@ -109,5 +91,8 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .accessDeniedHandler(new JwtAccessDeniedHandler())
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint());
+        DefaultSecurityFilterChain chain =  http.build();
+        jwtLoginFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
+        return chain;
     }
 }

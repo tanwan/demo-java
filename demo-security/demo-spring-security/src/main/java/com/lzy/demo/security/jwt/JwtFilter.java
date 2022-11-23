@@ -37,7 +37,8 @@ public class JwtFilter extends GenericFilterBean {
         if (StringUtils.hasLength(jwtToken)) {
             try {
                 // 注意setSigningKey如果参数是String,则会进行base64解码
-                Claims claims = Jwts.parser().setSigningKey(JwtUtils.PASSWORD)
+                Claims claims = Jwts.parserBuilder().setSigningKey(JwtUtils.PASSWORD)
+                        .build()
                         .parseClaimsJws(jwtToken.replace(JwtUtils.BEARER_TYPE, ""))
                         .getBody();
                 // 这边可以使用类似黑名单机制(往redis插入用户,过期时间为jwt的过期时间)来实现注销功能

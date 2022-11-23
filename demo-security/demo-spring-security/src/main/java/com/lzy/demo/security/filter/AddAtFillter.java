@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.*;
 import java.io.IOException;
 
-public class AtFilter implements Filter {
+public class AddAtFillter implements Filter {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
