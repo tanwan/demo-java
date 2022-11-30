@@ -2,12 +2,8 @@ package com.lzy.demo.gateway.dynamic;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.cloud.gateway.actuate.GatewayControllerEndpoint;
-import org.springframework.cloud.gateway.route.CachingRouteLocator;
-import org.springframework.cloud.gateway.route.InMemoryRouteDefinitionRepository;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
-import org.springframework.cloud.gateway.route.RouteRefreshListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.stereotype.Component;
