@@ -1,3 +1,10 @@
 dependencies {
     implementation group: 'cglib', name: 'cglib', version: project['cglib.version']
 }
+
+
+test {
+    // add-opens 使用模块中的包对其它模块开放, ALL-UNNAMED表示classpath下的所有模块
+    // cglib 需要使用这个选项--add-opens java.base/java.lang=ALL-UNNAMED
+    jvmArgs += ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
+}

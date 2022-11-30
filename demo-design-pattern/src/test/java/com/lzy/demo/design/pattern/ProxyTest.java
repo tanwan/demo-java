@@ -21,7 +21,7 @@ import java.lang.reflect.Proxy;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 /**
- * 代理模式测试
+ * 代理模式测试, 启动需要添加--add-opens java.base/java.lang=ALL-UNNAMED
  *
  * @author LZY
  * @version v1.0

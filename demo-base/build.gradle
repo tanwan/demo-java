@@ -1,11 +1,6 @@
 plugins {
     id "com.google.protobuf" version "$protobufPlugin"
 }
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
 
 
 dependencies {
