@@ -21,11 +21,6 @@ dependencies {
 
     //jcache
     implementation group: 'javax.cache', name: 'cache-api'
-    //ehcache3
-    implementation group: 'org.ehcache', name: 'ehcache'
-
-    //ehcache2
-    implementation group: 'net.sf.ehcache', name: 'ehcache'
 
     // html单元测试
     testImplementation group: 'net.sourceforge.htmlunit', name: 'htmlunit'

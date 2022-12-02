@@ -1,16 +1,6 @@
 spring:
   config:
     activate:
-      on-profile: spring-cache-ehcache
-  cache:
-    type: ehcache
-    ehcache:
-      config: classpath:ehcache2.xml
-
----
-spring:
-  config:
-    activate:
       on-profile: spring-cache-jcache
   cache:
     type: jcache

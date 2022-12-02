@@ -1,6 +1,6 @@
 package com.lzy.demo.jpa.entity;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 @Entity
 public class RedApple extends Apple {

@@ -1,7 +1,8 @@
 package com.lzy.demo.security;
 
 import com.lzy.demo.security.config.SecurityConfig;
-import com.lzy.demo.security.controller.GlobalMethodController;
+import com.lzy.demo.security.controller.MethodSecurityController;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,9 +13,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(GlobalMethodController.class)
+@WebMvcTest(MethodSecurityController.class)
 @Import(SecurityConfig.class)
-public class GlobalMethodTest {
+public class MethodSecurityTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -28,6 +29,7 @@ public class GlobalMethodTest {
      */
     @Test
     @WithMockUser
+    @Disabled("AuthorityAuthorizationManager不支持IS_AUTHENTICATED_FULLY/IS_AUTHENTICATED_REMEMBERED/IS_AUTHENTICATED_ANONYMOUSLY")
     public void testFullyAuthenticated() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/secured/fully-authenticated"))
                 .andDo(MockMvcResultHandlers.print())

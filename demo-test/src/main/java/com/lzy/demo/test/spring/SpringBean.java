@@ -2,7 +2,7 @@ package com.lzy.demo.test.spring;
 
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PreDestroy;
 
 @Component
 public class SpringBean {

@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.RolesAllowed;
+import jakarta.annotation.security.RolesAllowed;
 
 /**
  * 方法级权限
@@ -18,19 +18,22 @@ import javax.annotation.security.RolesAllowed;
  * @version v1.0
  */
 @RestController
-public class GlobalMethodController {
+public class MethodSecurityController {
 
     /**
      * 使用@Secured
      * 需要密码认证,rememberMe的不行
-     * 使用AuthenticatedVoter处理
+     * 使用AuthorityAuthorizationManager处理
      * IS_AUTHENTICATED_REMEMBERED
      * IS_AUTHENTICATED_ANONYMOUSLY
+     * <p>
+     * AuthorityAuthorizationManager不支持IS_AUTHENTICATED_FULLY/IS_AUTHENTICATED_REMEMBERED/IS_AUTHENTICATED_ANONYMOUSLY
      *
      * @return the string
      */
     @GetMapping("/secured/fully-authenticated")
     @Secured("IS_AUTHENTICATED_FULLY")
+    @Deprecated
     public String securedAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getPrincipal().toString();
@@ -40,7 +43,7 @@ public class GlobalMethodController {
     /**
      * 使用@Secured
      * 需要ROLE_USER或者ROLE_ADMIN
-     * 使用RoleVoter处理
+     * 使用AuthorityAuthorizationManager处理
      *
      * @return the string
      */
@@ -54,12 +57,12 @@ public class GlobalMethodController {
     /**
      * 使用jsr250
      * 需要ROLE_USER或者ROLE_ADMIN
-     * 使用Jsr250Voter处理
+     * 使用Jsr250AuthorizationManager处理
      *
      * @return the string
      */
     @GetMapping("/jsr250/role")
-    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    @RolesAllowed({"USER", "ADMIN"})
     public String jsr250Role() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getPrincipal().toString();

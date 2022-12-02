@@ -12,9 +12,6 @@ public class ConfigController {
     @Resource
     private ConfigBean configBean;
 
-
-
-
     /**
      * 获取ConfigBean
      *

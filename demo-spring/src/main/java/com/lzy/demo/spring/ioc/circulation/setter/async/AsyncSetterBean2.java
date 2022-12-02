@@ -3,7 +3,7 @@ package com.lzy.demo.spring.ioc.circulation.setter.async;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 代理注入循环依赖

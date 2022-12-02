@@ -20,7 +20,7 @@ import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -81,7 +81,7 @@ public class ProducerTest {
 
     /**
      * 确定消息发布到broker
-     * CachingConnectionFactory#publisherConfirms要设为true
+     * CachingConnectionFactory#setPublisherConfirmType要设置为CORRELATED(spring.rabbitmq.publisher-confirm-type=CORRELATED)
      *
      * @throws InterruptedException the interrupted exception
      */

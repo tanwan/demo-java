@@ -53,11 +53,3 @@ spring:
       password: guest
    autoconfigure:
       exclude:
----
-spring:
-   config:
-      activate:
-         on-profile: hessian
-eureka:
-   client:
-      enabled: false

@@ -8,20 +8,21 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
 import java.util.Collections;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
+@Disabled("blade不支持java17,所以这边先排除掉,如果要运行的话,则这边需要降为java8,同时springboot需要使用2.7")
 public class JerseyClientTest {
 
     private static final Integer PORT = 19002;
@@ -165,12 +166,11 @@ public class JerseyClientTest {
      * 底层使用URL#openConnection
      * 所以只需要配置http.proxyHost/proxyPort即可使用proxy
      * <p>
-     * 使用@Disabled避免http.proxyHost影响到其它测试(使用idea执行整个类的测试)
      *
      * @see org.glassfish.jersey.client.HttpUrlConnectorProvider.DefaultConnectionFactory#getConnection
      */
     @Test
-    @Disabled
+    @Disabled("避免http.proxyHost影响到其它测试(使用idea执行整个类的测试)")
     public void testProxy() {
         System.setProperty("http.proxyHost", "127.0.0.1");
         System.setProperty("http.proxyPort", "9090");

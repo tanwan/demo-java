@@ -38,9 +38,3 @@ test {
         excludeTestsMatching "com.lzy.demo.io.*.testProxy"
     }
 }
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(8)
-    }
-}

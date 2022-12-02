@@ -36,8 +36,6 @@ include 'demo-data:demo-nosql'
 findProject(':demo-data:demo-nosql')?.name = 'demo-nosql'
 include 'demo-data:demo-distributed-database'
 findProject(':demo-data:demo-distributed-database')?.name = 'demo-distributed-database'
-include 'demo-data:demo-transaction'
-findProject(':demo-data:demo-transaction')?.name = 'demo-transaction'
 
 //demo-big-data
 include 'demo-big-data:demo-hadoop'

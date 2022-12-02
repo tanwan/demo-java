@@ -13,7 +13,7 @@ import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.IllegalTransactionStateException;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThatCode;

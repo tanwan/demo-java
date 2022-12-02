@@ -2,7 +2,7 @@ package com.lzy.demo.jpa.dao;
 
 import com.lzy.demo.jpa.entity.SimpleJpa;
 
-import javax.persistence.Tuple;
+import jakarta.persistence.Tuple;
 import java.util.List;
 
 public interface SimpleCustomJpaDao {

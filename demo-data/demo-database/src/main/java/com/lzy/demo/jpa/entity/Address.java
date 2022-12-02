@@ -1,6 +1,6 @@
 package com.lzy.demo.jpa.entity;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class Address {

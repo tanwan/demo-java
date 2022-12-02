@@ -13,7 +13,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.QueryHint;
+import jakarta.persistence.QueryHint;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;

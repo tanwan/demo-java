@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @SpringBootTest
 @ActiveProfiles("jpa")

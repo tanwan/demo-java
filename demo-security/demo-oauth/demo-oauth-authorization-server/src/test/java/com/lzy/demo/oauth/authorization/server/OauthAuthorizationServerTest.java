@@ -14,6 +14,7 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.RSASSASigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,7 +29,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
@@ -48,9 +48,6 @@ public class OauthAuthorizationServerTest {
     @Resource
     private MockMvc mockMvc;
 
-    /**
-     * Sets up.
-     */
     @BeforeEach
     public void setUp() {
         webClient.getOptions().setCssEnabled(false);
@@ -77,8 +74,14 @@ public class OauthAuthorizationServerTest {
      */
     @Test
     public void testAuthorizationCode() throws Exception {
-        // 登陆
-        HtmlPage page = webClient.getPage("/login");
+        // 调用授权界面
+        String authorizationRequest = UriComponentsBuilder.fromPath("/oauth2/authorize")
+                .queryParam("response_type", "code").queryParam("client_id", CLIENT_ID)
+                .queryParam("scope", "openid message:read").queryParam("state", "some-state")
+                .queryParam("redirect_uri", REDIRECT_URI).toUriString();
+        HtmlPage page = this.webClient.getPage(authorizationRequest);
+
+        // 跳转到登陆
         HtmlInput usernameInput = page.querySelector("input[name=\"username\"]");
         HtmlInput passwordInput = page.querySelector("input[name=\"password\"]");
         HtmlButton signInButton = page.querySelector("button");
@@ -89,14 +92,11 @@ public class OauthAuthorizationServerTest {
         webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
         // 不设置为重定向的话,可以获取到响应的状态结果
         webClient.getOptions().setRedirectEnabled(true);
-        signInButton.click();
 
-        // 用户授权
-        String authorizationRequest = UriComponentsBuilder.fromPath("/oauth2/authorize")
-                .queryParam("response_type", "code").queryParam("client_id", CLIENT_ID)
-                .queryParam("scope", "openid message:read").queryParam("state", "some-state")
-                .queryParam("redirect_uri", REDIRECT_URI).toUriString();
-        page = this.webClient.getPage(authorizationRequest);
+        // 跳转到scope界面
+        page = signInButton.click();
+
+
         HtmlCheckBoxInput checkBox = page.getHtmlElementById("message:read");
         checkBox.setChecked(true);
         HtmlElement submitButton = page.getHtmlElementById("submit-consent");

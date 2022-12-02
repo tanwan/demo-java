@@ -20,9 +20,6 @@ public class LocaleConfig {
      */
     @Bean
     public LocaleContextResolver localeResolver() {
-        CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
-        cookieLocaleResolver.setCookieName("zone");
-        cookieLocaleResolver.setCookieDomain("/");
-        return cookieLocaleResolver;
+        return new CookieLocaleResolver("zone");
     }
 }

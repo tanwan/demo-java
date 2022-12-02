@@ -2,7 +2,7 @@ package com.lzy.demo.spring.ioc.circulation.setter.raw;
 
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 注入循环依赖

@@ -9,7 +9,7 @@ dependencies {
     implementation group: 'org.flywaydb', name: 'flyway-core'
 
     //hibernate
-    implementation group: 'org.hibernate', name: 'hibernate-entitymanager'
+    implementation group: 'org.hibernate.orm', name: 'hibernate-core'
 
     implementation group: 'org.jdbi', name: 'jdbi3-core', version: project['jdbi.version']
     implementation group: 'org.jdbi', name: 'jdbi3-sqlobject', version: project['jdbi.version']
@@ -18,12 +18,8 @@ dependencies {
     // hikari
     implementation group: 'com.zaxxer', name: 'HikariCP'
 
-    //ehcache2
-    implementation group: 'org.hibernate', name: 'hibernate-ehcache'
-
     //ehcache3
-    implementation group: 'org.hibernate', name: 'hibernate-jcache'
-    implementation group: 'org.ehcache', name: 'ehcache'
+    implementation group: 'org.hibernate.orm', name: 'hibernate-jcache'
 
     // freemarker
     implementation group: 'org.freemarker', name: 'freemarker'

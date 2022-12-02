@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.ConfigDataApplicationContextInitial
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @SpringJUnitConfig(initializers = ConfigDataApplicationContextInitializer.class, classes = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class, MongoConfiguration.class})
 @ActiveProfiles("mongo")

@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -61,6 +62,7 @@ public class SpringWebTest {
     @AutoConfigureMockMvc
     @AutoConfigureWebMvc
     @SpringBootTest(classes = {ServletWebServerFactoryAutoConfiguration.class, PropertyPlaceholderAutoConfiguration.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+    @TestPropertySource(properties = "server.port=12345")
     public static class DefinedPortEnvironmentTest {
 
 

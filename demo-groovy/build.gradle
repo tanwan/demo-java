@@ -3,10 +3,10 @@ plugins {
 }
 
 dependencies {
-    implementation group: 'org.codehaus.groovy', name: 'groovy'
-    implementation group: 'org.codehaus.groovy', name: 'groovy-json'
-    implementation group: 'org.codehaus.groovy', name: 'groovy-yaml'
-    implementation group: 'org.codehaus.groovy', name: 'groovy-xml'
+    implementation group: 'org.apache.groovy', name: 'groovy'
+    implementation group: 'org.apache.groovy', name: 'groovy-json'
+    implementation group: 'org.apache.groovy', name: 'groovy-yaml'
+    implementation group: 'org.apache.groovy', name: 'groovy-xml'
     implementation group: 'org.reflections', name: 'reflections', version: project['reflections.version']
     testImplementation group: 'org.spockframework', name: 'spock-core', version: project['spock.version']
 }

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.support.AnnotationConfigContextLoaderUtils;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 

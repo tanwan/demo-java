@@ -6,7 +6,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * SpringBoot在程序退出之后,会使用SpringApplicationShutdownHook来进行ApplicationContext的关闭

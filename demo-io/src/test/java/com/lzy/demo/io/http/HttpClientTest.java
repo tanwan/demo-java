@@ -25,6 +25,7 @@ import org.apache.hc.core5.net.URIBuilder;
 import org.apache.hc.core5.util.Timeout;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -34,12 +35,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * 测试HttpClient
- *
- * @author lzy
- * @version v1.0
- */
+@Disabled("blade不支持java17,所以这边先排除掉,如果要运行的话,则这边需要降为java8,同时springboot需要使用2.7")
 public class HttpClientTest {
 
     private CloseableHttpClient httpClient = HttpClients.createDefault();

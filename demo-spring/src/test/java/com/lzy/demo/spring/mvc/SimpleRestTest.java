@@ -16,8 +16,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.servlet.mvc.method.annotation.ServletRequestMethodArgumentResolver;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
@@ -221,7 +221,7 @@ public class SimpleRestTest {
      *
      * @throws Exception the exception
      * @see SimpleRestController#locale(Locale)
-     * @see ServletRequestMethodArgumentResolver#resolveArgument(java.lang.Class, javax.servlet.http.HttpServletRequest)
+     * @see ServletRequestMethodArgumentResolver#resolveArgument(java.lang.Class, jakarta.servlet.http.HttpServletRequest)
      */
     @Test
     public void testLocale() throws Exception {
@@ -243,7 +243,7 @@ public class SimpleRestTest {
      *
      * @throws Exception the exception
      * @see SimpleRestController#zoneId(ZoneId)
-     * @see ServletRequestMethodArgumentResolver#resolveArgument(java.lang.Class, javax.servlet.http.HttpServletRequest)
+     * @see ServletRequestMethodArgumentResolver#resolveArgument(java.lang.Class, jakarta.servlet.http.HttpServletRequest)
      */
     @Test
     public void testZoneId() throws Exception {

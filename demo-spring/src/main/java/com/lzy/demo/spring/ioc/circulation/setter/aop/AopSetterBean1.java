@@ -2,7 +2,7 @@ package com.lzy.demo.spring.ioc.circulation.setter.aop;
 
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * AOP注入循环依赖

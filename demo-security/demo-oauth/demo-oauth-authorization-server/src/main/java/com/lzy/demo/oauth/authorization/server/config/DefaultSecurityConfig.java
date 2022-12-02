@@ -1,6 +1,7 @@
 package com.lzy.demo.oauth.authorization.server.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -21,7 +22,8 @@ import org.springframework.security.web.SecurityFilterChain;
  * @version v1.0
  */
 @EnableWebSecurity
-public class SecurityConfiguration {
+@Configuration
+public class DefaultSecurityConfig {
 
 
     /**
@@ -33,8 +35,8 @@ public class SecurityConfiguration {
     @Bean
     public WebSecurityCustomizer ignoringCustomizer() {
         // h2-console不需要访问权限
-        return web -> web.ignoring().antMatchers("/h2-console/**")
-                .antMatchers("/*.html", "/.demo-private-key-jwt/jwks.json");
+        return web -> web.ignoring().requestMatchers("/h2-console/**")
+                .requestMatchers("/*.html", "/.demo-private-key-jwt/jwks.json");
     }
 
     /**

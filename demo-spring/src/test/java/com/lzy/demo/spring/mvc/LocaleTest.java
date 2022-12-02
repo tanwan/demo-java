@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 import java.util.Locale;
 
 /**
@@ -32,7 +32,7 @@ public class LocaleTest {
      *
      * @throws Exception the exception
      * @see LocaleConfig
-     * @see ServletRequestMethodArgumentResolver#resolveArgument(java.lang.Class, javax.servlet.http.HttpServletRequest)
+     * @see ServletRequestMethodArgumentResolver#resolveArgument(java.lang.Class, jakarta.servlet.http.HttpServletRequest)
      */
     @Test
     public void testLocale() throws Exception {

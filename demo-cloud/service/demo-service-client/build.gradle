@@ -25,9 +25,6 @@ dependencies {
     // logstash
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: project['logstash-logback-encoder.version']
 
-    // hessian
-    implementation group: 'com.caucho', name: 'hessian', version: project['hessian.version']
-
     // thrift
     implementation group: 'org.apache.thrift', name: 'libthrift', version: project['thrift.version']
 }

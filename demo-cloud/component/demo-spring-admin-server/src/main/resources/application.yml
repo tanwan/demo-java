@@ -11,7 +11,7 @@ spring:
 #      notify:
 #        mail:
 #          # 开启邮件通知
-#          to: 99156629@qq.com
+#          to: lzytanwan@gmail.com
 server:
   port: 25010
 

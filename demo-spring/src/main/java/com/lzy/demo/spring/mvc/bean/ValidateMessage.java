@@ -1,6 +1,6 @@
 package com.lzy.demo.spring.mvc.bean;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 public class ValidateMessage {
 

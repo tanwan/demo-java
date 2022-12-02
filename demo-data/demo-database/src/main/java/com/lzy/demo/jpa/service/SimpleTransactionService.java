@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @Service
 public class SimpleTransactionService extends AbstractTransactionService {

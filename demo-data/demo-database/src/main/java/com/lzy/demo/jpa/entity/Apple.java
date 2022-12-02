@@ -1,6 +1,6 @@
 package com.lzy.demo.jpa.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

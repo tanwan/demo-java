@@ -6,7 +6,8 @@ plugins {
 }
 
 dependencies {
-    testImplementation group: 'org.spockframework', name: 'spock-core', version: project['spock.version']
+    //gradle plugin使用的是groovy3
+    testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.3-groovy-3.0'
 }
 
 test {

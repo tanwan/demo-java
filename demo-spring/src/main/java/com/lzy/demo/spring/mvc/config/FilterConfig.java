@@ -7,9 +7,9 @@ import org.springframework.boot.web.servlet.context.ServletWebServerApplicationC
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.DispatcherType;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,7 +57,7 @@ public class FilterConfig {
         /**
          * {@inheritDoc}
          *
-         * @see ServletWebServerApplicationContext#selfInitialize(javax.servlet.ServletContext)
+         * @see ServletWebServerApplicationContext#selfInitialize(jakarta.servlet.ServletContext)
          */
         @Override
         public void onStartup(ServletContext servletContext) throws ServletException {
