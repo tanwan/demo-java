@@ -1,0 +1,147 @@
+<!-- 完整的可以参考 https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- 插件标识 -->
+    <id>com.lzy.demo-intellij-plugin</id>
+
+    <!-- 插件名称See https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Lzy Demo</name>
+
+    <!-- 公司 -->
+    <vendor email="lzytanwan@gmail.com" url="https://github.com/tanwan/demo-java">lzytanwan</vendor>
+
+    <!-- 描述 See https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description>
+        <![CDATA[
+        demo-intellij-plugin demo-intellij-plugin
+     ]]>
+    </description>
+
+    <!-- See https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <!-- See https://plugins.jetbrains.com/docs/intellij/plugin-dependencies.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!--需要在build.gradle.kts添加依赖,使用插件的id(在相应插件的plugin.xml查看), 需要在build.gradle.kts先声明依赖-->
+    <!--See https://plugins.jetbrains.com/docs/intellij/psi.html
+        具体的psi结构,可以通过PsiViewer插件查看
+        java相关的psi(Program Structure Interface)需要com.intellij.java
+        kotlin相关的psi(Program Structure Interface)需要依赖org.jetbrains.kotlin
+    -->
+    <depends>com.intellij.java</depends>
+    <depends>org.jetbrains.kotlin</depends>
+    <depends>com.intellij.properties</depends>
+    <!--一些其它的依赖
+    用来管理maven项目,执行maven命令: org.jetbrains.idea.maven, MavenProjectsManager, MavenRunner
+    用来管理gradle项目,执行gradle命令: com.intellij.gradle GradleExecuteTaskAction
+    -->
+
+    <!-- 扩展点,用来让其它插件来扩展你的插件 See https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html-->
+    <extensionPoints>
+        <!--interface类型扩展, 用来提供实现类-->
+        <extensionPoint name="demoInterfaceExtensionPoints" interface="com.lzy.demo.plugin.extension.DemoInterface"/>
+        <!--Bean类型扩展, 用来提供数据和实现-->
+        <!--<extensionPoint name="" beanClass=""/>-->
+    </extensionPoints>
+
+    <!-- 扩展点的实现-->
+    <extensions defaultExtensionNs="com.lzy.demo-intellij-plugin">
+        <demoInterfaceExtensionPoints implementation="com.lzy.demo.plugin.extension.DemoImplement"/>
+    </extensions>
+
+    <!-- See https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <!--application级别的service和project级别的service可以在这边配置,也可以直接使用@com.intellij.openapi.components.Service注解-->
+
+        <!-->application级别的service<-->
+        <!--        <applicationService-->
+        <!--                serviceImplementation="com.lzy.demo.plugin.configuration.DemoState"/>-->
+
+        <!-->project级别的service<-->
+        <!--        <projectService serviceImplementation="com.lzy.demo.plugin.configuration.DemoState"/>-->
+
+
+        <!--在创建工具窗口的时候,会调用createToolWindowContent方法,如果此工具窗口都没有显示,那么这个方法就不会调用-->
+        <!--See https://plugins.jetbrains.com/docs/intellij/tool-windows.html -->
+        <toolWindow factoryClass="com.lzy.demo.plugin.ui.DemoToolWindowFactory"
+                    canCloseContents="false"
+                    anchor="left"
+                    secondary="true"
+                    id="Demo Tool Window"/>
+
+        <!--扩展Search Every Where-->
+        <searchEverywhereContributor
+                implementation="com.lzy.demo.plugin.navigate.GoToGraphqlSearchEveryContributor$Factory"/>
+
+        <!--代码行的marker,可以用来点击跳转 -->
+        <codeInsight.lineMarkerProvider language="JAVA"
+                                        implementationClass="com.lzy.demo.plugin.provider.DemoLineMarkerProvider"/>
+    </extensions>
+
+    <!--一个action表示IDEA菜单里的一个menu item或工具栏上的一个按钮-->
+    <actions>
+        <!-- 完整的可以参考 https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+        <!--group
+        popup: 属性用于描述是否有子菜单弹出
+        popup:true:  <group>标签的内所有的<action>子标签作为<group>菜单的子选项，
+        popup:false: <group>标签的内所有的<action>子标签将替换<group>菜单项所在的位置,也就是没有<group>这一层菜单
+
+        anchor: group在上层group的位置
+        -->
+        <group id="com.lzy.demo.plugin.GroupedActions"
+               text="Demo Group"
+               popup="true">
+            <!--点击ToolsMenu可以跳转到PlatformActions.xml查看-->
+            <add-to-group
+                    group-id="ToolsMenu"
+                    anchor="last"/>
+        </group>
+
+        <!--See https://plugins.jetbrains.com/docs/intellij/working-with-custom-actions.html
+        anchor: action在group的位置
+        -->
+        <action
+                id="com.lzy.demo.plugin.DemoAction"
+                class="com.lzy.demo.plugin.action.DemoAction"
+                text="Demo Action"
+                description="Demo action">
+            <!--添加到group中,也可以直接将action声明在group标签下-->
+            <add-to-group group-id="com.lzy.demo.plugin.GroupedActions" anchor="last"/>
+
+            <!-- See https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html#idea-plugin__actions__action__mouse-shortcut
+            meta: Mac的command
+            -->
+            <keyboard-shortcut
+                    keymap="$default"
+                    first-keystroke="control meta G"
+            />
+        </action>
+
+        <action
+                id="com.lzy.demo.plugin.GoToGraphqlAction"
+                class="com.lzy.demo.plugin.action.GoToGraphqlAction"
+                text="Go To Graphql"
+                description="Go To graphql">
+            <add-to-group group-id="GoToMenu" anchor="last"/>
+            <keyboard-shortcut
+                    keymap="$default"
+                    first-keystroke="control meta M"
+            />
+        </action>
+
+        <action id="com.lzy.demo.plugin.GoToGraphqlSearchEveryWhereAction"
+                class="com.lzy.demo.plugin.action.GoToGraphqlSearchEveryWhereAction"
+                text="Go To Graphql2"
+                description="Go To graphql2">
+            <keyboard-shortcut first-keystroke="control meta N" keymap="$default"/>
+        </action>
+
+    </actions>
+
+    <!--See https://plugins.jetbrains.com/docs/intellij/plugin-listeners.html-->
+    <!---application级别:applicationListeners project级别:projectListeners-->
+    <projectListeners>
+        <listener class="com.lzy.demo.plugin.listener.DemoListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </projectListeners>
+
+
+</idea-plugin>

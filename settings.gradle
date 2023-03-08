@@ -9,10 +9,18 @@ pluginManagement {
     plugins {
         //使用spring的依赖管理版本,see:https://docs.spring.io/dependency-management-plugin/docs/current-SNAPSHOT/reference/html/
         // org.springframework.boot其实有包含了io.spring.dependency-management
+        // 相当于settings['springbootVersion']
         id 'org.springframework.boot' version "$springbootVersion"
 
         //可以在gradle设置一些idea的配置
         id "org.jetbrains.gradle.plugin.idea-ext" version "$ideaExtVersion"
+
+        // kotlin
+        id "org.jetbrains.kotlin.jvm" version "$kotlinJVMVersion"
+
+        // 开发idea plugin的gradle插件
+        id "org.jetbrains.intellij"  version "$intellijVersion"
+
     }
 }
 rootProject.name = 'demo-java'
@@ -28,6 +36,7 @@ include 'demo-kotlin'
 include 'demo-mqtt'
 include 'demo-axon'
 include 'demo-rule-engine'
+include 'demo-intellij-plugin'
 
 //demo-data
 include 'demo-data:demo-database'
