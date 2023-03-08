@@ -35,7 +35,7 @@ public class PropertySourceTest {
             System.out.println(atConfigurationProperties);
             assertThat(atConfigurationProperties)
                     .hasFieldOrPropertyWithValue("integer", 1)
-                    .hasFieldOrPropertyWithValue("email", "99156629@qq.com")
+                    .hasFieldOrPropertyWithValue("email", "lzytanwan@gmail.com")
                     .hasFieldOrPropertyWithValue("actualValue", "expectValue");
         }
     }
@@ -55,7 +55,7 @@ public class PropertySourceTest {
             System.out.println(atConfigurationProperties);
             assertThat(atConfigurationProperties)
                     .hasFieldOrPropertyWithValue("integer", 1)
-                    .hasFieldOrPropertyWithValue("email", "99156629@qq.com")
+                    .hasFieldOrPropertyWithValue("email", "lzytanwan@gmail.com")
                     .hasFieldOrPropertyWithValue("actualValue", "expectValue");
         }
     }

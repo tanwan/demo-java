@@ -29,7 +29,7 @@ configuration:
         property2: property2
       - property1: property1
         property2: property2
-    email: 99156629@qq.com
+    email: lzytanwan@gmail.com
     actual-value: expectValue
     # 可以获取到随机数,See RandomValuePropertySource
     random: ${random.uuid}

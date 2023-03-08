@@ -40,7 +40,7 @@ public class PropertiesTest {
                 .hasFieldOrPropertyWithValue("aDouble", 1.1)
                 .hasFieldOrPropertyWithValue("str", "str")
                 .hasFieldOrPropertyWithValue("localDateTime", LocalDateTime.of(2018, 11, 3, 10, 55, 22))
-                .hasFieldOrPropertyWithValue("email", "99156629@qq.com")
+                .hasFieldOrPropertyWithValue("email", "lzytanwan@gmail.com")
                 .hasFieldOrPropertyWithValue("actualValue", "expectValue")
                 .hasFieldOrProperty("random")
                 .hasFieldOrProperty("referenceExist")
