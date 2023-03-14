@@ -3,19 +3,26 @@ package com.lzy.demo.graphql;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.graphql.spring.boot.test.GraphQLResponse;
-import com.graphql.spring.boot.test.GraphQLTest;
 import com.graphql.spring.boot.test.GraphQLTestTemplate;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-@GraphQLTest
-@ComponentScan(basePackageClasses = GraphqlApplication.class)
+/**
+ * {@code @GraphQLTest}禁用了很多spring的自动配置,如果需要完整的测试,则需要直接使用SpringBootTest,有对ComponentScan添加filter, 所以这边可以使用@ComponentScan覆盖
+ * 也可以使用@SpringJUnitConfig(KickstartConfig.class)直接导入
+ * springboot3, SpringBootTestContextBootstrapper#getClasses(java.lang.Class)无法获取@GraphQLTest的classes,所以这边先直接使用@SpringBootTest
+ *
+ * @author lzy
+ * @version v1.0
+ */
+//@GraphQLTest
+//@ComponentScan
+@SpringBootTest(properties = {"graphql.servlet.websocket.enabled=false"}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class KickstartGraphqlTest {
 
     @Autowired
@@ -36,6 +43,7 @@ public class KickstartGraphqlTest {
 
     /**
      * 测试使用请求参数
+     *
      * @throws IOException exception
      */
     @Test
@@ -61,6 +69,7 @@ public class KickstartGraphqlTest {
 
     /**
      * 测试使用定义参数的请求
+     *
      * @throws IOException exception
      */
     @Test

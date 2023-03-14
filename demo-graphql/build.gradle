@@ -1,7 +1,8 @@
 plugins {
 
     //graphql生成java代码
-    id "com.graphql_java_generator.graphql-gradle-plugin" version "$javaGraphqlGradlePluginVersion"
+    //目前不支持springboot3,springboot3的ClassTransformer跟springboot2的包名不一样
+    //id "com.graphql_java_generator.graphql-gradle-plugin" version "$javaGraphqlGradlePluginVersion"
 
 
     // 生成kotlin代码,需要kotlin
@@ -9,13 +10,6 @@ plugins {
 //    id "org.jetbrains.kotlin.jvm"
 }
 
-
-dependencyManagement {
-    imports {
-        //kick的graphql还不支持springboot3
-        mavenBom "org.springframework.boot:spring-boot-dependencies:2.7.3"
-    }
-}
 dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
 
@@ -47,20 +41,20 @@ test {
 // generateClientCode: 生成客户端代码
 // generatePojo: 生成Pojo
 // 要配置task就是在taskName + Conf
-generatePojoConf {
-    // 默认为src/main/resources
-    schemaFileFolder = "src/main/resources/graphql"
-    packageName = "com.lzy.demo.graphql.generated"
-    skipGenerationIfSchemaHasNotChanged = true
-    // 配置自定义的Scalars
-    customScalars = [[
-                             graphQLTypeName: "DateTime",
-                             javaType       : "java.time.OffsetDateTime"
-                     ], [
-                             graphQLTypeName: "CommonDateTime",
-                             javaType       : "java.time.LocalDateTime"
-                     ]]
-}
+//generatePojoConf {
+//    // 默认为src/main/resources
+//    schemaFileFolder = "src/main/resources/graphql"
+//    packageName = "com.lzy.demo.graphql.generated"
+//    skipGenerationIfSchemaHasNotChanged = true
+//    // 配置自定义的Scalars
+//    customScalars = [[
+//                             graphQLTypeName: "DateTime",
+//                             javaType       : "java.time.OffsetDateTime"
+//                     ], [
+//                             graphQLTypeName: "CommonDateTime",
+//                             javaType       : "java.time.LocalDateTime"
+//                     ]]
+//}
 
 
 // 根据graphql生成kotlin代码
