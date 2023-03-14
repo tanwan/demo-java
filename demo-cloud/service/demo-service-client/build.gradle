@@ -11,10 +11,10 @@ dependencies {
     implementation group: 'de.codecentric', name: 'spring-boot-admin-starter-client', version: project['spring-boot-admin.version']
 
     // spring cloud sleuth
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: project['spring-cloud-sleuth.version']
 
     // zipkin
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: project['spring-cloud-sleuth.version']
 
     // rabbitmq
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp'

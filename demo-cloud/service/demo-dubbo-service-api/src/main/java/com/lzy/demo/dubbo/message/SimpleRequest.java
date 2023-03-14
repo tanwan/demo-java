@@ -1,6 +1,6 @@
 package com.lzy.demo.dubbo.message;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 public class SimpleRequest implements Serializable {

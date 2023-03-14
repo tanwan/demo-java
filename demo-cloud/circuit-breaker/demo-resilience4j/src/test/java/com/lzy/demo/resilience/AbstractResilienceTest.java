@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.TestInfo;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.LocalTime;
 
 public abstract class AbstractResilienceTest {

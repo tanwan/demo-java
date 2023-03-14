@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.sleuth.annotation.NewSpan;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 直接使用Brave

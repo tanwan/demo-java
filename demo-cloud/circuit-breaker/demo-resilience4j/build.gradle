@@ -1,7 +1,8 @@
 dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     //spring cloud引入的resilience4j, 但是spring cloud排除了resilience4j-bulkhead,无法使用@Bulkhead
-    implementation group: 'org.springframework.cloud',name:'spring-cloud-starter-circuitbreaker-resilience4j'
+    //See https://github.com/spring-cloud/spring-cloud-circuitbreaker/blob/main/spring-cloud-circuitbreaker-resilience4j/pom.xml
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-circuitbreaker-resilience4j'
     //所以这边单独把resilience4j-bulkhead依赖进来,也可以直接依赖resilience4j-spring-cloud2代替spring-cloud-starter-circuitbreaker-resilience4j
     implementation group: 'io.github.resilience4j', name: 'resilience4j-bulkhead', version: dependencyManagement.importedProperties['resilience4j.version']
 
@@ -12,10 +13,16 @@ dependencies {
 
     //spring boot test
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+
+    //vavr
+    implementation group: 'io.vavr', name: 'vavr', version: project['vavr.version']
+
+    //这边很奇怪resilience4j-vavr依赖不进去
+    //implementation group: 'io.github.resilience4j', name: 'resilience4j-vavr', version: dependencyManagement.importedProperties['resilience4j.version']
 }
 
-test{
-    filter{
+test {
+    filter {
         excludeTestsMatching "com.lzy.demo.resilience.*.testDynamicConfig"
     }
 }

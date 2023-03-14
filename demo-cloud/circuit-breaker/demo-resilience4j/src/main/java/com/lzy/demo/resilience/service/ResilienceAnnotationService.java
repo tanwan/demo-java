@@ -2,14 +2,11 @@ package com.lzy.demo.resilience.service;
 
 import io.github.resilience4j.bulkhead.BulkheadFullException;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
-import io.github.resilience4j.bulkhead.configure.BulkheadAspect;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import io.github.resilience4j.circuitbreaker.configure.CircuitBreakerAspect;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
-import io.github.resilience4j.retry.configure.RetryAspect;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,7 +22,7 @@ public class ResilienceAnnotationService extends ResilienceService {
      * @param exception the exception
      * @return the string
      * @throws IOException the io exception
-     * @see CircuitBreakerAspect
+     * @see io.github.resilience4j.spring6.circuitbreaker.configure.CircuitBreakerAspect
      */
     @CircuitBreaker(name = ResilienceService.SIMPLE_BACKEND)
     @Override
@@ -39,7 +36,7 @@ public class ResilienceAnnotationService extends ResilienceService {
      * @param exception the exception
      * @return the string
      * @throws IOException the io exception
-     * @see CircuitBreakerAspect
+     * @see io.github.resilience4j.spring6.circuitbreaker.configure.CircuitBreakerAspect
      */
     @CircuitBreaker(name = ResilienceService.SIMPLE_BACKEND, fallbackMethod = "exceptionFallback")
     public String exceptionFallback(String exception) throws IOException {
@@ -52,7 +49,7 @@ public class ResilienceAnnotationService extends ResilienceService {
      *
      * @return the string
      * @throws InterruptedException the interrupted exception
-     * @see CircuitBreakerAspect
+     * @see io.github.resilience4j.spring6.circuitbreaker.configure.CircuitBreakerAspect
      */
     @CircuitBreaker(name = ResilienceService.SIMPLE_BACKEND)
     @Override
@@ -66,7 +63,7 @@ public class ResilienceAnnotationService extends ResilienceService {
      * @param exception the exception
      * @return the string
      * @throws IOException the io exception
-     * @see RetryAspect
+     * @see io.github.resilience4j.spring6.retry.configure.RetryAspect
      */
     @Retry(name = ResilienceService.SIMPLE_BACKEND, fallbackMethod = "exceptionFallback")
     @Override
@@ -80,7 +77,7 @@ public class ResilienceAnnotationService extends ResilienceService {
      * @param exception the exception
      * @return the string
      * @throws IOException the io exception
-     * @see RetryAspect
+     * @see io.github.resilience4j.spring6.retry.configure.RetryAspect
      */
     @CircuitBreaker(name = ResilienceService.SIMPLE_BACKEND)
     @Retry(name = ResilienceService.SIMPLE_BACKEND, fallbackMethod = "exceptionFallback")
@@ -92,7 +89,7 @@ public class ResilienceAnnotationService extends ResilienceService {
      * 舱壁
      *
      * @return the string
-     * @see BulkheadAspect
+     * @see io.github.resilience4j.spring6.bulkhead.configure.BulkheadAspect
      */
     @Override
     @Bulkhead(name = ResilienceService.SIMPLE_BACKEND)
@@ -105,7 +102,7 @@ public class ResilienceAnnotationService extends ResilienceService {
      *
      * @return the string
      * @throws InterruptedException the interrupted exception
-     * @see BulkheadAspect
+     * @see io.github.resilience4j.spring6.bulkhead.configure.BulkheadAspect
      */
     @Bulkhead(name = ResilienceService.SIMPLE_BACKEND, fallbackMethod = "bulkheadFallback")
     public String bulkheadFallback() throws InterruptedException {
@@ -116,7 +113,7 @@ public class ResilienceAnnotationService extends ResilienceService {
      * 使用threadPoolBulkhead,返回值必须是CompletableFuture
      *
      * @return the completable future
-     * @see BulkheadAspect
+     * @see io.github.resilience4j.spring6.bulkhead.configure.BulkheadAspect
      */
     @Bulkhead(name = ResilienceService.SIMPLE_BACKEND, fallbackMethod = "threadPoolBulkheadFallback", type = Bulkhead.Type.THREADPOOL)
     @Override

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.validation.ValidationException;
+import jakarta.validation.ValidationException;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
