@@ -1,8 +1,15 @@
 plugins {
-    //目前gradle还不支持在allprojects底下使用plugins{},所以还需要在这边声明plugins,版本已经在settings.gradle定义了
+    //plugins是gradle新的写法,但是要求插件必须是gradle官方中的插件(https://plugins.gradle.org/),apply plugin是老的写法,但是比较灵活
+    //plugins不支持在allprojects/subprojects下使用
+    //gradle使用插件是分为两步: 1. 解析,找到插件的正确版本,并将它加入到脚本的类路径中 2. 应用插件
+
+    //版本已经在settings.gradle定义了
     id 'org.springframework.boot'
     //可以在gradle设置一些idea的配置
-    id 'org.jetbrains.gradle.plugin.idea-ext' apply true
+    id 'org.jetbrains.gradle.plugin.idea-ext'
+    //相当于只是将插件加入到类路径中,并没有应用,如果plugin有被多个子项目应用,推荐在这边定义
+    //在subprojects块中,可以使用apply plugin应用插件,在子项目的plugins块中也可以使用,都不需要再定义版本
+    id 'org.jetbrains.kotlin.jvm' apply false
 }
 
 //所有项目(包括root项目和子项目)
@@ -20,8 +27,8 @@ subprojects {
         return
     }
 
-    // 打包成可运行jar,see https://docs.gradle.org/current/userguide/application_plugin.html
-    // 直接扩展build任务
+    //打包成可运行jar,see https://docs.gradle.org/current/userguide/application_plugin.html
+    //直接扩展build任务
     //id: 'application'
     //使用checkstyleMain/checkstyleTest task
     apply plugin: 'checkstyle'
@@ -156,7 +163,7 @@ import org.jetbrains.gradle.ext.*
 
 idea {
     project {
-        //See https://github.com/JetBrains/gradle-idea-ext-plugin
+        //See https://github.com/JetBrains/gradle-idea-ext-plugin/wiki
         settings {
             withIDEAFileXml("workspace.xml") {
                 //这边按照文档是可以修改配置的,但是不知道啥原因没有执行

@@ -6,7 +6,7 @@ plugins {
 
     // 生成kotlin代码,需要kotlin
 //    id "com.expediagroup.graphql" version "$kotlinGraphqlGradlePluginVersion"
-//    id "org.jetbrains.kotlin.jvm" version "$kotlinJVMVersion"
+//    id "org.jetbrains.kotlin.jvm"
 }
 
 
