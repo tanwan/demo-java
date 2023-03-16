@@ -10,6 +10,7 @@ import javax.inject.Inject
 
 /**
  * 需要实现Plugin接口,需要在META-INFO/gradle-plugins创建一个文件名是插件名的properties文件
+ * 有应用java-gradle-plugin,此文件会自动生成,也可以使用task pluginDescriptors去生成
  *
  * @author lzy
  * @version v1.0

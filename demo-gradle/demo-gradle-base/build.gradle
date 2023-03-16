@@ -1,3 +1,4 @@
+//需要先把demo-gradle-plugin的插件发布到本地仓库,See demo-gradle-plugin
 //plugins {
 //    id 'com.lzy.demo.simple-java-plugin' version '1.0'
 //    id 'com.lzy.demo.simple-groovy-plugin' version '1.0'

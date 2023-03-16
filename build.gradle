@@ -3,6 +3,7 @@ plugins {
     //plugins不支持在allprojects/subprojects下使用
     //gradle使用插件是分为两步: 1. 解析,找到插件的正确版本,并将它加入到脚本的类路径中 2. 应用插件
 
+    id 'idea'
     //版本已经在settings.gradle定义了
     id 'org.springframework.boot'
     //可以在gradle设置一些idea的配置
@@ -14,8 +15,6 @@ plugins {
 
 //所有项目(包括root项目和子项目)
 allprojects {
-    apply plugin: 'idea'
-
     group 'com.lzy'
     version '1.0'
 }
@@ -164,14 +163,27 @@ import org.jetbrains.gradle.ext.*
 idea {
     project {
         //See https://github.com/JetBrains/gradle-idea-ext-plugin/wiki
+        //插件处理settings的extension的toString方法需要返回一个json字符串, See ProjectSettings in https://github.com/JetBrains/gradle-idea-ext-plugin/blob/master/src/main/groovy/org/jetbrains/gradle/ext/IdeaExtPlugin.groovy
+        //GradleExternalSettingsImporter会根据返回的json字符串去修改workspace.xml, See https://github.com/JetBrains/intellij-community/blob/master/plugins/gradle/tooling-extension-impl/src/org/jetbrains/plugins/gradle/tooling/builder/IntelliJProjectSettingsBuilder.groovy
         settings {
-            withIDEAFileXml("workspace.xml") {
-                //这边按照文档是可以修改配置的,但是不知道啥原因没有执行
+            def loggingPath = '$PROJECT_DIR$/config/logback/logback.xml'
+            //withIDEAFileXml在项目sync process后调用, reimport可以触发sync process
+            //在项目sync process后调用的原理是这个插件会往workspace.xml的ExternalProjectsManager将processIdeaSettings添加给after_sync
+            //ProjectSettings的toString会返回requiresPostprocessing为true
+            //IDEAProjectFilesPostProcessor会根据requiresPostprocessing来添加processIdeaSettings See https://github.com/JetBrains/intellij-community/blob/master/plugins/gradle/src/org/jetbrains/plugins/gradle/service/project/GradleExternalSettingsImporter.kt
+            withIDEAFileXml("workspace.xml") { XmlProvider p ->
+                //这边是高级用法, 建议在不得已的时候才用这种方法
+                def runManager = p.asNode().find { it.@name == "RunManager" }
+                def springBootRunner = runManager.children().find { it.@default == "true" && it.@type == "SpringBootApplicationConfigurationType" }
+                def parameters = springBootRunner.children().find { it.@name == "VM_PARAMETERS" }
+                if (!parameters) {
+                    // 往workspace.xml添加默认的配置,类型是SpringBootApplicationConfigurationType
+                    // 这边只要修改node就会应用到xml去
+                    new Node(springBootRunner, "option", [name: 'VM_PARAMETERS', value: "-Dlogging.config=$loggingPath"])
+                }
             }
             runConfigurations {
-                def loggingPath = '$PROJECT_DIR$/config/logback/logback.xml'
                 //原理就是往workspace.xml添加默认的配置,这个是idea去添加的,目前不支持springboot
-                //可以参考类型为Application手动去添加,类型是SpringBootApplicationConfigurationType
                 def loggerConfig = "-Dlogback.configurationFile=$loggingPath"
                 defaults(JUnit) {
                     vmParameters = loggerConfig

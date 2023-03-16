@@ -1,8 +1,6 @@
 plugins {
     id 'groovy'
     id 'java-gradle-plugin'
-    id 'org.jetbrains.gradle.plugin.idea-ext'
-    id 'maven-publish'
 }
 
 dependencies {
@@ -47,6 +45,9 @@ sourceSets {
     }
 }
 
+//task publish<pluginName>PluginMarkerMavenPublicationToMavenLocal会发布一个.plugin文件到本地仓库,此文件只是一个pom文件, 记录plugin的gav坐标
+//task publishToMavenLocal是将plugin打成jar包发布到本地仓库
+//需要同时存在.plugin文件和jar,此plugin才能被应用
 publishing {
     publications {
         //java-gradle-plugin会创造出pluginMaven这个publication
