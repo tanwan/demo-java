@@ -1,12 +1,5 @@
 package com.lzy.demo.kotlin.base
 
-
-/**
- * 接口
- *
- * @author lzy
- * @version v1.0
- */
 interface SimpleInterface {
 
     /**
@@ -20,4 +13,14 @@ interface SimpleInterface {
     fun defaultFunc(str: String) {
         println("defaultFunc exec,str:$str")
     }
+
+    /**
+     * 以get开头的方法
+     */
+    fun getMethod1(): String = "SimpleInterface#getMethod1"
+
+    /**
+     * 以get开头的方法
+     */
+    fun getMethod2(): String = "SimpleInterface#getMethod2"
 }

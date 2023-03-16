@@ -2,7 +2,8 @@ package com.lzy.demo.kotlin.base
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 
@@ -17,23 +18,25 @@ class BaseTest {
         val a: Int = 1
         // 自动推断类型
         val b = 2
-        assert(b is Int)
+        assertTrue(b is Int)
         // 常量,先声明再赋值
         val c: Int
         c = 3
-        println("a:$a,b:$b,c:$c")
+        assertEquals(1, a)
+        assertEquals(2, b)
+        assertEquals(3, c)
         // var: 变量
         var d = 4
-        println("d:$d")
+        assertEquals(4, d)
         d = 5
-        println("d:$d")
+        assertEquals(5, d)
 
         // 使用？表示变量可以为null
         val nullableVal: Int? = null
-        println("nullableVal:$nullableVal")
+        assertNull(nullableVal)
         var nullableVar: Int? = 3
         nullableVar = null
-        println("nullableVar:$nullableVar")
+        assertNull(nullableVal)
     }
 
     /**
@@ -46,14 +49,14 @@ class BaseTest {
 
         // 带参数的函数
         var ret = funcWithParameter("str value", 3)
-        println("funcWithParameter:$ret")
+        assertEquals("str:str value,i:3", ret)
 
         // 指定参数名的调用
         ret = funcWithParameter(i = 3, str = "str = str value")
-        println("funcWithParameter named argument,$ret")
+        assertEquals("str:str = str value,i:3", ret)
 
         // 函数体是表达式的函数
-        println("funcExpression:${funcExpression(3, 23)}")
+        assertEquals(26, funcExpression(3, 23))
 
         // 有默认参数的函数
         funcWithDefaultParameter()
@@ -73,13 +76,15 @@ class BaseTest {
         for (x in 1..7) {
             // 只会进入一个分支
             when (x) {
-                1 -> println("x:$x,x == 1")
+                1 -> assertEquals(1, x)
                 // 可以多个条件
-                2, 3 -> println("x:$x,x == 2 or x==3")
+                2, 3 -> assertThat(x).isIn(2, 3)
                 // 可以使用range
-                in 4..5 -> println("x:$x,x is in the range")
+                in 4..5 -> assertThat(x).isBetween(4, 5)
                 // 可以使用!in
-                !in 7..8 -> println("x:$x,x is not in the range")
+                !in 7..8 -> {
+                    assertTrue(x < 7 || x > 8)
+                }
                 // else 可以省略
                 else -> {
                     println("x:$x,x is not in case")
@@ -103,13 +108,13 @@ class BaseTest {
         val a = SimpleDataClass(3, "string value")
         val b = SimpleDataClass(3, "string value")
         // ==相当于java的equals
-        Assertions.assertTrue(a == b)
-        Assertions.assertFalse(a != b)
-        Assertions.assertEquals(a, b)
+        assertTrue(a == b)
+        assertFalse(a != b)
+        assertEquals(a, b)
         // ===相当于java的==
-        Assertions.assertTrue(a !== b)
-        Assertions.assertFalse(a === b)
-        Assertions.assertNotSame(a, b)
+        assertTrue(a !== b)
+        assertFalse(a === b)
+        assertNotSame(a, b)
     }
 
     /**
@@ -146,6 +151,4 @@ class BaseTest {
         delay(1000L)
         return "$name success"
     }
-
-
 }

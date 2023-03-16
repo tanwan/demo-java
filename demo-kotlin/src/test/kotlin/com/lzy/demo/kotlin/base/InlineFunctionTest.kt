@@ -1,5 +1,6 @@
 package com.lzy.demo.kotlin.base
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 
@@ -66,7 +67,7 @@ class InlineFunctionTest {
             defaultNullProperty = "defaultNullProperty override"
             // apply是返回当前对象
         }
-        assert(simpleClass.defaultNullProperty == "defaultNullProperty override")
+        assertEquals("defaultNullProperty override", simpleClass.defaultNullProperty)
     }
 
     /**

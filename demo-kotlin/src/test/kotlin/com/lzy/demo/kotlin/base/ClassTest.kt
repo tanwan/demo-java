@@ -1,5 +1,8 @@
 package com.lzy.demo.kotlin.base
 
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import kotlin.properties.Delegates
 
@@ -12,19 +15,24 @@ class ClassTest {
     fun testConstructor() {
         // 创建实例不用new,使用主构造函数
         var simpleClass = SimpleClass("string value", 3)
-        println("simpleClass main constructor:${simpleClass.stringProperty},${simpleClass.intProperty}")
+        assertEquals("string value", simpleClass.stringProperty)
+        assertEquals(3, simpleClass.intProperty)
 
         // 使用次构造函数
         simpleClass = SimpleClass("string value")
-        println("simpleClass constructor1:${simpleClass.stringProperty},${simpleClass.intProperty}")
+        assertEquals("string value", simpleClass.stringProperty)
+        assertEquals(0, simpleClass.intProperty)
 
         // 使用次构造函数
         simpleClass = SimpleClass(3)
-        println("simpleClass constructor2:${simpleClass.stringProperty},${simpleClass.intProperty}")
+        assertEquals("constructor default stringProperty", simpleClass.stringProperty)
+        assertEquals(3, simpleClass.intProperty)
 
         // 使用次构造函数
         simpleClass = SimpleClass("string value", 3, "ownerProperty value")
-        println("simpleClass constructor3:${simpleClass.stringProperty},${simpleClass.intProperty},${simpleClass.listProperty}")
+        assertEquals("string value", simpleClass.stringProperty)
+        assertEquals(3, simpleClass.intProperty)
+        assertThat(simpleClass.listProperty).contains("ownerProperty value")
     }
 
     /**
@@ -34,7 +42,7 @@ class ClassTest {
     fun testGetterSetter() {
         val simpleClass = SimpleClass("string value", 3)
         simpleClass.getterSetter = "getterSetter override"
-        println("simpleClass:${simpleClass.getterSetter}")
+        assertEquals("use get use set getterSetter override", simpleClass.getterSetter)
     }
 
     /**
@@ -44,20 +52,37 @@ class ClassTest {
     fun testInheritance() {
         // 继承open类
         val inheritanceOpen = SimpleInheritanceOpenClass("string value", 3, "ownerProperty value")
-        println("inheritanceOpen:${inheritanceOpen.stringProperty},${inheritanceOpen.intProperty},${inheritanceOpen.ownerProperty}")
+        assertEquals("string value", inheritanceOpen.stringProperty)
+        assertEquals(3, inheritanceOpen.intProperty)
+        assertEquals("ownerProperty value", inheritanceOpen.ownerProperty)
         inheritanceOpen.finalFunc()
         inheritanceOpen.openFunc()
 
         // 继承抽象类和实现接口
         val inheritanceAbstract = SimpleInheritanceClass("string value", 3, "ownerProperty value")
-        println("inheritanceAbstract:${inheritanceAbstract.stringProperty},${inheritanceAbstract.intProperty},${inheritanceAbstract.ownerProperty}")
+        assertEquals("string value", inheritanceAbstract.stringProperty)
+        assertEquals(3, inheritanceAbstract.intProperty)
+        assertEquals("ownerProperty value", inheritanceAbstract.ownerProperty)
+
         inheritanceAbstract.funcInAbstract()
         inheritanceAbstract.funcInInterface()
         inheritanceAbstract.defaultFunc("str variable")
 
         // 使用次构造函数
-        val inheritanceConstructor = SimpleInheritanceConstructorClass("string value", 3, "ownerProperty value")
-        println("inheritanceConstructor:${inheritanceConstructor.stringProperty},${inheritanceConstructor.intProperty},${inheritanceConstructor.ownerProperty}")
+        var inheritanceConstructor = SimpleInheritanceConstructorClass("string value", 3, "ownerProperty value")
+        assertEquals("string value", inheritanceConstructor.stringProperty)
+        assertEquals(3, inheritanceConstructor.intProperty)
+        assertEquals("ownerProperty value", inheritanceConstructor.ownerProperty)
+
+        inheritanceConstructor = SimpleInheritanceConstructorClass("string value", 3)
+        assertEquals("string value", inheritanceConstructor.stringProperty)
+        assertEquals(3, inheritanceConstructor.intProperty)
+        assertEquals("default ownerProperty value", inheritanceConstructor.ownerProperty)
+
+        // 实现带get的方法
+        val overrideGetterMethod = OverrideGetterMethod("method1", "method2")
+        assertEquals("method1", overrideGetterMethod.getMethod1())
+        assertEquals("method2", overrideGetterMethod.getMethod2())
     }
 
     /**
@@ -69,14 +94,17 @@ class ClassTest {
         dataClass.bodyProperty = "string value"
 
         // 默认提供了toString,不过在class body声明的属性没有在toString中
-        println("dataClass:$dataClass,stringProperty:${dataClass.bodyProperty}")
+        assertEquals("SimpleDataClass(intProperty=3, stringProperty=string value)", dataClass.toString())
+        assertEquals("string value", dataClass.bodyProperty)
 
         // copy
         var copy = dataClass.copy()
-        println("copy:$copy,bodyProperty:${copy.bodyProperty}")
+        assertEquals("SimpleDataClass(intProperty=3, stringProperty=string value)", copy.toString())
+        // 不会复制在class body声明的属性
+        assertNull(copy.bodyProperty)
         // copy可以传入参数覆盖原有的值
         copy = dataClass.copy(intProperty = 1)
-        println("copy:$copy,bodyProperty:${copy.bodyProperty}")
+        assertEquals("SimpleDataClass(intProperty=1, stringProperty=string value)", copy.toString())
     }
 
 
@@ -111,9 +139,8 @@ class ClassTest {
 
         delegateProperty = "delegate property"
         // 给delegateProperty赋值,也相当于为simpleDelegateProperty.value赋值
-        println("simpleDelegateProperty:${simpleDelegateProperty.value}")
-        println("delegateProperty:$delegateProperty")
-
+        assertEquals("delegate property", simpleDelegateProperty.value)
+        assertEquals("delegate property", delegateProperty)
 
         // lazy是一个函数,接受一个Lambda表达式作为参数,返回一个Lazy类型的实例(只有getValue,所以不能使用var)
         // 实现延迟加载属性: 第一次调用getValue时,将会执行Lambda表达式,后面再执行getValue时,都返回前面的结果
@@ -121,18 +148,16 @@ class ClassTest {
             println("lazy")
             "lazy value"
         }
-
-        println("lazyValue:$lazyValue")
-
+        assertEquals("lazy value", lazyValue)
 
         // 可以观察属性的变动
         var observableValue: String by Delegates.observable("init value") { kProperty, oldName, newName ->
             println("kProperty：${kProperty.name} | oldName:$oldName | newName:$newName")
         }
 
-        println("observableValue init:$observableValue")
+        assertEquals("init value", observableValue)
         observableValue = "override"
-        println("observableValue after:$observableValue")
+        assertEquals("override", observableValue)
     }
 
 
@@ -147,10 +172,21 @@ class ClassTest {
         SimpleCompanion.companionFunc()
     }
 
+    /**
+     * 获取class类
+     */
     @Test
     fun testClass() {
         val simpleClass = SimpleClass("string value", 3)
         // ::class相当于getClass,不过获取的是kotlin.reflect.KClass
-        println("class:${simpleClass::class}")
+        assertEquals(SimpleClass::class, simpleClass::class)
+        assertEquals(
+            "class com.lzy.demo.kotlin.base.SimpleClass (Kotlin reflection is not available)",
+            simpleClass::class.toString()
+        )
+
+        // ::class.java获取的是java的class
+        assertEquals(SimpleClass::class.java, simpleClass::class.java)
+        assertEquals("class com.lzy.demo.kotlin.base.SimpleClass", simpleClass::class.java.toString())
     }
 }

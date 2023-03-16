@@ -23,12 +23,12 @@ class SimpleClass constructor(val stringProperty: String, val intProperty: Int) 
 
     // init块在创建实例的时候执行
     init {
-        println("init1 exec,stringProperty:$stringProperty,intProperty:$intProperty,listProperty:$listProperty")
+        println("SimpleClass init1 exec,stringProperty:$stringProperty,intProperty:$intProperty,listProperty:$listProperty")
     }
 
     // 可以有多个init,按顺序执行
     init {
-        println("init2 exec,stringProperty:$stringProperty,intProperty:$intProperty,listProperty:$listProperty")
+        println("SimpleClass init2 exec,stringProperty:$stringProperty,intProperty:$intProperty,listProperty:$listProperty")
     }
 
     // 使用constructor声明次构造函数
@@ -36,7 +36,7 @@ class SimpleClass constructor(val stringProperty: String, val intProperty: Int) 
 
     // 次构造函数可以有方法体
     constructor(intProperty: Int) : this("constructor default stringProperty", intProperty) {
-        println("constructor exec,intProperty:$intProperty")
+        println("SimpleClass constructor exec,intProperty:$intProperty")
     }
 
     // 次构造函数的参数不能有val/var,所以不能声明属性

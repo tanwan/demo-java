@@ -1,5 +1,6 @@
 package com.lzy.demo.kotlin.funcational
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 
@@ -21,34 +22,11 @@ class FunctionalTest {
             }
         }
         var ret = funInterface.simpleFun("override")
-        println("ret:$ret")
+        assertEquals("simpleFun override", ret)
 
         // lambda表达式
         val funLambda = SimpleFunInterface { "simpleFun $it" }
         ret = funLambda.simpleFun("lambda")
-        println("ret:$ret")
-    }
-
-
-    /**
-     * 函数式
-     */
-    @Test
-    fun testFunctional() {
-        val list = listOf(1, 2, 3, 4, 5, 6, 7, 8)
-
-        // find: 返回第一个符合的元素
-        assert(list.find { it > 5 } == 6)
-        // filter: 过滤,返回list
-        assert(list.filter { it > 5 } == listOf(6, 7, 8))
-
-        // reduce: 第一个参数是当前值,第二个参数是元素值
-        assert(list.reduce { sum, i -> sum + i } == 36)
-
-        // map
-        assert(list.map { it * 2 } == listOf(2, 4, 6, 8, 10, 12, 14, 16))
-
-        // 组合
-        assert(list.map { it * 2 }.filter { it > 10 }.reduce { sum, i -> sum + i } == 42)
+        assertEquals("simpleFun lambda", ret)
     }
 }

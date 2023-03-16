@@ -1,6 +1,6 @@
 package com.lzy.demo.kotlin.collections
 
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 /**
@@ -21,13 +21,13 @@ class MapTest {
 
         // 空map
         val emptyMap = mutableMapOf<String, Int>()
-        assert(emptyMap.isEmpty())
+        assertTrue(emptyMap.isEmpty())
         emptyMap["3"] = 3
         println(emptyMap)
 
         // 不可变的空map(无法插入数据)
         val immutableEmptyMap = emptyMap<String, Int>()
-        assert(immutableEmptyMap.isEmpty())
+        assertTrue(immutableEmptyMap.isEmpty())
     }
 
 
@@ -46,14 +46,14 @@ class MapTest {
 
         // 修改
         map["k5"] = "v5 override"
-        assert(map["k5"] == "v5 override")
+        assertEquals("v5 override", map["k5"])
 
         // 查询
         // 使用get或者[k]都可以取值
-        assert(map.get("k1") == "v1")
-        assert(map["k1"] == "v1")
-        Assertions.assertNull(map["notExistKey"])
-        Assertions.assertNull(map.get("notExistKey"))
+        assertEquals("v1", map.get("k1"))
+        assertEquals("v1", map["k1"])
+        assertNull(map["notExistKey"])
+        assertNull(map.get("notExistKey"))
     }
 
     /**
