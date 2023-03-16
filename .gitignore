@@ -22,6 +22,10 @@ gradle-app.setting
 log/
 *.log
 
+# mac
+.DS_Store
+*/.DS_Store
+
 # BlueJ files
 *.ctxt
 
@@ -59,6 +63,7 @@ hs_err_pid*
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+*.iml
 
 # Gradle
 .idea/**/gradle.xml
