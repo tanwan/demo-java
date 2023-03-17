@@ -25,6 +25,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AnnotationTest {
 
@@ -86,7 +88,7 @@ public class AnnotationTest {
         SimpleJsonPropertyOrder simpleJsonPropertyOrder = new SimpleJsonPropertyOrder("property1", "property2");
         String result = objectMapper.writeValueAsString(simpleJsonPropertyOrder);
         //序列化出来的key是有顺序的
-        assertThat(result.indexOf("property2") < result.indexOf("property1")).isTrue();
+        assertTrue(result.indexOf("property2") < result.indexOf("property1"));
     }
 
 
@@ -130,11 +132,11 @@ public class AnnotationTest {
         SimpleJsonValue simpleJsonValue = new SimpleJsonValue();
         simpleJsonValue.setSimpleJsonValueEnum(SimpleJsonValue.SimpleJsonValueEnum.SIMPLE_JSON_VALUE2);
         String result = objectMapper.writeValueAsString(simpleJsonValue);
-        assertThat(result).isEqualTo("{\"simpleJsonValueEnum\":\"value\"}");
+        assertEquals("{\"simpleJsonValueEnum\":\"value\"}", result);
 
         //使用@JsonValue时,当不同对象的序列化结果是相同的,此时反序列化是不准确的
         simpleJsonValue = objectMapper.readValue(result, SimpleJsonValue.class);
-        assertThat(simpleJsonValue.getSimpleJsonValueEnum()).isEqualTo(SimpleJsonValue.SimpleJsonValueEnum.SIMPLE_JSON_VALUE);
+        assertEquals(SimpleJsonValue.SimpleJsonValueEnum.SIMPLE_JSON_VALUE, simpleJsonValue.getSimpleJsonValueEnum());
     }
 
     /**
@@ -151,8 +153,8 @@ public class AnnotationTest {
         assertThat(result).contains("customproperty").contains(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(now));
 
         simpleJsonSerializer = objectMapper.readValue(result, SimpleJsonSerializer.class);
-        assertThat(simpleJsonSerializer.getProperty()).isEqualTo("property");
-        assertThat(simpleJsonSerializer.getLocalDateTime()).isEqualTo(now);
+        assertEquals("property", simpleJsonSerializer.getProperty());
+        assertEquals(now, simpleJsonSerializer.getLocalDateTime());
     }
 
 
@@ -165,7 +167,7 @@ public class AnnotationTest {
     @Test
     public void testJsonCreator() throws JsonProcessingException {
         SimpleJsonCreator simpleJsonCreator = objectMapper.readValue("{\"property\":\"property\"}", SimpleJsonCreator.class);
-        assertThat(simpleJsonCreator.getProperty()).isEqualTo("property");
+        assertEquals("property", simpleJsonCreator.getProperty());
     }
 
     /**
@@ -183,7 +185,7 @@ public class AnnotationTest {
         final SimpleJacksonInject simpleJacksonInject = objectMapper.reader(inject)
                 .forType(SimpleJacksonInject.class)
                 .readValue(json);
-        assertThat(simpleJacksonInject.getProperty2()).isEqualTo("property2");
+        assertEquals("property2", simpleJacksonInject.getProperty2());
     }
 
 
@@ -253,7 +255,7 @@ public class AnnotationTest {
 
         //反序列化会自动封装为UnwrappedType
         simpleJsonUnwrapped = objectMapper.readValue(result, SimpleJsonUnwrapped.class);
-        assertThat(simpleJsonUnwrapped.getUnwrappedType().getSubProperty()).isEqualTo("subProperty");
+        assertEquals("subProperty", simpleJsonUnwrapped.getUnwrappedType().getSubProperty());
     }
 
     /**

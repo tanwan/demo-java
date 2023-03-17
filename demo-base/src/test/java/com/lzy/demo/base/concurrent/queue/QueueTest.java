@@ -16,8 +16,10 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class QueueTest {
 
@@ -59,13 +61,13 @@ public class QueueTest {
         assertThatCode(() -> linkedBlockingQueue.remove()).isInstanceOf(NoSuchElementException.class);
 
         //使用poll,空队列,获取元素为null
-        assertThat(arrayBlockingQueue.poll()).isNull();
-        assertThat(linkedBlockingQueue.poll()).isNull();
+        assertNull(arrayBlockingQueue.poll());
+        assertNull(linkedBlockingQueue.poll());
 
         System.out.println("poll start at " + LocalTime.now());
         //使用poll(timeout,unit),空队列,获取元素会阻塞指定时间
-        assertThat(arrayBlockingQueue.poll(1000, TimeUnit.MILLISECONDS)).isNull();
-        assertThat(linkedBlockingQueue.poll(1000, TimeUnit.MILLISECONDS)).isNull();
+        assertNull(arrayBlockingQueue.poll(1000, TimeUnit.MILLISECONDS));
+        assertNull(linkedBlockingQueue.poll(1000, TimeUnit.MILLISECONDS));
         System.out.println("poll end at " + LocalTime.now());
 
         //使用take,空队列,获取元素会阻塞
@@ -79,8 +81,8 @@ public class QueueTest {
             linkedBlockingQueue.add(1);
         }).start();
         System.out.println("take start at " + LocalTime.now());
-        assertThat(arrayBlockingQueue.take()).isEqualTo(1);
-        assertThat(linkedBlockingQueue.take()).isEqualTo(1);
+        assertEquals(1, arrayBlockingQueue.take());
+        assertEquals(1, linkedBlockingQueue.take());
         System.out.println("take end at " + LocalTime.now());
     }
 
@@ -103,13 +105,13 @@ public class QueueTest {
         assertThatCode(() -> linkedBlockingQueue.add(1)).isInstanceOf(IllegalStateException.class);
 
         //使用offer,空队列,获取元素为null
-        assertThat(arrayBlockingQueue.offer(1)).isEqualTo(false);
-        assertThat(linkedBlockingQueue.offer(1)).isEqualTo(false);
+        assertFalse(arrayBlockingQueue.offer(1));
+        assertFalse(linkedBlockingQueue.offer(1));
 
         System.out.println("offer start at " + LocalTime.now());
         //使用offer(e,timeout,unit),空队列,获取元素会阻塞指定时间
-        assertThat(arrayBlockingQueue.offer(1, 1000, TimeUnit.MILLISECONDS)).isEqualTo(false);
-        assertThat(linkedBlockingQueue.offer(1, 1000, TimeUnit.MILLISECONDS)).isEqualTo(false);
+        assertFalse(arrayBlockingQueue.offer(1, 1000, TimeUnit.MILLISECONDS));
+        assertFalse(linkedBlockingQueue.offer(1, 1000, TimeUnit.MILLISECONDS));
         System.out.println("offer end at " + LocalTime.now());
 
         //使用put,满队列,添加元素会阻塞

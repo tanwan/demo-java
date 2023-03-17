@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.util.concurrent.ExecutorService;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * 测试代码使用resilience
@@ -99,8 +99,7 @@ public class ResilienceTest extends AbstractResilienceTest {
         CircuitBreaker circuitBreaker = circuitBreakerRegistry.circuitBreaker(ResilienceService.SIMPLE_BACKEND);
         if (repetitionInfo.getCurrentRepetition() <= 5) {
             //熔断未打开的时候,成功执行
-            assertThat(circuitBreaker.executeCheckedSupplier(() -> resilienceService.slowCall()))
-                    .isEqualTo("slow");
+            assertEquals("slow", circuitBreaker.executeCheckedSupplier(() -> resilienceService.slowCall()));
         } else {
             //熔断打开后,抛出CallNotPermittedException
             assertThatCode(() -> circuitBreaker.executeCheckedSupplier(() -> resilienceService.slowCall()))

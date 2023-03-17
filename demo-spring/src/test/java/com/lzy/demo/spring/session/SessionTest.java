@@ -18,6 +18,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.Base64;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 /**
@@ -51,8 +53,7 @@ public class SessionTest {
         ).andDo(MockMvcResultHandlers.print()).andReturn();
         // redis的session不为null
         String cookieKey = new String(Base64.getDecoder().decode(mvcResult.getResponse().getCookie("SESSION").getValue()));
-        assertThat(redisIndexedSessionRepository.findById(cookieKey))
-                .isNotNull();
+        assertNotNull(redisIndexedSessionRepository.findById(cookieKey));
         // 请求获取session
         mockMvc.perform(MockMvcRequestBuilders.get("/session/get")
                 //使用同一个cookie
@@ -74,8 +75,7 @@ public class SessionTest {
         ).andReturn();
         // redis的session不为null
         String cookieKey = new String(Base64.getDecoder().decode(mvcResult.getResponse().getCookie("SESSION").getValue()));
-        assertThat(redisIndexedSessionRepository.findById(cookieKey))
-                .isNotNull();
+        assertNotNull(redisIndexedSessionRepository.findById(cookieKey));
         // 请求获取session
         mockMvc.perform(MockMvcRequestBuilders.get("/session/get")
                 //使用同一个cookie
@@ -85,8 +85,7 @@ public class SessionTest {
         // 当session过期后(过期时间为3s)
         Thread.sleep(4000);
         // 使用RedisOperationsSessionRepository获取不到缓存
-        assertThat(redisIndexedSessionRepository.findById(cookieKey))
-                .isNull();
+        assertNull(redisIndexedSessionRepository.findById(cookieKey));
         // 但是redis的session其实还没有删除
         // spring-session虽然默认每分钟执行一次清理redis,但是清理的只是spring:expirations:的内容
         // 对于spring:session的内容(过期时间是session的过期时间加5分钟),只是遍历去访问redis,让redis触发清理动作,这个实现感觉spring实现得不太好

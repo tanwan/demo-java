@@ -2,6 +2,11 @@ plugins {
     id "com.google.protobuf" version "$protobufPlugin"
 }
 
+checkstyleMain {
+    // 要排除校验生成的代码
+    // exclude(String... excludes)使用的是相对路径RelativePathSpec, 所以这边直接指定source, 或者可以使用exclude{it.file去判断}
+    source = fileTree 'src/main/java'
+}
 
 dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok'

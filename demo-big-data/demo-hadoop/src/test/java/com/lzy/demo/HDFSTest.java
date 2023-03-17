@@ -10,7 +10,7 @@ import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * HDFS测试
@@ -29,8 +29,7 @@ public class HDFSTest {
     public void testConfiguration() {
         Configuration configuration = new Configuration();
         configuration.addResource("simple-configuration.xml");
-        assertThat(configuration.getInt("size", 0))
-                .isEqualTo(10);
+        assertEquals(10, configuration.getInt("size", 0));
     }
 
     @BeforeAll

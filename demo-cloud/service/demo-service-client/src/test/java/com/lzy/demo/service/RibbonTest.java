@@ -26,8 +26,7 @@ public class RibbonTest {
     public void serverPort(@Autowired RestTemplate restTemplate) {
         Integer port = restTemplate.getForObject(Constants.DEMO_SERVICE_SERVER + "/port", Integer.class);
         System.out.println(port);
-        assertThat(port)
-                .isIn(28010, 28011);
+        assertThat(port).isIn(28010, 28011);
     }
 
     /**

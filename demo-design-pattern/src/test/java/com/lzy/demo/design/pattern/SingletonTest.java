@@ -6,7 +6,7 @@ import com.lzy.demo.design.pattern.singleton.InnerClassSingleton;
 import com.lzy.demo.design.pattern.singleton.LazySingleton;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 /**
  * 测试单例
@@ -21,8 +21,7 @@ public class SingletonTest {
      */
     @Test
     public void testEagerSingleton() {
-        assertThat(EagerSingleton.getInstance())
-                .isEqualTo(EagerSingleton.getInstance());
+        assertSame(EagerSingleton.getInstance(), EagerSingleton.getInstance());
     }
 
     /**
@@ -30,8 +29,7 @@ public class SingletonTest {
      */
     @Test
     public void testLazySingleton() {
-        assertThat(LazySingleton.getInstance())
-                .isEqualTo(LazySingleton.getInstance());
+        assertSame(LazySingleton.getInstance(), LazySingleton.getInstance());
     }
 
     /**
@@ -39,8 +37,7 @@ public class SingletonTest {
      */
     @Test
     public void innerClassSingleton() {
-        assertThat(InnerClassSingleton.getInstance())
-                .isEqualTo(InnerClassSingleton.getInstance());
+        assertSame(InnerClassSingleton.getInstance(), InnerClassSingleton.getInstance());
     }
 
     /**
@@ -48,7 +45,6 @@ public class SingletonTest {
      */
     @Test
     public void innerEnumSingleton() {
-        assertThat(EnumSingleton.INSTANCE)
-                .isEqualTo(EnumSingleton.INSTANCE);
+        assertSame(EnumSingleton.INSTANCE, EnumSingleton.INSTANCE);
     }
 }

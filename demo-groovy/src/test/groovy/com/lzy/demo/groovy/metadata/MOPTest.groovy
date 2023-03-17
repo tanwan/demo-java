@@ -1,6 +1,6 @@
 package com.lzy.demo.groovy.metadata
 
-import org.junit.jupiter.api.Assertions
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly
 import org.junit.jupiter.api.Test
 
 /**
@@ -47,13 +47,13 @@ class MOPTest {
         afterMetaClassAdd.metaClass.closureExistInMetaClassObject = { 'metaClass Closure in Object' }
 
         // beforeMetaClassAdd是在类的metaClass修改之前创建的,所以没有closureExistInMetaClass闭包
-        Assertions.assertThrowsExactly(MissingMethodException, { beforeMetaClassAdd.closureExistInMetaClass() })
+        assertThrowsExactly(MissingMethodException, { beforeMetaClassAdd.closureExistInMetaClass() })
         assert afterMetaClassAdd.closureExistInMetaClass() == 'metaClass Closure in Class'
 
         // 只对当前对象有作用
         assert afterMetaClassAdd.closureExistInMetaClassObject() == 'metaClass Closure in Object'
         // 对其它对象无作用
-        Assertions.assertThrowsExactly(MissingMethodException, { new SimpleGroovyObject().closureExistInMetaClassObject() })
+        assertThrowsExactly(MissingMethodException, { new SimpleGroovyObject().closureExistInMetaClassObject() })
 
         assert afterMetaClassAdd.methodExistInMetaClass() == 'metaClass Method'
         // 闭包定义在类中,所以可以直接调用
@@ -66,7 +66,7 @@ class MOPTest {
         afterMetaClassAdd.metaClass.closureExistInMetaClassObject = { 'metaClass Closure in Object' }
         // 跟POGO比较不一样的是, 在类的metaClass添加方法之前创建的也是有效果的
         assert beforeMetaClassAdd.closureExistInMetaClass() == 'metaClass Closure in Class'
-        Assertions.assertThrowsExactly(MissingMethodException, { beforeMetaClassAdd.closureExistInMetaClassObject() })
+        assertThrowsExactly(MissingMethodException, { beforeMetaClassAdd.closureExistInMetaClassObject() })
         assert afterMetaClassAdd.closureExistInMetaClass() == 'metaClass Closure in Class'
         assert afterMetaClassAdd.closureExistInMetaClassObject() == 'metaClass Closure in Object'
     }
@@ -95,7 +95,7 @@ class MOPTest {
         assert simpleWithInvokeMethodOnly.nonExistingMethod() == 'invokeMethod'
 
         // 调用了默认的invokeMethod,然后抛出MissingMethodException
-        Assertions.assertThrowsExactly(MissingMethodException, { new SimpleGroovyObject().nonExistingMethod() })
+        assertThrowsExactly(MissingMethodException, { new SimpleGroovyObject().nonExistingMethod() })
     }
 
     /**
@@ -118,7 +118,7 @@ class MOPTest {
         simpleWithGetProperty.metaClass.setAttribute(simpleWithGetProperty, 'property1', 'property1 metaClass override')
         // 可以直接在metaClass为属性赋值
         assert simpleWithGetProperty.property1 == 'property1 metaClass override'
-        Assertions.assertThrowsExactly(MissingPropertyException, { simpleWithGetProperty.noExistProperty = 'noExistProperty override' })
+        assertThrowsExactly(MissingPropertyException, { simpleWithGetProperty.noExistProperty = 'noExistProperty override' })
     }
 
     def methodExistInMetaClass() {

@@ -9,6 +9,9 @@ import org.springframework.core.io.UrlResource;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ResourcePathTest {
     private static final String WORKING_DIR = System.getenv("HOME") + "/SourceCode/me/demo/demo-java/demo-io";
@@ -40,8 +43,7 @@ public class ResourcePathTest {
         // 底层使用URL(URL context, String spec),context为类路径,spec为path
         // path以/开头,表示path为绝对路径,则以path以绝对路径 获取资源
         // 使用此方法获取到的资源会判断该资源是否在类加载路径下,如果不是,返回null,因此,不能以/开头
-        assertThat(ResourcePathTest.class.getClassLoader().getResource("/" + FILE_NAME))
-                .isEqualTo(null);
+        assertNull(ResourcePathTest.class.getClassLoader().getResource("/" + FILE_NAME));
     }
 
     /**
@@ -74,7 +76,7 @@ public class ResourcePathTest {
     @Test
     public void testUserDir() {
         //运行jar获取到的是 命令的路径(在A路径下运行B路径下的jar包,那么user dir为A路径)
-        assertThat(System.getProperty("user.dir")).isEqualTo(WORKING_DIR);
+        assertEquals(WORKING_DIR, System.getProperty("user.dir"));
     }
 
     /**
@@ -88,10 +90,10 @@ public class ResourcePathTest {
         ResourceLoader resourceLoader = new DefaultResourceLoader();
         //使用file协议的相对路径,相当工作路径
         Resource fileResource = resourceLoader.getResource("file:./out/test/resources/" + FILE_NAME);
-        assertThat(fileResource.getFile().exists()).isEqualTo(true);
+        assertTrue(fileResource.getFile().exists());
         //使用file协议的绝对路径
         Resource fileAbsoluteResource = resourceLoader.getResource(FILE_PATH);
-        assertThat(fileAbsoluteResource.getFile().exists()).isEqualTo(true);
+        assertTrue(fileAbsoluteResource.getFile().exists());
     }
 
     /**

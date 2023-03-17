@@ -2,7 +2,8 @@ package com.lzy.demo.base.feature.java11;
 
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Java11FeatureTest {
 
@@ -14,20 +15,20 @@ public class Java11FeatureTest {
         String str = " \u2000a b ";
         System.out.println(str);
         //判断空
-        assertThat("".isEmpty()).isEqualTo(true);
+        assertTrue("".isEmpty());
         //判断空字符串
-        assertThat(" ".isBlank()).isEqualTo(true);
+        assertTrue(" ".isBlank());
         //去头尾不可见空格
-        assertThat(str.strip()).isEqualTo("a b");
+        assertEquals("a b", str.strip());
         //去头尾空格
-        assertThat(str.trim()).isEqualTo("\u2000a b");
+        assertEquals("\u2000a b", str.trim());
         //去头不可见空格
-        assertThat(str.stripLeading()).isEqualTo("a b ");
+        assertEquals("a b ", str.stripLeading());
         //去尾不可见空格
-        assertThat(str.stripTrailing()).isEqualTo(" \u2000a b");
+        assertEquals(" \u2000a b", str.stripTrailing());
         //可以获取字符串的行
-        assertThat("a\nb\nc".lines().count()).isEqualTo(3);
+        assertEquals(3, "a\nb\nc".lines().count());
         //重复
-        assertThat("a".repeat(3)).isEqualTo("aaa");
+        assertEquals("aaa", "a".repeat(3));
     }
 }

@@ -16,7 +16,9 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @Disabled("ehcache3底层还是依赖还是java ee,而这边引入的则是jakarta")
 @ActiveProfiles("spring-cache-jcache")
@@ -52,12 +54,12 @@ public class SpringCacheUseEhcache3Test {
         Integer key = 1;
         // 1会缓存
         cacheService.get(key, atomicInteger);
-        assertThat(cache.get("key:" + key)).isNotNull();
+        assertNotNull(cache.get("key:" + key));
 
         cacheService.get(key, atomicInteger);
 
         // 获取多次,CacheService.get只调用1次
-        assertThat(atomicInteger.intValue()).isEqualTo(1);
+        assertEquals(1, atomicInteger.intValue());
     }
 
     /**
@@ -68,10 +70,10 @@ public class SpringCacheUseEhcache3Test {
         Integer key = 6;
         // 6不缓存
         cacheService.get(key, atomicInteger);
-        assertThat(cache.get("key:" + key)).isNull();
+        assertNull(cache.get("key:" + key));
         cacheService.get(key, atomicInteger);
         // 由于没有使用缓存,因此获取多次,CacheService.get调用多次
-        assertThat(atomicInteger.intValue()).isEqualTo(2);
+        assertEquals(2, atomicInteger.intValue());
     }
 
 
@@ -82,17 +84,17 @@ public class SpringCacheUseEhcache3Test {
     public void testUpdateUseCache() {
         Integer key = 1;
         // 1有缓存
-        assertThat(cacheService.get(key, atomicInteger)).isEqualTo("1");
-        assertThat(cache.get("key:" + key)).isNotNull();
+        assertEquals("1", cacheService.get(key, atomicInteger));
+        assertNotNull(cache.get("key:" + key));
 
         // 对1进行更新
         cacheService.update(key, atomicInteger);
 
         // 再次获取1
-        assertThat(cacheService.get(key, atomicInteger)).isEqualTo("11");
-        assertThat(cache.get("key:" + key).get()).isEqualTo("11");
+        assertEquals("11", cacheService.get(key, atomicInteger));
+        assertEquals("11", cache.get("key:" + key).get());
         // 最后一次获取使用的是缓存,因此atomicInteger的值为2
-        assertThat(atomicInteger.intValue()).isEqualTo(2);
+        assertEquals(2, atomicInteger.intValue());
     }
 
     /**
@@ -102,18 +104,18 @@ public class SpringCacheUseEhcache3Test {
     public void testUpdateNoUseCache() {
         Integer key = 6;
         // 6不缓存
-        assertThat(cacheService.get(key, atomicInteger));
-        assertThat(cache.get("key:" + key)).isNull();
+        assertNotNull(cacheService.get(key, atomicInteger));
+        assertNull(cache.get("key:" + key));
 
         // 对6进行更新
         cacheService.update(key, atomicInteger);
-        assertThat(cache.get("key:" + key)).isNull();
+        assertNull(cache.get("key:" + key));
 
         // 再次获取6
         cacheService.get(key, atomicInteger);
 
         // 因为不缓存,因此2次获取和一次更新,总次数为3
-        assertThat(atomicInteger.intValue()).isEqualTo(3);
+        assertEquals(3, atomicInteger.intValue());
     }
 
 
@@ -125,17 +127,17 @@ public class SpringCacheUseEhcache3Test {
         Integer key = 1;
         // 1有缓存
         cacheService.get(key, atomicInteger);
-        assertThat(cache.get("key:" + key)).isNotNull();
+        assertNotNull(cache.get("key:" + key));
 
         // 对1进行删除
         cacheService.remove(key, atomicInteger);
-        assertThat(cache.get("key:" + key)).isNull();
+        assertNull(cache.get("key:" + key));
 
         // 再次获取1
         cacheService.get(key, atomicInteger);
-        assertThat(cache.get("key:" + key)).isNotNull();
+        assertNotNull(cache.get("key:" + key));
         // 因为缓存被删除了,所以最后一次获取是没有缓存的,因此次数为3
-        assertThat(atomicInteger.intValue()).isEqualTo(3);
+        assertEquals(3, atomicInteger.intValue());
     }
 
     /**
@@ -146,16 +148,16 @@ public class SpringCacheUseEhcache3Test {
         Integer key = 6;
         // 6没有缓存
         cacheService.get(key, atomicInteger);
-        assertThat(cache.get("key:" + key)).isNull();
+        assertNull(cache.get("key:" + key));
 
         // 对6进行删除
         cacheService.remove(key, atomicInteger);
-        assertThat(cache.get("key:" + key)).isNull();
+        assertNull(cache.get("key:" + key));
 
         // 再次获取6
         cacheService.get(key, atomicInteger);
-        assertThat(cache.get("key:" + key)).isNull();
+        assertNull(cache.get("key:" + key));
         // 都没有使用缓存,因此,次数为3
-        assertThat(atomicInteger.intValue()).isEqualTo(3);
+        assertEquals(3, atomicInteger.intValue());
     }
 }

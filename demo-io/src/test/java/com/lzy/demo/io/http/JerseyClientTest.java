@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Disabled("blade不支持java17,所以这边先排除掉,如果要运行的话,则这边需要降为java8,同时springboot需要使用2.7")
 public class JerseyClientTest {
@@ -60,7 +61,7 @@ public class JerseyClientTest {
                 .accept(MediaType.APPLICATION_JSON).get(new GenericType<Map<String, Object>>() {
                 });
         System.out.println(response);
-        assertThat(response.get("queryParam")).isEqualTo("queryParam value");
+        assertEquals("queryParam value", response.get("queryParam"));
     }
 
     /**
@@ -99,7 +100,7 @@ public class JerseyClientTest {
         Map<String, Object> response = webTarget.request().accept(MediaType.APPLICATION_JSON).delete(new GenericType<Map<String, Object>>() {
         });
         System.out.println(response);
-        assertThat(response.get("id")).isEqualTo(1);
+        assertEquals(1, response.get("id"));
     }
 
     /**
@@ -142,8 +143,8 @@ public class JerseyClientTest {
         Map<String, Object> body = response.readEntity(new GenericType<Map<String, Object>>() {
         });
         System.out.println(body);
-        assertThat(body.get("headerKey")).isEqualTo("header value");
-        assertThat(response.getHeaderString("headerKey")).isEqualTo("headerKey override");
+        assertEquals("header value", body.get("headerKey"));
+        assertEquals("headerKey override", response.getHeaderString("headerKey"));
     }
 
     /**
@@ -156,8 +157,8 @@ public class JerseyClientTest {
         Map<String, Object> body = response.readEntity(new GenericType<Map<String, Object>>() {
         });
         System.out.println(body);
-        assertThat(body.get("cookieKey")).isEqualTo("cookie value");
-        assertThat(response.getCookies().get("addCookie").getValue()).isEqualTo("add cookie value");
+        assertEquals("cookie value", body.get("cookieKey"));
+        assertEquals("add cookie value", response.getCookies().get("addCookie").getValue());
     }
 
 
@@ -178,6 +179,6 @@ public class JerseyClientTest {
         System.setProperty("http.nonProxyHosts", "");
         WebTarget webTarget = rootWebTarget.path("rest/get/proxy");
         Response response = webTarget.request().get();
-        assertThat(response.getStatus()).isEqualTo(200);
+        assertEquals(200, response.getStatus());
     }
 }

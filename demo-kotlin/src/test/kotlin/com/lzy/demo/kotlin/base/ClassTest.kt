@@ -180,13 +180,10 @@ class ClassTest {
         val simpleClass = SimpleClass("string value", 3)
         // ::class相当于getClass,不过获取的是kotlin.reflect.KClass
         assertEquals(SimpleClass::class, simpleClass::class)
-        assertEquals(
-            "class com.lzy.demo.kotlin.base.SimpleClass (Kotlin reflection is not available)",
-            simpleClass::class.toString()
-        )
+        assertThat(simpleClass::class).asString().isEqualTo("class com.lzy.demo.kotlin.base.SimpleClass (Kotlin reflection is not available)")
 
         // ::class.java获取的是java的class
         assertEquals(SimpleClass::class.java, simpleClass::class.java)
-        assertEquals("class com.lzy.demo.kotlin.base.SimpleClass", simpleClass::class.java.toString())
+        assertThat(simpleClass::class.java).asString().isEqualTo("class com.lzy.demo.kotlin.base.SimpleClass")
     }
 }

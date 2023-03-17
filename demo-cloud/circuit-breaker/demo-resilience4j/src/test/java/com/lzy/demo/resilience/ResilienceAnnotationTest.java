@@ -14,8 +14,8 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.util.concurrent.ExecutorService;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * 测试使用resilience注解
@@ -79,8 +79,7 @@ public class ResilienceAnnotationTest extends AbstractResilienceTest {
     public void testSlowCall(RepetitionInfo repetitionInfo) throws Throwable {
         if (repetitionInfo.getCurrentRepetition() <= 5) {
             //熔断未打开的时候,成功执行
-            assertThat(resilienceAnnotationService.slowCall())
-                    .isEqualTo("slow");
+            assertEquals("slow", resilienceAnnotationService.slowCall());
         } else {
             //熔断打开后,抛出CallNotPermittedException
             assertThatCode(() -> resilienceAnnotationService.slowCall())

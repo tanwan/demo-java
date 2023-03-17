@@ -31,7 +31,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class HBaseTest {
@@ -102,10 +103,8 @@ public class HBaseTest {
      */
     @Test
     public void testExistTables() throws IOException {
-        assertThat(admin.tableExists(TableName.valueOf("test")))
-                .isEqualTo(true);
-        assertThat(admin.tableExists(TableName.valueOf("no_exist")))
-                .isEqualTo(false);
+        assertTrue(admin.tableExists(TableName.valueOf("test")));
+        assertFalse(admin.tableExists(TableName.valueOf("no_exist")));
     }
 
     /**

@@ -21,6 +21,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.function.Consumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
 public class SimpleMockitoTest {
@@ -80,8 +82,7 @@ public class SimpleMockitoTest {
         assertThat(preciseMockService.dependenceMethod(preciseSimpleBean))
                 .extracting(SimpleBean::getBody).isEqualTo("precise mock");
         //入参跟when不一样,则只能返回null
-        assertThat(preciseMockService.dependenceMethod(new SimpleBean("param")))
-                .isNull();
+        assertNull(preciseMockService.dependenceMethod(new SimpleBean("param")));
 
         //多次调用
         DependenceService multiCallMockService = Mockito.mock(DependenceService.class);
@@ -136,7 +137,7 @@ public class SimpleMockitoTest {
         // 使用@Spy
         Mockito.when(spyDependenceService.defaultMethod()).thenReturn("defaultMethod");
         //调用的是mock的方法
-        assertThat(spyDependenceService.defaultMethod()).isEqualTo("defaultMethod");
+        assertEquals("defaultMethod", spyDependenceService.defaultMethod());
         //调用的是真实的方法
         assertThat(spyDependenceService.dependenceMethod(new SimpleBean("")))
                 .extracting(SimpleBean::getBody).isEqualTo("real DependenceServiceImpl object");
@@ -146,7 +147,7 @@ public class SimpleMockitoTest {
         DependenceService dependenceService = Mockito.spy(DependenceServiceImpl.class);
         Mockito.when(dependenceService.defaultMethod()).thenReturn("defaultMethod");
         //调用的是mock的方法
-        assertThat(dependenceService.defaultMethod()).isEqualTo("defaultMethod");
+        assertEquals("defaultMethod", dependenceService.defaultMethod());
         //调用的是真实的方法
         assertThat(dependenceService.dependenceMethod(new SimpleBean("")))
                 .extracting(SimpleBean::getBody).isEqualTo("real DependenceServiceImpl object");
@@ -161,8 +162,7 @@ public class SimpleMockitoTest {
         Mockito.when(dependenceService.dependenceMethod(Mockito.any())).thenReturn(new SimpleBean("mock"));
         //SimpleServiceImpl依赖的dependenceService已经是Mock的了,所以这边返回的是mock而不是
         assertThat(simpleService.simpleMethod(new SimpleBean("simpleService")))
-                .extracting(SimpleBean::getBody)
-                .isEqualTo("mock");
+                .extracting(SimpleBean::getBody).isEqualTo("mock");
     }
 
     /**
@@ -182,16 +182,14 @@ public class SimpleMockitoTest {
         Mockito.verify(dependenceService, Mockito.times(2)).defaultNoReturn(argumentCaptor.capture());
 
         //校验所有的参数
-        assertThat(useCaptorAnnotation.getAllValues())
-                .contains(simpleBean1, simpleBean2);
+        assertThat(useCaptorAnnotation.getAllValues()).contains(simpleBean1, simpleBean2);
         //校验最后一次的参数
-        assertThat(useCaptorAnnotation.getValue()).isEqualTo(simpleBean2);
+        assertEquals(simpleBean2, useCaptorAnnotation.getValue());
 
         //校验所有的参数
-        assertThat(argumentCaptor.getAllValues())
-                .contains(simpleBean1, simpleBean2);
+        assertThat(argumentCaptor.getAllValues()).contains(simpleBean1, simpleBean2);
         //校验最后一次的参数
-        assertThat(argumentCaptor.getValue()).isEqualTo(simpleBean2);
+        assertEquals(simpleBean2, argumentCaptor.getValue());
     }
 
 
@@ -204,7 +202,7 @@ public class SimpleMockitoTest {
     public void testFinal() {
         FinalClassServiceImpl finalClassServiceImpl = Mockito.mock(FinalClassServiceImpl.class);
         Mockito.when(finalClassServiceImpl.finalMethod()).thenReturn("mock");
-        assertThat(finalClassServiceImpl.finalMethod()).isEqualTo("mock");
+        assertEquals("mock", finalClassServiceImpl.finalMethod());
     }
 
 
@@ -223,7 +221,7 @@ public class SimpleMockitoTest {
         //这边相当于手动执行了一次callback
         argumentCaptor.getValue().accept(simpleBean);
 
-        assertThat(simpleBean.getBody()).isEqualTo("real SimpleServiceImpl");
+        assertEquals("real SimpleServiceImpl", simpleBean.getBody());
     }
 
 }

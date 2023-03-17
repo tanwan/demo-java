@@ -11,7 +11,8 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import jakarta.annotation.Resource;
 import java.time.Duration;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringJUnitConfig(initializers = ConfigDataApplicationContextInitializer.class, classes = RedisAutoConfiguration.class)
 @ActiveProfiles("redis")
@@ -28,15 +29,13 @@ public class SpringRedisTest {
     @Test
     public void testKeyValue() {
         stringRedisTemplate.opsForValue().set(getKey("key"), "hello world");
-        assertThat(stringRedisTemplate.opsForValue().get(getKey("key")))
-                .isEqualTo("hello world");
+        assertEquals("hello world", stringRedisTemplate.opsForValue().get(getKey("key")));
         // 设置过期时间
         stringRedisTemplate.opsForValue().set(getKey("key1"), "hello world1", Duration.ofSeconds(30));
-        assertThat(stringRedisTemplate.opsForValue().get(getKey("key1")))
-                .isEqualTo("hello world1");
+        assertEquals("hello world1", stringRedisTemplate.opsForValue().get(getKey("key1")));
         // 不存在才设置
         Boolean result = stringRedisTemplate.opsForValue().setIfAbsent(getKey("key2"), "hello world2", Duration.ofSeconds(30));
-        assertThat(result).isEqualTo(true);
+        assertTrue(result);
     }
 
     private String getKey(String key) {

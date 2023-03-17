@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * {@code @PropertySource}测试
@@ -31,7 +32,7 @@ public class PropertySourceTest {
          */
         @Test
         public void testPropertySource(@Autowired AtConfigurationProperties atConfigurationProperties, @Value("${key}") String key) {
-            assertThat(key).isEqualTo("value");
+            assertEquals("value", key);
             System.out.println(atConfigurationProperties);
             assertThat(atConfigurationProperties)
                     .hasFieldOrPropertyWithValue("integer", 1)

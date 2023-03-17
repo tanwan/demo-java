@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.SortedSet;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ProducerConfirmTest extends AbstractAmqpTest {
 
@@ -69,7 +69,7 @@ public class ProducerConfirmTest extends AbstractAmqpTest {
         channel.confirmSelect();
         channel.basicPublish("", confirmQueue, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
         //阻塞直到broker给出ack,true表示ack,false表示nack
-        assertThat(channel.waitForConfirms()).isEqualTo(true);
+        assertTrue(channel.waitForConfirms());
     }
 
     /**
@@ -87,7 +87,7 @@ public class ProducerConfirmTest extends AbstractAmqpTest {
         channel.basicPublish("", confirmQueue, MessageProperties.PERSISTENT_TEXT_PLAIN, "1".getBytes());
         // 如果使用的是Channel#waitForConfirmsOrDie(),那么如果有nack的话,则会抛出异常
         // 如果这边返回是的nack,那么以上所有的消息都需要重发
-        assertThat(channel.waitForConfirms()).isEqualTo(true);
+        assertTrue(channel.waitForConfirms());
     }
 
     /**

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.TestInstance;
 
 import java.util.concurrent.ExecutionException;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LettuceTest {
@@ -45,12 +45,10 @@ public class LettuceTest {
     @Test
     public void testSet() throws ExecutionException, InterruptedException {
         syncCommands.set(getKey("key"), "hello world");
-        assertThat(syncCommands.get(getKey("key")))
-                .isEqualTo("hello world");
+        assertEquals("hello world", syncCommands.get(getKey("key")));
         // 异步调用,返回RedisFuture
         asyncCommands.set(getKey("key1"), "hello world1").get();
-        assertThat(syncCommands.get(getKey("key1")))
-                .isEqualTo("hello world1");
+        assertEquals("hello world1", syncCommands.get(getKey("key1")));
     }
 
     /**
@@ -60,17 +58,15 @@ public class LettuceTest {
     public void testBit() {
         //把第8位设为1
         syncCommands.setbit(getKey("bit"), 8, 1);
-        assertThat(syncCommands.getbit(getKey("bit"), 8))
-                .isEqualTo(1);
+        assertEquals(1, syncCommands.getbit(getKey("bit"), 8));
         //被设置成1的个数
-        assertThat(syncCommands.bitcount(getKey("bit"))).isEqualTo(1);
+        assertEquals(1, syncCommands.bitcount(getKey("bit")));
 
         //把第8位设为0
         syncCommands.setbit(getKey("bit"), 8, 0);
-        assertThat(syncCommands.getbit(getKey("bit"), 8))
-                .isEqualTo(0);
+        assertEquals(0, syncCommands.getbit(getKey("bit"), 8));
         //被设置成1的个数
-        assertThat(syncCommands.bitcount(getKey("bit"))).isEqualTo(0);
+        assertEquals(0, syncCommands.bitcount(getKey("bit")));
 
     }
 

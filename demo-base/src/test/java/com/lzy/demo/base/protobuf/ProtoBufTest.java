@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ProtoBufTest {
     /**
@@ -33,7 +34,7 @@ public class ProtoBufTest {
                 .setSimpleProtoBufInner(SimpleProtos2.SimpleProtoBufOuter2.SimpleProtoBufInner2.newBuilder().setInt64Field(64L).build())
                 .setSimpleEnum(SimpleEnumProtos.SimpleEnum.Enum1)
                 .build();
-        assertThat(simpleProtoBufOuter2.getStringField()).isEqualTo("default value");
+        assertEquals("default value", simpleProtoBufOuter2.getStringField());
     }
 
     /**

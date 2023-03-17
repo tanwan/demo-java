@@ -24,8 +24,7 @@ public class FeignTest {
     public void serverPort(@Autowired SimpleFeignService simpleFeignService) {
         Integer port = simpleFeignService.serverPort();
         System.out.println(port);
-        assertThat(port)
-                .isIn(28010, 28011);
+        assertThat(port).isIn(28010, 28011);
     }
 
     /**

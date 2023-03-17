@@ -12,7 +12,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.gradle.internal.impldep.org.junit.Assert.assertEquals;
+import static org.gradle.internal.impldep.org.junit.Assert.assertTrue;
 
 /**
  * 测试java plugin
@@ -59,9 +60,8 @@ public class JavaPluginTest {
                 .withArguments("simpleJavaPluginTask")
                 .build();
 
-        assertThat(result.getOutput().contains("javaPlugin")).isTrue();
-        assertThat(result.task(":simpleJavaPluginTask").getOutcome())
-                .isEqualTo(TaskOutcome.SUCCESS);
+        assertTrue(result.getOutput().contains("javaPlugin"));
+        assertEquals(TaskOutcome.SUCCESS, result.task(":simpleJavaPluginTask").getOutcome());
     }
 
     private void writeFile(File destination, String content) throws IOException {

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IgniteTest {
     private static final String CACHE_NAME = "demoCache";
@@ -45,7 +45,7 @@ public class IgniteTest {
         Ignite ignite = Ignition.start(getIgniteConfiguration(true));
 
         IgniteCache<String, String> cache = ignite.cache(CACHE_NAME);
-        assertThat(cache.get("key")).isEqualTo("value");
+        assertEquals("value", cache.get("key"));
 
         // Disconnect from the cluster.
         ignite.close();
@@ -64,7 +64,7 @@ public class IgniteTest {
         if (!cache.containsKey("key")) {
             cache.put("key", "value");
         }
-        assertThat(cache.get("key")).isEqualTo("value");
+        assertEquals("value", cache.get("key"));
     }
 
 

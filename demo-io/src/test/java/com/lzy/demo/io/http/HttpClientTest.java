@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Disabled("blade不支持java17,所以这边先排除掉,如果要运行的话,则这边需要降为java8,同时springboot需要使用2.7")
 public class HttpClientTest {
@@ -74,7 +75,7 @@ public class HttpClientTest {
                 .setConnectTimeout(Timeout.ofMilliseconds(2000)).setResponseTimeout(Timeout.ofMilliseconds(2000)).build();
         httpGet.setConfig(requestConfig);
         try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
-            assertThat(response.getCode()).isEqualTo(200);
+            assertEquals(200, response.getCode());
             HttpEntity entity = response.getEntity();
             // EntityUtils.toString会关闭流
             String content = EntityUtils.toString(entity);
@@ -190,7 +191,7 @@ public class HttpClientTest {
             String content = EntityUtils.toString(entity);
             System.out.println(content);
             assertThat(content).contains("header value");
-            assertThat(response.getHeader("headerKey").getValue()).isEqualTo("headerKey override");
+            assertEquals("headerKey override", response.getHeader("headerKey").getValue());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -270,7 +271,7 @@ public class HttpClientTest {
         HttpGet httpGet = new HttpGet(HOST + "/rest/get/system-proxy");
 
         try (CloseableHttpResponse response = systemClient.execute(httpGet)) {
-            assertThat(response.getCode()).isEqualTo(200);
+            assertEquals(200, response.getCode());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -283,7 +284,7 @@ public class HttpClientTest {
         RequestConfig config = RequestConfig.custom().setProxy(proxy).build();
         httpGet.setConfig(config);
         try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
-            assertThat(response.getCode()).isEqualTo(200);
+            assertEquals(200, response.getCode());
         } catch (IOException e) {
             e.printStackTrace();
         }
