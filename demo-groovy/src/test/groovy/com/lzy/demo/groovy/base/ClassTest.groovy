@@ -1,6 +1,8 @@
 package com.lzy.demo.groovy.base
 
 import org.junit.jupiter.api.Test
+import static org.junit.jupiter.api.Assertions.assertTrue
+import static org.junit.jupiter.api.Assertions.assertFalse
 
 class ClassTest {
 
@@ -42,5 +44,16 @@ class ClassTest {
             intProperty = 23
         }
         println("instance with:$instance")
+    }
+
+    /**
+     * 使用重写了asBoolean
+     */
+    @Test
+    void testAsBoolean() {
+        def instance = new WithConstructorClass("true", 23)
+        // 可以直接当成bool,调用asBoolean方法
+        assertTrue((boolean) instance)
+        assertFalse(!instance)
     }
 }

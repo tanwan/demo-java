@@ -6,4 +6,8 @@ public class WithConstructorClass extends NoConstructorClass {
         super.setStringProperty(stringProperty)
         super.setIntProperty(intProperty)
     }
+
+    boolean asBoolean() {
+        return Boolean.TRUE.toString() == stringProperty
+    }
 }
