@@ -17,4 +17,8 @@ public class SimpleServiceImpl implements SimpleService {
     public void doConsumer() {
         dependenceService.doConsumer(simpleBean -> simpleBean.setBody("real SimpleServiceImpl"));
     }
+
+    public static String staticMethod(SimpleBean simpleBean) {
+        return simpleBean.getBody();
+    }
 }
