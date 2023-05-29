@@ -1,6 +1,6 @@
 package com.lzy.demo.io.http;
 
-import com.lzy.demo.io.bable.BladeApplication;
+import com.lzy.demo.io.blade.BladeApplication;
 import org.apache.hc.client5.http.classic.methods.HttpDelete;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;

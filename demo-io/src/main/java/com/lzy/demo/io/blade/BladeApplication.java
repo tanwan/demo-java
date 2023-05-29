@@ -1,4 +1,4 @@
-package com.lzy.demo.io.bable;
+package com.lzy.demo.io.blade;
 
 import com.hellokaton.blade.Blade;
 import com.hellokaton.blade.annotation.Path;

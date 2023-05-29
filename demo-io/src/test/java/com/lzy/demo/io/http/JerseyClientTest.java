@@ -1,6 +1,6 @@
 package com.lzy.demo.io.http;
 
-import com.lzy.demo.io.bable.BladeApplication;
+import com.lzy.demo.io.blade.BladeApplication;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.junit.jupiter.api.AfterAll;
