@@ -17,8 +17,8 @@ dependencies {
     //vavr
     implementation group: 'io.vavr', name: 'vavr', version: project['vavr.version']
 
-    //这边很奇怪resilience4j-vavr依赖不进去
-    //implementation group: 'io.github.resilience4j', name: 'resilience4j-vavr', version: dependencyManagement.importedProperties['resilience4j.version']
+    //resilience4j-vavr
+    implementation group: 'io.github.resilience4j', name: 'resilience4j-vavr'
 }
 
 test {

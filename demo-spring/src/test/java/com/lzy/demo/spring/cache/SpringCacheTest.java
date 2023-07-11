@@ -2,7 +2,6 @@ package com.lzy.demo.spring.cache;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
@@ -20,12 +19,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-@Disabled("ehcache3底层还是依赖还是java ee,而这边引入的则是jakarta")
-@ActiveProfiles("spring-cache-jcache")
+
 @EnableCaching
 @Import(CacheAutoConfiguration.class)
 @SpringJUnitConfig(initializers = ConfigDataApplicationContextInitializer.class, classes = {CacheServiceImpl.class})
-public class SpringCacheUseEhcache3Test {
+public abstract class SpringCacheTest {
     @Autowired
     private CacheService cacheService;
     @Autowired
@@ -159,5 +157,15 @@ public class SpringCacheUseEhcache3Test {
         assertNull(cache.get("key:" + key));
         // 都没有使用缓存,因此,次数为3
         assertEquals(3, atomicInteger.intValue());
+    }
+
+    @ActiveProfiles("spring-cache-jcache")
+    public static class SpringCacheUseJcacheTest extends SpringCacheTest {
+
+    }
+
+    @ActiveProfiles("spring-cache-caffeine")
+    public static class SpringCacheUseCaffeineTest extends SpringCacheTest {
+
     }
 }

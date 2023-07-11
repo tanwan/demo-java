@@ -22,6 +22,15 @@ dependencies {
     //jcache
     implementation group: 'javax.cache', name: 'cache-api'
 
+    //ehcache3
+    implementation("org.ehcache:ehcache:${dependencyManagement.importedProperties['ehcache3.version']}") {
+        capabilities {
+            requireCapability('org.ehcache:ehcache-jakarta')
+        }
+    }
+    //caffeine
+    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine'
+
     // html单元测试
     testImplementation group: 'net.sourceforge.htmlunit', name: 'htmlunit'
 

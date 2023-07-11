@@ -3,24 +3,31 @@ spring:
     activate:
       on-profile: spring-cache-jcache
   cache:
-    type: jcache
+    type: JCACHE
     jcache:
       provider: org.ehcache.jsr107.EhcacheCachingProvider
       config: classpath:ehcache3.xml
 
+---
+spring:
+  config:
+    activate:
+      on-profile: spring-cache-caffeine
+  cache:
+    type: CAFFEINE
 
 ---
 spring:
   config:
     activate:
       on-profile: spring-session
-  session:
-    storeType: REDIS
-  redis:
-    host: 127.0.0.1
-    database: 0
-    port: 6379
-    timeout: 15000
+  data:
+    redis:
+      database: 0
+      timeout: 15000
+      port: 6379
+      host: 127.0.0.1
+
 ---
 spring:
   config:

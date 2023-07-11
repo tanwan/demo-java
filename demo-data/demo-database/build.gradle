@@ -27,9 +27,9 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jooq'
 
     //jooq生成代码需要的依赖
-    jooqGenerator group: 'mysql', name: 'mysql-connector-java'
+    jooqGenerator group: 'com.mysql', name: 'mysql-connector-j'
     //mysql驱动
-    implementation group: 'mysql', name: 'mysql-connector-java'
+    implementation group: 'com.mysql', name: 'mysql-connector-j'
 
     //mybatis plus
     implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: project['mybatis-plus-boot.version']
