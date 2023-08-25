@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.tuple;
  * @author lzy
  * @version v1.0
  */
-@EnableConfigurationProperties(AtConfigurationProperties.class)
+@EnableConfigurationProperties({AtConfigurationProperties.class, AtConstructorBinding.class})
 @TestPropertySource(properties = "spring.config.location=classpath:properties.yml")
 @SpringJUnitConfig(initializers = ConfigDataApplicationContextInitializer.class, classes = {CustomConverter.class, AtValue.class})
 @Slf4j
@@ -60,6 +60,17 @@ public class PropertiesTest {
                 //property1和property2组成一个tuple
                 .contains(tuple("property1", "property2"));
         assertThat(atConfigurationProperties.getCustomClass()).hasFieldOrPropertyWithValue("name", "customerClass");
+    }
+
+    @Test
+    public void testConstructorBinding(@Autowired AtConstructorBinding atConstructorBinding) {
+        System.out.println(atConstructorBinding);
+        assertThat(atConstructorBinding)
+                .hasFieldOrPropertyWithValue("integer", 1)
+                .hasFieldOrPropertyWithValue("aDouble", 1.1)
+                .hasFieldOrPropertyWithValue("str", "str")
+                .hasFieldOrPropertyWithValue("value", "expectValue");
+
     }
 
     /**
