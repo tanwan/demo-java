@@ -16,6 +16,7 @@ class FunctionalTest {
      */
     @Test
     fun testFunInterface() {
+        // 匿名对象
         val funInterface = object : SimpleFunInterface {
             override fun simpleFun(str: String): String {
                 return "simpleFun $str"

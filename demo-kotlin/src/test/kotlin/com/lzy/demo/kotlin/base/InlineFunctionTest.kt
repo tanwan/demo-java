@@ -55,6 +55,14 @@ class InlineFunctionTest {
             // 最的一行是返回值
             it + " override"
         })
+
+        val simpleClass = SimpleClass("string value", 3).let {
+            // 在这里可以调用对象的任意方法和属性
+            it.defaultNullProperty = "defaultNullProperty override"
+            // apply是返回当前对象
+            it
+        }
+        assertEquals("defaultNullProperty override", simpleClass.defaultNullProperty)
     }
 
     /**
@@ -67,6 +75,7 @@ class InlineFunctionTest {
             defaultNullProperty = "defaultNullProperty override"
             // apply是返回当前对象
         }
+
         assertEquals("defaultNullProperty override", simpleClass.defaultNullProperty)
     }
 
@@ -86,6 +95,7 @@ class InlineFunctionTest {
 
 
     fun callLambda(block: () -> Unit) {
+        println("call fun callLambda")
         block()
     }
 
@@ -93,6 +103,7 @@ class InlineFunctionTest {
      * 内联函数
      */
     inline fun callLambdaInLine(block: () -> Unit) {
+        println("call fun callLambdaInLine")
         block()
     }
 }
