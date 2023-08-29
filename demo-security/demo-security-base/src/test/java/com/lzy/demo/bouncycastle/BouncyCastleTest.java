@@ -12,6 +12,7 @@ import java.security.PrivateKey;
 import java.security.Security;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -24,6 +25,7 @@ public class BouncyCastleTest {
     @BeforeAll
     public static void beforeAll() {
         Security.addProvider(new BouncyCastleProvider());
+        Arrays.stream(Security.getProviders()).forEach(System.out::println);
     }
 
     @AfterAll
