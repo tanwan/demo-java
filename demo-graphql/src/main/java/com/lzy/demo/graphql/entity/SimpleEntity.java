@@ -14,6 +14,10 @@ public class SimpleEntity {
     private String withArgument;
     private String withDirective;
 
+    private Integer nPlusOneProblem;
+
+    private Integer batchMapping;
+
     public SimpleEntity() {
         this.dateTime = OffsetDateTime.now();
         this.commonDateTime = LocalDateTime.now();
@@ -88,5 +92,21 @@ public class SimpleEntity {
 
     public void setWithDirective(String withDirective) {
         this.withDirective = withDirective;
+    }
+
+    public Integer getnPlusOneProblem() {
+        return nPlusOneProblem;
+    }
+
+    public void setnPlusOneProblem(Integer nPlusOneProblem) {
+        this.nPlusOneProblem = nPlusOneProblem;
+    }
+
+    public Integer getBatchMapping() {
+        return batchMapping;
+    }
+
+    public void setBatchMapping(Integer batchMapping) {
+        this.batchMapping = batchMapping;
     }
 }

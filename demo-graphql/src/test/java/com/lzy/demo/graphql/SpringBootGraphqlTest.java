@@ -1,6 +1,7 @@
 package com.lzy.demo.graphql;
 
 
+import com.lzy.demo.graphql.controller.SpringbootGraphqlController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
@@ -86,5 +87,37 @@ public class SpringBootGraphqlTest {
                 .execute();
         response.path("$.data.argumentsWithType.id").entity(Integer.class).isEqualTo(23);
         response.path("$.data.argumentsWithType.str").entity(String.class).isEqualTo("SpringbootGraphqlController#argumentsWithType:str");
+    }
+
+    /**
+     * 测试n+1问题
+     */
+    @Test
+    public void testNPlusOneProblem() {
+        int start = SpringbootGraphqlController.LONGADDER.intValue();
+        GraphQlTester.Response response;
+        // 直接发送请求
+        response = graphQlTester.document("""
+                query testBase{
+                    baseQuery{
+                        id nPlusOneProblem
+                    }
+                }
+                """).execute();
+        response.path("$.data.baseQuery[0].nPlusOneProblem").entity(Integer.class).isEqualTo(start + 1);
+        response.path("$.data.baseQuery[1].nPlusOneProblem").entity(Integer.class).isEqualTo(start + 2);
+
+        // 使用batchMapping则不会有这个问题
+        start = SpringbootGraphqlController.LONGADDER.intValue();
+        response = graphQlTester.document("""
+                query testBase{
+                    baseQuery{
+                        id batchMapping
+                    }
+                }
+                """).execute();
+        response.path("$.data.baseQuery[0].batchMapping").entity(Integer.class).isEqualTo(start + 1);
+        response.path("$.data.baseQuery[1].batchMapping").entity(Integer.class).isEqualTo(start + 1);
+
     }
 }

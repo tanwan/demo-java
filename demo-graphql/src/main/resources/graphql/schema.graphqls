@@ -7,6 +7,8 @@ type SimpleEntity {
     dateTime: DateTime
     commonDateTime:CommonDateTime
     withDirective:String @simpleDirective(str:"str",array:[1],bool:true)
+    nPlusOneProblem: Int!
+    batchMapping: Int!
 }
 
 #定义类型
