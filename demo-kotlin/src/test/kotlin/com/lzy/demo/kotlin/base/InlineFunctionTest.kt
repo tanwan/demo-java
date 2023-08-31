@@ -52,7 +52,7 @@ class InlineFunctionTest {
             // 可以在对象需要判空,又需要做很多处理的时候使用
             println(it)
             println(it)
-            // 最的一行是返回值
+            // 最后一行是返回值
             it + " override"
         })
 

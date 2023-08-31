@@ -1,5 +1,6 @@
-package com.lzy.demo.kotlin.funcational
+package com.lzy.demo.kotlin.base
 
+import com.lzy.demo.kotlin.funcational.SimpleFunInterface
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

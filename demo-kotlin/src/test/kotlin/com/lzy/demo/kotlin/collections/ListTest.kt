@@ -1,6 +1,7 @@
 package com.lzy.demo.kotlin.collections
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 /**
@@ -78,5 +79,27 @@ class ListTest {
 
         // 组合
         assertEquals(42, list.map { it * 2 }.filter { it > 10 }.reduce { sum, i -> sum + i })
+    }
+
+    /**
+     * Associate
+     */
+    @Test
+    fun testAssociate() {
+        val list = listOf(1, 2, 3, 4)
+        val map = mapOf(1 to 'A', 2 to 'B', 3 to 'C')
+        // 将list按照给定的条件转为map, key为list的元素, value为lambda的结果
+        val result1 = list.associateWith { map[it] }
+        println(result1)
+        assertEquals('A', result1[1])
+        assertEquals('B', result1[2])
+        assertNull(result1[4])
+
+        // 将list按照给定的条件转为map, key为lambda的结果, value为list的元素
+        val result2 = list.associateBy { map[it] }
+        println(result2)
+        assertEquals(1, result2['A'])
+        assertEquals(2, result2['B'])
+        assertEquals(4, result2[null])
     }
 }

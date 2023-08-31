@@ -68,6 +68,22 @@ class BaseTest {
         }
     }
 
+    @Test
+    fun testFuncWithLambda() {
+        // 参数为lambda的情况, 直接使用代码块
+        funcAcceptLambda { println("funcAcceptLambda") }
+        // lambda有默认值, 所以这边不需要传参
+        funcAcceptLambdaWithDefault()
+
+        // lambda有类型限制
+        val instance = SimpleClass(1)
+        funcAcceptLambdaWithClass(instance) {
+            // 这边的this就是SimpleClass
+            defaultNullProperty = "funcAcceptLambdaWithClass"
+        }
+        assertEquals("funcAcceptLambdaWithClass", instance.defaultNullProperty)
+    }
+
     /**
      * when,相当于switch
      */
@@ -142,6 +158,33 @@ class BaseTest {
      * 函数也可以是表达式
      */
     fun funcExpression(a: Int, b: Int) = a + b
+
+    /**
+     * 参数为lambda
+     */
+    fun funcAcceptLambda(block: () -> Unit) {
+        block()
+    }
+
+    /**
+     * 参数为lambda, 默认值为{}
+     */
+    fun funcAcceptLambdaWithDefault(block: () -> Unit = {}) {
+        block()
+    }
+
+    /**
+     * 参数为lambda,并且lambda有类型限制
+     * SimpleClass.() -> Unit
+     * 1. SimpleClass.: 可以理解成此时的lambda是一个delegate为SimpleClass的闭包,因此需要通过SimpleClass的实例进行调用
+     * lambda也可以访问SimpleClass的变量和方法, 相当于this是SimpleClass的实例
+     * 2. (): lambda无参数
+     * 3. Unit:无返回值
+     */
+    fun funcAcceptLambdaWithClass(instance: SimpleClass, block: SimpleClass.() -> Unit) {
+        // 如果这个方法是声明在SimpleClass,那边就可以直接使用block(), 因为没有声明在SimpleClass类中, 所以这边需要使用instance.block()
+        instance.block()
+    }
 
 
     /**
