@@ -134,7 +134,7 @@ public class JWTTest {
 
         // 使用pem文件获取公钥
         certificatefactory = CertificateFactory.getInstance("X.509");
-        cert = certificatefactory.generateCertificate(getClass().getResourceAsStream("/demo-java.pem"));
+        cert = certificatefactory.generateCertificate(getClass().getResourceAsStream("/demo-java-cert.pem"));
         publicKey = cert.getPublicKey();
 
         // 使用jjwt解析jwt

@@ -35,7 +35,7 @@ public class JWKTest {
     @Test
     public void testCertificateAndJWK() throws Exception {
         CertificateFactory certificatefactory = CertificateFactory.getInstance("X.509");
-        Certificate certificate = certificatefactory.generateCertificate(getClass().getResourceAsStream("/demo-java.pem"));
+        Certificate certificate = certificatefactory.generateCertificate(getClass().getResourceAsStream("/demo-java-cert.pem"));
         // 转为JKW
         JWK jwk = JWK.parse((X509Certificate) certificate);
         System.out.println(jwk);

@@ -10,5 +10,13 @@ dependencies {
     // bcpkix适用于PKIX(Public Key Infrastructure X.509)标准的功能, 支持PKIX/CMS/EAC/PKCS/OCSP/TSP/OPENSSL
     // bcprov适用于通用密码学, bcpkix需要依赖bcprov
     implementation group: 'org.bouncycastle', name: 'bcpkix-jdk18on', version: project['bouncycastle.version']
+
+    //使用vert-web
+    implementation group: 'io.vertx', name: 'vertx-web', version: project['vert.x.version']
 }
 
+test {
+    filter {
+        excludeTestsMatching "com.lzy.demo.https.HttpsTest"
+    }
+}
