@@ -18,38 +18,3 @@ management:
          exposure:
             include: '*'
 
----
-spring:
-   config:
-      activate:
-         on-profile: sleuth-zipkin-web
-   zipkin:
-      enabled: true
-      #zipkin地址
-      base-url: http://localhost:9411/
-
-   sleuth:
-      sampler:
-         #采样率
-         probability: 100
-
----
-spring:
-   config:
-      activate:
-         on-profile: sleuth-zipkin-rabbit
-   zipkin:
-      enabled: true
-      sender:
-         type: rabbit
-   sleuth:
-      sampler:
-         #采样率
-         probability: 100
-   rabbitmq:
-      addresses: 127.0.0.1:5672
-      virtual-host: zipkin
-      username: guest
-      password: guest
-   autoconfigure:
-      exclude:

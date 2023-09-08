@@ -3,12 +3,10 @@ package com.lzy.demo.service;
 import com.lzy.demo.service.service.BraveService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import jakarta.annotation.Resource;
 
 @SpringBootTest
-@ActiveProfiles("sleuth")
 public class BraveTest {
 
 

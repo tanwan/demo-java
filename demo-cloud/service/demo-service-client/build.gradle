@@ -10,11 +10,10 @@ dependencies {
     // spring boot admin
     implementation group: 'de.codecentric', name: 'spring-boot-admin-starter-client', version: project['spring-boot-admin.version']
 
-    // spring cloud sleuth
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: project['spring-cloud-sleuth.version']
-
-    // zipkin
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: project['spring-cloud-sleuth.version']
+    // sleuth不支持springboot3, springboot3使用micrometer-tracing
+    // see https://micrometer.io/docs/tracing
+    implementation 'io.micrometer:micrometer-tracing'
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 
     // rabbitmq
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp'

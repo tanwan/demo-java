@@ -82,10 +82,4 @@ public interface SimpleFeignService {
      */
     @PostMapping("/delete/{pathVariable}")
     Map<String, Object> deleteRequest(@RequestBody Map<String, Object> request, @PathVariable("pathVariable") String pathVariable);
-
-    @GetMapping("/sleuth")
-    String sleuth();
-
-    @GetMapping("/sleuth2")
-    String sleuth2();
 }

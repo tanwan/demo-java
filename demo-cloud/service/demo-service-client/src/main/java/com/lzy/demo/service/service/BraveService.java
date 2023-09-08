@@ -4,9 +4,9 @@ import brave.ScopedSpan;
 import brave.Span;
 import brave.SpanCustomizer;
 import brave.Tracer;
+import io.micrometer.tracing.annotation.NewSpan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.sleuth.annotation.NewSpan;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;

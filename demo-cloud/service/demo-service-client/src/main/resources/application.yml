@@ -24,8 +24,7 @@ spring:
     admin:
       client:
         enabled: false
-  zipkin:
-    enabled: false
+
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
@@ -93,70 +92,6 @@ spring:
     admin:
       client:
         enabled: true
-
----
-spring:
-  config:
-    activate:
-      on-profile: sleuth
----
-spring:
-  config:
-    activate:
-      on-profile: sleuth-zipkin-web
-  zipkin:
-    enabled: true
-    #zipkin地址
-    base-url: http://localhost:9411/
-    sender:
-      type: web
-  sleuth:
-    sampler:
-      #采样率
-      probability: 100
-
-
----
-spring:
-  config:
-    activate:
-      on-profile: sleuth-zipkin-rabbit
-  zipkin:
-    enabled: true
-    sender:
-      type: rabbit
-  sleuth:
-    sampler:
-      #采样率
-      probability: 100
-  rabbitmq:
-    addresses: 127.0.0.1:5672
-    virtual-host: zipkin
-    username: guest
-    password: guest
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
----
-spring:
-  config:
-    activate:
-      on-profile: sleuth-zipkin-kafka
-  zipkin:
-    enabled: true
-    sender:
-      type: kafka
-    kafka:
-      topic: zipkin
-  sleuth:
-    sampler:
-      #采样率
-      probability: 100
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
-  kafka:
-    bootstrap-servers: 127.0.0.1:9092
 ---
 spring:
   config:
