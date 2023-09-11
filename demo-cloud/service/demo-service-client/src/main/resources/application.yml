@@ -1,21 +1,11 @@
 spring:
   # spring推荐使用spring.config.import,它由三个部分组成:[optional:]<configserver:|file:|classpath:>[url],configserver表示从配置中心读取配置
   # 默认的import见 org.springframework.boot.context.config.ConfigDataEnvironment.DEFAULT_SEARCH_LOCATIONS
-  # 但是如果使用注册中心来连接spring-cloud-config的话,spring.config.import是有问题的
-  # ConfigDataEnvironment#processWithProfiles,这边是先处理imports再重新注册bootstrapContext的Binder(有activationContext)
-  # ConfigServerConfigDataLocationResolver.resolveProfileSpecific,这个是在处理imports的时候调用的,bootstrapContext的Binder还没有activationContext
-  # 所以这时候bootstrapContext是获取不到配置在application-<profile>.yml的注册中心的信息的,也就没有办法通过注册中心连接到spring-cloud-config
-  #config:
-  #  注意spring.cloud.import跟其它配置不一样,是一定会执行的,所以不要在default profile配置configserver
-  #  import: 'optional:classpath:/'
-  # 所以这边还是先使用bootstrap的启动方式,添加spring.cloud.bootstrap.enabled=true
-  # See org.springframework.cloud.util.PropertyUtils.bootstrapEnabled
+  config:
+    import: 'optional:classpath:/'
   cloud:
     config:
       enabled: false
-    bootstrap:
-      #可以使用此配置,也可以添加spring-cloud-starter-bootstrap的依赖
-      enabled: true
 
   application:
     name: demo-service-client
@@ -45,10 +35,21 @@ eureka:
       defaultZone: http://127.0.0.1:28761/eureka/
     enabled: true
 
-
 ---
 # 使用spring config server 使用注册中心
-# 使用bootstrap的方式,配置在bootstrap.yml中
+spring:
+  config:
+    activate:
+      on-profile: spring-cloud-config-eureka
+    import: 'optional:configserver:'
+  cloud:
+    config:
+      enabled: true
+      name: demo-service-client,business
+      profile: test
+      discovery:
+        enabled: true
+        serviceId: demo-config-server
 
 ---
 # 使用spring config server 使用url
@@ -59,7 +60,6 @@ spring:
     activate:
       on-profile: spring-cloud-config-url
   cloud:
-    #See ConfigClientProperties
     config:
       name: demo-service-client,business
       profile: test
