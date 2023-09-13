@@ -166,12 +166,12 @@ idea {
         //插件处理settings的extension的toString方法需要返回一个json字符串, See ProjectSettings in https://github.com/JetBrains/gradle-idea-ext-plugin/blob/master/src/main/groovy/org/jetbrains/gradle/ext/IdeaExtPlugin.groovy
         //GradleExternalSettingsImporter会根据返回的json字符串去修改workspace.xml, See https://github.com/JetBrains/intellij-community/blob/master/plugins/gradle/tooling-extension-impl/src/org/jetbrains/plugins/gradle/tooling/builder/IntelliJProjectSettingsBuilder.groovy
         settings {
-            def loggingPath = '$PROJECT_DIR$/config/logback/logback.xml'
             //withIDEAFileXml在项目sync process后调用, reimport可以触发sync process
             //在项目sync process后调用的原理是这个插件会往workspace.xml的ExternalProjectsManager将processIdeaSettings添加给after_sync
             //ProjectSettings的toString会返回requiresPostprocessing为true
             //IDEAProjectFilesPostProcessor会根据requiresPostprocessing来添加processIdeaSettings See https://github.com/JetBrains/intellij-community/blob/master/plugins/gradle/src/org/jetbrains/plugins/gradle/service/project/GradleExternalSettingsImporter.kt
             withIDEAFileXml("workspace.xml") { XmlProvider p ->
+                def loggingPath = '$PROJECT_DIR$/config/logback/logback-spring.xml'
                 //这边是高级用法, 建议在不得已的时候才用这种方法
                 def runManager = p.asNode().find { it.@name == "RunManager" }
                 def springBootRunner = runManager.children().find { it.@default == "true" && it.@type == "SpringBootApplicationConfigurationType" }
@@ -183,6 +183,7 @@ idea {
                 }
             }
             runConfigurations {
+                def loggingPath = '$PROJECT_DIR$/config/logback/logback.xml'
                 //原理就是往workspace.xml添加默认的配置,这个是idea去添加的,目前不支持springboot
                 def loggerConfig = "-Dlogback.configurationFile=$loggingPath"
                 defaults(JUnit) {

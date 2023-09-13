@@ -1,9 +1,13 @@
 #这边由于使用了zipkin.server.ZipkinServer 作为启动类,因此配置文件名为zipkin-server.yml
-COLLECTOR_RABBITMQ_ENABLED: true
+#下面这些变量在zipkin-server-shared.yml(在zipkin-server包下)使用, 可以直接使用-D传入这些变量,就不需要些文件
+#也可以直接使用docker启动zipkin
+COLLECTOR_RABBITMQ_ENABLED: false
 RABBIT_VIRTUAL_HOST: zipkin
 RABBIT_ADDRESSES: 127.0.0.1:5672
 RABBIT_USER: guest
 RABBIT_PASSWORD: guest
 RABBIT_QUEUE: zipkin
 #包括了zipkin-server-shared.yml
-spring.profiles.include: shared
+spring:
+  profiles:
+    include: shared

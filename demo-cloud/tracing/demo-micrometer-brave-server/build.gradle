@@ -1,0 +1,18 @@
+dependencies {
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-eureka-client'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+
+    // 监控, tracing需要依赖这个
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+
+    // sleuth不支持springboot3, springboot3使用micrometer-tracing
+    // micrometer-tracing使用外观模式来适配第三方链路追踪库, 类似slf适配logging
+    // see https://micrometer.io/docs/tracing
+    implementation group: 'io.micrometer', name: 'micrometer-tracing'
+    // 使用brave
+    implementation group: 'io.micrometer', name: 'micrometer-tracing-bridge-brave'
+    // 使用brave将数据发送给zipkin
+    // 还有其它方法, See https://github.com/openzipkin/zipkin-reporter-java/tree/master
+    implementation group: 'io.zipkin.reporter2', name: 'zipkin-reporter-brave'
+}

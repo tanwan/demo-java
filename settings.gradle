@@ -129,11 +129,15 @@ findProject(':demo-cloud:component:demo-micrometer-prometheus')?.name = 'demo-mi
 include ':demo-cloud:component:demo-zookeeper'
 findProject(':demo-cloud:component:demo-zookeeper')?.name = 'demo-zookeeper'
 
-include ':demo-cloud:component:demo-zipkin-server'
-findProject(':demo-cloud:component:demo-zipkin-server')?.name = 'demo-zipkin-server'
-
 //gateway
 include ':demo-cloud:gateway:demo-spring-gateway'
 findProject(':demo-cloud:gateway:demo-spring-gateway')?.name = 'demo-spring-gateway'
 
+//tracing
+include ':demo-cloud:tracing:demo-zipkin-server'
+findProject(':demo-cloud:tracing:demo-zipkin-server')?.name = 'demo-zipkin-server'
+include 'demo-cloud:tracing:demo-micrometer-brave-client'
+findProject(':demo-cloud:tracing:demo-micrometer-brave-client')?.name = 'demo-micrometer-brave-client'
+include 'demo-cloud:tracing:demo-micrometer-brave-server'
+findProject(':demo-cloud:tracing:demo-micrometer-brave-server')?.name = 'demo-micrometer-brave-server'
 

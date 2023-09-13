@@ -3,12 +3,10 @@
     <!--ConsoleAppender-->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <!-- 使用at <fully-qualified-class-name>.<method-name>(<file-name>:<line-number>))可以快速跳转到类 See https://www.jetbrains.com/help/idea/setting-log-options.html-->
-            <pattern>%d{HH:mm:ss.SSS} %green(%-5level) %magenta([%thread]) - %boldWhite(%msg) [at
-                %class.%method:\(%file:%line\)]%n
-            </pattern>
+            <!-- 使用at <fully-qualified-class-name>.<method-name>(<file-name>:<line-number>))可以快速跳转到类 See https://www.jetbrains.com/help/idea/setting-log-options.html -->
+            <pattern>%d{HH:mm:ss.SSS} %green(%-5level) %magenta([%thread]) - %boldWhite(%msg)  [at %class.%method:\(%file:%line\)]%n</pattern>
             <!-- 也可以直接使用caller{1} -->
-            <!-- <pattern>%d{HH:mm:ss.SSS} %green(%-5level) %magenta([%thread]) - %boldWhite(%msg) %caller{1}</pattern>-->
+            <!-- <pattern>%d{HH:mm:ss.SSS} %green(%-5level) %magenta([%thread]) - %boldWhite(%msg) %caller{1} %n</pattern>-->
         </encoder>
         <target>System.out</target>
     </appender>

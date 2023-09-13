@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: demo-micrometer-brave-server
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:28761/eureka/
+server:
+  port: 28011
+
+management:
+  zipkin:
+    tracing:
+      # 这边使用brave的方法将数据发送给zipkin
+      # 其它方法See https://github.com/openzipkin/zipkin-reporter-java/tree/master
+      endpoint: http://localhost:9411/api/v2/spans
+  tracing:
+    sampling:
+      # 采样率
+      probability: 1
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: sleuth-zipkin-rabbit
+  zipkin:
+    enabled: true
+    sender:
+      type: rabbit
+  sleuth:
+    sampler:
+      #采样率
+      probability: 100
+  rabbitmq:
+    addresses: 127.0.0.1:5672
+    virtual-host: zipkin
+    username: guest
+    password: guest
+  autoconfigure:
+    exclude:

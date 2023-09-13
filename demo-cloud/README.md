@@ -16,10 +16,12 @@
 ## 客户端
 - demo-dubbo-service-client:
 - demo-service-client: 28080
+- demo-micrometer-brave-client: 28081
 
 ## 服务端
 - demo-service-server: 28010
 - demo-dubbo-service-server: 28050
+- demo-micrometer-brave-server: 28011
 
 ## manger 管理组件
 - demo-spring-admin: 25010

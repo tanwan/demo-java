@@ -10,17 +10,6 @@ dependencies {
     // spring boot admin
     implementation group: 'de.codecentric', name: 'spring-boot-admin-starter-client', version: project['spring-boot-admin.version']
 
-    // sleuth不支持springboot3, springboot3使用micrometer-tracing
-    // see https://micrometer.io/docs/tracing
-    implementation 'io.micrometer:micrometer-tracing'
-    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
-
-    // rabbitmq
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp'
-
-    // kafka
-    implementation group: 'org.springframework.kafka', name: 'spring-kafka'
-
     // logstash
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: project['logstash-logback-encoder.version']
 
