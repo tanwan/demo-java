@@ -7,9 +7,12 @@ import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.net.JksOptions;
 import io.vertx.core.net.PemTrustOptions;
 import io.vertx.ext.web.Router;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.jsse.provider.BouncyCastleJsseProvider;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManager;
@@ -18,21 +21,24 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
+import java.lang.reflect.Method;
 import java.net.Socket;
 import java.net.URL;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
+import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
 public class HttpsTest {
 
 
-    private static HttpServer httpsServer;
+    private HttpServer httpsServer;
 
     /**
      * https双向验证
@@ -81,6 +87,26 @@ public class HttpsTest {
         });
 
         // \\A为正则\A, 表示字符串的开头(^表示一行中的开头), Scanner使用\A就可以读取整个输入流
+        Scanner scanner = new Scanner(urlConnection.getInputStream()).useDelimiter("\\A");
+        System.out.println(scanner.next());
+    }
+
+    /**
+     * bctls有自己的一套tls流程
+     *
+     * @throws Exception exception
+     * @see sun.security.ssl.SSLSocketImpl SSLSocketImpl:jdk进行https握手
+     * @see sun.security.ssl.X509TrustManagerImpl X509TrustManagerImpl: jdk进行证书校验的类
+     * @see org.bouncycastle.jsse.provider.ProvSSLSocketDirect ProvSSLSocketDirect:bctls进行https握手
+     * @see org.bouncycastle.jsse.provider.ProvX509TrustManager ProvX509TrustManager: bctls进行证书校验
+     */
+    @Test
+    public void testBouncyCastleHttps() throws Exception {
+        URL url = new URL("https://baidu.com");
+        // 核心都在于SSLSocketFactory, HttpsURLConnection存在SSLSocketFactory实例, 有默认值(默认值也可以指定), 也可以通过HttpsURLConnection指定
+        // SSLSocketFactory用来负责创建socket, bctls使用ProvSSLSocketFactory, jdk使用SSLSocketFactoryImpl
+        // ProvSSLSocketFactory也就创建出了ProvSSLSocketDirect
+        HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
         Scanner scanner = new Scanner(urlConnection.getInputStream()).useDelimiter("\\A");
         System.out.println(scanner.next());
     }
@@ -136,12 +162,27 @@ public class HttpsTest {
         };
     }
 
-    @BeforeAll
-    public static void startHttpsServer() {
+
+    @BeforeEach
+    public void beforeEach(TestInfo testInfo) {
+        String methodName = testInfo.getTestMethod().map(Method::getName).orElse("");
+
+        if (methodName.contains("BouncyCastle")) {
+            //将BouncyCastleProvider和BouncyCastleJsseProvider放在前两位
+            Security.insertProviderAt(new BouncyCastleProvider(), 1);
+            Security.insertProviderAt(new BouncyCastleJsseProvider(), 2);
+            Arrays.stream(Security.getProviders()).forEach(System.out::println);
+        }
+        startHttpsServer(methodName.contains("TwoWay"));
+
+    }
+
+
+    private void startHttpsServer(boolean clientAuth) {
         // Key: 存放包括私钥和公钥的信息
         // Trust: 只存放受信任的公钥信息
         Vertx vertx = Vertx.vertx();
-        httpsServer = vertx.createHttpServer(new HttpServerOptions()
+        HttpServerOptions httpServerOptions = new HttpServerOptions()
                 .setSsl(true)
                 // setKeyStoreOptions: 使用jks
                 // setPemKeyCertOptions: 使用pem, 可以分别设置证书和私钥
@@ -149,26 +190,33 @@ public class HttpsTest {
                         // https-server.jks带有Subject Alternative Names
                         .setPath("https-server.jks")
                         .setPassword("123456")
-                )
-                // https双向验证, 开启验证客户端的证书
-                //@see sun.security.ssl.X509TrustManagerImpl#checkClientTrusted(X509Certificate[], String, javax.net.ssl.SSLEngine)
-                .setClientAuth(ClientAuth.REQUIRED)
-                // 服务端还需要配置客户端证书
-                // 这边可以直接使用JksOptions直接配置客户端的jks
-                // .setTrustStoreOptions(new JksOptions()
-                // .setPath("demo-java.jks")
-                // .setPassword("123456"))
-                // 只有客户端证书的话, 也可以使用PemTrustOptions直接配置客户端的公钥证书
-                .setPemTrustOptions(new PemTrustOptions()
-                        .addCertPath("demo-java-cert.pem")
-                ));
+                );
+        if (clientAuth) {
+            httpServerOptions
+                    // https双向验证, 开启验证客户端的证书
+                    //@see sun.security.ssl.X509TrustManagerImpl#checkClientTrusted(X509Certificate[], String, javax.net.ssl.SSLEngine)
+                    .setClientAuth(ClientAuth.REQUIRED)
+                    // 服务端还需要配置客户端证书
+                    // 这边可以直接使用JksOptions直接配置客户端的jks
+                    // .setTrustStoreOptions(new JksOptions()
+                    // .setPath("demo-java.jks")
+                    // .setPassword("123456"))
+                    // 只有客户端证书的话, 也可以使用PemTrustOptions直接配置客户端的公钥证书
+                    .setPemTrustOptions(new PemTrustOptions()
+                            .addCertPath("demo-java-cert.pem")
+                    );
+        }
+
+        httpsServer = vertx.createHttpServer(httpServerOptions);
         Router router = Router.router(vertx);
         router.route().handler(ctx -> ctx.response().end("Hello, HTTPS World!"));
         httpsServer.requestHandler(router).listen(8443);
     }
 
-    @AfterAll
-    public static void closeHttpsServer() {
+    @AfterEach
+    public void afterEach() {
         httpsServer.close();
+        Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME);
+        Security.removeProvider(BouncyCastleJsseProvider.PROVIDER_NAME);
     }
 }
