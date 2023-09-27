@@ -17,8 +17,10 @@ public class CryptoTest {
 
     /**
      * AES算法
-     * 分组加密算法, 默认块大小为16字节
-     * 明文(包括填充)的长度跟密文的长度是一样的, 都是16字节的倍数
+     * 分组加密算法, 块大小为16字节: 分块后的每一块的明文和密文都是16字节, 因此,明文(包括填充部分)需要是16字节的倍数
+     * AES128: 密钥: 128位(16字节), 加密轮次: 10轮
+     * AES192: 密钥: 192位(24字节), 加密轮次: 12轮
+     * AES256: 密钥: 256位(32字节), 加密轮次: 14轮
      *
      * @throws Exception exception
      * @see CryptoTest#testCipherModePadding()
@@ -26,7 +28,7 @@ public class CryptoTest {
     @Test
     public void testAES() throws Exception {
         String plainText = "hello world";
-        // 密码需要是128位(16字节),192位(24字节)或256位(32字节)
+        // 密码128位(AES128,16字节),192位(AES192,24字节)或256位(AES256,32字节)
         byte[] password = "1234567812345678".getBytes();
         SecretKeySpec secretKeySpec = new SecretKeySpec(password, "AES");
         // See CipherTest#testCipherModePadding()
@@ -46,8 +48,7 @@ public class CryptoTest {
 
     /**
      * DES算法, 已经不再安全
-     * 分组加密算法, 默认块大小为8字节
-     * 明文(包括填充)的长度跟密文的长度是一样的, 都是8字节的倍数
+     * 分组加密算法, 块大小为8字节: 分块后的每一块的明文和密文都是8字节, 因此,明文(包括填充部分)需要是8字节的倍数
      *
      * @throws Exception exception
      */
@@ -74,8 +75,7 @@ public class CryptoTest {
     /**
      * 3DES(又称为DESede/Triple-DES/DES-EDE)算法
      * 本质还是DES算法, 对每个分组使用各自密钥进行3次DES加密, 因此它的密钥长度是DES的3倍
-     * 分组加密算法, 默认块大小为8字节
-     * 明文(包括填充)的长度跟密文的长度是一样的, 都是8字节的倍数
+     * 分组加密算法, 块大小为8字节:分块后的每一块的明文和密文都是8字节, 因此,明文(包括填充部分)需要是8字节的倍数
      *
      * @throws Exception exception
      */
@@ -174,6 +174,7 @@ public class CryptoTest {
         cipher.init(Cipher.ENCRYPT_MODE, key, params);
         // doFinal支持部分加解密, see CipherTest#testPartial()
         byte[] encryptedBytes = cipher.doFinal(plainText.getBytes());
+        System.out.println("length:" + encryptedBytes.length);
         String encryptedText = Base64.getEncoder().encodeToString(encryptedBytes);
         System.out.println("encryptedText: " + encryptedText);
         return encryptedText;
