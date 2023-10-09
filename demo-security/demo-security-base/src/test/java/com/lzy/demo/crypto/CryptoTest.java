@@ -3,11 +3,12 @@ package com.lzy.demo.crypto;
 import org.junit.jupiter.api.Test;
 
 import javax.crypto.Cipher;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.ByteBuffer;
 import java.security.Key;
+import java.security.SecureRandom;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.Base64;
 
@@ -33,16 +34,62 @@ public class CryptoTest {
         SecretKeySpec secretKeySpec = new SecretKeySpec(password, "AES");
         // See CipherTest#testCipherModePadding()
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        // CBC需要此参数, 数组长度为加密算法的块大小
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(new byte[16]);
+        // iv是初始向量, CBC要求iv长度为加密算法的块大小
+        // 作用是让相同的明文加密后有不同的密文
+        // iv并不需要保密, 可以附加到密文上的, 这边是直接使用相同的IvParameterSpec
+        byte[] iv = new byte[16];
+        new SecureRandom().nextBytes(iv);
+        AlgorithmParameterSpec params = new IvParameterSpec(iv);
 
         // 加密
-        String encryptedText = encrypt(cipher, secretKeySpec, ivParameterSpec, plainText);
+        String encryptedText = encrypt(cipher, secretKeySpec, params, plainText);
 
         // 解密
-        String decryptedText = decrypt(cipher, secretKeySpec, ivParameterSpec, encryptedText);
+        String decryptedText = decrypt(cipher, secretKeySpec, params, encryptedText);
 
         assertEquals(plainText, decryptedText);
+    }
+
+    /**
+     * AES的GCM(Galois/Counter Mode)模式
+     * G指的是GMAC(Galois Message Authentication Code),使用Galois Field来计算消息的MAC值
+     * C指的是CTR(分组加解密的一种模式)
+     * 因此GCM不止可以加密,还有MAC的认证功能
+     *
+     * @throws Exception exception
+     */
+    @Test
+    public void testAESGCM() throws Exception {
+        String plainText = "hello world";
+        // 密码128位(AES128,16字节),192位(AES192,24字节)或256位(AES256,32字节)
+        byte[] password = "1234567812345678".getBytes();
+        SecretKeySpec key = new SecretKeySpec(password, "AES");
+        // See CipherTest#testCipherModePadding()
+        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+
+        // iv是初始向量, GCM模式长度推荐为12字节, 是随机生成的
+        byte[] iv = new byte[12];
+        new SecureRandom().nextBytes(iv);
+
+        // tag的长度, 这边为128位(16字节)
+        AlgorithmParameterSpec params = new GCMParameterSpec(128, iv);
+
+        cipher.init(Cipher.ENCRYPT_MODE, key, params);
+
+        byte[] encryptedBytes = cipher.doFinal(plainText.getBytes());
+        // 将iv添加到密文前面
+        encryptedBytes = ByteBuffer.allocate(iv.length + encryptedBytes.length)
+                .put(iv).put(encryptedBytes).array();
+
+        // 密文的前12字节为iv
+        params = new GCMParameterSpec(128, encryptedBytes, 0, 12);
+
+        cipher.init(Cipher.DECRYPT_MODE, key, params);
+
+        // 去掉前12位iv后, 才是真正的密文
+        byte[] decryptedBytes = cipher.doFinal(encryptedBytes, 12, encryptedBytes.length - 12);
+
+        assertEquals(plainText, new String(decryptedBytes));
     }
 
 
@@ -109,18 +156,18 @@ public class CryptoTest {
      */
     @Test
     public void testCipherModePadding() throws Exception {
-        // 明文需要是8字节的倍数,不符合需要手动填充
+        // 明文需要是加密算法分块大小的倍数,不符合需要手动填充
         String plainText = "1234567812345678";
-        byte[] password = "12345678".getBytes();
-        Key key = SecretKeyFactory.getInstance("DES").generateSecret(new DESKeySpec(password));
+        byte[] password = "1234567812345678".getBytes();
+        SecretKeySpec key = new SecretKeySpec(password, "AES");
 
         // DES: 加密算法
         // CipherMode: 默认为ECB
         //   ECB: 将明文分割成块,然后分别对每个块进行独立的加密,不推荐使用, 可以使用CBC
         //   CBC: 将前一块的密文跟当前块的明文进行异或,再进行加密
         // Padding: 默认为PKCS5Padding, See com.sun.crypto.provider.CipherCore
-        //   NoPadding: 不进行填充, 要求明文是8字节的倍数
-        Cipher cipher = Cipher.getInstance("DES/ECB/NoPadding");
+        //   NoPadding: 不进行填充, 要求明文是加密算法分块大小的倍数
+        Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
 
         // 加密
         String encryptedText = encrypt(cipher, key, null, plainText);
@@ -170,7 +217,7 @@ public class CryptoTest {
     }
 
     private String encrypt(Cipher cipher, Key key, AlgorithmParameterSpec params, String plainText) throws Exception {
-        // CBC模式需要此参数, ECB不需要, 可以不会给init方法
+        // CBC/GCM模式需要iv参数, ECB不需要
         cipher.init(Cipher.ENCRYPT_MODE, key, params);
         // doFinal支持部分加解密, see CipherTest#testPartial()
         byte[] encryptedBytes = cipher.doFinal(plainText.getBytes());
