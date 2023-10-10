@@ -21,8 +21,8 @@ public class SocketChannelTest {
         serverSocketChannel.configureBlocking(false);
         serverSocketChannel.bind(new InetSocketAddress(9999));
         Selector selector = Selector.open();
-        // 注册accept事件
-        serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+        // 注册accept事件, 同时添加attachment, 这样当serverSocketChannel有SelectionKey时, 它的SelectionKey可以拿到此attachment
+        serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT, serverSocketChannel);
         System.out.println("server start");
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
         while (true) {
@@ -36,10 +36,12 @@ public class SocketChannelTest {
                 if (selectionKey.isAcceptable()) {
                     //相当于SocketChannel client = ((ServerSocketChannel) selectionKey.channel()).accept();
                     SocketChannel client = serverSocketChannel.accept();
+                    // 这边可以拿attachment, 这个attachment是serverSocketChannel
+                    System.out.println("same server attachment: " + (serverSocketChannel == selectionKey.attachment()));
                     System.out.println("Accept connection from: " + client);
                     client.configureBlocking(false);
-                    //连接进来的client注册到selector,注册读事件
-                    client.register(selector, SelectionKey.OP_READ);
+                    //连接进来的client注册到selector,注册读事件, 同时添加attachment
+                    client.register(selector, SelectionKey.OP_READ, client);
                     // 这个线程就用来模拟服务端保存了客户端的channel,然后主动向客户端发送信息
                     new Thread(() -> {
                         sleep(3000);
@@ -57,6 +59,10 @@ public class SocketChannelTest {
                     //client端调用Channel#close()也会进入这个方法,只不过SocketChannel#read()的返回值是-1
                     //因此在这里,如果返回值为-1时,就需要关闭SocketChannel
                     SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
+
+                    // 这边可以拿attachment, 这个attachment是client
+                    System.out.println("same client attachment: " + (socketChannel == selectionKey.attachment()));
+
                     byteBuffer.clear();
                     int read = socketChannel.read(byteBuffer);
                     if (read == -1) {
@@ -113,7 +119,7 @@ public class SocketChannelTest {
         // 非阻塞
         socketChannel.configureBlocking(false);
         Selector selector = Selector.open();
-        socketChannel.register(selector, SelectionKey.OP_CONNECT);
+        socketChannel.register(selector, SelectionKey.OP_CONNECT, socketChannel);
         //非阻塞模式下返回false,不论连接是否成功建立
         socketChannel.connect(new InetSocketAddress("127.0.0.1", 9999));
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
@@ -123,11 +129,14 @@ public class SocketChannelTest {
             Iterator<SelectionKey> iterator = selectionKeys.iterator();
             while (iterator.hasNext()) {
                 SelectionKey selectionKey = iterator.next();
+
+                // 这边可以拿attachment, 这个attachment是serverSocketChannel
+                System.out.println("same attachment: " + (socketChannel == selectionKey.attachment()));
                 if (selectionKey.isConnectable()) {
                     //这里需要使用finishConnect来判断连接是否成功建立
                     if (socketChannel.finishConnect()) {
                         System.out.println("connect");
-                        socketChannel.register(selector, SelectionKey.OP_READ);
+                        socketChannel.register(selector, SelectionKey.OP_READ, socketChannel);
                         byteBuffer.put("hello world".getBytes());
                         byteBuffer.flip();
                         socketChannel.write(byteBuffer);
