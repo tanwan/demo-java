@@ -51,10 +51,50 @@ public class CryptoTest {
     }
 
     /**
+     * CipherMode和Padding
+     * 获取Cipher实例时传入的transformation一般由三个部分组成: AES/ECB/NoPadding
+     * AES: 加密算法
+     * CipherMode: 默认为ECB
+     *    ECB(The Electronic Codebook Mode): 将明文分割成块,然后分别对每个块进行独立的加密,不安全
+     *    CBC(The Cipher Block Chaining Mode): 将前一块的密文跟当前块的明文进行异或,再进行加密, 第一块跟iv进行异或
+     *    CTR(The Counter Mode): 不需要填充
+     *    GCM(The Galois/Counter Mode): 不需要填充, 是一种AEAD(Authenticated Encryption with Associated Data)
+     *                                  对称加密算法无法判断密钥是否正确, 因此密文可以使用任何密钥执行解密运算,得到的明文也就无法得知是否正确
+     *                                  AEAD在单纯的加密算法之上, 还加入了验证, 因此可以判断解密过程是否正确
+     *    CFB(The Cipher Feedback Mode):
+     *    OFB(The Output Feedback Mode):
+     * Padding: 默认为PKCS5Padding, See com.sun.crypto.provider.CipherCore
+     *    NoPadding: 不进行填充, 要求明文是加密算法分块大小的倍数
+     *    PKCS5Padding: 填充的每个字节的值都是缺的字节数,只支持8字节的填充
+     *                  比如:[0x41]=>[0x41,0x07,0x07,0x07,0x07,0x07,0x07,0x07]
+     *                  特别的是当明文已经是8字节的整数倍时, 也还是需要进行填充, 填充内容为8个0x08, 为了解决判断解密后的原文的末尾是否是填充数据
+     *    PKCS7Padding: 跟PKCS5Padding一样,支持1-255字节的填充, 不过JDK还不支持PKCS7Padding
+     *
+     * @throws Exception exception
+     */
+    @Test
+    public void testCipherModePadding() throws Exception {
+        // 明文需要是加密算法分块大小的倍数,不符合需要手动填充
+        String plainText = "1234567812345678";
+        byte[] password = "1234567812345678".getBytes();
+        SecretKeySpec key = new SecretKeySpec(password, "AES");
+
+        Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
+
+        // 加密
+        String encryptedText = encrypt(cipher, key, null, plainText);
+
+        // 解密
+        String decryptedText = decrypt(cipher, key, null, encryptedText);
+
+        assertEquals(plainText, decryptedText);
+    }
+
+    /**
      * AES的GCM(Galois/Counter Mode)模式
      * G指的是GMAC(Galois Message Authentication Code),使用Galois Field来计算消息的MAC值
      * C指的是CTR(分组加解密的一种模式)
-     * 因此GCM不止可以加密,还有MAC的认证功能
+     * 因此GCM不止可以加密,还有MAC的认证功能,可以保证密文的完整性
      *
      * @throws Exception exception
      */
@@ -151,35 +191,6 @@ public class CryptoTest {
     }
 
     /**
-     * CipherMode和Padding
-     *
-     * @throws Exception exception
-     */
-    @Test
-    public void testCipherModePadding() throws Exception {
-        // 明文需要是加密算法分块大小的倍数,不符合需要手动填充
-        String plainText = "1234567812345678";
-        byte[] password = "1234567812345678".getBytes();
-        SecretKeySpec key = new SecretKeySpec(password, "AES");
-
-        // DES: 加密算法
-        // CipherMode: 默认为ECB
-        //   ECB: 将明文分割成块,然后分别对每个块进行独立的加密,不推荐使用, 可以使用CBC
-        //   CBC: 将前一块的密文跟当前块的明文进行异或,再进行加密
-        // Padding: 默认为PKCS5Padding, See com.sun.crypto.provider.CipherCore
-        //   NoPadding: 不进行填充, 要求明文是加密算法分块大小的倍数
-        Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
-
-        // 加密
-        String encryptedText = encrypt(cipher, key, null, plainText);
-
-        // 解密
-        String decryptedText = decrypt(cipher, key, null, encryptedText);
-
-        assertEquals(plainText, decryptedText);
-    }
-
-    /**
      * 部分加解密
      *
      * @throws Exception exception
@@ -232,7 +243,8 @@ public class CryptoTest {
         // CBC模式需要此参数, ECB不需要, 可以不会给init方法
         cipher.init(Cipher.DECRYPT_MODE, key, params);
         // doFinal支持部分加解密, see CipherTest#testPartial()
-        byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedText));
+        byte[] encryptedBytes = Base64.getDecoder().decode(encryptedText);
+        byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
         String decryptedText = new String(decryptedBytes);
         System.out.println("decryptedText: " + decryptedText);
         return decryptedText;
