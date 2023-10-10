@@ -68,6 +68,7 @@ public class CryptoTest {
         Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
 
         // iv是初始向量, GCM模式长度推荐为12字节, 是随机生成的
+        // 对于同一个cipher实例, gcm的iv是一次性的, 使用同一个cipher实例多次加密的话, iv都需要重新生成
         byte[] iv = new byte[12];
         new SecureRandom().nextBytes(iv);
 
