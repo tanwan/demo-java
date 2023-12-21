@@ -1,4 +1,3 @@
-//plugins已经在settings.gradle配置了版本
 plugins {
     //see https://flywaydb.org/documentation/usage/gradle/
     id 'org.flywaydb.flyway' version "$flywayPluginVersion"
@@ -33,7 +32,7 @@ dependencies {
 
     //mybatis plus
     implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: project['mybatis-plus-boot.version']
-    implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: project['mybatis-plus-generator.version']
+    implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: project['mybatis-plus-boot.version']
 
     //spring data jpa
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'

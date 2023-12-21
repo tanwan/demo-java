@@ -243,7 +243,9 @@ public class AuthorizationServerConfiguration {
      */
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
-        return AuthorizationServerSettings.builder().build();
+        return AuthorizationServerSettings.builder()
+                .issuer("http://www.tanwan.com")
+                .build();
     }
 
 }

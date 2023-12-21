@@ -15,12 +15,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.Test;
 
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyStore;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
@@ -45,11 +47,11 @@ public class JWTTest {
         // HS256算法要求密码要大于256位
         byte[] password = "12345678901234567890123456789012".getBytes(StandardCharsets.UTF_8);
 
-        Key key = new SecretKeySpec(password, SignatureAlgorithm.HS256.getJcaName());
+        //Jwts.SIG.HS256.key().build(); 不能指定key
+        Key key =  new SecretKeySpec(password,  SignatureAlgorithm.HS256.getJcaName());
         // 使用jjwt生成jwt
         String jwt = generateJWT(key);
         System.out.println(jwt);
-
         // 使用jose生成jwt
         String jwtUseJOSE = generateJWTUseJOSE(new MACSigner(password), JWSAlgorithm.HS256);
         System.out.println(jwtUseJOSE);
@@ -147,25 +149,26 @@ public class JWTTest {
 
 
     private String generateJWT(Key key) {
-        Claims claims = Jwts.claims();
-        claims.put("k1", "v1");
-        claims.put("k2", "v2");
+        Claims claims = Jwts.claims()
+                .add("k1", "v1")
+                .add("k2", "v2")
+                .build();
         // 生成jwt
         return Jwts.builder()
                 // jwt签发者(预定义声明)
-                .setIssuer("issuser")
+                .issuer("issuser")
                 // jwt所面向的用户(预定义声明)
-                .setSubject("test subject")
+                .subject("test subject")
                 // 接收jwt的一方(预定义声明)
-                .setAudience("test aud")
+                .audience().add("test aud").and()
                 // jwt的唯一身份标识,主要用来作为一次性token,从而避免重放攻击(预定义声明)
-                .setId(UUID.randomUUID().toString())
+                .id(UUID.randomUUID().toString())
                 // jwt签发时间(预定义声明)
-                .setIssuedAt(new Date())
+                .issuedAt(new Date())
                 // jwt过期时间(预定义声明)
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 5))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 5))
                 // 添加公共声明
-                .addClaims(claims)
+                .claims(claims)
                 // 设置密钥
                 .signWith(key)
                 .compact();
@@ -184,11 +187,25 @@ public class JWTTest {
     }
 
     private Claims parserJWT(String jwt, Key key) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
+        if (key instanceof PublicKey) {
+            return Jwts.parser()
+                    .verifyWith((PublicKey) key)
+                    .build()
+                    .parseSignedClaims(jwt)
+                    .getPayload();
+        }
+        if (key instanceof SecretKey) {
+            return Jwts.parser()
+                    .verifyWith((SecretKey) key)
+                    .build()
+                    .parseSignedClaims(jwt)
+                    .getPayload();
+        }
+        return Jwts.parser()
+                .decryptWith((PrivateKey) key)
                 .build()
-                .parseClaimsJws(jwt)
-                .getBody();
+                .parseSignedClaims(jwt)
+                .getPayload();
     }
 
     private JWTClaimsSet parserJWTUseJOSE(String jwt, JWSVerifier jwsVerifier) throws Exception {

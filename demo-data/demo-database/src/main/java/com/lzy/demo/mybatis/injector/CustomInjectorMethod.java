@@ -8,6 +8,10 @@ import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.scripting.defaults.RawSqlSource;
 
 public class CustomInjectorMethod extends AbstractMethod {
+    protected CustomInjectorMethod() {
+        super("customInjectorMethod");
+    }
+
     /**
      * {@inheritDoc}
      *
@@ -22,6 +26,6 @@ public class CustomInjectorMethod extends AbstractMethod {
                 tableInfo.getTableName(), tableInfo.getKeyColumn(), tableInfo.getKeyProperty(),
                 // 逻辑删除
                 tableInfo.getLogicDeleteSql(true, false)), Object.class);
-        return this.addSelectMappedStatementForTable(mapperClass, "customInjectorMethod", sqlSource, tableInfo);
+        return this.addSelectMappedStatementForTable(mapperClass, methodName, sqlSource, tableInfo);
     }
 }

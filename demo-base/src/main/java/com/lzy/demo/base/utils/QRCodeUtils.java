@@ -82,9 +82,8 @@ public class QRCodeUtils {
      * @param border   图像边框
      * @param padding  边框往外的一层
      * @return the radius
-     * @throws IOException the io exception
      */
-    private static BufferedImage roundRect(BufferedImage srcImage, int radius, int border, int padding) throws IOException {
+    private static BufferedImage roundRect(BufferedImage srcImage, int radius, int border, int padding) {
         int width = srcImage.getWidth();
         int height = srcImage.getHeight();
         int canvasWidth = width + padding * 2;

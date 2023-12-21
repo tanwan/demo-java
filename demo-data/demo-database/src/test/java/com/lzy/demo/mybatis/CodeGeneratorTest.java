@@ -54,7 +54,7 @@ public class CodeGeneratorTest {
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig.Builder()
                 //使用默认的文件mybatis-plus-generator包下的templates/mapper.xml.ftl
-                .mapperXml("/templates/mapper.xml")
+                .xml("/templates/mapper.xml")
                 //配置自定义输出模板
                 //指定自定义模板路径,不要带上.ftl/.vm,会根据使用的模板引擎自动识别
                 //这边使用的是类路径下的entity.java.ftl文件,参考(mybatis-plus-generator包下的templates/entity.java.ftl)

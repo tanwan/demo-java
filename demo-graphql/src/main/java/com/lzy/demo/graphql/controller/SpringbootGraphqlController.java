@@ -32,12 +32,12 @@ public class SpringbootGraphqlController {
     }
 
     @QueryMapping
-    public SimpleEntity arguments(@Argument Integer integer, @Argument String str, GraphQLContext context) {
+    public SimpleEntity arguments(@Argument("integer") Integer integer, @Argument("str") String str, GraphQLContext context) {
         return new SimpleEntity(1L, integer, "SpringbootGraphqlController#arguments:" + str);
     }
 
     @QueryMapping
-    public SimpleEntity argumentsWithType(@Argument SimpleRequest request) {
+    public SimpleEntity argumentsWithType(@Argument("request") SimpleRequest request) {
         return new SimpleEntity(request.getId(), 23, "SpringbootGraphqlController#argumentsWithType:" + request.getStr(), request.getDateTime(), request.getCommonDateTime());
     }
 
@@ -48,7 +48,7 @@ public class SpringbootGraphqlController {
      * @return SimpleEntity
      */
     @MutationMapping
-    public SimpleEntity simpleMutation(@Argument SimpleRequest request) {
+    public SimpleEntity simpleMutation(@Argument("request") SimpleRequest request) {
         return new SimpleEntity(request.getId(), 23, request.getStr());
     }
 

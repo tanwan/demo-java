@@ -1,6 +1,5 @@
 package com.lzy.demo.io.http;
 
-import com.lzy.demo.io.blade.BladeApplication;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.junit.jupiter.api.AfterAll;
@@ -17,20 +16,21 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Disabled("blade不支持java17,所以这边先排除掉,如果要运行的话,则这边需要降为java8,同时springboot需要使用2.7")
 public class JerseyClientTest {
 
     private static final Integer PORT = 19002;
 
     private static final String HOST = "http://127.0.0.1:" + PORT;
 
-    private static BladeApplication bladeApplication = new BladeApplication(PORT);
+    private static ServerApplication serverApplication = new ServerApplication(PORT);
 
     private Client client = ClientBuilder.newClient();
 
@@ -38,14 +38,14 @@ public class JerseyClientTest {
 
     @BeforeAll
     public static void startApplication() throws InterruptedException {
-        bladeApplication.start();
-        // 等待blade启动
+        serverApplication.startServer();
+        // 等待server启动
         Thread.sleep(500);
     }
 
     @AfterAll
     public static void stopApplication() {
-        bladeApplication.stop();
+        serverApplication.stop();
     }
 
 
@@ -153,12 +153,14 @@ public class JerseyClientTest {
     @Test
     public void testCookie() {
         WebTarget webTarget = rootWebTarget.path("/rest/cookie");
-        Response response = webTarget.request().cookie("cookieKey", "cookie value").get();
+        String requestCookie = URLEncoder.encode("cookie value", StandardCharsets.UTF_8);
+        String responseCookie = URLEncoder.encode("add cookie value", StandardCharsets.UTF_8);
+        Response response = webTarget.request().cookie("cookieKey", requestCookie).get();
         Map<String, Object> body = response.readEntity(new GenericType<Map<String, Object>>() {
         });
         System.out.println(body);
-        assertEquals("cookie value", body.get("cookieKey"));
-        assertEquals("add cookie value", response.getCookies().get("addCookie").getValue());
+        assertEquals(requestCookie, body.get("cookieKey"));
+        assertEquals(responseCookie, response.getCookies().get("addCookie").getValue());
     }
 
 

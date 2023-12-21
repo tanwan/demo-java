@@ -2,6 +2,7 @@ package com.lzy.demo.shiro.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -34,9 +35,9 @@ public class JwtShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         JwtToken jwtToken = (JwtToken) token;
         try {
-            Claims claims = Jwts.parserBuilder().setSigningKey(JwtUtils.PASSWORD).build()
-                    .parseClaimsJws(jwtToken.getPrincipal().toString())
-                    .getBody();
+            Claims claims = Jwts.parser().verifyWith(Keys.hmacShaKeyFor(JwtUtils.PASSWORD)).build()
+                    .parseSignedClaims(jwtToken.getPrincipal().toString())
+                    .getPayload();
             String username = claims.getSubject();
             Integer userId = (Integer) claims.get("userId");
             Set<String> roleSet = StringUtils.commaDelimitedListToSet(Optional.ofNullable(claims.get("roles")).map(Object::toString).orElse(""));

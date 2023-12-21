@@ -6,6 +6,6 @@ dependencies {
     //axon
     implementation group: 'org.axonframework', name: 'axon-spring-boot-starter', version: project['axon.version']
     testImplementation group: 'org.axonframework', name: 'axon-test', version: project['axon.version']
-
 }
+
 

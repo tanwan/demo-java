@@ -3,6 +3,7 @@ package com.lzy.demo.security.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,20 +38,20 @@ public class JwtFilter extends GenericFilterBean {
         if (StringUtils.hasLength(jwtToken)) {
             try {
                 // 注意setSigningKey如果参数是String,则会进行base64解码
-                Claims claims = Jwts.parserBuilder().setSigningKey(JwtUtils.PASSWORD)
+                Claims claims = Jwts.parser().verifyWith(Keys.hmacShaKeyFor(JwtUtils.PASSWORD))
                         .build()
-                        .parseClaimsJws(jwtToken.replace(JwtUtils.BEARER_TYPE, ""))
-                        .getBody();
+                        .parseSignedClaims(jwtToken.replace(JwtUtils.BEARER_TYPE, ""))
+                        .getPayload();
                 // 这边可以使用类似黑名单机制(往redis插入用户,过期时间为jwt的过期时间)来实现注销功能
 
 
                 // 进行续签,快过期了,重新设置过期时间,或者可以重新生成jwt
                 if (claims.getExpiration().getTime() - REFRESH_TIME < System.currentTimeMillis()) {
                     Key key = new SecretKeySpec(JwtUtils.PASSWORD, SignatureAlgorithm.HS256.getJcaName());
-                    claims.setExpiration(JwtUtils.getExpireTime());
                     String jwt = Jwts.builder()
                             .signWith(key)
-                            .setClaims(claims)
+                            .expiration(JwtUtils.getExpireTime())
+                            .claims().add(claims).and()
                             .compact();
                     HttpServletResponse resp = (HttpServletResponse) response;
                     resp.setHeader(JwtUtils.AUTHORIZATION, JwtUtils.BEARER_TYPE + " " + jwt);

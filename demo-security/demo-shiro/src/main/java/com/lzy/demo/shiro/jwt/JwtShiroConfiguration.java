@@ -1,5 +1,6 @@
 package com.lzy.demo.shiro.jwt;
 
+import jakarta.servlet.Filter;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -12,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import javax.servlet.Filter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -43,7 +43,7 @@ public class JwtShiroConfiguration {
         DbRealm dbRealm = new DbRealm();
         // 这边使用两个ShiroRealm,一个用于jwt,一个用于普通登录
         securityManager.setRealms(Arrays.asList(jwtShiroRealm, dbRealm));
-        //使用内存缓存,可以自定义使用其它缓存(实现Cache和CacheManager),使用redis的话,则用RedisCacheManager(依赖shiro-redis)
+        //使用内存缓存,可以自定义使用其它缓存,使用redis的话,则用RedisCacheManager(依赖org.crazycake:shiro-redis)
         securityManager.setCacheManager(new MemoryConstrainedCacheManager());
 
         // 为SecurityUtils设置默认的安全管理器

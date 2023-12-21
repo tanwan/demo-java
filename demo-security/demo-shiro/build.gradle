@@ -1,15 +1,13 @@
-dependencyManagement {
-    imports {
-        //shiro还不支持Jakarta APIs
-        mavenBom "org.springframework.boot:spring-boot-dependencies:2.7.3"
-    }
-}
+
 
 dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    implementation group: 'org.apache.shiro', name: 'shiro-core', version: project['shiro.version']
-    implementation group: 'org.apache.shiro', name: 'shiro-spring', version: project['shiro.version']
-    implementation group: 'org.crazycake', name: 'shiro-redis', version: project['shiro-redis.version']
+    //shiro-jakarta-ee并没有引入jakarta
+    //implementation group: 'org.apache.shiro', name: 'shiro-jakarta-ee', version: project['shiro.version']
+    //implementation group: 'org.apache.shiro', name: 'shiro-spring', version: project['shiro.version']
+    implementation("org.apache.shiro:shiro-spring:${project['shiro.version']}:jakarta")
+    //如果还是使用非jakarta版本的话,手动把非jakarta版本从gradle的缓存目录中删除
+    implementation("org.apache.shiro:shiro-web:${project['shiro.version']}:jakarta")
 
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: project['jjwt.version']
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: project['jjwt.version']

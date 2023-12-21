@@ -4,6 +4,7 @@ import com.lzy.demo.shiro.config.ShiroConfiguration;
 import com.lzy.demo.shiro.jwt.JwtUtils;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -29,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.crypto.spec.SecretKeySpec;
-import javax.servlet.http.HttpServletResponse;
 import java.security.Key;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;

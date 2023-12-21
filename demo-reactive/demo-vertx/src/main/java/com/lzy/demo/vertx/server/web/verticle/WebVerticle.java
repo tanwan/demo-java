@@ -8,7 +8,6 @@ import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.Json;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.ext.web.LanguageHeader;
 import io.vertx.ext.web.Router;
@@ -19,9 +18,9 @@ import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.sstore.LocalSessionStore;
 import io.vertx.ext.web.sstore.SessionStore;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class WebVerticle extends AbstractVerticle {
@@ -47,6 +46,9 @@ public class WebVerticle extends AbstractVerticle {
 
         //使用:+变量名,然后使用routingContext.request().getParam()获取
         router.get("/path-parameters/:parameters").handler(this::pathParameters);
+
+        //query param
+        router.get("/query-parameters").handler(this::queryParameters);
 
         //正则表达式
         //或者router.routeWithRegex("/regular/.*")
@@ -98,10 +100,10 @@ public class WebVerticle extends AbstractVerticle {
         router.route("/reroute").handler(this::reroute);
 
 
-        //子路由,这样subRoute的路径就变成了outRoute/subRoute
+        //子路由,这样subRoute的路径就变成了out-route/sub-route
         Router subRouter = Router.router(vertx);
         subRouter.route("/sub-route").handler(this::subRouter);
-        router.mountSubRouter("/out-route", subRouter);
+        router.route("/out-route/*").subRouter(subRouter);
 
         //语言
         router.route("/acceptable-languages").handler(this::acceptableLanguages);
@@ -147,6 +149,15 @@ public class WebVerticle extends AbstractVerticle {
         routingContext.response().end(parameters);
     }
 
+    /**
+     * 地址栏参数
+     *
+     * @param routingContext routingContext
+     */
+    private void queryParameters(RoutingContext routingContext) {
+        routingContext.response().end(routingContext.queryParams().toString());
+    }
+
 
     /**
      * 正则表达式
@@ -182,7 +193,7 @@ public class WebVerticle extends AbstractVerticle {
     }
 
     private void json(RoutingContext routingContext) {
-        Map map = Json.decodeValue(routingContext.getBodyAsString(), Map.class);
+        Map map = routingContext.body().asPojo(Map.class);
         routingContext.response().end(map.toString());
     }
 
@@ -224,7 +235,7 @@ public class WebVerticle extends AbstractVerticle {
      * @param routingContext routingContext
      */
     private void fileUpload(RoutingContext routingContext) {
-        Set<FileUpload> uploads = routingContext.fileUploads();
+        List<FileUpload> uploads = routingContext.fileUploads();
         routingContext.response().setChunked(true);
         System.out.println(routingContext.request().formAttributes().toString());
         for (FileUpload upload : uploads) {

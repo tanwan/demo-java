@@ -15,6 +15,7 @@ public class LoaderApplication {
      * 3.使用spring-boot的插件打包
      *
      * @param args the input arguments
+     * @see <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/executable-jar.html">executable-jar</a>
      * @throws Exception the io exception
      */
     public static void main(String[] args) throws Exception {
@@ -26,7 +27,7 @@ public class LoaderApplication {
         System.out.println(url);
         System.out.println("----------------getResources------------------");
         //获取资源的顺序是按classpath的顺序,spring-boot打的包的classpath只有自己本身,它获取的资源是嵌套jar,顺序是嵌套jar的包名hash值,排序
-        //见org.springframework.boot.loader.jar.JarFileEntries
+        //见org.springframework.boot.loader.zip.ZipContent
         Enumeration<URL> urls = LoaderApplication.class.getClassLoader().getResources("META-INF/MANIFEST.MF");
         Collections.list(urls).forEach(System.out::println);
     }

@@ -1,8 +1,7 @@
 plugins {
 
     //graphql生成java代码
-    //目前不支持springboot3,springboot3的ClassTransformer跟springboot2的包名不一样
-    //id "com.graphql_java_generator.graphql-gradle-plugin" version "$javaGraphqlGradlePluginVersion"
+    //id "com.graphql-java-generator.graphql-gradle-plugin3" version "$javaGraphqlGradlePluginVersion"
 
 
     // 生成kotlin代码,需要kotlin

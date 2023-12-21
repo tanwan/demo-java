@@ -7,6 +7,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.lzy.demo.oauth.authorization.server.config.AuthorizationServerConfiguration;
 import com.lzy.demo.oauth.authorization.server.controller.JwkSetController;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -19,6 +20,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.oauth2.server.authorization.authentication.JwtClientAssertionAuthenticationProvider;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
@@ -26,11 +31,14 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.Map;
 
 
 @SpringBootTest
@@ -157,13 +165,15 @@ public class OauthAuthorizationServerTest {
 
     /**
      * PRIVATE_KEY_JWT需要请求jwkseturl,所以这边需要确定的端口
+     * @see AuthorizationServerConfiguration#registeredClientRepository(JdbcTemplate)
      */
     @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
     @AutoConfigureMockMvc
     @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
     public static class PrivateKeyJwtTest {
+
         @Resource
-        private MockMvc mockMvc;
+        private TestRestTemplate template;
 
         /**
          * 测试PRIVATE_KEY_JWT
@@ -175,17 +185,22 @@ public class OauthAuthorizationServerTest {
             String clientId = "demo-private-key-jwt";
             // 使用client的密钥作为jws的SecretKey生成JWT
             SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.RS256), new JWTClaimsSet.Builder()
-                    // JWT需要iss(clientId),sub(clientId),aud(授权服务器的iss(ProviderSettings配置的)),exp
-                    .issuer(clientId).subject(clientId).audience("http://localhost")
+                    // JWT需要iss(clientId),sub(clientId),aud(授权服务器的iss(ProviderSettings配置的,AuthorizationServerConfiguration.authorizationServerSettings)),exp
+                    .issuer(clientId).subject(clientId).audience("http://www.tanwan.com")
                     .expirationTime(new Date(System.currentTimeMillis() + 1000 * 60 * 5))
                     .build());
             signedJWT.sign(new RSASSASigner(JwkSetController.PRIVATE_KEY_JWT_KEY_PAIR.getPrivate()));
-            mockMvc.perform(MockMvcRequestBuilders.post("/oauth2/token")
-                            .param("grant_type", "client_credentials")
-                            .param("client_id", clientId)
-                            .param("client_assertion_type", "urn:ietf:params:oauth:client-assertion-type:jwt-bearer")
-                            .param("client_assertion", signedJWT.serialize()))
-                    .andDo(MockMvcResultHandlers.print());
+
+            MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+            requestBody.add("grant_type", "client_credentials");
+            requestBody.add("client_id", clientId);
+            requestBody.add("client_assertion_type", "urn:ietf:params:oauth:client-assertion-type:jwt-bearer");
+            requestBody.add("client_assertion", signedJWT.serialize());
+
+            RequestEntity<MultiValueMap<String, String>> entity = RequestEntity.post(URI.create("/oauth2/token")).body(requestBody);
+
+            ResponseEntity<Map> response = template.exchange(entity, Map.class);
+            System.out.println(response.getBody());
         }
     }
 

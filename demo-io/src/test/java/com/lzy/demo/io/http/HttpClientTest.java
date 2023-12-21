@@ -1,6 +1,5 @@
 package com.lzy.demo.io.http;
 
-import com.lzy.demo.io.blade.BladeApplication;
 import org.apache.hc.client5.http.classic.methods.HttpDelete;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
@@ -25,18 +24,18 @@ import org.apache.hc.core5.net.URIBuilder;
 import org.apache.hc.core5.util.Timeout;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Disabled("blade不支持java17,所以这边先排除掉,如果要运行的话,则这边需要降为java8,同时springboot需要使用2.7")
 public class HttpClientTest {
 
     private CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -45,18 +44,18 @@ public class HttpClientTest {
 
     private static final String HOST = "http://127.0.0.1:" + PORT;
 
-    private static BladeApplication bladeApplication = new BladeApplication(PORT);
+    private static ServerApplication serverApplication = new ServerApplication(PORT);
 
     @BeforeAll
     public static void startApplication() throws InterruptedException {
-        bladeApplication.start();
-        // 等待blade启动
+        serverApplication.startServer();
+        // 等待server启动
         Thread.sleep(500);
     }
 
     @AfterAll
     public static void stopApplication() {
-        bladeApplication.stop();
+        serverApplication.stop();
     }
 
     /**
@@ -207,8 +206,11 @@ public class HttpClientTest {
         HttpGet httpGet = new HttpGet(HOST + "/rest/cookie");
         // 可以直接使用httpGet.addHeader(HttpHeaders.COOKIE, "cookieKey=cookie value")
         // 使用BasicCookieStore
+        String requestCookie = URLEncoder.encode("cookie value", StandardCharsets.UTF_8);
+        String responseCookie = URLEncoder.encode("add cookie value", StandardCharsets.UTF_8);
+
         BasicCookieStore cookieStore = new BasicCookieStore();
-        BasicClientCookie cookie = new BasicClientCookie("cookieKey", "cookie value");
+        BasicClientCookie cookie = new BasicClientCookie("cookieKey", requestCookie);
         // 获取设置domain
         cookie.setDomain(httpGet.getUri().getHost());
         cookieStore.addCookie(cookie);
@@ -221,13 +223,13 @@ public class HttpClientTest {
             HttpEntity entity = response.getEntity();
             String content = EntityUtils.toString(entity);
             System.out.println(content);
-            assertThat(content).contains("cookie value");
+            assertThat(content).contains(requestCookie);
             // response.getHeaders(HttpHeaders.SET_COOKIE)获得设置的cookie
             assertThat(response.getHeaders(HttpHeaders.SET_COOKIE))
-                    .anyMatch(header -> header.getValue().contains("add cookie value"));
+                    .anyMatch(header -> header.getValue().contains(responseCookie));
             // 从cookieStore获取设置的cookie
             assertThat(cookieStore.getCookies())
-                    .anyMatch(header -> header.getValue().contains("add cookie value"));
+                    .anyMatch(header -> header.getValue().contains(responseCookie));
         } catch (Exception e) {
             e.printStackTrace();
         }
