@@ -6,6 +6,7 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.net.JksOptions;
 import io.vertx.core.net.PemTrustOptions;
+import io.vertx.core.net.impl.TrustAllTrustManager;
 import io.vertx.ext.web.Router;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jsse.provider.BouncyCastleJsseProvider;
@@ -41,36 +42,15 @@ public class HttpsTest {
     private HttpServer httpsServer;
 
     /**
-     * https双向验证
+     * 单向https
      *
      * @throws Exception Exception
      */
     @Test
-    public void testTwoWayAuthentication() throws Exception {
-        SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
-
-        // Key: 证书和密钥管理, 客户端将这里存储的公钥证书发送给服务端
-        KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-        KeyStore keyStore = KeyStore.getInstance("JKS");
-        keyStore.load(getClass().getResourceAsStream("/demo-java.jks"), "123456".toCharArray());
-        keyManagerFactory.init(keyStore, "123456".toCharArray());
-        // sun.security.ssl.SunX509KeyManagerImpl
-        KeyManager[] keyManagers = keyManagerFactory.getKeyManagers();
-
-        // Trust: 客户端用来验证服务端的证书
-        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-        KeyStore serverKeyStore = KeyStore.getInstance("JKS");
-        // https-server-cert.jks是从https-server.cer转换的,只包含服务端的证书
-        serverKeyStore.load(getClass().getResourceAsStream("/https-server-cert.jks"), "123456".toCharArray());
-        trustManagerFactory.init(serverKeyStore);
-        // sun.security.ssl.X509TrustManagerImpl
-        //TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
-        TrustManager[] trustManagers = customTrustManager();
-
-        // KeyManager: https的双向验证需要用到,用来决定发送证书给服务端, 单向验证可以为null
-        // TrustManager: https用来验证服务端的证书
-        // SecureRandom: 用来生成随机数
-        sslContext.init(keyManagers, trustManagers, new SecureRandom());
+    public void testHttps() throws Exception {
+        SSLContext sslContext = SSLContext.getInstance("tlsv1.3");
+        // 单向认证时keyManagers为null
+        sslContext.init(null, new TrustAllTrustManager[]{TrustAllTrustManager.INSTANCE}, new SecureRandom());
 
         URL url = new URL("https://127.0.0.1:8443");
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
@@ -90,6 +70,47 @@ public class HttpsTest {
         Scanner scanner = new Scanner(urlConnection.getInputStream()).useDelimiter("\\A");
         System.out.println(scanner.next());
     }
+
+    /**
+     * https双向验证
+     *
+     * @throws Exception Exception
+     */
+    @Test
+    public void testTwoWayAuthentication() throws Exception {
+        SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+
+        // Key: 客户端用来加密的私钥, https双向认证使用, 可以使用javax.net.ssl.keyStore指定默认的KeyStore
+        // keyStore的jks可以有多个私钥
+        // 服务端在Server Hello的过程中会将它信任的所有客户端证书的certificate authorities(CN, OU, O, L, ST, C)发送给客户端
+        // 客户端根据certificate authorities的信息在KeyStore选择对应的私钥进行加密
+        KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        KeyStore keyStore = KeyStore.getInstance("JKS");
+        keyStore.load(getClass().getResourceAsStream("/demo-java.jks"), "123456".toCharArray());
+        keyManagerFactory.init(keyStore, "123456".toCharArray());
+        KeyManager[] keyManagers = keyManagerFactory.getKeyManagers();
+
+        // Trust: 客户端用来验证服务端的证书, 可以使用javax.net.ssl.trustStore指定默认的TrustStore
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        KeyStore serverKeyStore = KeyStore.getInstance("JKS");
+        // https-server-cert.jks是从https-server.cer转换的,只包含服务端的证书
+        serverKeyStore.load(getClass().getResourceAsStream("/https-server-cert.jks"), "123456".toCharArray());
+        trustManagerFactory.init(serverKeyStore);
+        // TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+        // 不使用TrustManagerFactory创建TrustManager, 也可以直接重写TrustManager
+        TrustManager[] trustManagers = customTrustManager();
+
+        sslContext.init(keyManagers, trustManagers, new SecureRandom());
+
+        URL url = new URL("https://127.0.0.1:8443");
+        HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+        urlConnection.setSSLSocketFactory(sslContext.getSocketFactory());
+
+        // \\A为正则\A, 表示字符串的开头(^表示一行中的开头), Scanner使用\A就可以读取整个输入流
+        Scanner scanner = new Scanner(urlConnection.getInputStream()).useDelimiter("\\A");
+        System.out.println(scanner.next());
+    }
+
 
     /**
      * bctls有自己的一套tls流程
@@ -164,7 +185,7 @@ public class HttpsTest {
 
 
     @BeforeEach
-    public void beforeEach(TestInfo testInfo) {
+    public void beforeEach(TestInfo testInfo) throws InterruptedException {
         String methodName = testInfo.getTestMethod().map(Method::getName).orElse("");
 
         if (methodName.contains("BouncyCastle")) {
@@ -178,7 +199,7 @@ public class HttpsTest {
     }
 
 
-    private void startHttpsServer(boolean clientAuth) {
+    private void startHttpsServer(boolean clientAuth) throws InterruptedException {
         // Key: 存放包括私钥和公钥的信息
         // Trust: 只存放受信任的公钥信息
         Vertx vertx = Vertx.vertx();
@@ -186,7 +207,7 @@ public class HttpsTest {
                 .setSsl(true)
                 // setKeyStoreOptions: 使用jks
                 // setPemKeyCertOptions: 使用pem, 可以分别设置证书和私钥
-                .setKeyStoreOptions(new JksOptions()
+                .setKeyCertOptions(new JksOptions()
                         // https-server.jks带有Subject Alternative Names
                         .setPath("https-server.jks")
                         .setPassword("123456")
@@ -197,12 +218,12 @@ public class HttpsTest {
                     //@see sun.security.ssl.X509TrustManagerImpl#checkClientTrusted(X509Certificate[], String, javax.net.ssl.SSLEngine)
                     .setClientAuth(ClientAuth.REQUIRED)
                     // 服务端还需要配置客户端证书
-                    // 这边可以直接使用JksOptions直接配置客户端的jks
-                    // .setTrustStoreOptions(new JksOptions()
+                    // 这边可以直接使用JksOptions直接配置客户端的jks, 这边的jks可以存在多个公钥, 服务端会把所有的公钥证书的certificate authorities发给客户端
+                    // .setTrustOptions(new JksOptions()
                     // .setPath("demo-java.jks")
                     // .setPassword("123456"))
                     // 只有客户端证书的话, 也可以使用PemTrustOptions直接配置客户端的公钥证书
-                    .setPemTrustOptions(new PemTrustOptions()
+                    .setTrustOptions(new PemTrustOptions()
                             .addCertPath("demo-java-cert.pem")
                     );
         }
@@ -211,6 +232,7 @@ public class HttpsTest {
         Router router = Router.router(vertx);
         router.route().handler(ctx -> ctx.response().end("Hello, HTTPS World!"));
         httpsServer.requestHandler(router).listen(8443);
+        Thread.sleep(1000L);
     }
 
     @AfterEach
