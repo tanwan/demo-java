@@ -72,7 +72,7 @@ subprojects {
     repositories {
         mavenLocal()
         //阿里云镜像
-//        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
         mavenCentral()
         maven {
             url 'https://repo.spring.io/milestone'
