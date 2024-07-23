@@ -1,4 +1,4 @@
-package com.lzy.demo.design.pattern.proxy.dynamic;
+package com.lzy.demo.design.pattern.proxy.jdk;
 
 import com.lzy.demo.design.pattern.proxy.Subject;
 

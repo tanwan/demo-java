@@ -3,7 +3,8 @@ package com.lzy.demo.design.pattern;
 import com.lzy.demo.design.pattern.proxy.Subject;
 import com.lzy.demo.design.pattern.proxy.cglib.CglibProxy;
 import com.lzy.demo.design.pattern.proxy.cglib.LazyLoaderBean;
-import com.lzy.demo.design.pattern.proxy.dynamic.JdkProxy;
+import com.lzy.demo.design.pattern.proxy.jdk.ExceptionHandle;
+import com.lzy.demo.design.pattern.proxy.jdk.JdkProxy;
 import com.lzy.demo.design.pattern.proxy.statics.RealSubject;
 import com.lzy.demo.design.pattern.proxy.statics.StaticProxy;
 import net.sf.cglib.proxy.Callback;
@@ -15,16 +16,24 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.lang.reflect.UndeclaredThrowableException;
+import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * 代理模式测试, 启动需要添加--add-opens java.base/java.lang=ALL-UNNAMED
+ * 代理模式测试
+ * cglib启动需要添加--add-opens java.base/java.lang=ALL-UNNAMED
+ * jdk代理如果需要保存动态生成的类,需要使用-Djdk.proxy.ProxyGenerator.saveGeneratedFiles=true,文件保存在当前模块的jdk/proxyX/$proxyX
+ * 保存的逻辑在java.lang.reflect.ProxyGenerator#generateProxyClass
  *
  * @author LZY
  * @version v1.0
+ * @see java.lang.reflect.ProxyGenerator#generateProxyClass(java.lang.ClassLoader, java.lang.String, java.util.List, int)
  */
 public class ProxyTest {
 
@@ -69,6 +78,52 @@ public class ProxyTest {
         //需要调用带有InvocationHandler的构造函数
         Subject subjectProxy = constructor.newInstance(new JdkProxy(realSubject));
         subjectProxy.operation();
+    }
+
+    /**
+     * 测试jdk动态代理的异常处理
+     *
+     * @throws Exception Exception
+     */
+    @Test
+    public void testJdkProxyException() throws Exception {
+        ExceptionHandle.Subject realSubject = new ExceptionHandle.RealSubject();
+        // 不抛出真实的cause
+        ExceptionHandle.Subject proxy = ExceptionHandle.ExceptionHandleProxy.getProxy(realSubject, false);
+
+        // 接口声明了Exception,直接抛出InvocationTargetException
+        assertThatThrownBy(proxy::declareThrowException).isExactlyInstanceOf(InvocationTargetException.class);
+
+        // 接口声明了UndeclaredThrowableException,抛出UndeclaredThrowableException, 并且SQLException被InvocationTargetException和UndeclaredThrowableException包装了
+        assertThatThrownBy(proxy::declareThrowSQLException)
+                .isExactlyInstanceOf(UndeclaredThrowableException.class)
+                .hasCauseInstanceOf(InvocationTargetException.class)
+                .hasRootCauseInstanceOf(SQLException.class);
+
+        // 接口声明了InvocationTargetException,直接抛出InvocationTargetException, 并且被InvocationTargetException包装了一层
+        assertThatThrownBy(proxy::declareThrowInvocationTargetException)
+                .isExactlyInstanceOf(InvocationTargetException.class)
+                .hasCauseInstanceOf(InvocationTargetException.class);
+
+        // 接口声明了IllegalAccessException,但是实际上抛出了SQLException, 所以最终是UndeclaredThrowableException
+        assertThatThrownBy(proxy::throwSQLExceptionInInvoke).isExactlyInstanceOf(UndeclaredThrowableException.class);
+
+        // 抛出真实cause
+        proxy = ExceptionHandle.ExceptionHandleProxy.getProxy(realSubject, true);
+
+        // 接口声明了Exception, invoke抛出真实的SQLException
+        assertThatThrownBy(proxy::declareThrowException).isExactlyInstanceOf(SQLException.class);
+
+        // 接口声明了SQLException, invoke抛出真实的SQLException
+        assertThatThrownBy(proxy::declareThrowSQLException).isExactlyInstanceOf(SQLException.class);
+
+        // 接口声明了InvocationTargetException, invoke抛出真实的InvocationTargetException,没有再被InvocationTargetException包装一层
+        assertThatThrownBy(proxy::declareThrowInvocationTargetException)
+                .isExactlyInstanceOf(InvocationTargetException.class)
+                .hasCauseInstanceOf(SQLException.class);
+
+        // 接口声明了IllegalAccessException, invoke抛出SQLException, 最终是UndeclaredThrowableException
+        assertThatThrownBy(proxy::throwSQLExceptionInInvoke).isExactlyInstanceOf(UndeclaredThrowableException.class);
     }
 
 
