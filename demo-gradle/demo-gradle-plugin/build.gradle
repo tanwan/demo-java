@@ -12,6 +12,7 @@ test {
     onlyIf { false }
 }
 
+// gradle如果只在一个项目中使用的话,可以直接使用buildSrc(https://docs.gradle.org/current/userguide/organizing_gradle_projects.html#sec:build_sources)
 gradlePlugin {
     plugins {
         simpleGroovyPlugin {

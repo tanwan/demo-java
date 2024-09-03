@@ -1,17 +1,15 @@
 dependencies{
-    //spring messaging
-    implementation group: 'org.springframework', name: 'spring-messaging'
-    //spring rabbit
-    implementation group: 'org.springframework.amqp', name: 'spring-rabbit'
+    implementation libs.spring.messaging
 
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter'
+    implementation libs.spring.rabbit
 
-    //spring boot test
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    implementation libs.spring.boot.starter
 
-    implementation group: 'org.apache.kafka', name: 'kafka-clients'
+    testImplementation libs.spring.boot.starter.test
 
-    implementation group: 'org.apache.rocketmq', name: 'rocketmq-client', version: project['rocketmq.version']
+    implementation libs.kafka.clients
+
+    implementation libs.rocketmq.client
 }
 
 test {

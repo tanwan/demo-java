@@ -1,20 +1,35 @@
 plugins {
     id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+}
+
+//使用spring的依赖管理版本,see:https://docs.spring.io/dependency-management-plugin/docs/current/reference/html/
+dependencyManagement {
+    imports {
+        //springboot see: https://docs.spring.io/spring-boot/appendix/dependency-versions/coordinates.html
+        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+        //springcloud see: https://github.com/spring-cloud/spring-cloud-release/blob/main/spring-cloud-dependencies/pom.xml
+        //mavenBom "org.springframework.cloud:spring-cloud-dependencies:${libs.versions.spring.cloud.release.get()}"
+    }
+    dependencies {
+        //在这里定义的依赖,相当于是扩展bom
+        //dependency(group: '', name: '', version: '') {
+        //    exclude group: '', name: ''
+        //}
+    }
 }
 
 def buildSpringBootLoaderTestJarTask = 'buildSpringBootLoaderTestJar'
 def runBuildSpringBootLoaderTestJarTask = project.gradle.startParameter.taskNames.contains(buildSpringBootLoaderTestJarTask)
 
 dependencies {
-    compileOnly group: 'org.projectlombok', name: 'lombok'
-    annotationProcessor group: 'org.projectlombok', name: 'lombok'
-    testCompileOnly group: 'org.projectlombok', name: 'lombok'
-    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok'
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+    testCompileOnly libs.lombok
+    testAnnotationProcessor libs.lombok
 
-    //spring boot web
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
 
-    //spring retry
     implementation group: 'org.springframework.retry', name: 'spring-retry'
 
     implementation group: 'org.hibernate.validator', name: 'hibernate-validator'
@@ -22,22 +37,20 @@ dependencies {
     //jcache
     implementation group: 'javax.cache', name: 'cache-api'
 
-    //ehcache3
-    implementation("org.ehcache:ehcache:${dependencyManagement.importedProperties['ehcache3.version']}") {
+    implementation(libs.ehcache) {
         capabilities {
             requireCapability('org.ehcache:ehcache-jakarta')
         }
     }
-    //caffeine
     implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine'
 
-    // html单元测试
-    testImplementation group: 'net.sourceforge.htmlunit', name: 'htmlunit'
+    testImplementation(libs.htmlunit) {
+        // 会导致RestTemplate使用jetty的客户端
+        exclude group: 'org.eclipse.jetty.websocket', module: 'websocket-client'
+    }
 
-    //spring boot cache
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
 
-    //spring boot test
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket'
@@ -60,8 +73,7 @@ dependencies {
 
     // spring 使用aspectj的依赖
     implementation group: 'org.springframework', name: 'spring-aspects'
-    // 使用spring使用aspectj需要的依赖
-    implementation group: 'org.springframework', name: 'spring-tx'
+
     // spring-session-data-redis
     implementation group: 'org.springframework.session', name: 'spring-session-data-redis'
     //lettuce

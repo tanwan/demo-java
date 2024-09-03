@@ -9,6 +9,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Proto生成的文件不存在时,手动执行一下generateProto
+ *
+ * @author lzy
+ * @version v1.0
+ */
 public class ProtoBufTest {
     /**
      * 测试required

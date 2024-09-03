@@ -1,28 +1,23 @@
 dependencies {
-    //yaml
-    implementation group: 'org.yaml', name: 'snakeyaml'
-    implementation group: 'org.springframework', name: 'spring-context'
-    implementation group: 'org.zeroturnaround', name: 'zt-zip', version: project['zt-zip.version']
-    implementation group: 'org.apache.commons', name: 'commons-compress', version: project['commons-compress.version']
-    implementation group: 'io.netty', name: 'netty-all'
-    //spring boot loader
-    implementation group: 'org.springframework.boot', name: 'spring-boot-loader'
+    implementation libs.snakeyaml
 
-    //logback
-    implementation group: 'ch.qos.logback', name: 'logback-classic'
-    //slf4j
-    implementation group: 'org.slf4j', name: 'slf4j-api'
+    implementation libs.zt.zip
 
-    implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5'
+    implementation libs.commons.compress
 
-    implementation group: 'org.glassfish.jersey.core', name: 'jersey-client'
-    implementation group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson'
-    implementation group: 'org.glassfish.jersey.inject', name: 'jersey-hk2'
-    implementation group: 'org.glassfish.jersey.media', name: 'jersey-media-multipart'
+    implementation libs.netty.all
 
-    implementation group: 'io.vertx', name: 'vertx-core', version: project['vert.x.version']
-    //使用vert-web
-    implementation group: 'io.vertx', name: 'vertx-web', version: project['vert.x.version']
+    implementation libs.spring.boot.starter
+
+    implementation libs.logback.classic
+
+    implementation libs.slf4j.api
+
+    implementation libs.httpclient5
+
+    implementation libs.bundles.jersey
+
+    implementation libs.vertx.web
 }
 
 

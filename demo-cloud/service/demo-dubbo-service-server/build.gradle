@@ -1,12 +1,10 @@
 dependencies {
-    implementation group: 'org.apache.dubbo', name: 'dubbo', version: project['dubbo.version']
-    // 使用zookeeper需要使用curator
-    implementation group: 'org.apache.curator', name: 'curator-framework'
-    implementation group: 'org.apache.curator', name: 'curator-recipes'
-    implementation group: 'org.apache.curator', name: 'curator-x-discovery'
+    implementation libs.dubbo
 
-    //spring boot test
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    // 使用zookeeper需要使用curator
+    implementation libs.bundles.curator
+
+    testImplementation libs.spring.boot.starter.test
 
     implementation project(':demo-cloud:service:demo-dubbo-service-api')
 }

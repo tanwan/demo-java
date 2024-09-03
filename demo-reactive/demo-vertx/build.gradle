@@ -1,12 +1,10 @@
 dependencies {
-    implementation group: 'io.vertx', name: 'vertx-core', version: project['vert.x.version']
-    //使用vert-web
-    implementation group: 'io.vertx', name: 'vertx-web', version: project['vert.x.version']
 
-    implementation group: 'org.slf4j', name: 'slf4j-api'
+    implementation libs.vertx.web
 
-    //logback
-    implementation group: 'ch.qos.logback', name: 'logback-classic'
+    implementation libs.slf4j.api
+
+    implementation libs.logback.classic
 }
 
 test {

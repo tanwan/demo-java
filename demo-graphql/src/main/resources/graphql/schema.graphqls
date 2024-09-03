@@ -5,8 +5,7 @@ type SimpleEntity {
     integer: Int
     str: String!
     dateTime: DateTime
-    commonDateTime:CommonDateTime
-    withDirective:String @simpleDirective(str:"str",array:[1],bool:true)
+    withDirective:String @simpleDirective(str:"simple string",array:[1],bool:true)
     nPlusOneProblem: Int!
     batchMapping: Int!
 }
@@ -16,7 +15,6 @@ input SimpleRequest {
     id: ID
     str: String
     dateTime: DateTime
-    commonDateTime:CommonDateTime
 }
 
 #有且必须只能有一个Query(查)
@@ -39,32 +37,8 @@ extend type Mutation {
     simpleMutation(request:SimpleRequest): SimpleEntity
 }
 
-extend type Query {
-    #customWithResolver方法返回的类型有自己的GraphQLResolver,此时会先执行GraphQLResolver匹配的方法
-    #See com.lzy.demo.graphql.resolver.SimpleQueryResolver#customWithResolver
-    customWithResolver:CustomWithResolver
-
-    #withoutResolver方法返回的类型没有GraphQLResolver,此时会直接执行返回类型的方法
-    #See com.lzy.demo.graphql.entity.WithoutResolver
-    withoutResolver:WithoutResolver
-}
-
-type CustomWithResolver{
-    #see com.lzy.demo.graphql.resolver.CustomResolver
-    simpleEntity:SimpleEntity
-    argumentsWithType(request:SimpleRequest):SimpleEntity
-}
-
-type WithoutResolver{
-    #see com.lzy.demo.graphql.entity.WithoutResolver
-    simpleEntity:SimpleEntity
-    argumentsWithType(request:SimpleRequest):SimpleEntity
-}
-
 #自定义指令
 directive @simpleDirective(str: String, array:[Int], bool: Boolean) on FIELD_DEFINITION
 
-#see com.lzy.demo.graphql.config.KickstartConfig.dateTime,名称需要跟GraphQLScalarType#name匹配
-#see com.lzy.demo.graphql.config.SpringBootConfig.runtimeWiringConfigurer
+#see com.lzy.demo.graphql.config.GraphQLConfig.runtimeWiringConfigurer
 scalar DateTime
-scalar CommonDateTime

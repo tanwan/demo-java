@@ -140,7 +140,7 @@
     <!---application级别:applicationListeners project级别:projectListeners-->
     <projectListeners>
         <listener class="com.lzy.demo.plugin.listener.DemoListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+                  topic="com.intellij.openapi.wm.ex.ToolWindowManagerListener"/>
     </projectListeners>
 
 

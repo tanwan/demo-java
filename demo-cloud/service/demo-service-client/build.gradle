@@ -1,20 +1,17 @@
 dependencies {
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-eureka-client'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-config'
-  
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    implementation libs.spring.cloud.starter.netflix.eureka.client
+    implementation libs.spring.cloud.starter.openfeign
+    implementation libs.spring.cloud.starter.config
 
-    // spring boot admin
-    implementation group: 'de.codecentric', name: 'spring-boot-admin-starter-client', version: project['spring-boot-admin.version']
+    implementation libs.spring.boot.starter.web
+    testImplementation libs.spring.boot.starter.test
+    implementation libs.spring.boot.starter.actuator
 
-    // logstash
-    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: project['logstash-logback-encoder.version']
+    implementation libs.spring.boot.admin.starter.client
 
-    // thrift
-    implementation group: 'org.apache.thrift', name: 'libthrift', version: project['thrift.version']
+    implementation libs.logstash.logback.encoder
+
+    implementation libs.thrift
 }
 
 test {

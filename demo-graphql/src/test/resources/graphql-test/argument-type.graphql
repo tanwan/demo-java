@@ -3,6 +3,5 @@ query testArgumentsWithType($request:SimpleRequest){
         id
         str
         dateTime
-        commonDateTime
     }
 }

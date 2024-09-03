@@ -1,8 +1,0 @@
-query{
-    customWithResolver{
-        argumentsWithType(request:{id:1}){
-            id
-            withDirective
-        }
-    }
-}

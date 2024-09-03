@@ -1,5 +1,5 @@
 plugins {
-    id "com.google.protobuf" version "$protobufPlugin"
+    alias(libs.plugins.protobuf)
 }
 
 checkstyleMain {
@@ -9,36 +9,36 @@ checkstyleMain {
 }
 
 dependencies {
-    compileOnly group: 'org.projectlombok', name: 'lombok'
-    annotationProcessor group: 'org.projectlombok', name: 'lombok'
-    testCompileOnly group: 'org.projectlombok', name: 'lombok'
-    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok'
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+    testCompileOnly libs.lombok
+    testAnnotationProcessor libs.lombok
 
-    implementation group: 'org.apache.commons', name: 'commons-lang3'
-    implementation group: 'io.projectreactor', name: 'reactor-core'
+    implementation libs.commons.lang3
+    implementation libs.reactor.core
 
-    implementation group: 'org.springframework', name: 'spring-context'
+    implementation libs.spring.context
 
-    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: project['poi.version']
+    implementation libs.poi.ooxml
 
-    implementation group: 'com.google.zxing', name: 'javase', version: project['zxing.version']
+    implementation libs.bundles.jackson
 
     //用来解析xml,html
-    implementation group: 'org.jsoup', name: 'jsoup', version: project['jsoup.version']
+    implementation libs.jsoup
 
-    implementation group: 'commons-io', name: 'commons-io', version: project['commons-io.version']
+    implementation libs.commons.io
 
     //执行shell
-    implementation group: 'org.zeroturnaround', name: 'zt-exec', version: project['zt-exec.version']
+    implementation libs.commons.exec
 
     //mapstruct
-    implementation group: 'org.mapstruct', name: 'mapstruct', version: project['mapstruct.version']
-    annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: project['mapstruct.version']
+    implementation libs.mapstruct
+    annotationProcessor libs.mapstruct.processor
 
     //精简版:protobuf-javalite, 普通版:protobuf-java
-    implementation group: 'com.google.protobuf', name: 'protobuf-javalite', version: project['protobuf.version']
+    implementation libs.protobuf.javalite
 
-    implementation group: 'io.vavr', name: 'vavr', version: project['vavr.version']
+    implementation libs.vavr
 }
 
 test {
@@ -50,7 +50,7 @@ test {
 
 // See https://github.com/google/protobuf-gradle-plugin
 // extractIncludeProto: 从依赖包中提取出proto文件
-// extractProto: 提出proto文件(暂不知道从哪里提取)
+// extractProto: 提取出proto文件(暂不知道从哪里提取)
 // generateProto: 根据proto文件生成类文件
 
 // protobuffer文件默认放在src/main/proto,如果放在其它地方,需要进行自定义,方法参照文档
@@ -59,7 +59,7 @@ protobuf {
     // generatedFilesBaseDir = "$projectDir/src"
     protoc {
         // 自定义protoc的版本
-        artifact = 'com.google.protobuf:protoc:' + project['protobuf.version']
+        artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}"
     }
     // 使用精简版需要添加此配置, 此配置是在project.afterEvaluate执行的
     generateProtoTasks {
@@ -69,20 +69,6 @@ protobuf {
                     option "lite"
                 }
             }
-        }
-    }
-}
-
-
-// 在idea的sync之前执行generateProto, 也可以通过手动去进行配置(在idea找到generateProto task, 然后右键选择Execute Before Sync)
-// 首次reload project不会执行generateProto,可以手动执行,也可以再reload一次
-project.afterEvaluate {
-    //子模块需要使用rootProject.idea,因为idea是配置在父模块的
-    rootProject.idea.project.settings {
-        taskTriggers {
-            // protobuf的task是在project.afterEvaluate添加的,See com.google.protobuf.gradle.ProtobufPlugin#doApply
-            // 所以这边也需要在project.afterEvaluate执行,才能获取到generateProto
-            beforeSync(tasks.generateProto)
         }
     }
 }

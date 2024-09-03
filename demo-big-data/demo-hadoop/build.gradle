@@ -1,5 +1,14 @@
 dependencies {
-    implementation group: 'org.apache.hadoop', name: 'hadoop-client', version: project['hadoop.version']
+    implementation (libs.hadoop.client)
+}
+
+// see https://docs.gradle.org/current/userguide/resolution_rules.html#sec:substitution_with_classifier
+configurations.configureEach {
+    resolutionStrategy.dependencySubstitution {
+        // 也可以在implementation排除,然后再手动依赖正确的版本,See demo-zipkin-server
+        substitute module('io.netty:netty-transport-native-epoll') \
+        using module("io.netty:netty-transport-native-epoll:${libs.versions.netty.get()}") withClassifier("linux-x86_64")
+    }
 }
 
 clean.doLast {
@@ -8,5 +17,5 @@ clean.doLast {
 
 
 test {
-    onlyIf{false}
+    onlyIf { false }
 }

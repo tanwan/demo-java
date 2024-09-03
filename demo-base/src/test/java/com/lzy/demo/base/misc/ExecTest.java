@@ -1,9 +1,10 @@
 package com.lzy.demo.base.misc;
 
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
-import org.zeroturnaround.exec.ProcessExecutor;
-import org.zeroturnaround.exec.stream.slf4j.Slf4jStream;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,21 +40,18 @@ public class ExecTest {
     }
 
     /**
-     * 使用zt-exec
-     * 无法执行多条命令,比如ls|grep a,需要将命令写成shell脚本,然后直接调用shell脚本
+     * 使用commons-exec
      *
      * @throws Exception Exception
-     * @see <a href="https://github.com/zeroturnaround/zt-exec">zt-exec</a>
      */
     @Test
-    public void testExecZT() throws Exception {
-        System.out.println(new ProcessExecutor()
-                //指定工作目录
-                .directory(new File(".."))
-                //命令和参数需要分开
-                .command("ls", "-l")
-                .redirectError(Slf4jStream.of(getClass()).asInfo())
-                .readOutput(true).execute()
-                .outputUTF8());
+    public void testCommonsExec() throws Exception {
+        CommandLine cmdLine = CommandLine.parse("ls -l");
+        DefaultExecutor executor = DefaultExecutor.builder()
+                .setWorkingDirectory(new File(".."))
+                .get();
+        executor.execute(cmdLine);
+        // PumpStreamHandler可以指定输出流
+        executor.setStreamHandler(new PumpStreamHandler(System.out));
     }
 }

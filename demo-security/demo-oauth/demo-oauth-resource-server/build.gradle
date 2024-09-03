@@ -1,13 +1,13 @@
 dependencies{
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation libs.spring.boot.starter.web
 
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    implementation libs.spring.boot.starter.security
 
     //使用nimbusds-jose-jwt
-    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose'
+    implementation libs.spring.security.oauth2.jose
 
-    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-resource-server'
+    implementation libs.spring.security.oauth2.resource.server
 
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    testImplementation group: 'org.springframework.security', name: 'spring-security-test'
+    testImplementation libs.spring.boot.starter.test
+    testImplementation libs.spring.security.test
 }

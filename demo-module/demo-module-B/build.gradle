@@ -1,6 +1,6 @@
 plugins {
-    //java模块jlink插件, 生成的文件在build/image底下
-    id 'org.beryx.jlink' version "$jlinkVersion"
+    //用来生成一个包含所需模块的自定义Java运行时的文件夹, 使用task jlink,生成的文件在build/image底下
+    alias(libs.plugins.jlink)
 }
 
 //java模块化需要设置inferModulePath为true,否则依赖其它模块时在打包的时候会报错
@@ -29,16 +29,14 @@ jlink {
 tasks.jlink.doLast {
     copy {
         from('src/main/resources')
-        into("$buildDir/image/bin")
+        into("$layout.buildDirectory/image/bin")
     }
 }
 //设置启动类
 application {
-    mainClass.set('com.lzy.demo.module.b.Application')
+    mainClass = 'com.lzy.demo.module.b.Application'
 }
 
 dependencies {
     implementation(project(':demo-module:demo-module-A'))
-    //java模块化 lombok需要此依赖
-    compileOnly group: 'org.mapstruct', name: 'mapstruct-processor', version: project['mapstruct.version']
 }

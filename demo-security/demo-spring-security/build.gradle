@@ -1,17 +1,15 @@
 dependencies {
-    //spring boot test
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    implementation libs.spring.boot.starter.web
 
-    testImplementation group: 'org.springframework.security', name: 'spring-security-test'
+    testImplementation libs.spring.boot.starter.test
 
-    //spring boot web
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation libs.spring.boot.starter.security
 
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    testImplementation libs.spring.security.test
 
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
+    implementation libs.spring.boot.starter.thymeleaf
 
-    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: project['jjwt.version']
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: project['jjwt.version']
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: project['jjwt.version']
+    implementation libs.jjwt.api
+    runtimeOnly libs.jjwt.impl
+    runtimeOnly libs.jjwt.jackson
 }

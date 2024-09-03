@@ -1,7 +1,6 @@
 package com.lzy.demo.graphql.entity;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.Optional;
 
 public class SimpleEntity {
@@ -9,8 +8,7 @@ public class SimpleEntity {
     private Long id;
     private Integer integer;
     private String str;
-    private OffsetDateTime dateTime;
-    private LocalDateTime commonDateTime;
+    private LocalDateTime dateTime;
     private String withArgument;
     private String withDirective;
 
@@ -19,8 +17,7 @@ public class SimpleEntity {
     private Integer batchMapping;
 
     public SimpleEntity() {
-        this.dateTime = OffsetDateTime.now();
-        this.commonDateTime = LocalDateTime.now();
+        this.dateTime = LocalDateTime.now();
     }
 
     public SimpleEntity(Long id, Integer integer, String str) {
@@ -30,12 +27,11 @@ public class SimpleEntity {
         this.str = str;
     }
 
-    public SimpleEntity(Long id, Integer integer, String str, OffsetDateTime dateTime, LocalDateTime commonDateTime) {
+    public SimpleEntity(Long id, Integer integer, String str, LocalDateTime dateTime) {
         this.id = id;
         this.integer = integer;
         this.str = str;
         this.dateTime = dateTime;
-        this.commonDateTime = commonDateTime;
     }
 
     public Long getId() {
@@ -62,20 +58,12 @@ public class SimpleEntity {
         this.str = str;
     }
 
-    public OffsetDateTime getDateTime() {
+    public LocalDateTime getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(OffsetDateTime dateTime) {
+    public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
-    }
-
-    public LocalDateTime getCommonDateTime() {
-        return commonDateTime;
-    }
-
-    public void setCommonDateTime(LocalDateTime commonDateTime) {
-        this.commonDateTime = commonDateTime;
     }
 
     public String getWithArgument() {
@@ -87,7 +75,7 @@ public class SimpleEntity {
     }
 
     public String getWithDirective() {
-        return Optional.ofNullable(withDirective).orElse("withDirective");
+        return Optional.ofNullable(withDirective).orElse("default directive value");
     }
 
     public void setWithDirective(String withDirective) {

@@ -1,3 +1,7 @@
+plugins{
+    id 'java-library'
+}
 dependencies {
-    implementation group: 'org.hibernate.validator', name: 'hibernate-validator'
+    // 使用api, hibernate-validator的依赖才会进行传递
+    api libs.hibernate.validator
 }

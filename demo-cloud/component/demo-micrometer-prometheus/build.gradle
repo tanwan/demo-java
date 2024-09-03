@@ -1,6 +1,6 @@
 dependencies {
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus'
+    implementation libs.spring.boot.starter.web
+    implementation libs.spring.boot.starter.actuator
+    implementation libs.micrometer.registry.prometheus
 }
 

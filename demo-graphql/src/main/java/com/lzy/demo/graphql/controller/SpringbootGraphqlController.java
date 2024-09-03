@@ -2,7 +2,6 @@ package com.lzy.demo.graphql.controller;
 
 import com.lzy.demo.graphql.entity.SimpleEntity;
 import com.lzy.demo.graphql.entity.SimpleRequest;
-import com.lzy.demo.graphql.entity.WithoutResolver;
 import graphql.GraphQLContext;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
@@ -38,7 +37,7 @@ public class SpringbootGraphqlController {
 
     @QueryMapping
     public SimpleEntity argumentsWithType(@Argument("request") SimpleRequest request) {
-        return new SimpleEntity(request.getId(), 23, "SpringbootGraphqlController#argumentsWithType:" + request.getStr(), request.getDateTime(), request.getCommonDateTime());
+        return new SimpleEntity(request.getId(), 23, "SpringbootGraphqlController#argumentsWithType:" + request.getStr(), request.getDateTime());
     }
 
     /**
@@ -50,11 +49,6 @@ public class SpringbootGraphqlController {
     @MutationMapping
     public SimpleEntity simpleMutation(@Argument("request") SimpleRequest request) {
         return new SimpleEntity(request.getId(), 23, request.getStr());
-    }
-
-    @QueryMapping
-    public WithoutResolver withoutResolver() {
-        return new WithoutResolver();
     }
 
 

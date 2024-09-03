@@ -1,16 +1,24 @@
 plugins {
-    //plugins是gradle新的写法,但是要求插件必须是gradle官方中的插件(https://plugins.gradle.org/),apply plugin是老的写法,但是比较灵活
-    //plugins不支持在allprojects/subprojects下使用
-    //gradle使用插件是分为两步: 1. 解析,找到插件的正确版本,并将它加入到脚本的类路径中 2. 应用插件
+    // gradle的应用插件分为两步: 1. 解析,找到插件的正确版本,并将它加入到脚本的类路径中 2. 应用插件(apply false可以跳过这一步)
+    // 这边定义的插件只会应用到root项目,不会应用到子项目, 子项目在应用这些插件的话, 就可以省略版本信息
 
-    id 'idea'
-    //版本已经在settings.gradle定义了
-    id 'org.springframework.boot'
+    // 包含了io.spring.dependency-management, 用来方便的管理依赖的版本, 但是子项目多的话,都使用此插件的话,需要花费很多时间
+    // See demo-spring
+    alias(libs.plugins.springboot) apply false // 相当于id 'org.springframework.boot' version '3.2.0 apply false
+
     //可以在gradle设置一些idea的配置
-    id 'org.jetbrains.gradle.plugin.idea-ext'
-    //相当于只是将插件加入到类路径中,并没有应用,如果plugin有被多个子项目应用,推荐在这边定义
-    //在subprojects块中,可以使用apply plugin应用插件,在子项目的plugins块中也可以使用,都不需要再定义版本
-    id 'org.jetbrains.kotlin.jvm' apply false
+    alias(libs.plugins.idea.ext)
+
+    // java和java-library的区别是java-library提供了dependencies的api(implementation不会传递依赖,api会)功能
+    id 'java'
+
+    alias(libs.plugins.kotlin) apply false
+
+    // 用来更新依赖
+    // See https://github.com/ben-manes/gradle-versions-plugin
+    alias(libs.plugins.gradle.version)
+    // See https://github.com/littlerobots/version-catalog-update-plugin
+    alias(libs.plugins.version.catalog.update)
 }
 
 //所有项目(包括root项目和子项目)
@@ -19,95 +27,38 @@ allprojects {
     version '1.0'
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 //只包括子项目
 subprojects {
-    //有子项目的,就只是目录,所以不需要插件和依赖
+    //有子项目还有子项目的,就只是目录,所以不需要插件和依赖
     if (it.subprojects) {
         return
     }
 
-    //打包成可运行jar,see https://docs.gradle.org/current/userguide/application_plugin.html
-    //直接扩展build任务
-    //id: 'application'
+    //打包成可运行jar,see https://docs.gradle.org/current/userguide/application_plugin.html, 直接扩展build任务
+    apply plugin: 'application'
     //使用checkstyleMain/checkstyleTest task
     apply plugin: 'checkstyle'
-    apply plugin: 'java-library'
     apply plugin: 'project-report'
     apply plugin: 'maven-publish'
-    apply plugin: 'io.spring.dependency-management'
-
-    //io.spring.dependency-management,这边使用spring boot的bom,可以用自己的bom,也可以直接在这边定义版本,see:https://docs.spring.io/dependency-management-plugin/docs/current-SNAPSHOT/reference/html/
-    dependencyManagement {
-        imports {
-
-            //这边demo-cloud需要使用spring-cloud-dependencies,其它的只要使用spring-boot-dependencies
-            if (path.startsWith(":demo-cloud")) {
-                //See: https://docs.spring.io/spring-cloud/docs/current/reference/html/
-                //See: https://github.com/spring-cloud/spring-cloud-release/blob/main/spring-cloud-dependencies/pom.xml
-                mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudDependenciesVersion"
-                //spring cloud支持的spring boot的版本比较旧
-                mavenBom "org.springframework.boot:spring-boot-dependencies:$springCloudSupportSpringBootVersion"
-            } else {
-                //版本定义 see: https://docs.spring.io/spring-boot/docs/current/reference/html/dependency-versions.html#dependency-versions.coordinates
-                //可以使用bomProperty定义版本,也可以在gradle.properties定义
-                //使用spring的依赖管理版本,see:https://docs.spring.io/dependency-management-plugin/docs/current-SNAPSHOT/reference/html/
-                mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-            }
-
-        }
-        dependencies {
-            //在这里定义的依赖,相当于是扩展bom,在使用时,就不需要指定版本了,版本已经在这里指定了
-            //dependency(group: '', name: '', version: '') {
-            //    exclude group: '', name: ''
-            //}
-        }
-    }
-
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
-        }
-    }
-
-    repositories {
-        mavenLocal()
-        //阿里云镜像
-        maven { url 'https://maven.aliyun.com/repository/central' }
-        mavenCentral()
-        maven {
-            url 'https://repo.spring.io/milestone'
-        }
-    }
-
 
     dependencies {
-        testImplementation group: 'org.assertj', name: 'assertj-core'
+        testImplementation libs.bundles.junit
+        testImplementation libs.assertj.core
 
-        //jackson
-        implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
-
-        //jackson jsr310
-        implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310'
-
-        //junit
-        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api'
-        //junit
-        testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine'
-
-        //排除依赖,也可以使用configurations
-        //implementation group: '', name: ''{
-        // exclude group: '', module: ''
-        //}
-        //implementation(project('')) {
-        // exclude group: '', module: ''
+        //排除依赖,不能省略括号, 然后添加exclude的闭包, 也可以使用configurations{ implementation.exclude group: '', module: '' }
+        //implementation(group: '', name: '', version: '') {
+        //    exclude group: '', module: ''
         //}
     }
 
-    configurations {
-        //implementation.exclude group: '', module: ''
-    }
 
-    //maven-publish提供了几个task
+    //maven-publish See https://docs.gradle.org/current/userguide/publishing_maven.html#publishing_maven:publications
     //1.generateMetadataFileFor<PubName>Publication: 生成元数据
     //2.generatePomFileFor<PubName>Publication: 生成pom文件
     //3.publish<PubName>PublicationTo<RepoName>Repository: 将PubName发布到定义的仓库
@@ -115,8 +66,8 @@ subprojects {
     //5.publish: 相当于执行所有的publish<PubName>PublicationTo<RepoName>Repository
     //6.publishToMavenLocal: 相当于执行所有的publish<PubName>PublicationToMavenLocal
     publishing {
-        //https://docs.gradle.org/current/userguide/publishing_maven.html#publishing_maven:publications
         publications {
+            // PubName指的就是这边的maven
             maven(MavenPublication) {
                 //生成jar,如果是有apply org.springframework.boot,也可以直接使用artifact bootJar,就不需要from components.java和versionMapping了
                 from components.java
@@ -147,7 +98,7 @@ subprojects {
         delete file('./out')
     }
 
-//这边把logback.xml添加到各个模块中的resources中,但是这边idea有个bug,会提示duplicate content roots detected
+//这边把logback.xml添加到各个模块中的resources中,但是这边idea有个问题,会提示duplicate content roots detected
 //    sourceSets {
 //        main {
 //            resources {
@@ -155,6 +106,7 @@ subprojects {
 //            }
 //        }
 //    }
+
 }
 
 //这边通过运行配置来实现日志配置
@@ -166,22 +118,7 @@ idea {
         //插件处理settings的extension的toString方法需要返回一个json字符串, See ProjectSettings in https://github.com/JetBrains/gradle-idea-ext-plugin/blob/master/src/main/groovy/org/jetbrains/gradle/ext/IdeaExtPlugin.groovy
         //GradleExternalSettingsImporter会根据返回的json字符串去修改workspace.xml, See https://github.com/JetBrains/intellij-community/blob/master/plugins/gradle/tooling-extension-impl/src/org/jetbrains/plugins/gradle/tooling/builder/IntelliJProjectSettingsBuilder.groovy
         settings {
-            //withIDEAFileXml在项目sync process后调用, reimport可以触发sync process
-            //在项目sync process后调用的原理是这个插件会往workspace.xml的ExternalProjectsManager将processIdeaSettings添加给after_sync
-            //ProjectSettings的toString会返回requiresPostprocessing为true
-            //IDEAProjectFilesPostProcessor会根据requiresPostprocessing来添加processIdeaSettings See https://github.com/JetBrains/intellij-community/blob/master/plugins/gradle/src/org/jetbrains/plugins/gradle/service/project/GradleExternalSettingsImporter.kt
-            withIDEAFileXml("workspace.xml") { XmlProvider p ->
-                def loggingPath = '$PROJECT_DIR$/config/logback/logback-spring.xml'
-                //这边是高级用法, 建议在不得已的时候才用这种方法
-                def runManager = p.asNode().find { it.@name == "RunManager" }
-                def springBootRunner = runManager.children().find { it.@default == "true" && it.@type == "SpringBootApplicationConfigurationType" }
-                def parameters = springBootRunner.children().find { it.@name == "VM_PARAMETERS" }
-                if (!parameters) {
-                    // 往workspace.xml添加默认的配置,类型是SpringBootApplicationConfigurationType
-                    // 这边只要修改node就会应用到xml去
-                    new Node(springBootRunner, "option", [name: 'VM_PARAMETERS', value: "-Dlogging.config=$loggingPath"])
-                }
-            }
+            // 使用JUnit/Application配置
             runConfigurations {
                 def loggingPath = '$PROJECT_DIR$/config/logback/logback.xml'
                 //原理就是往workspace.xml添加默认的配置,这个是idea去添加的,目前不支持springboot
@@ -192,6 +129,22 @@ idea {
 
                 defaults(Application) {
                     jvmArgs = loggerConfig
+                }
+            }
+            //withIDEAFileXml在项目sync process后调用, reimport可以触发sync process
+            //在项目sync process后调用的原理是这个插件会往workspace.xml的ExternalProjectsManager将processIdeaSettings添加给after_sync
+            //ProjectSettings的toString会返回requiresPostprocessing为true
+            //IDEAProjectFilesPostProcessor会根据requiresPostprocessing来添加processIdeaSettings See https://github.com/JetBrains/intellij-community/blob/master/plugins/gradle/src/org/jetbrains/plugins/gradle/service/project/GradleExternalSettingsImporter.kt
+            withIDEAFileXml("workspace.xml") { XmlProvider p ->
+                def loggingConfig = '-Dlogging.config=$PROJECT_DIR$/config/logback/logback-spring.xml'
+                //这边是高级用法, 建议在不得已的时候才用这种方法
+                def runManager = p.asNode().find { it.@name == "RunManager" }
+                runManager.children().findAll { it.@type == "SpringBootApplicationConfigurationType" }.each { runner ->
+                    if (!runner.children().find { it.@name == "VM_PARAMETERS" && it.@value == loggingConfig }) {
+                        // 往workspace.xml添加默认的配置,类型是SpringBootApplicationConfigurationType
+                        // 这边只要修改node就会应用到xml去
+                        new Node(r, "option", [name: 'VM_PARAMETERS', value: loggingConfig])
+                    }
                 }
             }
         }

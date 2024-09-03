@@ -1,31 +1,22 @@
 plugins {
-
     //graphql生成java代码
-    //id "com.graphql-java-generator.graphql-gradle-plugin3" version "$javaGraphqlGradlePluginVersion"
-
+    //alias(libs.plugins.graphql.java.generator)
 
     // 生成kotlin代码,需要kotlin
-//    id "com.expediagroup.graphql" version "$kotlinGraphqlGradlePluginVersion"
-//    id "org.jetbrains.kotlin.jvm"
+    //alias(libs.plugins.graphql.kotlin.generator)
+    //alias(libs.plugins.kotlin)
 }
 
 dependencies {
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation libs.spring.boot.starter.web
 
-    // spring boot的graphql
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-graphql'
-    testImplementation group: 'org.springframework.graphql', name: 'spring-graphql-test'
+    implementation libs.spring.boot.starter.graphql
+    testImplementation libs.spring.graphql.test
 
-
-    // kickstart的graphql
-    implementation group: 'com.graphql-java-kickstart', name: 'graphql-spring-boot-starter', version: project['graphql-spring-boot.version']
-    testImplementation group: 'com.graphql-java-kickstart', name: 'graphql-spring-boot-starter-test', version: project['graphql-spring-boot.version']
-
-    //spring boot test
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testImplementation libs.spring.boot.starter.test
 
     //生成的kotlin代码需要此依赖
-    implementation group: 'com.expediagroup', name: 'graphql-kotlin-client', version: project['graphql-kotlin-client.version']
+    implementation libs.graphql.kotlin.client
 }
 
 test {

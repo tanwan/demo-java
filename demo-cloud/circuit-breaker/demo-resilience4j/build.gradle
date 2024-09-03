@@ -1,24 +1,24 @@
 dependencies {
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    //spring cloud引入的resilience4j, 但是spring cloud排除了resilience4j-bulkhead,无法使用@Bulkhead
-    //See https://github.com/spring-cloud/spring-cloud-circuitbreaker/blob/main/spring-cloud-circuitbreaker-resilience4j/pom.xml
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-circuitbreaker-resilience4j'
-    //所以这边单独把resilience4j-bulkhead依赖进来,也可以直接依赖resilience4j-spring-cloud2代替spring-cloud-starter-circuitbreaker-resilience4j
-    implementation group: 'io.github.resilience4j', name: 'resilience4j-bulkhead', version: dependencyManagement.importedProperties['resilience4j.version']
 
-    //aop
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+    implementation libs.spring.cloud.starter.circuitbreaker.resilience4j
 
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    implementation libs.spring.boot.starter.web
 
-    //spring boot test
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    // spring-cloud-starter-circuitbreaker-resilience4j没有将resilience4j-bulkhead传递过来
+    // 也可以直接依赖resilience4j-spring-cloud2代替spring-cloud-starter-circuitbreaker-resilience4j
+    implementation libs.spring.cloud.starter.circuitbreaker.resilience4j
+    implementation libs.resilience4j.bulkhead
 
-    //vavr
-    implementation group: 'io.vavr', name: 'vavr', version: project['vavr.version']
 
-    //resilience4j-vavr
-    implementation group: 'io.github.resilience4j', name: 'resilience4j-vavr'
+    implementation libs.spring.boot.starter.actuator
+
+    testImplementation libs.spring.boot.starter.test
+
+    implementation libs.vavr
+    implementation libs.resilience4j.vavr
+
+    // resilience4j的一些功能需要依赖aop
+    implementation libs.spring.boot.starter.aop
 }
 
 test {

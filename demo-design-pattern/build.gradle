@@ -1,5 +1,5 @@
 dependencies {
-    implementation group: 'cglib', name: 'cglib', version: project['cglib.version']
+    implementation libs.cglib
 }
 
 

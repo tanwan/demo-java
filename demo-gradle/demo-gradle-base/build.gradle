@@ -4,7 +4,12 @@
 //    id 'com.lzy.demo.simple-groovy-plugin' version '1.0'
 //}
 
-task lifecycle {
+//debug插件
+//在命令行执行task并加上参数: ./gradlew :demo-gradle:demo-gradle-base:pluginTask  -Dorg.gradle.daemon=false -Dorg.gradle.debug=true
+//然后启动Remote JVM Debug进行调试即可,端口默认为5005
+
+// 推荐使用tasks.register创建tasks
+tasks.register('lifecycle') {
     //gradle的生命周期有三个阶段
     //1.Initialization初始化阶段,执行项目中的settings.gradle,为每个项目创建Project实例
     //2.Configuration配置阶段,执行项目中的build.gradle,但是不会执行task,只是创建出task的有向无环图
@@ -26,14 +31,14 @@ task lifecycle {
     }
 }
 
-task dependTask1 {
+tasks.register('dependTask1') {
     group = 'demo-gradle'
     doLast {
         println 'dependTask1 Execution doLast'
     }
 }
 
-task dependTask2 {
+tasks.register('dependTask2') {
     group = 'demo-gradle'
     doLast {
         println 'dependTask2 Execution doLast'
@@ -44,7 +49,7 @@ task dependTask2 {
 dependTask1.mustRunAfter dependTask2
 
 
-task dependTask3 {
+tasks.register('dependTask3') {
     group = 'demo-gradle'
     //dependTask2依赖dependTask1, 执行顺序:dependTask2#doFirst,doLast,dependTask2#doFirst,doLast,,dependTask3#doFirst,doLast
     dependsOn dependTask1, dependTask2
@@ -54,13 +59,13 @@ task dependTask3 {
     }
 }
 
-task dependTask4 {
+tasks.register('dependTask4') {
     group = 'demo-gradle'
     doLast {
         println 'dependTask4 Execution doLast'
     }
 }
-task dependTask5 {
+tasks.register('dependTask5') {
     group = 'demo-gradle'
     //跟dependsOn相反,执行顺序:dependTask5#doFirst,doLast,dependTask4#doFirst,doLast
     finalizedBy dependTask4
@@ -189,7 +194,7 @@ outerExt {
     }
 }
 
-task extension {
+tasks.register('extension') {
     group = 'demo-gradle'
     doLast {
         println "outerExt: $project.outerExt"
@@ -229,7 +234,7 @@ configure(tasks.configureTask) {
 
 
 //执行此任务,则先把demo-gradle-plugin发布到本地仓库,然后再把插件加进来,也就是去掉此文件上面的plugin块的注释即可
-task pluginTask {
+tasks.register('pluginTask') {
     group 'demo-plugin'
     if (project.gradle.startParameter.taskNames.contains(name)) {
         groovyPlugin {
@@ -244,7 +249,3 @@ task pluginTask {
         dependsOn simpleGroovyPluginTask, simpleJavaPluginTask
     }
 }
-
-//debug插件
-//在命令行执行task并加上参数: ./gradlew :demo-gradle:demo-gradle-base:pluginTask  -Dorg.gradle.daemon=false -Dorg.gradle.debug=true
-//然后启动Remote JVM Debug进行调试即可,端口默认为5005

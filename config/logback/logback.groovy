@@ -1,4 +1,3 @@
-package logger
 //For more information on configuration files in Groovy
 //please see http://logback.qos.ch/manual/groovy.html
 //For assistance related to this tool or configuration files

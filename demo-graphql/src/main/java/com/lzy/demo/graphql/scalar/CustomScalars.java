@@ -14,9 +14,9 @@ import java.time.format.DateTimeFormatter;
 public class CustomScalars {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public static final GraphQLScalarType COMMON_DATE_TIME = GraphQLScalarType.newScalar()
+    public static final GraphQLScalarType DATE_TIME = GraphQLScalarType.newScalar()
             // Scalar的名称
-            .name("CommonDateTime")
+            .name("DateTime")
             .coercing(new Coercing() {
                 /**
                  * 序列化的时候使用

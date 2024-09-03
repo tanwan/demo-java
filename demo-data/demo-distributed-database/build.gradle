@@ -1,11 +1,10 @@
 dependencies {
-    //hazelcast
-    implementation group: 'com.hazelcast', name: 'hazelcast'
 
-    //ignite
-    implementation group: 'org.apache.ignite', name: 'ignite-core', version: project['ignite.version']
+    implementation libs.hazelcast
+
+    implementation libs.ignite.core
 }
 
 test {
-    onlyIf{false}
+    onlyIf { false }
 }

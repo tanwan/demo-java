@@ -1,22 +1,22 @@
 
 dependencies {
-    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: project['jjwt.version']
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: project['jjwt.version']
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: project['jjwt.version']
+    implementation libs.jjwt.api
+    runtimeOnly libs.jjwt.impl
+    runtimeOnly libs.jjwt.jackson
 
     // 为了引入nimbusds-jose-jwt
-    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose'
+    implementation libs.spring.security.oauth2.jose
 
     // bcpkix适用于PKIX(Public Key Infrastructure X.509)标准的功能, 支持PKIX/CMS/EAC/PKCS/OCSP/TSP/OPENSSL
-    // bcprov适用于通用密码学, bcpkix需要依赖bcprov
-    implementation group: 'org.bouncycastle', name: 'bcpkix-jdk18on', version: project['bouncycastle.version']
+    // bcprov适用于通用密码学, bcpkix依赖bcprov
+    implementation libs.bcpkix.jdk18on
     // bouncycastle的tls
-    implementation group: 'org.bouncycastle', name: 'bctls-jdk18on', version: project['bouncycastle.version']
+    implementation libs.bctls.jdk18on
 
-    //使用vert-web
-    implementation group: 'io.vertx', name: 'vertx-web', version: project['vert.x.version']
+    implementation libs.vertx.web
 
-    implementation group: 'commons-codec', name: 'commons-codec'
+    // apache编码工具类
+    implementation libs.commons.codec
 }
 
 test {

@@ -1,61 +1,44 @@
 plugins {
     //see https://flywaydb.org/documentation/usage/gradle/
-    id 'org.flywaydb.flyway' version "$flywayPluginVersion"
-    id 'nu.studer.jooq' version "$jooqPluginVersion"
+    alias(libs.plugins.flyway)
+    alias(libs.plugins.jooq)
 }
 dependencies {
 
-    implementation group: 'org.flywaydb', name: 'flyway-core'
+    implementation libs.flyway.core
 
-    //hibernate
-    implementation group: 'org.hibernate.orm', name: 'hibernate-core'
+    implementation libs.hibernate.core
 
-    implementation group: 'org.jdbi', name: 'jdbi3-core', version: project['jdbi.version']
-    implementation group: 'org.jdbi', name: 'jdbi3-sqlobject', version: project['jdbi.version']
-    implementation group: 'org.jdbi', name: 'jdbi3-stringtemplate4', version: project['jdbi.version']
+    implementation libs.bundles.jdbi
 
-    // hikari
-    implementation group: 'com.zaxxer', name: 'HikariCP'
+    implementation libs.hikaricp
 
     //ehcache3
-    implementation group: 'org.hibernate.orm', name: 'hibernate-jcache'
+    implementation libs.hibernate.jcache
 
-    // freemarker
-    implementation group: 'org.freemarker', name: 'freemarker'
+    implementation libs.freemarker
 
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jooq'
+    implementation libs.spring.boot.starter.jooq
 
     //jooq生成代码需要的依赖
-    jooqGenerator group: 'com.mysql', name: 'mysql-connector-j'
-    //mysql驱动
-    implementation group: 'com.mysql', name: 'mysql-connector-j'
+    jooqGenerator libs.mysql.connector.j
+    implementation libs.mysql.connector.j
 
-    //mybatis plus
-    implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: project['mybatis-plus-boot.version']
-    implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: project['mybatis-plus-boot.version']
+    implementation libs.mybatis.plus.boot.starter
+    implementation libs.mybatis.plus.generator
 
-    //spring data jpa
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+    implementation libs.spring.boot.starter.data.jpa
 
-    //spring boot test
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testImplementation libs.spring.boot.starter.test
 
-    //spring boot web
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation libs.spring.boot.starter.web
 
-    //druid(阿里巴巴数据库连接池)
-    implementation group: 'com.alibaba', name: 'druid-spring-boot-starter', version: project['druid.springboot.version']
+    implementation libs.druid.spring.boot.starter
 
     //sql监控
-    implementation group: 'p6spy', name: 'p6spy', version: project['p6spy.version']
+    implementation libs.p6spy
 
-    //sharding-jdbc
-    implementation(group: 'org.apache.shardingsphere', name: 'sharding-jdbc-core', version: project['sharding-jdbc.version']) {
-        exclude group: 'org.yaml', module: 'snakeyaml'
-    }
-    implementation(group: 'org.apache.shardingsphere', name: 'sharding-jdbc-spring-boot-starter', version: project['sharding-jdbc.version']) {
-        exclude group: 'org.yaml', module: 'snakeyaml'
-    }
+    implementation libs.shardingsphere.jdbc.core
 }
 
 //如果flyway的locations使用classpath:flyway/migration,则flywayMigrate需要依赖classes
@@ -135,5 +118,5 @@ tasks.named('generateJooq').configure {
 }
 
 test {
-    onlyIf{false}
+    onlyIf { false }
 }

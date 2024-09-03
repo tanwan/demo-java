@@ -1,12 +1,9 @@
 dependencies {
-    //eureka
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-eureka-client'
+    implementation libs.spring.cloud.starter.netflix.eureka.client
 
-    //spring boot web
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation libs.spring.boot.starter.web
 
-    // spring 邮件
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
+    implementation libs.spring.boot.starter.mail
 
-    implementation group: 'de.codecentric', name: 'spring-boot-admin-starter-server', version: project['spring-boot-admin.version']
+    implementation libs.spring.boot.admin.starter.server
 }

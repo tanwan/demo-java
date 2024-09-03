@@ -4,10 +4,12 @@ import com.lzy.demo.security.filter.AddAtFillter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -41,18 +43,18 @@ public class SecurityConfig {
     @Bean
     public DefaultSecurityFilterChain springSecurity(HttpSecurity http) throws Exception {
         //对应着一个SecurityFilterChain
-        http
-                .securityMatchers()
-                //此HttpSecurity的配置只对/login,/logout,/security/**,/secured/**,/jsr250/**,/pre-post/**有效,默认为/**
-                .requestMatchers("/login", "/logout", "/security/**", "/secured/**", "/jsr250/**", "/pre-post/**")
-                .and()
+        http.securityMatchers(matchers ->
+                        //此HttpSecurity的配置只对/login,/logout,/security/**,/secured/**,/jsr250/**,/pre-post/**有效,默认为/**
+                        matchers.requestMatchers("/login", "/logout", "/security/**", "/secured/**", "/jsr250/**", "/pre-post/**")
+                )
                 //order跟指定过滤器一样,但会在指定过滤器之前执行
                 .addFilterAt(new AddAtFillter(), UsernamePasswordAuthenticationFilter.class)
                 // 关闭csrf配置
-                .csrf().disable()
+                .csrf(AbstractHttpConfigurer::disable)
                 // cors配置,这里如果不配置CorsConfigurationSource的话,则会从spring容器中获取CorsConfigurationSource的实例,所以也可以配置为Spring Bean
-                .cors().configurationSource(corsConfigurationSource())
-                .and()
+                .cors(cors ->
+                        cors.configurationSource(corsConfigurationSource())
+                )
                 //使用ExpressionUrlAuthorizationConfigurer
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
@@ -81,8 +83,7 @@ public class SecurityConfig {
                                 .anyRequest().fullyAuthenticated()
                 )
                 //配置rememberMe
-                .rememberMe()
-                .and()
+                .rememberMe(Customizer.withDefaults())
                 // 配置登陆
                 .formLogin((formLogin) ->
                         formLogin

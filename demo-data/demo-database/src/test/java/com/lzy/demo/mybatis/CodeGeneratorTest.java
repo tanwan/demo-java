@@ -36,7 +36,6 @@ public class CodeGeneratorTest {
         GlobalConfig gc = new GlobalConfig.Builder()
                 .outputDir(projectPath + "/build/generated-src/mybatis/main")
                 .author("lzy")
-                .fileOverride()
                 .build();
 
         // 包配置

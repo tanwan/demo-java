@@ -1,5 +1,5 @@
 query testBase{
     baseQuery{
-        id integer str dateTime commonDateTime
+        id integer str dateTime withDirective
     }
 }

@@ -1,9 +1,8 @@
 dependencies {
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-gateway'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-eureka-client'
+    implementation libs.spring.cloud.starter.gateway
+    implementation libs.spring.cloud.starter.netflix.eureka.client
 
-    //spring redis
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
+    implementation libs.spring.boot.starter.data.redis
 
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    implementation libs.spring.boot.starter.actuator
 }

@@ -1,11 +1,10 @@
 dependencies {
-    compileOnly group: 'org.projectlombok', name: 'lombok'
-    annotationProcessor group: 'org.projectlombok', name: 'lombok'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    //axon
-    implementation group: 'org.axonframework', name: 'axon-spring-boot-starter', version: project['axon.version']
-    testImplementation group: 'org.axonframework', name: 'axon-test', version: project['axon.version']
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+    implementation libs.spring.boot.starter.web
+    testImplementation libs.spring.boot.starter.test
+    implementation libs.axon.spring.boot.starter
+    testImplementation libs.axon.test
 }
 
 

@@ -6,22 +6,24 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
     }
-    plugins {
-        //使用spring的依赖管理版本,see:https://docs.spring.io/dependency-management-plugin/docs/current-SNAPSHOT/reference/html/
-        // org.springframework.boot其实有包含了io.spring.dependency-management
-        // 相当于settings['springbootVersion']
-        id 'org.springframework.boot' version "$springbootVersion"
-
-        //可以在gradle设置一些idea的配置
-        id "org.jetbrains.gradle.plugin.idea-ext" version "$ideaExtVersion"
-
-        // kotlin
-        id "org.jetbrains.kotlin.jvm" version "$kotlinJVMVersion"
-
-        // 开发idea plugin的gradle插件
-        id "org.jetbrains.intellij"  version "$intellijVersion"
-
+}
+dependencyResolutionManagement {
+    repositories {
+        mavenLocal()
+        //阿里云镜像
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        mavenCentral()
+        maven {
+            url 'https://repo.spring.io/milestone'
+        }
     }
+
+// 也可以指定libs.versions.toml
+//    versionCatalogs {
+//        libs {
+//            from(files("./gradle/libs.versions.toml"))
+//        }
+//    }
 }
 rootProject.name = 'demo-java'
 include 'demo-spring'
@@ -37,7 +39,6 @@ include 'demo-mqtt'
 include 'demo-axon'
 include 'demo-rule-engine'
 include 'demo-intellij-plugin'
-
 //demo-data
 include 'demo-data:demo-database'
 findProject(':demo-data:demo-database')?.name = 'demo-database'

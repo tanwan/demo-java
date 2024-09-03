@@ -1,14 +1,12 @@
 package com.lzy.demo.graphql.entity;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 
 public class SimpleRequest {
 
     private Long id;
-    private OffsetDateTime dateTime;
+    private LocalDateTime dateTime;
     private String str;
-    private LocalDateTime commonDateTime;
 
     public Long getId() {
         return id;
@@ -18,11 +16,11 @@ public class SimpleRequest {
         this.id = id;
     }
 
-    public OffsetDateTime getDateTime() {
+    public LocalDateTime getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(OffsetDateTime dateTime) {
+    public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
 
@@ -32,13 +30,5 @@ public class SimpleRequest {
 
     public void setStr(String str) {
         this.str = str;
-    }
-
-    public LocalDateTime getCommonDateTime() {
-        return commonDateTime;
-    }
-
-    public void setCommonDateTime(LocalDateTime commonDateTime) {
-        this.commonDateTime = commonDateTime;
     }
 }

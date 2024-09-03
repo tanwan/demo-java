@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@SpringBootTest(properties = {"graphql.servlet.websocket.enabled=false", "spring.graphql.schema.locations=classpath*:graphql/**/"})
+@SpringBootTest
 @AutoConfigureGraphQlTester
-public class SpringBootGraphqlTest {
+public class GraphqlTest {
 
     @Autowired
     private GraphQlTester graphQlTester;
@@ -29,17 +29,19 @@ public class SpringBootGraphqlTest {
         response = graphQlTester.document("""
                 query testBase{
                     baseQuery{
-                        id integer str dateTime commonDateTime
+                        id integer str dateTime withDirective
                     }
                 }
                 """).execute();
         response.path("$.data.baseQuery[0].id").entity(Long.class).isEqualTo(1L);
         response.path("$.data.baseQuery[1].str").entity(String.class).isEqualTo("SpringbootGraphqlController#baseQuery");
+        response.path("$.data.baseQuery[0].withDirective").entity(String.class).isEqualTo("DEFAULT DIRECTIVE VALUE");
 
         // 使用graphql-test的请求
         response = graphQlTester.documentName("base").execute();
         response.path("$.data.baseQuery[0].id").entity(Long.class).isEqualTo(1L);
         response.path("$.data.baseQuery[1].str").entity(String.class).isEqualTo("SpringbootGraphqlController#baseQuery");
+        response.path("$.data.baseQuery[0].withDirective").entity(String.class).isEqualTo("DEFAULT DIRECTIVE VALUE");
     }
 
     /**
@@ -54,7 +56,6 @@ public class SpringBootGraphqlTest {
                                 integer
                                 str
                                 dateTime
-                                commonDateTime
                             }
                         }
                         """).variable("integer", 23)
@@ -80,8 +81,7 @@ public class SpringBootGraphqlTest {
         Map<String, Object> map = new HashMap<>();
         map.put("id", 23);
         map.put("str", "str");
-        map.put("dateTime", "2022-01-01T01:01:01.000000+08:00");
-        map.put("commonDateTime", "2022-01-01 01:01:01");
+        map.put("dateTime", "2022-01-01 01:01:01");
         GraphQlTester.Response response = graphQlTester.documentName("argument-type")
                 .variable("request", map)
                 .execute();
@@ -118,6 +118,5 @@ public class SpringBootGraphqlTest {
                 """).execute();
         response.path("$.data.baseQuery[0].batchMapping").entity(Integer.class).isEqualTo(start + 1);
         response.path("$.data.baseQuery[1].batchMapping").entity(Integer.class).isEqualTo(start + 1);
-
     }
 }

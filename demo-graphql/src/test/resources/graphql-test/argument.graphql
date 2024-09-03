@@ -4,6 +4,5 @@ query testArguments($integer: Int!,$str: String!){
         integer
         str
         dateTime
-        commonDateTime
     }
 }

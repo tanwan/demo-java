@@ -1,24 +1,19 @@
 dependencies {
-    implementation group: 'redis.clients', name: 'jedis'
+    implementation libs.jedis
 
-    //spring redis
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
+    implementation libs.spring.boot.starter.data.redis
 
-    //spring boot test
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testImplementation libs.spring.boot.starter.test
 
-    //lettuce
-    implementation group: 'io.lettuce', name: 'lettuce-core'
+    implementation libs.lettuce.core
 
-    // hbase
-    implementation(group: 'org.apache.hbase', name: 'hbase-client', version: project['hbase.version']) {
+    implementation(libs.hbase.client) {
         exclude group: 'org.slf4j', module: 'slf4j-log4j12'
     }
 
-    //mongodb
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
+    implementation libs.spring.boot.starter.data.mongodb
 }
 
 test {
-    onlyIf{false}
+    onlyIf { false }
 }

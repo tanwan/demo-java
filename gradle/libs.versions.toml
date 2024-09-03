@@ -1,0 +1,250 @@
+[versions]
+assertj-core = "3.25.3"
+axon = "4.10.0"
+bouncycastle = "1.78.1"
+cglib = "3.3.0"
+commons-codec = "1.16.1"
+commons-compress = "1.27.1"
+commons-exec = "1.4.0"
+commons-io = "2.16.1"
+commons-lang3 = "3.14.0"
+curator = "5.7.0"
+drools = "9.44.0.Final"
+druid = "1.2.23"
+dubbo = "3.2.15"
+ehcache = "3.10.8"
+feign = "13.3"
+flyway = "10.17.2"
+freemarker = "2.3.33"
+graphql-kotlin-client = "8.0.0"
+groovy = "4.0.22"
+h2 = "2.2.224"
+hadoop = "3.4.0"
+hazelcast = "5.4.0"
+hbase-client = "2.6.0"
+hibernate-validator = "8.0.1.Final"
+hibernate-orm = "6.5.2.Final"
+hikaricp = "5.1.0"
+htmlunit = "2.70.0"
+httpclient5 = "5.3.1"
+ignite = "2.16.0"
+jackson = "2.17.2"
+jdbi = "3.45.4"
+jedis = "5.0.2"
+jersey = "3.1.8"
+jjwt = "0.12.6"
+jsoup = "1.18.1"
+junit = "5.10.3"
+kafka-clients = "3.7.1"
+kotlin = "1.9.25"
+kotlinx = "1.8.1"
+lettuce-core = "6.3.2.RELEASE"
+logback = "1.5.7"
+logstash-logback = "8.0"
+lombok = "1.18.34"
+mapstruct = "1.6.0"
+micrometer-registry = "1.13.3"
+micrometer-tracing = "1.3.3"
+mybatis-plus = "3.5.7"
+mysql = "8.3.0"
+mockito = "5.11.0"
+netty = "4.1.112.Final"
+okhttp = "4.12.0"
+p6spy = "3.9.1"
+poi = "5.3.0"
+protobuf = "4.28.0"
+reactor-core = "3.6.9"
+reflections = "0.10.2"
+resilience4j = "2.2.0"
+rocketmq-client = "5.3.0"
+shardingsphere-jdbc = "5.4.1"
+shiro = "2.0.1"
+slf4j = "2.0.16"
+snakeyaml = "2.2"
+spark = "3.5.2"
+spock = "2.4-M1-groovy-4.0"
+spring = "6.1.12"
+spring-boot-admin = "3.3.3"
+spring-boot = "3.3.3"
+# spring cloud的版本为 2023.0.3
+spring-cloud = "4.1.2"
+spring-cloud-starter-circuitbreaker-resilience4j = "3.1.2"
+spring-graphql = "1.3.2"
+spring-integration = "6.3.3"
+spring-rabbit = "3.1.7"
+spring-security = "6.3.3"
+spring-security-oauth2-authorization-server = "1.3.2"
+thrift = "0.20.0"
+vavr = "0.10.4"
+vertx = "4.5.9"
+zipkin = "3.4.1"
+zipkin-reporter = "3.4.0"
+zt-zip = "1.17"
+
+[libraries]
+#可以使用group+name, 也可以使用module, version直接指定版本, version.ref引用版本
+assertj-core = { group = "org.assertj", name = "assertj-core", version.ref = "assertj-core" }
+axon-spring-boot-starter = { module = "org.axonframework:axon-spring-boot-starter", version.ref = "axon" }
+axon-test = { module = "org.axonframework:axon-test", version.ref = "axon" }
+bcpkix-jdk18on = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "bouncycastle" }
+bctls-jdk18on = { module = "org.bouncycastle:bctls-jdk18on", version.ref = "bouncycastle" }
+cglib = { module = "cglib:cglib", version.ref = "cglib" }
+commons-compress = { module = "org.apache.commons:commons-compress", version.ref = "commons-compress" }
+commons-codec = { module = "commons-codec:commons-codec", version.ref = "commons-codec" }
+commons-exec = { module = "org.apache.commons:commons-exec", version.ref = "commons-exec" }
+commons-io = { module = "commons-io:commons-io", version.ref = "commons-io" }
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3" }
+curator-framework = { module = "org.apache.curator:curator-framework", version.ref = "curator" }
+curator-recipes = { module = "org.apache.curator:curator-recipes", version.ref = "curator" }
+curator-x-discovery = { module = "org.apache.curator:curator-x-discovery", version.ref = "curator" }
+druid-spring-boot-starter = { module = "com.alibaba:druid-spring-boot-starter", version.ref = "druid" }
+drools-decisiontables = { module = "org.drools:drools-decisiontables", version.ref = "drools" }
+kie-ci = { module = "org.kie:kie-ci", version.ref = "drools" }
+dubbo = { module = "org.apache.dubbo:dubbo", version.ref = "dubbo" }
+feign-micrometer = { module = "io.github.openfeign:feign-micrometer", version.ref = "feign" }
+ehcache = { module = "org.ehcache:ehcache", version.ref = "ehcache" }
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+freemarker = { module = "org.freemarker:freemarker", version.ref = "freemarker" }
+graphql-kotlin-client = { module = "com.expediagroup:graphql-kotlin-client", version.ref = "graphql-kotlin-client" }
+groovy = { module = "org.apache.groovy:groovy", version.ref = "groovy" }
+groovy-json = { module = "org.apache.groovy:groovy-json", version.ref = "groovy" }
+groovy-xml = { module = "org.apache.groovy:groovy-xml", version.ref = "groovy" }
+groovy-yaml = { module = "org.apache.groovy:groovy-yaml", version.ref = "groovy" }
+
+h2 = { module = "com.h2database:h2", version.ref = "h2" }
+hadoop-client = { module = "org.apache.hadoop:hadoop-client", version.ref = "hadoop" }
+hazelcast = { module = "com.hazelcast:hazelcast", version.ref = "hazelcast" }
+hbase-client = { module = "org.apache.hbase:hbase-client", version.ref = "hbase-client" }
+hibernate-validator = { module = "org.hibernate.validator:hibernate-validator", version.ref = "hibernate-validator" }
+hibernate-core = { module = "org.hibernate.orm:hibernate-core", version.ref = "hibernate-orm" }
+hibernate-jcache = { module = "org.hibernate.orm:hibernate-jcache", version.ref = "hibernate-orm" }
+hikaricp = { module = "com.zaxxer:HikariCP", version.ref = "hikaricp" }
+htmlunit = { module = "net.sourceforge.htmlunit:htmlunit", version.ref = "htmlunit" }
+httpclient5 = { module = "org.apache.httpcomponents.client5:httpclient5", version.ref = "httpclient5" }
+ignite-core = { module = "org.apache.ignite:ignite-core", version.ref = "ignite" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
+jedis = { module = "redis.clients:jedis", version.ref = "jedis" }
+jersey-client = { module = "org.glassfish.jersey.core:jersey-client", version.ref = "jersey" }
+jersey-hk2 = { module = "org.glassfish.jersey.inject:jersey-hk2", version.ref = "jersey" }
+jersey-media-json-jackson = { module = "org.glassfish.jersey.media:jersey-media-json-jackson", version.ref = "jersey" }
+jersey-media-multipart = { module = "org.glassfish.jersey.media:jersey-media-multipart", version.ref = "jersey" }
+jdbi3-core = { module = "org.jdbi:jdbi3-core", version.ref = "jdbi" }
+jdbi3-stringtemplate4 = { module = "org.jdbi:jdbi3-stringtemplate4", version.ref = "jdbi" }
+jdbi3-sqlobject = { module = "org.jdbi:jdbi3-sqlobject", version.ref = "jdbi" }
+jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
+jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
+jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+kafka-clients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka-clients" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx" }
+lettuce-core = { module = "io.lettuce:lettuce-core", version.ref = "lettuce-core" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+logstash-logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash-logback" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "micrometer-registry" }
+micrometer-tracing = { module = "io.micrometer:micrometer-tracing", version.ref = "micrometer-tracing" }
+micrometer-tracing-bridge-brave = { module = "io.micrometer:micrometer-tracing-bridge-brave", version.ref = "micrometer-tracing" }
+mybatis-plus-boot-starter = { module = "com.baomidou:mybatis-plus-boot-starter", version.ref = "mybatis-plus" }
+mybatis-plus-generator = { module = "com.baomidou:mybatis-plus-generator", version.ref = "mybatis-plus" }
+mysql-connector-j = { module = "com.mysql:mysql-connector-j", version.ref = "mysql" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }
+mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
+netty-all = { module = "io.netty:netty-all", version.ref = "netty" }
+
+p6spy = { module = "p6spy:p6spy", version.ref = "p6spy" }
+poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "poi" }
+protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
+reactor-core = { module = "io.projectreactor:reactor-core", version.ref = "reactor-core" }
+reflections = { module = "org.reflections:reflections", version.ref = "reflections" }
+resilience4j-bulkhead = { module = "io.github.resilience4j:resilience4j-bulkhead", version.ref = "resilience4j" }
+resilience4j-vavr = { module = "io.github.resilience4j:resilience4j-vavr", version.ref = "resilience4j" }
+rocketmq-client = { module = "org.apache.rocketmq:rocketmq-client", version.ref = "rocketmq-client" }
+shardingsphere-jdbc-core = { module = "org.apache.shardingsphere:shardingsphere-jdbc-core", version.ref = "shardingsphere-jdbc" }
+shiro-spring = { module = "org.apache.shiro:shiro-spring", version.ref = "shiro" }
+shiro-web = { module = "org.apache.shiro:shiro-web", version.ref = "shiro" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
+spark-core = { module = "org.apache.spark:spark-core_2.13", version.ref = "spark" }
+spock-core = { module = "org.spockframework:spock-core", version.ref = "spock" }
+
+spring-boot-admin-starter-client = { module = "de.codecentric:spring-boot-admin-starter-client", version.ref = "spring-boot-admin" }
+spring-boot-admin-starter-server = { module = "de.codecentric:spring-boot-admin-starter-server", version.ref = "spring-boot-admin" }
+spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "spring-boot" }
+spring-boot-starter-aop = { module = "org.springframework.boot:spring-boot-starter-aop", version.ref = "spring-boot" }
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator", version.ref = "spring-boot" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "spring-boot" }
+spring-boot-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis", version.ref = "spring-boot" }
+spring-boot-starter-data-mongodb = { module = "org.springframework.boot:spring-boot-starter-data-mongodb", version.ref = "spring-boot" }
+spring-boot-starter-graphql = { module = "org.springframework.boot:spring-boot-starter-graphql", version.ref = "spring-boot" }
+spring-boot-starter-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc", version.ref = "spring-boot" }
+spring-boot-starter-jooq = { module = "org.springframework.boot:spring-boot-starter-jooq", version.ref = "spring-boot" }
+spring-boot-starter-mail = { module = "org.springframework.boot:spring-boot-starter-mail", version.ref = "spring-boot" }
+spring-boot-starter-oauth2-client = { module = "org.springframework.boot:spring-boot-starter-oauth2-client", version.ref = "spring-boot" }
+spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security", version.ref = "spring-boot" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring-boot" }
+spring-boot-starter-thymeleaf = { module = "org.springframework.boot:spring-boot-starter-thymeleaf", version.ref = "spring-boot" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring-boot" }
+spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "spring-boot" }
+
+spring-cloud-config-server = { module = "org.springframework.cloud:spring-cloud-config-server", version.ref = "spring-cloud" }
+spring-cloud-starter-circuitbreaker-resilience4j = { module = "org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j", version.ref = "spring-cloud-starter-circuitbreaker-resilience4j" }
+spring-cloud-starter-config = { module = "org.springframework.cloud:spring-cloud-starter-config", version.ref = "spring-cloud" }
+spring-cloud-starter-gateway = { module = "org.springframework.cloud:spring-cloud-starter-gateway", version.ref = "spring-cloud" }
+spring-cloud-starter-netflix-eureka-client = { module = "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client", version.ref = "spring-cloud" }
+spring-cloud-starter-netflix-eureka-server = { module = "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server", version.ref = "spring-cloud" }
+spring-cloud-starter-openfeign = { module = "org.springframework.cloud:spring-cloud-starter-openfeign", version.ref = "spring-cloud" }
+
+spring-context = { module = "org.springframework:spring-context", version.ref = "spring" }
+spring-graphql-test = { module = "org.springframework.graphql:spring-graphql-test", version.ref = "spring-graphql" }
+spring-integration-mqtt = { module = "org.springframework.integration:spring-integration-mqtt", version.ref = "spring-integration" }
+spring-messaging = { module = "org.springframework:spring-messaging", version.ref = "spring" }
+spring-security-oauth2-authorization-server = { module = "org.springframework.security:spring-security-oauth2-authorization-server", version.ref = "spring-security-oauth2-authorization-server" }
+spring-security-oauth2-jose = { module = "org.springframework.security:spring-security-oauth2-jose", version.ref = "spring-security" }
+spring-security-oauth2-resource-server = { module = "org.springframework.security:spring-security-oauth2-resource-server", version.ref = "spring-security" }
+spring-security-test = { module = "org.springframework.security:spring-security-test", version.ref = "spring-security" }
+spring-rabbit = { module = "org.springframework.amqp:spring-rabbit", version.ref = "spring-rabbit" }
+
+thrift = { module = "org.apache.thrift:libthrift", version.ref = "thrift" }
+vavr = { module = "io.vavr:vavr", version.ref = "vavr" }
+vertx-web = { module = "io.vertx:vertx-web", version.ref = "vertx" }
+zipkin-collector-rabbitmq = { module = "io.zipkin.zipkin2:zipkin-collector-rabbitmq", version.ref = "zipkin" }
+zipkin-reporter-brave = { module = "io.zipkin.reporter2:zipkin-reporter-brave", version.ref = "zipkin-reporter" }
+zipkin-server = { module = "io.zipkin:zipkin-server", version.ref = "zipkin" }
+zt-zip = { module = "org.zeroturnaround:zt-zip", version.ref = "zt-zip" }
+
+
+[bundles]
+curator = ["curator-framework", "curator-recipes", "curator-x-discovery"]
+drools = ["drools-decisiontables", "kie-ci"]
+groovy = ["groovy", "groovy-json", "groovy-xml", "groovy-yaml"]
+jackson = ["jackson-databind", "jackson-datatype-jsr310"]
+jdbi = ["jdbi3-core", "jdbi3-stringtemplate4", "jdbi3-sqlobject"]
+jersey = ["jersey-client", "jersey-hk2", "jersey-media-json-jackson", "jersey-media-multipart"]
+junit = ["junit-jupiter-api", "junit-jupiter-engine"]
+kotlin = ["kotlin-stdlib", "kotlinx-coroutines-core"]
+mockito = ["mockito-core", "mockito-junit-jupiter"]
+
+
+[plugins]
+# 用来处理依赖版本更新
+gradle-version = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version = "0.8.4" }
+# graphsql生成kotlin的插件
+graphql-kotlin-generator = { id = "com.expediagroup.graphql", version = "8.0.0" }
+graphql-java-generator = { id = "com.graphql-java-generator.graphql-gradle-plugin3", version = "2.8" }
+idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.7" }
+intellij-platform = { id = "org.jetbrains.intellij.platform", version = "2.0.1" }
+flyway = { id = "org.flywaydb.flyway", version.ref = "flyway" }
+jooq = { id = "nu.studer.jooq", version = "9.0" }
+# 用来生成一个包含所需模块的自定义Java运行时的文件夹
+jlink = { id = "org.beryx.jlink", version = "3.0.1" }
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+springboot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+protobuf = { id = "com.google.protobuf", version = "0.9.4" }

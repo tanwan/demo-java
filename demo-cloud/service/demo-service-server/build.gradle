@@ -1,11 +1,9 @@
-apply plugin: 'org.springframework.boot'
 dependencies {
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    implementation libs.spring.cloud.starter.netflix.eureka.client
+    implementation libs.spring.boot.starter.web
+    implementation libs.spring.boot.starter.actuator
 
-    // thrift
-    implementation group: 'org.apache.thrift', name: 'libthrift', version: project['thrift.version']
+    implementation libs.thrift
 }
 
 test {

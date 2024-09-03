@@ -2,9 +2,9 @@ package com.lzy.demo.graphql.directive;
 
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetcherFactories;
-import graphql.schema.GraphQLDirective;
+import graphql.schema.GraphQLAppliedDirective;
 import graphql.schema.GraphQLFieldDefinition;
-import graphql.schema.GraphQLFieldsContainer;
+import graphql.schema.GraphQLObjectType;
 import graphql.schema.idl.SchemaDirectiveWiring;
 import graphql.schema.idl.SchemaDirectiveWiringEnvironment;
 
@@ -19,11 +19,11 @@ public class SimpleDirective implements SchemaDirectiveWiring {
     @Override
     public GraphQLFieldDefinition onField(SchemaDirectiveWiringEnvironment<GraphQLFieldDefinition> env) {
         GraphQLFieldDefinition field = env.getElement();
-        GraphQLFieldsContainer parentType = env.getFieldsContainer();
+        GraphQLObjectType parentType = (GraphQLObjectType) env.getFieldsContainer();
         //获取指令
-        GraphQLDirective graphQLDirective = env.getDirective("simpleDirective");
+        GraphQLAppliedDirective graphQLDirective = env.getAppliedDirective("simpleDirective");
         //获取指令的参数值
-        graphQLDirective.getArgument("str").getArgumentValue();
+        System.out.println("str=" + graphQLDirective.getArgument("str").getValue());
         //获取原始的DataFetcher
         DataFetcher<?> originalFetcher = env.getCodeRegistry().getDataFetcher(parentType, field);
         //创建新的DataFetcher

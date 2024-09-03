@@ -1,6 +1,6 @@
 dependencies {
-    implementation group: 'org.springframework.integration', name: 'spring-integration-mqtt'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation libs.spring.integration.mqtt
+    implementation libs.spring.boot.starter.web
 }
 
 test {

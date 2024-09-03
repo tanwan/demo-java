@@ -1,12 +1,9 @@
-apply plugin: 'scala'
 dependencies {
     //注意这边的scala版本需要同安装的spark编译的scala一致,否则会连接不了
-    implementation group: 'org.apache.spark', name: 'spark-core_2.13', version: project['spark.version']
-    implementation group: 'com.fasterxml.jackson.module', name: 'jackson-module-scala_2.11'
-    testCompileOnly group: 'org.scalatest', name: 'scalatest_2.11', version: project['scalatest.version']
+    implementation libs.spark.core
 }
 
 
 test {
-    onlyIf{false}
+    onlyIf { false }
 }
