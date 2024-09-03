@@ -39,6 +39,8 @@ include 'demo-mqtt'
 include 'demo-axon'
 include 'demo-rule-engine'
 include 'demo-intellij-plugin'
+include 'demo-native'
+
 //demo-data
 include 'demo-data:demo-database'
 findProject(':demo-data:demo-database')?.name = 'demo-database'

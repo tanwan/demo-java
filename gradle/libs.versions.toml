@@ -236,6 +236,7 @@ mockito = ["mockito-core", "mockito-junit-jupiter"]
 # 用来处理依赖版本更新
 gradle-version = { id = "com.github.ben-manes.versions", version = "0.51.0" }
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version = "0.8.4" }
+graalvm-build = { id = "org.graalvm.buildtools.native", version = "0.10.2" }
 # graphsql生成kotlin的插件
 graphql-kotlin-generator = { id = "com.expediagroup.graphql", version = "8.0.0" }
 graphql-java-generator = { id = "com.graphql-java-generator.graphql-gradle-plugin3", version = "2.8" }

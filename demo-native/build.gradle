@@ -1,0 +1,14 @@
+plugins {
+    // 使用graalvm的插件用来打包native image, 需要使用graal的jdk
+    // ./gradlew :demo-native:nativeCompile
+    alias(libs.plugins.graalvm.build)
+}
+
+graalvmNative {
+    binaries {
+        main {
+            imageName = "demo-native"
+            mainClass = "com.lzy.demo.nativeimage.NativeApplication"
+        }
+    }
+}
