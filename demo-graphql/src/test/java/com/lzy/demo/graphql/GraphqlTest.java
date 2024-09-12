@@ -1,7 +1,7 @@
 package com.lzy.demo.graphql;
 
 
-import com.lzy.demo.graphql.controller.SpringbootGraphqlController;
+import com.lzy.demo.graphql.controller.GraphqlController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureGraphQlTester;
@@ -56,6 +56,7 @@ public class GraphqlTest {
                                 integer
                                 str
                                 dateTime
+                                schemaMapping
                             }
                         }
                         """).variable("integer", 23)
@@ -94,21 +95,21 @@ public class GraphqlTest {
      */
     @Test
     public void testNPlusOneProblem() {
-        int start = SpringbootGraphqlController.LONGADDER.intValue();
+        int start = GraphqlController.LONGADDER.intValue();
         GraphQlTester.Response response;
         // 直接发送请求
         response = graphQlTester.document("""
                 query testBase{
                     baseQuery{
-                        id nPlusOneProblem
+                        id schemaMapping
                     }
                 }
                 """).execute();
-        response.path("$.data.baseQuery[0].nPlusOneProblem").entity(Integer.class).isEqualTo(start + 1);
-        response.path("$.data.baseQuery[1].nPlusOneProblem").entity(Integer.class).isEqualTo(start + 2);
+        response.path("$.data.baseQuery[0].schemaMapping").entity(Integer.class).isEqualTo(start + 1);
+        response.path("$.data.baseQuery[1].schemaMapping").entity(Integer.class).isEqualTo(start + 2);
 
         // 使用batchMapping则不会有这个问题
-        start = SpringbootGraphqlController.LONGADDER.intValue();
+        start = GraphqlController.LONGADDER.intValue();
         response = graphQlTester.document("""
                 query testBase{
                     baseQuery{

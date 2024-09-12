@@ -6,7 +6,7 @@ type SimpleEntity {
     str: String!
     dateTime: DateTime
     withDirective:String @simpleDirective(str:"simple string",array:[1],bool:true)
-    nPlusOneProblem: Int!
+    schemaMapping: Int!
     batchMapping: Int!
 }
 

@@ -12,7 +12,7 @@ public class SimpleEntity {
     private String withArgument;
     private String withDirective;
 
-    private Integer nPlusOneProblem;
+    private Integer schemaMapping;
 
     private Integer batchMapping;
 
@@ -82,12 +82,12 @@ public class SimpleEntity {
         this.withDirective = withDirective;
     }
 
-    public Integer getnPlusOneProblem() {
-        return nPlusOneProblem;
+    public Integer getSchemaMapping() {
+        return schemaMapping;
     }
 
-    public void setnPlusOneProblem(Integer nPlusOneProblem) {
-        this.nPlusOneProblem = nPlusOneProblem;
+    public void setSchemaMapping(Integer schemaMapping) {
+        this.schemaMapping = schemaMapping;
     }
 
     public Integer getBatchMapping() {
@@ -96,5 +96,19 @@ public class SimpleEntity {
 
     public void setBatchMapping(Integer batchMapping) {
         this.batchMapping = batchMapping;
+    }
+
+    @Override
+    public String toString() {
+        return "SimpleEntity{" +
+                "id=" + id +
+                ", integer=" + integer +
+                ", str='" + str + '\'' +
+                ", dateTime=" + dateTime +
+                ", withArgument='" + withArgument + '\'' +
+                ", withDirective='" + withDirective + '\'' +
+                ", schemaMapping=" + schemaMapping +
+                ", batchMapping=" + batchMapping +
+                '}';
     }
 }
