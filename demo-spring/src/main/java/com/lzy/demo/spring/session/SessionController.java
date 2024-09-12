@@ -20,7 +20,7 @@ public class SessionController {
      * @return the string
      */
     @GetMapping("/create")
-    public String createSession(@RequestParam String sessionValue, HttpSession httpSession) {
+    public String createSession(@RequestParam("sessionValue") String sessionValue, HttpSession httpSession) {
         httpSession.setAttribute("sessionKey", sessionValue);
         return "success";
     }

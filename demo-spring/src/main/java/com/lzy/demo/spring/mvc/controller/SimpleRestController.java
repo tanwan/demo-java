@@ -57,7 +57,8 @@ public class SimpleRestController {
      * 请求参数
      * /rest/request-param?urlParam=urlParam
      * post form-data 和 url的请求参数都会在param中
-     * 入参使用map可以获取所有的请求参数,也可以使用@RequestParam来获取指定的参数,变量名可以跟参数的key一致也可以使用@RequestParam的name来指定
+     * 使用Map可以获取所有的请求参数
+     * 也可以使用指定的类型获取指定的参数, 编译时使用-parameters则可以省略@RequestParam的参数
      *
      * @param param the param
      * @return the map

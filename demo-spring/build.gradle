@@ -19,6 +19,12 @@ dependencyManagement {
     }
 }
 
+tasks.withType(JavaCompile).configureEach {
+    // 编译参数添加-parameters用来生成元数据, 让运行时可以获取到方法的真实的参数名, 这样@RequestParam可以省略参数
+    // idea的编译配置也需要添加-parameters
+    options.compilerArgs << '-parameters'
+}
+
 def buildSpringBootLoaderTestJarTask = 'buildSpringBootLoaderTestJar'
 def runBuildSpringBootLoaderTestJarTask = project.gradle.startParameter.taskNames.contains(buildSpringBootLoaderTestJarTask)
 

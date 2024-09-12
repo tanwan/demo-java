@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * 调用feign的service
- * 注解(@RequestParam,@PathVariable)的name不能省略
  * 如果使用fallbackFactory,那么必须指定configuration
  * 如果多个FeignClient使用相同的value值,会报错,这时候有两种解决办法
  * 1. 使用contextId用来当作此bean的bean名(跟fallbackFactory共用会出错)
