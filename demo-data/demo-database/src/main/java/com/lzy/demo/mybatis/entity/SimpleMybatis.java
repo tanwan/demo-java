@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.lzy.demo.enums.UseEnumValueEnum;
+import com.lzy.demo.enums.UseIndexEnum;
 import com.lzy.demo.enums.UseStringEnum;
 
 import java.io.Serializable;
@@ -30,6 +31,12 @@ public class SimpleMybatis implements Serializable {
      */
     @TableField
     private String name;
+
+
+    /**
+     * 使用枚举索引
+     */
+    private UseIndexEnum useIndexEnum;
 
     /**
      * 使用枚举值
@@ -87,6 +94,14 @@ public class SimpleMybatis implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public UseIndexEnum getUseIndexEnum() {
+        return useIndexEnum;
+    }
+
+    public void setUseIndexEnum(UseIndexEnum useIndexEnum) {
+        this.useIndexEnum = useIndexEnum;
     }
 
     /**

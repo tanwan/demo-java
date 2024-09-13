@@ -30,33 +30,6 @@ public class CacheTest {
     }
 
 
-    @ActiveProfiles({"jpa", "jpa-ehcache2"})
-    public static class Ehcache2Test extends CacheTest {
-        /**
-         * 测试二级缓存
-         */
-        @Test
-        public void testSecondLevelCache() {
-            simpleCacheService.secondLevelCache(1, 2);
-        }
-
-        /**
-         * 测试使用@QueryHints
-         */
-        @Test
-        public void testQueryHint() {
-            simpleCacheService.queryHint();
-        }
-
-        /**
-         * 测试使用缓存
-         */
-        @Test
-        public void testQueryCache() {
-            simpleCacheService.queryCache();
-        }
-    }
-
     @ActiveProfiles({"jpa", "jpa-ehcache3"})
     public static class Ehcache3Test extends CacheTest {
         /**

@@ -10,7 +10,7 @@ spring:
   flyway:
     enabled: false
   autoconfigure:
-    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+    exclude: com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure
 
 ---
 spring:
@@ -180,23 +180,6 @@ spring:
       # 调用的是 DataSourceInitializer#initSchema
       data-locations: classpath*:jpa/sql/demo-data-jpa-init-data.sql
       schema-locations: classpath*:jpa/sql/demo-data-jpa-ddl.sql
-
----
-spring:
-  config:
-    activate:
-      on-profile: jpa-ehcache2
-  jpa:
-    properties:
-      # ehcache配置的路径,从classpath路径下读取
-      net.sf.ehcache.configurationResourceName: jpa/ehcache2.xml
-      hibernate:
-        #打开二级缓存
-        cache.use_second_level_cache: true
-        # 打开查询缓存
-        cache.use_query_cache: true
-        #ehcache2配置
-        cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
 
 ---
 spring:

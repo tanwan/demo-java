@@ -1,5 +1,6 @@
 package com.lzy.demo.jpa.entity;
 
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -18,7 +19,7 @@ import java.time.LocalTime;
 @Entity
 @Table
 //region指定缓存,如果没指定则默认为全限定类名
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "simpleJpa")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "simpleJpa")
 public class SimpleJpa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

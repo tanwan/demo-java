@@ -122,7 +122,7 @@ idea {
             runConfigurations {
                 def loggingPath = '$PROJECT_DIR$/config/logback/logback.xml'
                 //原理就是往workspace.xml添加默认的配置,这个是idea去添加的,目前不支持springboot
-                def loggerConfig = "-Dlogback.configurationFile=$loggingPath"
+                def loggerConfig = "-Dlogging.config=$loggingPath"
                 defaults(JUnit) {
                     vmParameters = loggerConfig
                 }

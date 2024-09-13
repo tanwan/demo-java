@@ -8,7 +8,7 @@
         然后根据 properties 元素中的 resource 属性读取类路径下属性文件或根据 url 属性指定的路径读取属性文件，并覆盖已读取的同名属性。
         最后读取作为方法参数传递的属性，并覆盖已读取的同名属性。
     -->
-    <properties resource="mybatis/mybatis.properties">
+    <properties>
         <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
         <!-- 用来开启这个功能,${key:defaultValue}冒号后的为默认值-->
         <property name="org.apache.ibatis.parsing.PropertyParser.enable-default-value" value="true"/>
@@ -66,7 +66,7 @@
         <typeHandler handler="org.apache.ibatis.type.EnumTypeHandler"
                      javaType="com.lzy.demo.enums.UseStringEnum"/>
         <!--使用mybatis plus的MybatisEnumTypeHandler,数据库保存的是UseEnumValueEnum的变量code的值,变量code需要使用@EnumValue-->
-        <typeHandler handler="com.baomidou.mybatisplus.extension.handlers.MybatisEnumTypeHandler"
+        <typeHandler handler="com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler"
                      javaType="com.lzy.demo.enums.UseEnumValueEnum"/>
     </typeHandlers>
 

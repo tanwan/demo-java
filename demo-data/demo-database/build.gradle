@@ -1,3 +1,10 @@
+buildscript {
+    dependencies {
+        // 为flyway的插件提供mysql的依赖
+        classpath(libs.flyway.mysql)
+    }
+}
+
 plugins {
     //see https://flywaydb.org/documentation/usage/gradle/
     alias(libs.plugins.flyway)
@@ -13,15 +20,21 @@ dependencies {
 
     implementation libs.hikaricp
 
-    //ehcache3
+    //jcache
     implementation libs.hibernate.jcache
+
+    implementation(libs.ehcache) {
+        capabilities {
+            requireCapability('org.ehcache:ehcache-jakarta')
+        }
+    }
 
     implementation libs.freemarker
 
     implementation libs.spring.boot.starter.jooq
 
     //jooq生成代码需要的依赖
-    jooqGenerator libs.mysql.connector.j
+    jooqCodegen libs.mysql.connector.j
     implementation libs.mysql.connector.j
 
     implementation libs.mybatis.plus.boot.starter
@@ -41,80 +54,73 @@ dependencies {
     implementation libs.shardingsphere.jdbc.core
 }
 
+ext {
+    dbUrl = 'jdbc:mysql://127.0.0.1:3306/demo'
+    dbUser = 'root'
+    dbPassword = '123456'
+    jooqGenerateTarget = 'src/generated/jooq'
+}
+
 //如果flyway的locations使用classpath:flyway/migration,则flywayMigrate需要依赖classes
 flywayMigrate.dependsOn classes
 flyway {
-    url = 'jdbc:mysql://127.0.0.1:3306/demo'
-    user = 'root'
-    password = '123456'
+    url = dbUrl
+    user = dbUser
+    password = dbPassword
     locations = ['classpath:flyway/migration']
 }
 
 
-//see https://www.jooq.org/doc/latest/manual/code-generation/codegen-gradle/
+
 //see https://www.jooq.org/doc/latest/manual/code-generation
-//see https://github.com/etiennestuder/gradle-jooq-plugin
 jooq {
-    configurations {
-        main {
-            //compileJava是需要需要依赖generateJooq
-            generateSchemaSourceOnCompilation = false
-            generationTool {
-                logging = org.jooq.meta.jaxb.Logging.INFO
-                jdbc {
-                    driver = 'com.mysql.cj.jdbc.Driver'
-                    url = flyway.url
-                    user = flyway.user
-                    password = flyway.password
-                }
+    configuration {
+        jdbc {
+            driver = 'com.mysql.cj.jdbc.Driver'
+            url = dbUrl
+            user = dbUser
+            password = password
+        }
+        generator {
+            database {
+                name = "org.jooq.meta.mysql.MySQLDatabase"
 
-                generator {
-                    //如果要自定义生成器,则需要将自定义生成器添加到jooqGenerator的依赖下,但是不能放在本项目中,也就是需要建另一个项目
-                    name = 'org.jooq.codegen.JavaGenerator'
-                    database {
-                        //多个使用|连接
-                        includes = '.*'
-                        excludes = '''flyway_schema_history'''
-                        schemata {
-                            //可以有多个schema
-                            schema {
-                                inputSchema = 'demo'
-                            }
-                        }
-                    }
-                    generate {
-                        deprecated = false
-                        records = true
-                        //pojo和record都有接口
-                        interfaces = true
-                        //生成pojo
-                        pojos = true
-                        fluentSetters = true
-                        //生成的dao没什么用,建议自己继承DAOImpl
-                        daos = false
-                        //spring注解
-                        springAnnotations = true
+                //多个使用|连接
+                //excludes优化级最高
+                includes = '.*'
+                excludes = '''flyway_schema_history'''
+                inputSchema = 'demo'
+            }
 
-                    }
-                    target {
-                        packageName = 'com.lzy.demo.jooq'
-                        //默认值为 build/generated-src/jooq/main
-                        //nu.studer.jooq会将这个目录添加到sourceSet去,如果idea没有显示出这个目录为sourceSet,则可以手动添加
-                        directory = 'src/generated/jooq'
-                    }
-                    strategy.name = 'org.jooq.codegen.DefaultGeneratorStrategy'
-                }
+            // Generation flags: See advanced configuration properties
+            generate {
+                deprecated = false
+                records = true
+                //pojo和record都有接口
+                interfaces = true
+                //生成pojo
+                pojos = true
+                fluentSetters = true
+                //生成的dao没什么用,建议自己继承DAOImpl
+                daos = false
+                //spring注解
+                springAnnotations = true
+            }
+            target {
+                packageName = 'com.lzy.demo.jooq'
+                directory = jooqGenerateTarget
             }
         }
     }
 }
-//增量构建
-tasks.named('generateJooq').configure {
 
-    //可以设置generateJooq依赖flyway
-    //dependsOn tasks.named('flywayMigrate')
-
-    allInputsDeclared = true
+sourceSets {
+    main {
+        java {
+            // jooq生成的代码添加到sourceSets
+            srcDir jooqGenerateTarget
+        }
+    }
 }
 
 test {

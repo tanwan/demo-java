@@ -3,6 +3,7 @@ package com.lzy.demo.mybatis;
 import com.lzy.demo.mybatis.entity.SimpleMybatis;
 import com.lzy.demo.enums.UseStringEnum;
 import com.lzy.demo.mybatis.mapper.SimpleMybatisMapper;
+import com.lzy.demo.utils.ConfigUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -14,6 +15,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Properties;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MybatisTest {
@@ -30,16 +32,20 @@ public class MybatisTest {
         InputStream inputStream = new ClassPathResource("mybatis/mybatis-config.xml").getInputStream();
         // SqlSessionFactoryBuilder用来创建SqlSessionFactory,一旦SqlSessionFactory创建完成,就不需要再用到SqlSessionFactoryBuilder了
         // SqlSessionFactory应该保持单例
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, "dev");
+        Properties properties = new Properties();
+        properties.put("url", ConfigUtils.getDBUrl());
+        properties.put("username", ConfigUtils.getDBUsername());
+        properties.put("password", ConfigUtils.getDBPassword());
+        // 这边传入properties相当于mybatis/mybatis-config.xml的  <properties resource="my.properties">
+        sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, "dev", properties);
     }
 
     /**
      * 测试查询
      *
-     * @throws IOException the io exception
      */
     @Test
-    public void testSelect() throws IOException {
+    public void testSelect() {
         // 使用try-resource自动释放
         // SqlSession不是线程安全的,所以不能共享
         try (SqlSession session = sqlSessionFactory.openSession()) {

@@ -97,13 +97,14 @@ commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "co
 curator-framework = { module = "org.apache.curator:curator-framework", version.ref = "curator" }
 curator-recipes = { module = "org.apache.curator:curator-recipes", version.ref = "curator" }
 curator-x-discovery = { module = "org.apache.curator:curator-x-discovery", version.ref = "curator" }
-druid-spring-boot-starter = { module = "com.alibaba:druid-spring-boot-starter", version.ref = "druid" }
+druid-spring-boot-starter = { module = "com.alibaba:druid-spring-boot-3-starter", version.ref = "druid" }
 drools-decisiontables = { module = "org.drools:drools-decisiontables", version.ref = "drools" }
 kie-ci = { module = "org.kie:kie-ci", version.ref = "drools" }
 dubbo = { module = "org.apache.dubbo:dubbo", version.ref = "dubbo" }
 feign-micrometer = { module = "io.github.openfeign:feign-micrometer", version.ref = "feign" }
 ehcache = { module = "org.ehcache:ehcache", version.ref = "ehcache" }
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+flyway-mysql = { module = "org.flywaydb:flyway-mysql", version.ref = "flyway" }
 freemarker = { module = "org.freemarker:freemarker", version.ref = "freemarker" }
 graphql-kotlin-client = { module = "com.expediagroup:graphql-kotlin-client", version.ref = "graphql-kotlin-client" }
 groovy = { module = "org.apache.groovy:groovy", version.ref = "groovy" }
@@ -150,7 +151,7 @@ mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.re
 micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "micrometer-registry" }
 micrometer-tracing = { module = "io.micrometer:micrometer-tracing", version.ref = "micrometer-tracing" }
 micrometer-tracing-bridge-brave = { module = "io.micrometer:micrometer-tracing-bridge-brave", version.ref = "micrometer-tracing" }
-mybatis-plus-boot-starter = { module = "com.baomidou:mybatis-plus-boot-starter", version.ref = "mybatis-plus" }
+mybatis-plus-boot-starter = { module = "com.baomidou:mybatis-plus-spring-boot3-starter", version.ref = "mybatis-plus" }
 mybatis-plus-generator = { module = "com.baomidou:mybatis-plus-generator", version.ref = "mybatis-plus" }
 mysql-connector-j = { module = "com.mysql:mysql-connector-j", version.ref = "mysql" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
@@ -243,7 +244,7 @@ graphql-java-generator = { id = "com.graphql-java-generator.graphql-gradle-plugi
 idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.7" }
 intellij-platform = { id = "org.jetbrains.intellij.platform", version = "2.0.1" }
 flyway = { id = "org.flywaydb.flyway", version.ref = "flyway" }
-jooq = { id = "nu.studer.jooq", version = "9.0" }
+jooq = { id = "org.jooq.jooq-codegen-gradle", version = "3.19.9" }
 # 用来生成一个包含所需模块的自定义Java运行时的文件夹
 jlink = { id = "org.beryx.jlink", version = "3.0.1" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
