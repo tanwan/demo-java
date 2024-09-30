@@ -1,7 +1,6 @@
 //pluginManagement必须放在第一个代码块
 pluginManagement {
     repositories {
-        mavenLocal()
         maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
         gradlePluginPortal()
         mavenCentral()
@@ -9,7 +8,6 @@ pluginManagement {
 }
 dependencyResolutionManagement {
     repositories {
-        mavenLocal()
         //阿里云镜像
         maven { url 'https://maven.aliyun.com/repository/central' }
         mavenCentral()
@@ -40,6 +38,7 @@ include 'demo-axon'
 include 'demo-rule-engine'
 include 'demo-intellij-plugin'
 include 'demo-native'
+include 'demo-quarkus'
 
 //demo-data
 include 'demo-data:demo-database'

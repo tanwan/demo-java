@@ -97,7 +97,7 @@ public class SimpleRestController {
     public String cookie(@CookieValue(value = "cookie", required = false) String cookie,
                          HttpServletResponse response) throws UnsupportedEncodingException {
         //cookie只能存在ASCII码为(34~126)的可见字符,因此其它字符需要进行编码
-        response.addCookie(new Cookie("cookie", URLEncoder.encode("hello world", StandardCharsets.UTF_8.name())));
+        response.addCookie(new Cookie("cookie", URLEncoder.encode("hello world", StandardCharsets.UTF_8)));
         return cookie;
     }
 

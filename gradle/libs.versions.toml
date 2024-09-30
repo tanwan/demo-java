@@ -53,9 +53,11 @@ okhttp = "4.12.0"
 p6spy = "3.9.1"
 poi = "5.3.0"
 protobuf = "4.28.0"
+quarkus = "3.15.1"
 reactor-core = "3.6.9"
 reflections = "0.10.2"
 resilience4j = "2.2.0"
+rest-assured = "5.5.0"
 rocketmq-client = "5.3.0"
 shardingsphere-jdbc = "5.4.1"
 shiro = "2.0.1"
@@ -162,10 +164,15 @@ netty-all = { module = "io.netty:netty-all", version.ref = "netty" }
 p6spy = { module = "p6spy:p6spy", version.ref = "p6spy" }
 poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "poi" }
 protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
+quarkus-junit5 = { module = "io.quarkus:quarkus-junit5", version.ref = "quarkus" }
+quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus" }
+quarkus-rest = { module = "io.quarkus:quarkus-rest", version.ref = "quarkus" }
+quarkus-rest-jackson = { module = "io.quarkus:quarkus-rest-jackson", version.ref = "quarkus" }
 reactor-core = { module = "io.projectreactor:reactor-core", version.ref = "reactor-core" }
 reflections = { module = "org.reflections:reflections", version.ref = "reflections" }
 resilience4j-bulkhead = { module = "io.github.resilience4j:resilience4j-bulkhead", version.ref = "resilience4j" }
 resilience4j-vavr = { module = "io.github.resilience4j:resilience4j-vavr", version.ref = "resilience4j" }
+rest-assured = { module = "io.rest-assured:rest-assured", version.ref = "rest-assured" }
 rocketmq-client = { module = "org.apache.rocketmq:rocketmq-client", version.ref = "rocketmq-client" }
 shardingsphere-jdbc-core = { module = "org.apache.shardingsphere:shardingsphere-jdbc-core", version.ref = "shardingsphere-jdbc" }
 shiro-spring = { module = "org.apache.shiro:shiro-spring", version.ref = "shiro" }
@@ -250,3 +257,4 @@ jlink = { id = "org.beryx.jlink", version = "3.0.1" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 springboot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 protobuf = { id = "com.google.protobuf", version = "0.9.4" }
+quarkus = { id = "io.quarkus", version.ref = "quarkus" }
