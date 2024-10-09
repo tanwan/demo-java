@@ -1,14 +1,17 @@
 dependencies {
     implementation libs.spring.boot.starter.web
 
+    implementation libs.vertx.web
+
     testImplementation libs.bundles.mockito
 
     testImplementation libs.spring.boot.starter.test
 
     testImplementation libs.spock.core
 
-    // html单元测试
     testImplementation libs.htmlunit
+
+    testImplementation libs.rest.assured
 }
 
 test {

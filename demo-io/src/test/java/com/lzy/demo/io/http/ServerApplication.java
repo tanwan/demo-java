@@ -8,7 +8,6 @@ import io.vertx.ext.web.handler.BodyHandler;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
 
 public class ServerApplication extends AbstractVerticle {
@@ -38,23 +37,23 @@ public class ServerApplication extends AbstractVerticle {
                     String pathParam = ctx.pathParam("pathParam");
                     System.out.println(ctx.queryParams());
                     String queryParam = ctx.queryParams().get("queryParam");
-                    ctx.json(toMap("method", "get", "pathParam", pathParam, "queryParam", queryParam));
+                    ctx.json(Map.of("method", "get", "pathParam", pathParam, "queryParam", queryParam));
                 }
         );
 
         router.post("/rest/post").handler(ctx ->
-                ctx.json(toMap("method", "post", "body", ctx.body().asPojo(Map.class)))
+                ctx.json(Map.of("method", "post", "body", ctx.body().asPojo(Map.class)))
         );
 
         router.put("/rest/put/:id").handler(ctx -> {
                     Long id = Long.parseLong(ctx.pathParam("id"));
                     Map body = ctx.body().asPojo(Map.class);
-                    ctx.json(toMap("method", "put", "id", id, "body", body));
+                    ctx.json(Map.of("method", "put", "id", id, "body", body));
                 }
         );
 
         router.delete("/rest/delete/:id").handler(ctx ->
-                ctx.json(toMap("method", "delete", "id", Long.parseLong(ctx.pathParam("id"))))
+                ctx.json(Map.of("method", "delete", "id", Long.parseLong(ctx.pathParam("id"))))
         );
 
 
@@ -62,7 +61,7 @@ public class ServerApplication extends AbstractVerticle {
                     System.out.println(ctx.request().headers());
                     String headerKey = ctx.request().getHeader("headerKey");
                     ctx.response().putHeader("headerKey", "headerKey override");
-                    ctx.json(toMap("method", "header", "headerKey", headerKey));
+                    ctx.json(Map.of("method", "header", "headerKey", headerKey));
                 }
         );
 
@@ -70,12 +69,12 @@ public class ServerApplication extends AbstractVerticle {
                     ctx.request().cookies().stream().map(c -> c.getName() + ":" + c.getValue()).forEach(System.out::println);
                     String cookieKey = ctx.request().getCookie("cookieKey").getValue();
                     ctx.response().addCookie(Cookie.cookie("addCookie", URLEncoder.encode("add cookie value", StandardCharsets.UTF_8)));
-                    ctx.json(toMap("method", "cookie", "cookieKey", cookieKey));
+                    ctx.json(Map.of("method", "cookie", "cookieKey", cookieKey));
                 }
         );
 
         router.post("/rest/form-data").handler(ctx -> {
-                    ctx.json(toMap("method", "formData", "allField", ctx.request().formAttributes().toString()));
+                    ctx.json(Map.of("method", "formData", "allField", ctx.request().formAttributes().toString()));
                 }
         );
 
@@ -89,13 +88,5 @@ public class ServerApplication extends AbstractVerticle {
 
     public void stop() {
         vertx.close().onComplete(server -> System.out.println("HTTP server closed"));
-    }
-
-    private Map<String, Object> toMap(Object... objs) {
-        Map<String, Object> map = new HashMap<>();
-        for (int i = 0; i < objs.length; i += 2) {
-            map.put(objs[i].toString(), objs[i + 1]);
-        }
-        return map;
     }
 }

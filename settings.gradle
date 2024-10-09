@@ -1,7 +1,7 @@
 //pluginManagement必须放在第一个代码块
 pluginManagement {
     repositories {
-        maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+//        maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
         gradlePluginPortal()
         mavenCentral()
     }
