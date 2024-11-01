@@ -15,7 +15,6 @@ dependencies {
     testAnnotationProcessor libs.lombok
 
     implementation libs.commons.lang3
-    implementation libs.reactor.core
 
     implementation libs.spring.context
 

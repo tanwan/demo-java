@@ -18,6 +18,8 @@ dependencies {
     implementation libs.bundles.jersey
 
     implementation libs.vertx.web
+
+    implementation libs.spring.boot.starter.webflux
 }
 
 

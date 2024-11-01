@@ -38,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HttpClientTest {
 
-    private CloseableHttpClient httpClient = HttpClients.createDefault();
+    private static CloseableHttpClient httpClient;
 
     private static final Integer PORT = 19001;
 
@@ -51,11 +51,32 @@ public class HttpClientTest {
         serverApplication.startServer();
         // 等待server启动
         Thread.sleep(500);
+
+        httpClient = createClient();
     }
 
     @AfterAll
     public static void stopApplication() {
         serverApplication.stop();
+    }
+
+    private static CloseableHttpClient createClient() {
+        // 自定义HttpClient
+        // 可以设置拦截器, 代理, 连接管理等
+//        RequestConfig requestConfig = RequestConfig.custom()
+//                .setResponseTimeout()
+//                .setConnectionRequestTimeout()
+//                .set
+//                .build();
+//        HttpClients.custom().setDefaultRequestConfig(requestConfig)
+//                .addExecInterceptorFirst()
+//                .setProxy()
+//                .setDefaultHeaders()
+//                .setConnectionManager()
+//                .build();
+
+        // 默认的HttpClient
+        return HttpClients.createDefault();
     }
 
     /**

@@ -32,7 +32,7 @@ public class JerseyClientTest {
 
     private static ServerApplication serverApplication = new ServerApplication(PORT);
 
-    private Client client = ClientBuilder.newClient();
+    private static Client client;
 
     private WebTarget rootWebTarget = client.target(HOST);
 
@@ -41,11 +41,23 @@ public class JerseyClientTest {
         serverApplication.startServer();
         // 等待server启动
         Thread.sleep(500);
+
+        client = createClient();
     }
 
     @AfterAll
     public static void stopApplication() {
         serverApplication.stop();
+    }
+
+    private static Client createClient() {
+        // 自定义client
+//        ClientBuilder.newBuilder()
+//                .connectTimeout()
+//                .readTimeout()
+//                .build();
+        // 默认的client
+        return ClientBuilder.newClient();
     }
 
 
