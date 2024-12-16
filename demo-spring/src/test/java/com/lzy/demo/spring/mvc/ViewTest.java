@@ -1,9 +1,9 @@
 package com.lzy.demo.spring.mvc;
 
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.lzy.demo.spring.mvc.application.MVCApplication;
 import com.lzy.demo.spring.mvc.controller.ViewController;
+import org.htmlunit.WebClient;
+import org.htmlunit.html.HtmlPage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

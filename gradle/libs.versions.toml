@@ -1,86 +1,85 @@
 [versions]
-assertj-core = "3.25.3"
-axon = "4.10.0"
-bouncycastle = "1.78.1"
+assertj-core = "3.26.3"
+axon = "4.10.3"
+bouncycastle = "1.79"
 cglib = "3.3.0"
-commons-codec = "1.16.1"
+commons-codec = "1.17.1"
 commons-compress = "1.27.1"
 commons-exec = "1.4.0"
-commons-io = "2.16.1"
-commons-lang3 = "3.14.0"
-curator = "5.7.0"
-drools = "9.44.0.Final"
-druid = "1.2.23"
-dubbo = "3.2.15"
+commons-io = "2.18.0"
+commons-lang3 = "3.17.0"
+curator = "5.7.1"
+drools = "10.0.0"
+druid = "1.2.24"
+dubbo = "3.3.2"
 ehcache = "3.10.8"
-feign = "13.3"
-flyway = "10.17.2"
+feign = "13.5"
+flyway = "11.0.1"
 freemarker = "2.3.33"
-graphql-kotlin-client = "8.0.0"
-groovy = "4.0.22"
-h2 = "2.2.224"
-hadoop = "3.4.0"
-hazelcast = "5.4.0"
-hbase-client = "2.6.0"
+graphql-kotlin-client = "8.2.1"
+groovy = "4.0.24"
+h2 = "2.3.232"
+hadoop = "3.4.1"
+hazelcast = "5.5.0"
+hbase-client = "2.6.1"
 hibernate-validator = "8.0.1.Final"
-hibernate-orm = "6.5.2.Final"
-hikaricp = "5.1.0"
-htmlunit = "2.70.0"
-httpclient5 = "5.3.1"
+hibernate-orm = "6.6.3.Final"
+hikaricp = "6.2.1"
+htmlunit = "4.7.0"
+httpclient5 = "5.4.1"
 ignite = "2.16.0"
-jackson = "2.17.2"
-jdbi = "3.45.4"
-jedis = "5.0.2"
-jersey = "3.1.8"
+jackson = "2.18.2"
+jdbi = "3.47.0"
+jedis = "5.2.0"
+jersey = "3.1.9"
 jjwt = "0.12.6"
-jsoup = "1.18.1"
-junit = "5.10.3"
-kafka-clients = "3.7.1"
-kotlin = "1.9.25"
-kotlinx = "1.8.1"
-lettuce-core = "6.3.2.RELEASE"
-logback = "1.5.7"
+jsoup = "1.18.3"
+junit = "5.11.3"
+kafka-clients = "3.9.0"
+kotlin = "2.1.0"
+kotlinx = "1.9.0"
+lettuce-core = "6.5.1.RELEASE"
+logback = "1.5.12"
 logstash-logback = "8.0"
-lombok = "1.18.34"
-mapstruct = "1.6.0"
-micrometer-registry = "1.13.3"
-micrometer-tracing = "1.3.3"
-mybatis-plus = "3.5.7"
-mysql = "8.3.0"
-mockito = "5.11.0"
-netty = "4.1.112.Final"
+lombok = "1.18.36"
+mapstruct = "1.6.3"
+micrometer-registry = "1.14.2"
+micrometer-tracing = "1.4.1"
+mybatis-plus = "3.5.9"
+mysql = "9.1.0"
+mockito = "5.14.2"
+netty = "4.1.115.Final"
 okhttp = "4.12.0"
 p6spy = "3.9.1"
 poi = "5.3.0"
-protobuf = "4.28.0"
-quarkus = "3.15.1"
-reactor-core = "3.6.9"
+protobuf = "4.29.1"
+quarkus = "3.17.3"
 reflections = "0.10.2"
 resilience4j = "2.2.0"
 rest-assured = "5.5.0"
-rocketmq-client = "5.3.0"
+rocketmq-client = "5.3.1"
 shardingsphere-jdbc = "5.4.1"
-shiro = "2.0.1"
+shiro = "2.0.2"
 slf4j = "2.0.16"
-snakeyaml = "2.2"
-spark = "3.5.2"
-spock = "2.4-M1-groovy-4.0"
-spring = "6.1.12"
-spring-boot-admin = "3.3.3"
-spring-boot = "3.3.3"
+snakeyaml = "2.3"
+spark = "3.5.3"
+spock = "2.4-M4-groovy-4.0"
+spring = "6.2.0"
+spring-boot-admin = "3.4.1"
+spring-boot = "3.4.0"
 # spring cloud的版本为 2023.0.3
-spring-cloud = "4.1.2"
-spring-cloud-starter-circuitbreaker-resilience4j = "3.1.2"
-spring-graphql = "1.3.2"
-spring-integration = "6.3.3"
-spring-rabbit = "3.1.7"
-spring-security = "6.3.3"
-spring-security-oauth2-authorization-server = "1.3.2"
-thrift = "0.20.0"
-vavr = "0.10.4"
-vertx = "4.5.9"
-zipkin = "3.4.1"
-zipkin-reporter = "3.4.0"
+spring-cloud = "4.2.0"
+spring-cloud-starter-circuitbreaker-resilience4j = "3.2.0"
+spring-graphql = "1.3.3"
+spring-integration = "6.4.0"
+spring-rabbit = "3.2.0"
+spring-security = "6.4.1"
+spring-security-oauth2-authorization-server = "1.4.0"
+thrift = "0.21.0"
+vavr = "0.10.5"
+vertx = "4.5.11"
+zipkin = "3.4.3"
+zipkin-reporter = "3.4.3"
 zt-zip = "1.17"
 
 [libraries]
@@ -122,7 +121,7 @@ hibernate-validator = { module = "org.hibernate.validator:hibernate-validator", 
 hibernate-core = { module = "org.hibernate.orm:hibernate-core", version.ref = "hibernate-orm" }
 hibernate-jcache = { module = "org.hibernate.orm:hibernate-jcache", version.ref = "hibernate-orm" }
 hikaricp = { module = "com.zaxxer:HikariCP", version.ref = "hikaricp" }
-htmlunit = { module = "net.sourceforge.htmlunit:htmlunit", version.ref = "htmlunit" }
+htmlunit = { module = "org.htmlunit:htmlunit", version.ref = "htmlunit" }
 httpclient5 = { module = "org.apache.httpcomponents.client5:httpclient5", version.ref = "httpclient5" }
 ignite-core = { module = "org.apache.ignite:ignite-core", version.ref = "ignite" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
@@ -155,6 +154,7 @@ micrometer-tracing = { module = "io.micrometer:micrometer-tracing", version.ref 
 micrometer-tracing-bridge-brave = { module = "io.micrometer:micrometer-tracing-bridge-brave", version.ref = "micrometer-tracing" }
 mybatis-plus-boot-starter = { module = "com.baomidou:mybatis-plus-spring-boot3-starter", version.ref = "mybatis-plus" }
 mybatis-plus-generator = { module = "com.baomidou:mybatis-plus-generator", version.ref = "mybatis-plus" }
+mybatis-plus-jsqlparser = { module = "com.baomidou:mybatis-plus-jsqlparser", version.ref = "mybatis-plus" }
 mysql-connector-j = { module = "com.mysql:mysql-connector-j", version.ref = "mysql" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito" }
@@ -168,7 +168,6 @@ quarkus-junit5 = { module = "io.quarkus:quarkus-junit5", version.ref = "quarkus"
 quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus" }
 quarkus-rest = { module = "io.quarkus:quarkus-rest", version.ref = "quarkus" }
 quarkus-rest-jackson = { module = "io.quarkus:quarkus-rest-jackson", version.ref = "quarkus" }
-reactor-core = { module = "io.projectreactor:reactor-core", version.ref = "reactor-core" }
 reflections = { module = "org.reflections:reflections", version.ref = "reflections" }
 resilience4j-bulkhead = { module = "io.github.resilience4j:resilience4j-bulkhead", version.ref = "resilience4j" }
 resilience4j-vavr = { module = "io.github.resilience4j:resilience4j-vavr", version.ref = "resilience4j" }
@@ -227,34 +226,65 @@ zipkin-reporter-brave = { module = "io.zipkin.reporter2:zipkin-reporter-brave", 
 zipkin-server = { module = "io.zipkin:zipkin-server", version.ref = "zipkin" }
 zt-zip = { module = "org.zeroturnaround:zt-zip", version.ref = "zt-zip" }
 
-
 [bundles]
-curator = ["curator-framework", "curator-recipes", "curator-x-discovery"]
-drools = ["drools-decisiontables", "kie-ci"]
-groovy = ["groovy", "groovy-json", "groovy-xml", "groovy-yaml"]
-jackson = ["jackson-databind", "jackson-datatype-jsr310"]
-jdbi = ["jdbi3-core", "jdbi3-stringtemplate4", "jdbi3-sqlobject"]
-jersey = ["jersey-client", "jersey-hk2", "jersey-media-json-jackson", "jersey-media-multipart"]
-junit = ["junit-jupiter-api", "junit-jupiter-engine"]
-kotlin = ["kotlin-stdlib", "kotlinx-coroutines-core"]
-mockito = ["mockito-core", "mockito-junit-jupiter"]
-
+curator = [
+    "curator-framework",
+    "curator-recipes",
+    "curator-x-discovery",
+]
+drools = [
+    "drools-decisiontables",
+    "kie-ci",
+]
+groovy = [
+    "groovy",
+    "groovy-json",
+    "groovy-xml",
+    "groovy-yaml",
+]
+jackson = [
+    "jackson-databind",
+    "jackson-datatype-jsr310",
+]
+jdbi = [
+    "jdbi3-core",
+    "jdbi3-sqlobject",
+    "jdbi3-stringtemplate4",
+]
+jersey = [
+    "jersey-client",
+    "jersey-hk2",
+    "jersey-media-json-jackson",
+    "jersey-media-multipart",
+]
+junit = [
+    "junit-jupiter-api",
+    "junit-jupiter-engine",
+]
+kotlin = [
+    "kotlin-stdlib",
+    "kotlinx-coroutines-core",
+]
+mockito = [
+    "mockito-core",
+    "mockito-junit-jupiter",
+]
 
 [plugins]
 # 用来处理依赖版本更新
-gradle-version = { id = "com.github.ben-manes.versions", version = "0.51.0" }
-version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version = "0.8.4" }
-graalvm-build = { id = "org.graalvm.buildtools.native", version = "0.10.2" }
+gradle-version = "com.github.ben-manes.versions:0.51.0"
+version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.5"
+graalvm-build = "org.graalvm.buildtools.native:0.10.4"
 # graphsql生成kotlin的插件
 graphql-kotlin-generator = { id = "com.expediagroup.graphql", version = "8.0.0" }
 graphql-java-generator = { id = "com.graphql-java-generator.graphql-gradle-plugin3", version = "2.8" }
-idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.7" }
-intellij-platform = { id = "org.jetbrains.intellij.platform", version = "2.0.1" }
+idea-ext = "org.jetbrains.gradle.plugin.idea-ext:1.1.9"
+intellij-platform = "org.jetbrains.intellij.platform:2.2.0"
 flyway = { id = "org.flywaydb.flyway", version.ref = "flyway" }
-jooq = { id = "org.jooq.jooq-codegen-gradle", version = "3.19.9" }
+jooq = "org.jooq.jooq-codegen-gradle:3.19.16"
 # 用来生成一个包含所需模块的自定义Java运行时的文件夹
-jlink = { id = "org.beryx.jlink", version = "3.0.1" }
+jlink = "org.beryx.jlink:3.1.1"
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 springboot = { id = "org.springframework.boot", version.ref = "spring-boot" }
-protobuf = { id = "com.google.protobuf", version = "0.9.4" }
+protobuf = "com.google.protobuf:0.9.4"
 quarkus = { id = "io.quarkus", version.ref = "quarkus" }

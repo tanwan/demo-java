@@ -36,7 +36,7 @@ public class GraphqlController {
      * SimpleEntity{schemaMapping}会使用此方法处理, 比如: query xxx{baseQuery{schemaMapping}}, query xxx{arguments{schemaMapping}}
      * 当返回值是多个SimpleEntity, 会出现n+1的问题, 每个SimpleEntity都需要调用一次这个方法, 可以使用@BatchMapping可以解决
      * 同时这边是入参是可以拿到typeName指定类的实例的
-     *
+     * @param simpleEntity simpleEntity
      * @return Integer
      * @see GraphqlController#batchMapping(List)
      */

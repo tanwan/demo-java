@@ -9,14 +9,14 @@ pluginManagement {
 dependencyResolutionManagement {
     repositories {
         //阿里云镜像
-        maven { url 'https://maven.aliyun.com/repository/central' }
+//        maven { url 'https://maven.aliyun.com/repository/central' }
         mavenCentral()
         maven {
             url 'https://repo.spring.io/milestone'
         }
     }
 
-// 也可以指定libs.versions.toml
+// 默认在./gradle/libs.versions.toml, 也可以指定
 //    versionCatalogs {
 //        libs {
 //            from(files("./gradle/libs.versions.toml"))

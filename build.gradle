@@ -18,6 +18,8 @@ plugins {
     // See https://github.com/ben-manes/gradle-versions-plugin
     alias(libs.plugins.gradle.version)
     // See https://github.com/littlerobots/version-catalog-update-plugin
+    // versionCatalogUpdate: 会更新libs.versions.toml文件
+    // versionCatalogApplyUpdates: 配合versionCatalogUpdate的Interactive mode模式使用, 先生成libs.versions.updates.toml,再应用
     alias(libs.plugins.version.catalog.update)
 }
 
@@ -107,6 +109,30 @@ subprojects {
 //        }
 //    }
 
+}
+
+// See https://github.com/littlerobots/version-catalog-update-plugin
+versionCatalogUpdate {
+    // 更新依赖的版本后不对libs.versions.toml的key进行排序
+    sortByKey = false
+    keep {
+        keepUnusedVersions = true
+        keepUnusedLibraries = true
+        keepUnusedPlugins = true
+    }
+}
+
+// See https://github.com/ben-manes/gradle-versions-plugin
+def isNonStable = { String version ->
+    def stableKeyword = ['RELEASE', 'FINAL', 'GA', 'groovy'].any { it -> version.toUpperCase().contains(it) }
+    def regex = /^[0-9,.v-]+(-r)?$/
+    return !stableKeyword && !(version ==~ regex)
+}
+
+tasks.named("dependencyUpdates").configure {
+    rejectVersionIf {
+        isNonStable(it.candidate.version)
+    }
 }
 
 //这边通过运行配置来实现日志配置
