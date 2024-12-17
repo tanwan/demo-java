@@ -4,6 +4,7 @@ package com.lzy.demo.spring.boot.properties;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.test.context.TestPropertySource;
@@ -17,11 +18,13 @@ import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * {@code @ConfigurationProperties}和{@code @Value}测试
+ * 可以使用@EnableConfigurationProperties,也可以使用@ConfigurationPropertiesScan
  *
  * @author lzy
  * @version v1.0
  */
-@EnableConfigurationProperties({AtConfigurationProperties.class, AtConstructorBinding.class})
+@EnableConfigurationProperties({AtConfigurationProperties.class})
+@ConfigurationPropertiesScan("com.lzy.demo.spring.boot.properties")
 @TestPropertySource(properties = "spring.config.location=classpath:properties.yml")
 @SpringJUnitConfig(initializers = ConfigDataApplicationContextInitializer.class, classes = {CustomConverter.class, AtValue.class})
 @Slf4j

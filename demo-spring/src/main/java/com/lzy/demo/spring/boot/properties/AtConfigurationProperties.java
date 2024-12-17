@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 使用@EnableConfigurationProperties
+ * 使用@EnableConfigurationProperties来注册@ConfigurationProperties
+ * 也可以通过@ConfigurationPropertiesScan来扫描
  *
  * @author lzy
  * @version v1.0
