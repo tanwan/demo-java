@@ -15,6 +15,8 @@ import java.util.Map;
 /**
  * 使用@EnableConfigurationProperties来注册@ConfigurationProperties
  * 也可以通过@ConfigurationPropertiesScan来扫描
+ * 如果配置跟字段名称对不上的话,可以使用@org.springframework.boot.context.properties.bind.Name来指定
+ * 也可以使用@Value(需要指定完整的配置)
  *
  * @author lzy
  * @version v1.0

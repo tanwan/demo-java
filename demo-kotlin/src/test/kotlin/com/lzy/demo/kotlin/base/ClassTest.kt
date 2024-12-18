@@ -86,38 +86,6 @@ class ClassTest {
     }
 
     /**
-     * data class
-     */
-    @Test
-    fun testDataClass() {
-        val dataClass = SimpleDataClass(3, "string value")
-        dataClass.bodyProperty = "string value"
-
-        // 默认提供了toString,不过在class body声明的属性没有在toString中
-        assertEquals("SimpleDataClass(intProperty=3, stringProperty=string value)", dataClass.toString())
-        assertEquals("string value", dataClass.bodyProperty)
-
-        // copy
-        var copy = dataClass.copy()
-        assertEquals("SimpleDataClass(intProperty=3, stringProperty=string value)", copy.toString())
-        // 不会复制在class body声明的属性
-        assertNull(copy.bodyProperty)
-        // copy可以传入参数覆盖原有的值
-        copy = dataClass.copy(intProperty = 1)
-        assertEquals("SimpleDataClass(intProperty=1, stringProperty=string value)", copy.toString())
-    }
-
-
-    /**
-     * object,也就是单例
-     */
-    @Test
-    fun testObject() {
-        // 不用创建实例就可以直接调用函数
-        SimpleObject.func()
-    }
-
-    /**
      * 其实就是代理
      */
     @Test

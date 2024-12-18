@@ -121,8 +121,8 @@ class BaseTest {
      */
     @Test
     fun testEqualsAndSame() {
-        val a = SimpleDataClass(3, "string value")
-        val b = SimpleDataClass(3, "string value")
+        val a = SimpleDataClass(3, "string value", "private")
+        val b = SimpleDataClass(3, "string value", "private")
         // ==相当于java的equals
         assertTrue(a == b)
         assertFalse(a != b)

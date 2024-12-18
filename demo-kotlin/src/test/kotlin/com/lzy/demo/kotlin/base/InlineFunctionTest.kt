@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test
 
 
 /**
+ * 内联函数, 原理就是将调用的地址替换为内联函数的函数体
+ * 使用Idea -> Tools -> Kotlin -> Show Kotlin Bytecode查看字节码和反编译后的java代码
  *
  * @author lzy
  * @version v1.0
@@ -13,7 +15,7 @@ class InlineFunctionTest {
 
 
     /**
-     * 使用Idea -> Tools -> Kotlin -> Show Kotlin Bytecode查看字节码和反编译后的java代码
+     * 内联函数
      *
      */
     @Test
@@ -93,6 +95,12 @@ class InlineFunctionTest {
         })
     }
 
+    @Test
+    fun testReified() {
+        reified("string")
+        reified(0)
+    }
+
 
     fun callLambda(block: () -> Unit) {
         println("call fun callLambda")
@@ -105,5 +113,13 @@ class InlineFunctionTest {
     inline fun callLambdaInLine(block: () -> Unit) {
         println("call fun callLambdaInLine")
         block()
+    }
+
+    /**
+     * reified需要跟inline使用,内联函数在替换之后, 泛型将会被保留,因此可以直接使用T::class
+     */
+    inline fun <reified T> reified(t: T) {
+        println(t)
+        println(T::class)
     }
 }
