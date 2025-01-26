@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
+
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -68,5 +70,18 @@ public class FilterConfig {
         }
     }
 
+    /**
+     * ShallowEtagHeaderFilter, 配置etag, 用来减少带宽
+     */
+    @Configuration
+    public static class ShallowEtagHeaderFilterConfig {
+
+        @Bean
+        public FilterRegistrationBean filterRegistrationBean() {
+            FilterRegistrationBean<ShallowEtagHeaderFilter> filterRegistrationBean = new FilterRegistrationBean<>(new ShallowEtagHeaderFilter());
+            filterRegistrationBean.addUrlPatterns("/rest/*");
+            return filterRegistrationBean;
+        }
+    }
 
 }
