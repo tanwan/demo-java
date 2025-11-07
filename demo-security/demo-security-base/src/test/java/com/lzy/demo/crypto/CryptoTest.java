@@ -7,9 +7,15 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.security.KeyFactory;
+import java.security.KeyStore;
+import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.spec.AlgorithmParameterSpec;
+import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -184,6 +190,35 @@ public class CryptoTest {
 
         // 解密模式
         cipher.init(Cipher.DECRYPT_MODE, key);
+        byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedText));
+        String decryptedText = new String(decryptedBytes);
+        System.out.println("decryptedText: " + decryptedText);
+        assertEquals(plainText, decryptedText);
+    }
+
+    /**
+     * 使用RSA加解密
+     *
+     * @throws Exception exception
+     */
+    @Test
+    public void testRSA() throws Exception {
+        char[] password = "123456".toCharArray();
+        String alias = "demo-java";
+        KeyStore store = KeyStore.getInstance("JKS");
+        store.load(getClass().getResourceAsStream("/demo-java.jks"), password);
+        RSAPrivateCrtKey key = (RSAPrivateCrtKey) store.getKey(alias, password);
+        RSAPublicKeySpec spec = new RSAPublicKeySpec(key.getModulus(), key.getPublicExponent());
+        PublicKey publicKey = KeyFactory.getInstance("RSA").generatePublic(spec);
+
+        String plainText = "hello world";
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+        byte[] encryptedBytes = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
+        String encryptedText = Base64.getEncoder().encodeToString(encryptedBytes);
+        System.out.println("encryptedText: " + encryptedText);
+
+        cipher.init(Cipher.DECRYPT_MODE, publicKey);
         byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedText));
         String decryptedText = new String(decryptedBytes);
         System.out.println("decryptedText: " + decryptedText);
